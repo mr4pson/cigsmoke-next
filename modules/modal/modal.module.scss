@@ -1,0 +1,22 @@
+.modal {
+  &__content {
+    text-align: center;
+  }
+
+  &__text {
+    display: block;
+    font-family: 'SFProText';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.13;
+  }
+
+  &__date {
+    font-family: 'SFProText';
+    font-size: 22px;
+    line-height: 1.36;
+    display: block;
+    margin: 20px 0 10px;
+    font-weight: 900;
+  }
+}

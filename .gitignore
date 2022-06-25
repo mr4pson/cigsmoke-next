@@ -1,0 +1,24 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.next
+
+# testing
+# /coverage
+
+# production
+/build
+
+# localhost data
+# /public/favicon.ico
+
+# misc
+.DS_Store
+.eslintcache
+.idea
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+debug.log

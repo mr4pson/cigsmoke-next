@@ -1,0 +1,41 @@
+.button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 61px;
+  padding: 12px 30px;
+  border: 2px solid #02ffb9;
+  font-family: "VT323-Regular";
+  font-size: 31px;
+  color: #02ffb9;
+  text-shadow: 0 0 2px rgba(2, 255, 185, 0.83);
+  box-shadow: 0 0 15px 0 rgba(2, 255, 185, 0.5);
+  border-image-source: linear-gradient(to bottom, #a1ffe5 0%, #02ffb9);
+  border-image-slice: 1;
+  background: linear-gradient(to bottom, rgba(5, 255, 221, 0.09) 10%, rgba(2, 255, 185, 0.25));
+  transition: all 0.3s;
+
+  svg g path {
+    transition: all 0.3s;
+  }
+
+  &:hover {
+    color: rgba($color: #02ffb9, $alpha: 0.5);
+    text-shadow: none;
+
+    svg g path {
+      stroke: rgba($color: #02ffb9, $alpha: 0.1);
+    }
+  }
+
+  &__icon {
+    height: 23px;
+    margin-left: 15px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .button {
+    letter-spacing: -2px;
+  }
+}

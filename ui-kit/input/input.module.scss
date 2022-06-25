@@ -1,0 +1,25 @@
+.input {
+  background-color: #0c0c0c;
+  border: solid 1px #02ffb9;
+  width: 174px;
+  height: 44px;
+  font-family: 'SFProText';
+  opacity: 0.5;
+  color: #02ffb9;
+  box-sizing: border-box;
+  padding: 0 15px;
+  font-size: 16px;
+
+  &:focus {
+    box-shadow: 0 0 15px 0 rgb(2 255 185 / 50%);
+    outline: none;
+    opacity: 0.8;
+  }
+
+  &::placeholder {
+    font-size: 16px;
+    top: 25px;
+    color: #02ffb9;
+    font-size: 1.5em;
+  }
+}

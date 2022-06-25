@@ -1,0 +1,17 @@
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 25px;
+  margin: auto;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
