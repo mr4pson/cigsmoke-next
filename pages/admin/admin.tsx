@@ -1,27 +1,21 @@
-import { Header } from 'modules';
-import Footer from 'modules/footer';
 import Head from 'next/head';
-import Link from 'next/link';
-import { Page, paths } from 'routes/constants';
-import styles from './admin.module.scss';
+import AdminLayout from "./components/layout/layout";
+// import styles from './admin.module.scss';
 
-const Admin = (): JSX.Element => {
+
+const Admin: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Test | NEXT REALWORLD</title>
+        <title>cigsmoke</title>
         <meta
           name="description"
-          content="Test desc"
+          content="Test description"
         />
       </Head>
-      <Header />
-      <div className={styles['page-wrapper']}>
-        <div className={"container"}>
-          <h1>ADMIN PAGE</h1>
-          <Link href={paths[Page.HOME]}>Home page</Link></div>
-      </div>
-      <Footer />
+      <AdminLayout>
+        Main admin page
+      </AdminLayout>
     </>
   );
 };

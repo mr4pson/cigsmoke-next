@@ -19,14 +19,26 @@ const IndexPage = (): JSX.Element => {
         <meta property="og:description" content="Is an innovative DeFi game platform based on the Play-to-Earn concept" />
         <meta property="og:image" content="/assets/preview.jpg" /> */}
       </Head>
-      <Header />
+      {/* <Header />
       <div className={styles['page-wrapper']}>
         <div className={"container"}>
           <h1>MAIN PAGE</h1>
           <Link href={paths[Page.ADMIN]}>Admin page</Link>
         </div>
       </div>
-      <Footer />
+      <Footer /> */}
+      <ul>
+        <li>
+          <Link href="/">
+            <a>Home</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/[dynamic]/[id]" as="/my-folder/my-id">
+            <a>Dynamic nested Route</a>
+          </Link>
+        </li>
+      </ul>
     </>
   );
 };
