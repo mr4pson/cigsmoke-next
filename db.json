@@ -1,0 +1,14 @@
+{
+    "data": {
+            "Categories": [{
+                "id": 0,
+                "categoryName": "Cigars",
+                "description": "Make ur body heathy"
+            },
+            {
+                "id": 1,
+                "categoryName": "Cigarettes",
+                "description": "Smoke it every day"
+            }]
+    }
+}

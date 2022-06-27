@@ -1,8 +1,11 @@
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "redux/hooks";
-import { categoriesThunks } from "redux/slicers/categoriesPageSlice";
-import { RootState } from "redux/store";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+//import { categoriesThunks } from "redux/slicers/categoriesPageSlice";
+//import { RootState } from "redux/store";
 import AdminLayout from "../components/layout/layout";
+import { NextPage } from 'next/types';
+import { fetchCategories } from '../../../redux/slicers/categoriesSlicer'
+import { wrapper } from "../../../redux/store"
+
 // import styles from './admin.module.scss';
 
 type Props = {
@@ -10,25 +13,34 @@ type Props = {
   loading: boolean;
 }
 
-const CategoriesPage: React.FC<Props> = ({ categories, loading }) => {
+const CategoriesPage: NextPage = () => {
+
+  const data = useAppSelector(state => state.categories.categotiesList)
 
   return (
     <AdminLayout>
       Categories page
-      {JSON.stringify(categories)}
+      {JSON.stringify(data)}
     </AdminLayout>
   );
 };
 
-export async function getServerSideProps(ctx) {
+CategoriesPage.getInitialProps = wrapper.getInitialPageProps(
+  ({ dispatch }) => 
+    async() => {
+      await dispatch(fetchCategories())
+    }
+)
+
+/*export async function getServerSideProps(ctx) {
   const dispatch = useAppDispatch();
 
   dispatch(categoriesThunks.getCategories());
 
-  const { categories, loading } = useSelector((state: RootState) => state.blocksPage);
+  const { categories, loading } = useAppSelector((state: RootState) => state.blocksPage);
   // const res = await axios.get('http://localhost:4002/categories');
 
   return { props: { categories, loading } };
-}
+}*/
 
 export default CategoriesPage;

@@ -6,7 +6,7 @@ import {
   ThunkAction,
 } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-import { categoriesReducer } from './categories/reducer';
+import categoriesReducer from './slicers/categoriesSlicer';
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
