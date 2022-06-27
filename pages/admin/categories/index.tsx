@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 //import { categoriesThunks } from "redux/slicers/categoriesPageSlice";
 //import { RootState } from "redux/store";
-import AdminLayout from "../components/layout/layout";
+import AdminLayout from "../../../components/admin-layout/layout";
 import { NextPage } from 'next/types';
 import { fetchCategories } from '../../../redux/slicers/categoriesSlicer'
 import { wrapper } from "../../../redux/store"

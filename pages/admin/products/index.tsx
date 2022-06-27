@@ -1,4 +1,4 @@
-import AdminLayout from "../components/layout/layout";
+import AdminLayout from "../../../components/admin-layout/layout";
 // import styles from './admin.module.scss';
 
 const Products: React.FC = () => {
