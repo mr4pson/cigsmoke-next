@@ -33,7 +33,7 @@ const items: MenuItem[] = [
 ];
 
 const AdminLayout = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(() => {
+  const [collapsed, setCollapsed] = useState((): boolean => {
     let prevState: boolean
     try {
       prevState = (JSON.parse(localStorage.getItem('isCollapsed') === 'true'));

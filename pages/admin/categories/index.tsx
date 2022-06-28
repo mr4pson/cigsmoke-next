@@ -3,10 +3,13 @@ import { useAppDispatch, useAppSelector } from "redux/hooks";
 //import { RootState } from "redux/store";
 import AdminLayout from "../../../components/admin-layout/layout";
 import { NextPage } from 'next/types';
-import { fetchCategories } from '../../../redux/slicers/categoriesSlicer'
+import { fetchCategories, clearCategories } from '../../../redux/slicers/categoriesSlicer'
 import { wrapper } from "../../../redux/store"
+import { useEffect } from "react"
+import { PageHeader } from 'antd';
+import CategoriesTable from "../../../admin/components/categories/CategoriesTable"
+import styles from './index.module.scss';
 
-// import styles from './admin.module.scss';
 
 type Props = {
   categories: any[];
@@ -15,22 +18,38 @@ type Props = {
 
 const CategoriesPage: NextPage = () => {
 
-  const data = useAppSelector(state => state.categories.categotiesList)
+  const dispatch = useAppDispatch()
+  const categories = useAppSelector(state => state.categories.categoriesList)
+
+  const isLoading = useAppSelector(state => state.categories.loading)
+
+  useEffect(() => {
+    dispatch(fetchCategories())
+
+    return () => {
+      dispatch(clearCategories())
+    }
+  }, [])
+
+  const loader = <h1>Loading...</h1>
 
   return (
     <AdminLayout>
-      Categories page
-      {JSON.stringify(data)}
+      <h1 className={styles.h1}>Категории</h1>
+      <CategoriesTable categories={categories} />
+      {/*isLoading ? loader : <ul>
+        {categories.map(category => <li key={category.id}>{category.name}</li>)}
+  </ul>*/}
     </AdminLayout>
   );
 };
 
-CategoriesPage.getInitialProps = wrapper.getInitialPageProps(
+/*CategoriesPage.getInitialProps = wrapper.getInitialPageProps(
   ({ dispatch }) => 
     async() => {
       await dispatch(fetchCategories())
     }
-)
+)*/
 
 /*export async function getServerSideProps(ctx) {
   const dispatch = useAppDispatch();

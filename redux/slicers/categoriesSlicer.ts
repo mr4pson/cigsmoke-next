@@ -1,23 +1,12 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'; 
 import { axiosInstance } from "common/axios.instance";
-
-type Category = {
-    id: string,
-    categoryName: string,
-    description: string 
-}
-
-type categoryState = {
-    categotiesList: Category[],
-    loading: boolean,
-    error: string | null
-}
+import { Category, categoryState } from 'common/interfaces/types';
 
 export const fetchCategories = createAsyncThunk<Category[], undefined, { rejectValue: string }>(
-    'categotiesList/getCategories',
+    'categoriesList/getCategories',
     async function (_, { rejectWithValue }): Promise<any> {
         try {
-            const resp = await axiosInstance.get('/data');
+            const resp = await axiosInstance.get('/api/categories');
 
             console.log(resp.data);
 
@@ -29,7 +18,7 @@ export const fetchCategories = createAsyncThunk<Category[], undefined, { rejectV
 )
 
 const initialState: categoryState = {
-    categotiesList: [],
+    categoriesList: [],
     loading: false,
     error: null
 };
@@ -40,6 +29,9 @@ const categoriesSlicer = createSlice({
     reducers: {
         addCategory(state: any, action: PayloadAction) {
             return
+        },
+        clearCategories(state: any, action: PayloadAction) {
+            state.categoriesList = []
         }
     },
     extraReducers: (builder) => {
@@ -50,7 +42,7 @@ const categoriesSlicer = createSlice({
                 console.log('pending')
             })
             .addCase(fetchCategories.fulfilled, (state, action: any) => {
-                state.categotiesList = action.payload;
+                state.categoriesList = action.payload;
                 state.loading = false;
                 console.log('fulfilled')
             })
@@ -62,6 +54,6 @@ const categoriesSlicer = createSlice({
 })
 
 
-export const { addCategory } = categoriesSlicer.actions;
+export const { addCategory, clearCategories } = categoriesSlicer.actions;
 
 export default categoriesSlicer.reducer;

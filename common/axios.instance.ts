@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const defaultOptions = {
-  baseURL: "http://localhost:4200",
+  baseURL: "/",
 };
 
 // Create instance
