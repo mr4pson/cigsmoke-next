@@ -1,12 +1,15 @@
-import type { AppProps } from 'next/app';
-import { wrapper } from '../redux/store'
-
-
 import 'antd/dist/antd.css';
+import AdminLayout from 'components/admin-layout/layout';
+import { AppProps } from 'next/app';
 import 'styles.css';
+import { wrapper } from '../redux/store';
 
 function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <AdminLayout>
+      <Component {...pageProps} />
+    </AdminLayout>
+  );
 }
 
-export default wrapper.withRedux(App)
+export default wrapper.withRedux(App);
