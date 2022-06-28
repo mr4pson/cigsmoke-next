@@ -6,7 +6,8 @@ import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Page, paths } from 'routes/constants';
 import styles from './layout.module.scss';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -28,38 +29,26 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Categories','/admin/categories', <PieChartOutlined />),
-  getItem('Products', '/admin/products', <DesktopOutlined />),
+  getItem('Категории', paths[Page.CATEGORIES], <PieChartOutlined />),
+  getItem('Продукты', paths[Page.PRODCUCTS], <DesktopOutlined />),
 ];
 
 const AdminLayout = ({ children }) => {
-  const [collapsed, setCollapsed] = useState((): boolean => {
-    let prevState: boolean
-    try {
-      prevState = (JSON.parse(localStorage.getItem('isCollapsed') === 'true'));
-    } catch(error) {
-      prevState = false
-    }
-    return prevState
-  });
+  const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
 
   const handleSelect = (route: any) => {
     router.push(route.key);
   }
 
+  useEffect(() => {
+    console.log('INITIALIZED');
+  }, []);
+
   return (
     <>
-      <Head>
-        <title>cigsmoke</title>
-        <meta
-          name="description"
-          content="Test description"
-        />
-      </Head>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={collapsed} onCollapse={value => {
-          localStorage.setItem('isCollapsed', `${!collapsed}`)
           setCollapsed(!collapsed)
         }}>
           <div className={styles["logo"]}>Cigsmoke</div>

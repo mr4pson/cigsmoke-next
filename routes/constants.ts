@@ -1,11 +1,11 @@
 export enum Page {
-  HOME = "HOME",
-  ADMIN = 'ADMIN',
-  TEST = "TEST"
+  HOME,
+  CATEGORIES,
+  PRODCUCTS
 }
 
 export const paths = {
   [Page.HOME]: "/",
-  [Page.ADMIN]: '/admin',
-  [Page.TEST]: "/test-page",
+  [Page.CATEGORIES]: '/categories',
+  [Page.PRODCUCTS]: "/products",
 };

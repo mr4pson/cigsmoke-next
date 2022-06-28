@@ -1,7 +1,7 @@
 import { Table } from 'antd';
 import { columns } from './constants';
 import { onChange } from './helpers';
-import { Category } from "../../../common/interfaces/types"
+import { Category } from "../../common/interfaces/types"
 import { DataType } from 'common/interfaces/data-type.interface';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 }
 
 const CategoriesTable: React.FC<Props> = ({ categories }) => {
-  const dataSource = categories.map(({id, name, createdAt, updatedAt, url, parent, ...rest}) => ({
+  const dataSource = categories?.map(({id, name, createdAt, updatedAt, url, parent, ...rest}) => ({
     key: id,
     id,
     name,
