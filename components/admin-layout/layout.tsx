@@ -33,7 +33,15 @@ const items: MenuItem[] = [
 ];
 
 const AdminLayout = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState((): boolean => {
+    let prevState: boolean
+    try {
+      prevState = (JSON.parse(localStorage.getItem('isCollapsed') === 'true'));
+    } catch(error) {
+      prevState = false
+    }
+    return prevState
+  });
   const router = useRouter();
 
   const handleSelect = (route: any) => {
@@ -50,7 +58,10 @@ const AdminLayout = ({ children }) => {
         />
       </Head>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+        <Sider collapsible collapsed={collapsed} onCollapse={value => {
+          localStorage.setItem('isCollapsed', `${!collapsed}`)
+          setCollapsed(!collapsed)
+        }}>
           <div className={styles["logo"]}>Cigsmoke</div>
           <Menu onSelect={handleSelect} theme="dark" defaultSelectedKeys={[router.pathname]} mode="inline" items={items} />
         </Sider>
