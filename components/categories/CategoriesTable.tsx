@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { columns } from './constants';
+import { columns } from './constants/columns';
 import { onChange } from './helpers';
 import { Category } from "../../common/interfaces/types"
 import { DataType } from 'common/interfaces/data-type.interface';

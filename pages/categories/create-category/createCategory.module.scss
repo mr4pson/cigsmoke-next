@@ -1,0 +1,24 @@
+.createCategoryForm {
+    &__buttonsStack {
+        &__submitButton {
+            margin-right: 10px;
+        }
+    }
+}
+
+.createCategoryHeader {
+    &__title {
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 2rem;
+    }
+}
+
+.exclamationIcon {
+    color: rgb(196, 0, 0);
+    line-height: 0;
+    font-size: 3.5rem;
+    position: relative;
+    left: -17px;
+    top: 6px
+}
