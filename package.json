@@ -5,9 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "mock": "json-server -w db.json -p 4200 -d 100",
-    "serve": "concurrently \"npm run dev\" \"npm run mock\""
+    "lint": "next lint"
   },
   "dependencies": {
     "@brainhubeu/react-carousel": "^2.0.4",

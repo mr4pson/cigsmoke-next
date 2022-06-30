@@ -37,13 +37,26 @@ const AdminLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
 
+  const currentPath = () => {
+    if(router.pathname === '/categories') {
+      return "Категории"
+    }
+    if(router.pathname === '/products') {
+      return "Продукты"
+    }
+    if(router.pathname === '/categories/create-category') {
+      return "Создание новой категории"
+    }
+  }
+
   const handleSelect = (route: any) => {
     router.push(route.key);
   }
 
-  useEffect(() => {
-    console.log('INITIALIZED');
-  }, []);
+  // useEffect(() => {
+  //   console.log('INITIALIZED');
+  //   console.log(router.pathname)
+  // });
 
   return (
     <>
@@ -58,8 +71,8 @@ const AdminLayout = ({ children }) => {
           <Header className={styles["site-layout__header"]} style={{ padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              <Breadcrumb.Item>Администрирование</Breadcrumb.Item>
+              <Breadcrumb.Item>{currentPath()}</Breadcrumb.Item>
             </Breadcrumb>
             <div className={styles["site-layout__content"]}>
               {children}

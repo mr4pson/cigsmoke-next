@@ -1,7 +1,8 @@
 import { ColumnsType, TableProps } from 'antd/lib/table';
-import { DataType } from 'common/interfaces/data-type.interface';
+import { Category } from "../../../common/interfaces/types" 
+import ActionButtonsWrapper from '../ActionButtonsWrapper';
 
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<Category> = [
   {
     title: 'Id',
     dataIndex: 'id',
@@ -10,38 +11,38 @@ const columns: ColumnsType<DataType> = [
     title: 'Имя',
     dataIndex: 'name',
     sorter: {
-      compare: (a: any, b: any) => a > b ? 1 : a < b ? -1 : 0,
-      multiple: 3,
-    },
+      compare: (a, b) => a.name.localeCompare(b.name),
+    }
   },
   {
     title: 'Дата создания',
     dataIndex: 'createdAt',
     sorter: {
-      compare: (a, b) => a.chinese - b.chinese,
-      multiple: 3,
+      compare: (a, b) => a.createdAt.localeCompare(b.createdAt),
     },
   },
   {
     title: 'Дата изменения',
     dataIndex: 'updatedAt',
     sorter: {
-      compare: (a, b) => a.chinese - b.chinese,
-      multiple: 3,
+      compare: (a, b) => a.updatedAt.localeCompare(b.updatedAt),
     },
   },
   {
     title: 'Url',
     dataIndex: 'url',
     sorter: {
-      compare: (a, b) => a.math - b.math,
-      multiple: 2,
+      compare: (a, b) => a.url.localeCompare(b.url),
     },
   },
   {
     title: 'Родитель',
     dataIndex: 'parent',
     render: (parent) => <div>{parent?.name}</div>
+  },
+  {
+    title: 'Опции',
+    render: (_, record) => <ActionButtonsWrapper id={record.id}/>
   },
 ];
 
