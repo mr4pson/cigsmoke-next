@@ -5,30 +5,30 @@ import { useAppDispatch } from 'redux/hooks';
 import { deleteCategory } from "../../redux/slicers/categoriesSlicer"
 
 const ActionButtonsWrapper = ({id}) => {
+  const dispatch = useAppDispatch()
+  const handleDeleteClick = () => {
+    dispatch(deleteCategory(id))
+  }
 
-    const dispatch = useAppDispatch()
-
-    const handleDeleteClick = () => {
-        dispatch(deleteCategory(id))
-    }
-
-    return (<>
-    <span>
+  return (
+    <>
+      <span>
         <Tooltip title="Изменить">
-            <Button type="default" shape="circle" icon={<EditOutlined />} />
+          <Button type="default" shape="circle" icon={<EditOutlined />} />
         </Tooltip>
-    </span>
-    <span className={styles.deleteButtonSpan}>
+      </span>
+      <span className={styles.deleteButtonSpan}>
         <Tooltip title="Удалить">
-            <Button 
+          <Button 
             type="default" 
             shape="circle" 
             icon={<DeleteOutlined 
             onClick={handleDeleteClick}
-            />} />
+          />} />
         </Tooltip>
-    </span>
-    </>)
+      </span>
+    </>
+  )
 }
 
 export default ActionButtonsWrapper

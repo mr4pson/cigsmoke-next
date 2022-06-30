@@ -1,45 +1,52 @@
-import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { NextPage } from 'next/types';
-import { fetchCategories, clearCategories } from '../../redux/slicers/categoriesSlicer'
-import { useEffect } from "react"
-import CategoriesTable from "../../components/categories/CategoriesTable"
+import {
+  fetchCategories,
+  clearCategories,
+} from '../../redux/slicers/categoriesSlicer';
+import { useEffect } from 'react';
+import CategoriesTable from '../../components/categories/CategoriesTable';
 import styles from './index.module.scss';
 import { Spin } from 'antd';
-import { Button } from "antd";
-import { useRouter } from "next/router";
+import { Button } from 'antd';
+import { useRouter } from 'next/router';
 
 const CategoriesPage: NextPage = () => {
-  const dispatch = useAppDispatch()
-  const categories = useAppSelector(state => state.categories.categoriesList)
-  const isLoading = useAppSelector(state => state.categories.loading)
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector((state) => state.categories.categoriesList);
+  const isLoading = useAppSelector((state) => state.categories.loading);
 
-  const history = useRouter()
+  const history = useRouter();
 
   useEffect(() => {
-    dispatch(fetchCategories())
+    dispatch(fetchCategories());
 
     return () => {
-      dispatch(clearCategories())
-    }
-  }, [])
-
-  
+      dispatch(clearCategories());
+    };
+  }, []);
 
   const handleCreateCategoryClick = () => {
-    history.push(`/categories/create-category/`)
-  }
+    history.push(`/categories/create-category/`);
+  };
 
   return (
     <>
-    <div className={styles.categoriesHeader}>
-      <h1 className={styles.categoriesHeader__title}>Категории</h1>
-      <Button 
-      className={styles.categoriesHeader__createCategoryButton} 
-      type="primary" 
-      onClick={handleCreateCategoryClick}
-      >Создать новую категорию</Button>
-    </div>
-      {isLoading ? <Spin className="spinner" size="large" /> : <CategoriesTable categories={categories} />}
+      <div className={styles.categoriesHeader}>
+        <h1 className={styles.categoriesHeader__title}>Категории</h1>
+        <Button
+          className={styles.categoriesHeader__createCategoryButton}
+          type="primary"
+          onClick={handleCreateCategoryClick}
+        >
+          Создать новую категорию
+        </Button>
+      </div>
+      {isLoading ? (
+        <Spin className="spinner" size="large" />
+      ) : (
+        <CategoriesTable categories={categories} />
+      )}
     </>
   );
 };

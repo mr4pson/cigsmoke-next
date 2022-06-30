@@ -26,7 +26,7 @@ const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) =
 
 export const makeStore = () =>
   configureStore({
-    reducer ,
+    reducer,
   } as any);
 
 type Store = ReturnType<typeof makeStore>;
