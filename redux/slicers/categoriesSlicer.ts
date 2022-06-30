@@ -1,13 +1,13 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'; 
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosInstance } from "common/axios.instance";
 import { Category, categoryState } from 'common/interfaces/types';
-import { 
-    getErrorMassage, 
-    handleChangePending, 
+import {
+    getErrorMassage,
+    handleChangePending,
     handlePending,
-    handleError, 
+    handleError,
     handleChangeError
-    } 
+}
     from "../../common/helpers"
 import { PayloadCategory } from 'common/interfaces/payload-category.interface';
 
@@ -18,7 +18,7 @@ export const fetchCategories = createAsyncThunk<Category[], undefined, { rejectV
             const resp = await axiosInstance.get('/api/categories');
             return resp.data
         } catch (error: any) {
-            rejectWithValue(getErrorMassage(error.status)) 
+            rejectWithValue(getErrorMassage(error.status))
         }
     }
 )
@@ -28,7 +28,7 @@ export const createNewCategory = createAsyncThunk<Category[], PayloadCategory, {
     async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
         const respError = "Возникла проблема при создании новой категории. Пожалуйста, проверьте соединение, корректность введенных данных и повторите попытку."
         try {
-            const resp = await axiosInstance.post('/api/categories/', 
+            const resp = await axiosInstance.post('/api/categories/',
                 {
                     "name": payload.name,
                     "url": payload.url,
@@ -49,7 +49,7 @@ export const editCategory = createAsyncThunk<Category[], PayloadCategory, { reje
     async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
         const respError = "Возникла проблема при редактировании категории. Пожалуйста, проверьте соединение, корректность введенных данных и повторите попытку."
         try {
-            const resp = await axiosInstance.put(`/api/categories/${payload.id}`, 
+            const resp = await axiosInstance.put(`/api/categories/${payload.id}`,
                 {
                     "name": payload.name,
                     "url": payload.url,
@@ -69,7 +69,7 @@ export const deleteCategory = createAsyncThunk<Category[], string, { rejectValue
         try {
             const resp = await axiosInstance.delete(`/api/categories/${id}`);
             console.log(resp)
-            if(resp.statusText !== "OK") {
+            if (resp.statusText !== "OK") {
                 return rejectWithValue(respError)
             }
             return id
@@ -95,7 +95,7 @@ const categoriesSlicer = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        //fetchCategories
+            //fetchCategories
             .addCase(fetchCategories.pending, handlePending)
             .addCase(fetchCategories.fulfilled, (state, action: PayloadAction<Category[]>) => {
                 state.categoriesList = action.payload;
@@ -103,7 +103,7 @@ const categoriesSlicer = createSlice({
                 console.log('fulfilled')
             })
             .addCase(fetchCategories.rejected, handleError)
-        //createNewCategory ПРОВЕРИТЬ НА ПРАВИЛЬНОСТЬ ИСПОЛНЕНИЯ ПОСЛЕ ИСПРАВЛЕНИЯ ОШИБКИ С СОЗДАНИЕМ КАТЕГОРИИ!
+            //createNewCategory ПРОВЕРИТЬ НА ПРАВИЛЬНОСТЬ ИСПОЛНЕНИЯ ПОСЛЕ ИСПРАВЛЕНИЯ ОШИБКИ С СОЗДАНИЕМ КАТЕГОРИИ!
             .addCase(createNewCategory.pending, handleChangePending)
             .addCase(createNewCategory.fulfilled, (state, action: PayloadAction<any, any, any>) => {
                 // state.categoriesList.push(action.payload);
@@ -111,9 +111,9 @@ const categoriesSlicer = createSlice({
                 console.log('fulfilled')
             })
             .addCase(createNewCategory.rejected, handleChangeError)
-        //editCategory ПРОВЕРИТЬ НА ПРАВИЛЬНОСТЬ ИСПОЛНЕНИЯ ПОСЛЕ ИСПРАВЛЕНИЯ ОШИБКИ С СОЗДАНИЕМ КАТЕГОРИИ!
+            //editCategory ПРОВЕРИТЬ НА ПРАВИЛЬНОСТЬ ИСПОЛНЕНИЯ ПОСЛЕ ИСПРАВЛЕНИЯ ОШИБКИ С СОЗДАНИЕМ КАТЕГОРИИ!
             .addCase(editCategory.pending, handlePending)
-            .addCase(editCategory.fulfilled, (state, action: { payload: any}) => {
+            .addCase(editCategory.fulfilled, (state, action: { payload: any }) => {
                 let category = state.categoriesList.find(category => category.id === action.payload.id);
                 category = {
                     ...category,
@@ -123,9 +123,9 @@ const categoriesSlicer = createSlice({
                 console.log('fulfilled')
             })
             .addCase(editCategory.rejected, handleError)
-        //deleteCategory
+            //deleteCategory
             .addCase(deleteCategory.pending, handlePending)
-            .addCase(deleteCategory.fulfilled, (state, action: { payload: any}) => {
+            .addCase(deleteCategory.fulfilled, (state, action: { payload: any }) => {
                 state.categoriesList = state.categoriesList.filter(item => item.id !== action.payload);
                 state.loading = false;
                 console.log('fulfilled')
