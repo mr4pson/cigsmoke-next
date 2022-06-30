@@ -1,6 +1,6 @@
 import { ColumnsType, TableProps } from 'antd/lib/table';
 import { Category } from "../../../common/interfaces/types" 
-import OptionsButtonStack from '../OptionsButtonStack';
+import ActionButtonsWrapper from '../ActionButtonsWrapper';
 
 const columns: ColumnsType<Category> = [
   {
@@ -42,7 +42,7 @@ const columns: ColumnsType<Category> = [
   },
   {
     title: 'Опции',
-    render: (_, record) => <OptionsButtonStack id={record.id}/>
+    render: (_, record) => <ActionButtonsWrapper id={record.id}/>
   },
 ];
 

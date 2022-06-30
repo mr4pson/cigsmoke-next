@@ -11,5 +11,5 @@ export type Category = {
 export type categoryState = {
     categoriesList: Category[],
     loading: boolean,
-    error: string | null
+    saveLoading: boolean,
 }

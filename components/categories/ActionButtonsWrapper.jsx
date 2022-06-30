@@ -4,7 +4,7 @@ import styles from './categories.module.scss';
 import { useAppDispatch } from 'redux/hooks';
 import { deleteCategory } from "../../redux/slicers/categoriesSlicer"
 
-const OptionsButtonStack = ({id}) => {
+const ActionButtonsWrapper = ({id}) => {
 
     const dispatch = useAppDispatch()
 
@@ -31,4 +31,4 @@ const OptionsButtonStack = ({id}) => {
     </>)
 }
 
-export default OptionsButtonStack
+export default ActionButtonsWrapper

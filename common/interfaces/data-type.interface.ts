@@ -1,7 +1,9 @@
 export interface DataType {
   key: React.Key;
-  name: string;
-  chinese: number;
-  math: number;
-  english: number;
+  id: string;
+  name: string,
+  createdAt: string,
+  updatedAt: string,
+  url: string,
+  parent: string
 }

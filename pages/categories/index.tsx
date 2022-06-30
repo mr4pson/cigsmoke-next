@@ -7,7 +7,6 @@ import styles from './index.module.scss';
 import { Spin } from 'antd';
 import { Button } from "antd";
 import { useRouter } from "next/router";
-import { useErrorNotidication } from "./useErrorNotification";
 
 const CategoriesPage: NextPage = () => {
   const dispatch = useAppDispatch()
@@ -16,15 +15,12 @@ const CategoriesPage: NextPage = () => {
 
   const history = useRouter()
 
-  const errorEffect = useErrorNotidication()
-
-  errorEffect()
-
   useEffect(() => {
-    if(categories.length !== 0) {
-      return
-    }
     dispatch(fetchCategories())
+
+    return () => {
+      dispatch(clearCategories())
+    }
   }, [])
 
   
@@ -43,7 +39,7 @@ const CategoriesPage: NextPage = () => {
       onClick={handleCreateCategoryClick}
       >Создать новую категорию</Button>
     </div>
-      {isLoading ? <Spin className={styles.spinner} size="large" /> : <CategoriesTable categories={categories} />}
+      {isLoading ? <Spin className="spinner" size="large" /> : <CategoriesTable categories={categories} />}
     </>
   );
 };
