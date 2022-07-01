@@ -5,11 +5,15 @@ export type Category = {
     updatedAt?: string,
     url?: string,
     parent?: Category | null,
-    children?: Category[]
+    children?: Category[],
 }
 
 export type categoryState = {
     categoriesList: Category[],
     loading: boolean,
     saveLoading: boolean,
+}
+
+export type ChosenCategoryState = {
+    category: Category
 }

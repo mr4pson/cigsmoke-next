@@ -19,13 +19,22 @@ body {
 .exclamation-icon {
   color: rgb(196,0,0);
   line-height: 0;
-  font-size: 3.5rem;
+  font-size: 2rem;
   position: relative;
-  left: -17px;
-  top: 6px
+  left: -7px;
+  top: 0px
 }
 
 .spinner {
     display: block;
     margin-top: 100px;
+}
+
+.success-icon {
+  color: green;
+  line-height: 0;
+  font-size: 2rem;
+  position: relative;
+  left: -7px;
+  top: 0px
 }

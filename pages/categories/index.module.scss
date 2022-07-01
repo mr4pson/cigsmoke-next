@@ -20,3 +20,19 @@
     display: block;
     margin-top: 100px;
 }
+
+.createCategoryForm {
+    &__buttonsStack {
+        &__submitButton {
+            margin-right: 10px;
+        }
+    }
+}
+
+.createCategoryHeader {
+    &__title {
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 2rem;
+    }
+}
