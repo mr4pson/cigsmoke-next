@@ -40,7 +40,7 @@ const columns: ColumnsType<any> = [
     render: (parent) => <div>{parent?.name}</div>,
   },
   {
-    title: 'Опции',
+    title: 'Действия',
     render: (_, record) => <ActionButtonsWrapper id={record.id} />,
   },
 ];

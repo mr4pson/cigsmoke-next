@@ -21,7 +21,7 @@ type Props = {
 
 const AdminLayout: React.FC<Props> = ({ user, children }) => {
   const dispatch = useAppDispatch();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const router = useRouter();
 
   return (
@@ -34,7 +34,7 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
             setCollapsed(!collapsed);
           }}
         >
-          <div className={styles['logo']}>Cigsmoke</div>
+          <div className={styles['logo']}>{collapsed ? 'Cig' : 'Cigsmoke'}</div>
           <Menu
             onSelect={handleSelect(router)}
             theme="dark"
@@ -62,7 +62,7 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
             <div className={styles['site-layout__content']}>{children}</div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
+            Cigsmoke ©2022 Created by The Best Studio
           </Footer>
         </Layout>
       </Layout>
