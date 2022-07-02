@@ -3,8 +3,8 @@ import { axiosInstance } from 'common/axios.instance';
 import { HttpStatus } from 'common/enums/httpStatus.enum';
 import { Role } from 'common/enums/roles.enum';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { User } from 'common/interfaces/user.interface';
 import { TAuthState } from 'redux/types';
+import { User } from 'swagger/services';
 import {
   getErrorMassage,
   handlePending,
@@ -47,7 +47,6 @@ const authSlicer = createSlice({
       localStorage.removeItem("refreshToken");
     },
     setUser(state: TAuthState, action: PayloadAction<User | null>) {
-      console.log(action.payload);
       state.user = action.payload;
     },
   },
@@ -59,7 +58,6 @@ const authSlicer = createSlice({
         signin.fulfilled,
         (state, action) => {
           state.user = action.payload.user;
-          console.log(action.payload);
           state.loading = false;
           localStorage.setItem("accessToken", action.payload.accessToken);
           localStorage.setItem("refreshToken", action.payload.refreshToken);

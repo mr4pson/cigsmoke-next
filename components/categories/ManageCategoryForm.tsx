@@ -1,10 +1,10 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Select, Spin } from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
-import { Category } from 'common/interfaces/category.interface';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from 'redux/hooks';
 import { Page } from 'routes/constants';
+import { Category } from 'swagger/services';
 import styles from './categories.module.scss';
 import { handleFormSubmit } from './helpers';
 import { ManageCategoryFields } from './ManageCategoryFields.enum';

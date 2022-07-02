@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import { columns } from './constants';
 import { handleTableChange } from './helpers';
 import { DataType } from 'common/interfaces/data-type.interface';
-import { Category } from 'common/interfaces/category.interface';
+import { Category } from 'swagger/services';
 
 type Props = {
   categories: Category[];

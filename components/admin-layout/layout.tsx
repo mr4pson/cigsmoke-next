@@ -1,8 +1,8 @@
 import { Breadcrumb, Button, Layout, Menu } from 'antd';
-import { User } from 'common/interfaces/user.interface';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
+import { User } from 'swagger/services';
 import { items } from './constants';
 import {
   currentPath,

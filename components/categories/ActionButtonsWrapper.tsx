@@ -45,7 +45,7 @@ const ActionButtonsWrapper: React.FC<Props> = ({ id }) => {
       <Modal
         title="Подтвердите действие."
         visible={visible}
-        onOk={handleDeleteClick(id, dispatch)}
+        onOk={handleDeleteClick(id, dispatch, setVisible)}
         confirmLoading={isLoading}
         onCancel={showOrDontModal}
       >
