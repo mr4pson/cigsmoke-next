@@ -1,5 +1,5 @@
-import { User } from "common/interfaces/user.interface";
 import * as jwt from 'jsonwebtoken';
+import { User } from 'swagger/services';
 
 export const getAccessToken = () => {
   return localStorage.getItem('accessToken');

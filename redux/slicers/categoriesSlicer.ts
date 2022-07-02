@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { axiosInstance } from 'common/axios.instance';
 import {
   getErrorMassage,
   handleChangePending,
@@ -10,7 +9,7 @@ import {
 import { PayloadCategory } from 'common/interfaces/payload-category.interface';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { TCategoryState } from 'redux/types';
-import { Category } from 'common/interfaces/category.interface';
+import { Category, CategoryService } from 'swagger/services';
 
 export const fetchCategories = createAsyncThunk<
   Category[],
@@ -20,8 +19,7 @@ export const fetchCategories = createAsyncThunk<
   'categories/fetchCategories',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      const resp = await axiosInstance.get('/api/categories');
-      return resp.data;
+      return await CategoryService.getCategories();
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -36,28 +34,28 @@ export const fetchCategory = createAsyncThunk<
   'categories/fetchCategory',
   async function (id, { rejectWithValue }): Promise<any> {
     try {
-      const resp = await axiosInstance.get(`/api/categories/${id}`);
-      return resp.data;
+      return await CategoryService.findCategoryById({ categoryId: id });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
   },
 );
 
-export const createNewCategory = createAsyncThunk<
+export const createCategory = createAsyncThunk<
   Category,
   PayloadCategory,
   { rejectValue: string }
 >(
-  'categories/createNewCategory',
+  'categories/createCategory',
   async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
     try {
-      const resp = await axiosInstance.post('/api/categories/', {
-        name: payload.name,
-        url: payload.url,
-        parentId: payload.parent,
+      return await CategoryService.createCategory({
+        body: {
+          name: payload.name,
+          url: payload.url,
+          parentId: payload.parent,
+        }
       });
-      return resp.data;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -72,13 +70,13 @@ export const editCategory = createAsyncThunk<
   'categories/editCategory',
   async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
     try {
-      const resp = await axiosInstance.put(`/api/categories/${payload.id}`, {
-        name: payload.name,
-        url: payload.url,
-        parentId: payload.parent,
+      return await CategoryService.updateCategory({
+        categoryId: payload.id as string, body: {
+          name: payload.name,
+          url: payload.url,
+          parentId: payload.parent,
+        }
       });
-      console.log(resp);
-      return resp.data;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -93,9 +91,7 @@ export const deleteCategory = createAsyncThunk<
   'categories/deleteCategory',
   async function (id, { rejectWithValue }): Promise<any> {
     try {
-      const resp = await axiosInstance.delete(`/api/categories/${id}`);
-      console.log(resp);
-      return id;
+      return await CategoryService.deleteCategory({ categoryId: id });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -145,16 +141,16 @@ const categoriesSlicer = createSlice({
       )
       .addCase(fetchCategory.rejected, handleError)
       //createCategory
-      .addCase(createNewCategory.pending, handleChangePending)
+      .addCase(createCategory.pending, handleChangePending)
       .addCase(
-        createNewCategory.fulfilled,
+        createCategory.fulfilled,
         (state) => {
           state.saveLoading = false;
           openSuccessNotification('Категория успешно создана');
           console.log('fulfilled');
         },
       )
-      .addCase(createNewCategory.rejected, handleChangeError)
+      .addCase(createCategory.rejected, handleChangeError)
       //editCategory
       .addCase(editCategory.pending, handleChangePending)
       .addCase(editCategory.fulfilled, (state, action) => {
@@ -166,7 +162,7 @@ const categoriesSlicer = createSlice({
           ...action.payload,
         };
         openSuccessNotification('Категория успешно обновлена');
-        state.loading = false;
+        state.saveLoading = false;
         console.log('fulfilled');
       })
       .addCase(editCategory.rejected, handleChangeError)
@@ -176,7 +172,7 @@ const categoriesSlicer = createSlice({
         state.categories = state.categories.filter(
           (item) => item.id !== action.payload,
         );
-        state.loading = false;
+        state.saveLoading = false;
         openSuccessNotification('Категория успешно удалена');
         console.log('fulfilled');
       })

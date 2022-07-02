@@ -1,5 +1,4 @@
-import { Category } from "common/interfaces/category.interface";
-import { User } from "common/interfaces/user.interface";
+import { Category, User } from "swagger/services";
 
 export type TCategoryState = {
   categories: Category[],

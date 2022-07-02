@@ -9,6 +9,7 @@
 
 # production
 /build
+/swagger/services
 
 # localhost data
 # /public/favicon.ico
