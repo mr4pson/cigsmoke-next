@@ -1,5 +1,6 @@
 export enum Page {
   HOME,
+  LOGIN,
   CATEGORIES,
   PRODCUCTS,
   CREATE_CATEGORY,
@@ -8,6 +9,7 @@ export enum Page {
 
 export const paths = {
   [Page.HOME]: "/",
+  [Page.LOGIN]: "/login",
   [Page.CATEGORIES]: '/categories',
   [Page.PRODCUCTS]: "/products",
   [Page.CREATE_CATEGORY]: '/categories/create-category',

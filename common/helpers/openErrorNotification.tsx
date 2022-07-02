@@ -1,9 +1,9 @@
 import { ExclamationOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
 
-export const openErrorNotification = (error: string) => {
+export const openErrorNotification = (message: string) => {
   const args = {
-    message: error,
+    message,
     duration: 5,
     icon: <ExclamationOutlined className="exclamation-icon" />,
   };
