@@ -7,11 +7,9 @@ import {
 } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import categoriesReducer from './slicers/categoriesSlicer';
-import chosenCategoryReducer from "./slicers/chosenCategoryToEdit"
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
-  chosenCategory: chosenCategoryReducer
 });
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {
@@ -28,7 +26,7 @@ const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) =
 
 export const makeStore = () =>
   configureStore({
-    reducer ,
+    reducer,
   } as any);
 
 type Store = ReturnType<typeof makeStore>;

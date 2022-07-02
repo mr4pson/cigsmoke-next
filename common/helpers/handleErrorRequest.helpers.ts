@@ -1,5 +1,5 @@
 import { openErrorNotification } from "./openErrorNotification"
-import { PayloadAction } from '@reduxjs/toolkit'; 
+import { PayloadAction } from '@reduxjs/toolkit';
 
 const handleError = (state, action: PayloadAction<any, any, any, any>) => {
     state.loading = false;

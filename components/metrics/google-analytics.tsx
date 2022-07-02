@@ -1,6 +1,5 @@
 export const GoogleAnalytics = () => {
-  return(
-    `
+  return `
       <!-- Global site tag (gtag.js) - Google Analytics -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-25PSWT4BS6"></script>
       <script>
@@ -10,6 +9,5 @@ export const GoogleAnalytics = () => {
       
         gtag('config', 'G-25PSWT4BS6');
       </script>
-    `
-  );
-}
+    `;
+};

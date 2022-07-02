@@ -6,10 +6,7 @@ const IndexPage = (): JSX.Element => {
     <>
       <Head>
         <title>cigsmoke</title>
-        <meta
-          name="description"
-          content="Test description"
-        />
+        <meta name="description" content="Test description" />
       </Head>
       Main page
     </>
