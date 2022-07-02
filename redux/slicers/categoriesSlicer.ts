@@ -157,7 +157,7 @@ const categoriesSlicer = createSlice({
       )
       .addCase(createNewCategory.rejected, handleChangeError)
       //editCategory
-      .addCase(editCategory.pending, handlePending)
+      .addCase(editCategory.pending, handleChangePending)
       .addCase(editCategory.fulfilled, (state, action: { payload: any }) => {
         let category = state.categories.find(
           (category) => category.id === action.payload.id,
@@ -167,21 +167,21 @@ const categoriesSlicer = createSlice({
           ...action.payload,
         };
         openSuccessNotification();
-        state.loading = false;
+        state.saveLoading = false;
         console.log('fulfilled');
       })
-      .addCase(editCategory.rejected, handleError)
+      .addCase(editCategory.rejected, handleChangeError)
       //deleteCategory
-      .addCase(deleteCategory.pending, handlePending)
+      .addCase(deleteCategory.pending, handleChangePending)
       .addCase(deleteCategory.fulfilled, (state, action: { payload: any }) => {
         state.categories = state.categories.filter(
           (item) => item.id !== action.payload,
         );
-        state.loading = false;
+        state.saveLoading = false;
         openSuccessNotification();
         console.log('fulfilled');
       })
-      .addCase(deleteCategory.rejected, handleError);
+      .addCase(deleteCategory.rejected, handleChangeError);
   },
 });
 

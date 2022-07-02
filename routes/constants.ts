@@ -11,5 +11,5 @@ export const paths = {
   [Page.CATEGORIES]: '/categories',
   [Page.PRODCUCTS]: "/products",
   [Page.CREATE_CATEGORY]: '/categories/create-category',
-  [Page.EDIT_CATEGORY]: '/categories/edit-category/[id]',
+  [Page.EDIT_CATEGORY]: '/categories/[id]',
 };

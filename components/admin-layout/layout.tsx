@@ -1,56 +1,15 @@
-import { DesktopOutlined, PieChartOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { Page, paths } from 'routes/constants';
+import { useState } from 'react';
+import { items } from './constants';
+import { currentPath, getSelectedKeys, handleSelect } from './helpers';
 import styles from './layout.module.scss';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-type MenuItem = Required<MenuProps>['items'][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem('Категории', paths[Page.CATEGORIES], <PieChartOutlined />),
-  getItem('Продукты', paths[Page.PRODCUCTS], <DesktopOutlined />),
-];
-
 const AdminLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
-
-  const currentPath = () => {
-    if (router.pathname === paths[Page.CATEGORIES]) {
-      return 'Категории';
-    }
-    if (router.pathname === paths[Page.PRODCUCTS]) {
-      return 'Продукты';
-    }
-    if (router.pathname === paths[Page.CREATE_CATEGORY]) {
-      return 'Создание новой категории';
-    }
-    if (router.pathname === paths[Page.EDIT_CATEGORY]) {
-      return 'Редактирование категории';
-    }
-  };
-
-  const handleSelect = (route: any) => {
-    router.push(route.key);
-  };
 
   return (
     <>
@@ -64,9 +23,9 @@ const AdminLayout = ({ children }) => {
         >
           <div className={styles['logo']}>Cigsmoke</div>
           <Menu
-            onSelect={handleSelect}
+            onSelect={handleSelect(router)}
             theme="dark"
-            defaultSelectedKeys={[router.pathname]}
+            defaultSelectedKeys={getSelectedKeys(router.pathname)}
             mode="inline"
             items={items}
           />
@@ -79,7 +38,7 @@ const AdminLayout = ({ children }) => {
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Администрирование</Breadcrumb.Item>
-              <Breadcrumb.Item>{currentPath()}</Breadcrumb.Item>
+              <Breadcrumb.Item>{currentPath(router)}</Breadcrumb.Item>
             </Breadcrumb>
             <div className={styles['site-layout__content']}>{children}</div>
           </Content>

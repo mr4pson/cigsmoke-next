@@ -10,13 +10,14 @@ import styles from './index.module.scss';
 import { Spin } from 'antd';
 import { Button } from 'antd';
 import { useRouter } from 'next/router';
-import { Page, paths } from 'routes/constants';
+import { Page } from 'routes/constants';
+import { navigateTo } from 'common/helpers';
 
 const CategoriesPage: NextPage = () => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.categories.categories);
   const isLoading = useAppSelector((state) => state.categories.loading);
-  const history = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -26,10 +27,6 @@ const CategoriesPage: NextPage = () => {
     };
   }, []);
 
-  const handleCreateCategoryClick = () => {
-    history.push(paths[Page.CREATE_CATEGORY]);
-  };
-
   return (
     <>
       <div className={styles.categoriesHeader}>
@@ -37,7 +34,7 @@ const CategoriesPage: NextPage = () => {
         <Button
           className={styles.categoriesHeader__createCategoryButton}
           type="primary"
-          onClick={handleCreateCategoryClick}
+          onClick={navigateTo(router, Page.CREATE_CATEGORY)}
         >
           Создать новую категорию
         </Button>

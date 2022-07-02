@@ -1,11 +1,11 @@
-import { categoryState } from 'common/interfaces/types';
+import { TCategoryState } from 'common/interfaces/types';
 
-const handlePending = (state: categoryState) => {
+const handlePending = (state: TCategoryState) => {
     state.loading = true;
     console.log('pending')
 }
 
-const handleChangePending = (state: categoryState) => {
+const handleChangePending = (state: TCategoryState) => {
     state.saveLoading = true;
     console.log('pending')
 }
