@@ -10,11 +10,14 @@ import {
 
 const ManageCategory = () => {
   const title = 'Редактирование категории';
+  const router = useRouter();
   const categories = useAppSelector((state) => state.categories.categories);
+  const filteredCategories = categories.filter(
+    (category) => category.id !== Number(router.query.id),
+  );
   const category = useAppSelector((state) => state.categories.category);
   const isLoading = useAppSelector((state) => state.categories.loading);
   const isSaveLoading = useAppSelector((state) => state.categories.saveLoading);
-  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
@@ -36,7 +39,7 @@ const ManageCategory = () => {
     <ManageCategoryForm
       title={title}
       editMode={true}
-      categories={categories}
+      categories={filteredCategories}
       category={category}
       isLoading={isLoading}
       isSaveLoading={isSaveLoading}

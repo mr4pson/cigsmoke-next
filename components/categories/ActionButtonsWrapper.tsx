@@ -27,7 +27,8 @@ const ActionButtonsWrapper: React.FC<Props> = ({ id }) => {
           <Button
             type="default"
             shape="circle"
-            icon={<EditOutlined onClick={handleRedirectEdit(id, router)} />}
+            icon={<EditOutlined />}
+            onClick={handleRedirectEdit(id, router)}
           />
         </Tooltip>
       </span>
@@ -36,7 +37,8 @@ const ActionButtonsWrapper: React.FC<Props> = ({ id }) => {
           <Button
             type="default"
             shape="circle"
-            icon={<DeleteOutlined onClick={showOrDontModal} />}
+            icon={<DeleteOutlined />}
+            onClick={showOrDontModal}
           />
         </Tooltip>
       </span>

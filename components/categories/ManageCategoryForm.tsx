@@ -1,6 +1,6 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Select, Spin } from 'antd';
-import { navigateBack } from 'common/helpers/navigateBack.helper';
+import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { TCategory } from 'common/interfaces/types';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from 'redux/hooks';
@@ -31,6 +31,11 @@ const ManageCategoryForm = ({
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [form] = Form.useForm();
+  const initialValues = {
+    name: category?.name,
+    url: category?.url,
+    parent: category?.parent?.id?.toString(),
+  };
 
   return (
     <>
@@ -44,7 +49,7 @@ const ManageCategoryForm = ({
           layout="vertical"
           onFinish={handleFormSubmit(router, dispatch)}
           form={form}
-          initialValues={category}
+          initialValues={initialValues}
           requiredMark={true}
           className={styles.createCategoryForm}
         >
@@ -75,8 +80,11 @@ const ManageCategoryForm = ({
             <Select defaultValue="Не выбрано">
               <Option value="">Не выбрано</Option>
               {categories?.map((category) => (
-                <Option key={category.id} value={`${category.id}`}>
-                  ID: {category.id}, имя: {category.name}
+                <Option
+                  key={`category-form-${category.id}`}
+                  value={category.id?.toString()}
+                >
+                  {category.name}
                 </Option>
               ))}
             </Select>
@@ -88,11 +96,11 @@ const ManageCategoryForm = ({
               className={styles.createCategoryForm__buttonsStack__submitButton}
               loading={isSaveLoading}
             >
-              Создать
+              {category ? 'Сохранить' : 'Создать'}
             </Button>
             <Button
               type="primary"
-              onClick={navigateBack(router, Page.CATEGORIES)}
+              onClick={navigateTo(router, Page.CATEGORIES)}
             >
               Вернуться назад
             </Button>
