@@ -1,16 +1,16 @@
-import Head from 'next/head';
-import styles from './index.module.scss';
+import { navigateTo } from 'common/helpers';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { Page } from 'routes/constants';
 
 const IndexPage = (): JSX.Element => {
-  return (
-    <>
-      <Head>
-        <title>cigsmoke</title>
-        <meta name="description" content="Test description" />
-      </Head>
-      Main page
-    </>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    navigateTo(router, Page.LOGIN)();
+  }, []);
+
+  return <></>;
 };
 
 export default IndexPage;

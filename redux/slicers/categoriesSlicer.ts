@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosInstance } from 'common/axios.instance';
-import { TCategory, TCategoryState } from 'common/interfaces/types';
 import {
   getErrorMassage,
   handleChangePending,
@@ -10,9 +9,11 @@ import {
 } from '../../common/helpers';
 import { PayloadCategory } from 'common/interfaces/payload-category.interface';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+import { TCategoryState } from 'redux/types';
+import { Category } from 'common/interfaces/category.interface';
 
 export const fetchCategories = createAsyncThunk<
-  TCategory[],
+  Category[],
   undefined,
   { rejectValue: string }
 >(
@@ -28,7 +29,7 @@ export const fetchCategories = createAsyncThunk<
 );
 
 export const fetchCategory = createAsyncThunk<
-  TCategory,
+  Category,
   string,
   { rejectValue: string }
 >(
@@ -43,9 +44,8 @@ export const fetchCategory = createAsyncThunk<
   },
 );
 
-//проверить правильность исполнения функции после исправления ошибки с созданием категории!
 export const createNewCategory = createAsyncThunk<
-  TCategory[],
+  Category,
   PayloadCategory,
   { rejectValue: string }
 >(
@@ -63,9 +63,9 @@ export const createNewCategory = createAsyncThunk<
     }
   },
 );
-//проверить правильность исполнения функции после исправления ошибки с созданием категории!
+
 export const editCategory = createAsyncThunk<
-  TCategory[],
+  Category,
   PayloadCategory,
   { rejectValue: string }
 >(
@@ -86,7 +86,7 @@ export const editCategory = createAsyncThunk<
 );
 
 export const deleteCategory = createAsyncThunk<
-  TCategory[],
+  string,
   string,
   { rejectValue: string }
 >(
@@ -113,10 +113,10 @@ const categoriesSlicer = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    clearCategories(state: TCategoryState) {
+    clearCategories(state) {
       state.categories = [];
     },
-    clearCategory(state: TCategoryState) {
+    clearCategory(state) {
       state.category = null;
     },
   },
@@ -126,7 +126,7 @@ const categoriesSlicer = createSlice({
       .addCase(fetchCategories.pending, handlePending)
       .addCase(
         fetchCategories.fulfilled,
-        (state, action: PayloadAction<TCategory[]>) => {
+        (state, action) => {
           state.categories = action.payload;
           state.loading = false;
           console.log('fulfilled');
@@ -137,7 +137,7 @@ const categoriesSlicer = createSlice({
       .addCase(fetchCategory.pending, handlePending)
       .addCase(
         fetchCategory.fulfilled,
-        (state, action: PayloadAction<TCategory>) => {
+        (state, action) => {
           state.category = action.payload;
           state.loading = false;
           console.log('fulfilled');
@@ -148,8 +148,7 @@ const categoriesSlicer = createSlice({
       .addCase(createNewCategory.pending, handleChangePending)
       .addCase(
         createNewCategory.fulfilled,
-        (state, action: PayloadAction<any, any, any>) => {
-          // state.categories.push(action.payload);
+        (state) => {
           state.saveLoading = false;
           openSuccessNotification('Категория успешно создана');
           console.log('fulfilled');
@@ -158,7 +157,7 @@ const categoriesSlicer = createSlice({
       .addCase(createNewCategory.rejected, handleChangeError)
       //editCategory
       .addCase(editCategory.pending, handleChangePending)
-      .addCase(editCategory.fulfilled, (state, action: { payload: any }) => {
+      .addCase(editCategory.fulfilled, (state, action) => {
         let category = state.categories.find(
           (category) => category.id === action.payload.id,
         );
@@ -173,7 +172,7 @@ const categoriesSlicer = createSlice({
       .addCase(editCategory.rejected, handleChangeError)
       //deleteCategory
       .addCase(deleteCategory.pending, handleChangePending)
-      .addCase(deleteCategory.fulfilled, (state, action: { payload: any }) => {
+      .addCase(deleteCategory.fulfilled, (state, action) => {
         state.categories = state.categories.filter(
           (item) => item.id !== action.payload,
         );

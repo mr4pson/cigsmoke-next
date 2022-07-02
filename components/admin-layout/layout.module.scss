@@ -16,5 +16,9 @@
 
   &__header {
     background: #fff;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 0 15px;
   }
 }

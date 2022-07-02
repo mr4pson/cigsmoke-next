@@ -3,13 +3,15 @@ import {
   AnyAction,
   combineReducers,
   configureStore,
-  ThunkAction,
+  ThunkAction
 } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import authReducer from './slicers/authSlicer';
 import categoriesReducer from './slicers/categoriesSlicer';
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
+  auth: authReducer,
 });
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {

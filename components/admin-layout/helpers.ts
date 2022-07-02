@@ -1,4 +1,7 @@
+import { navigateTo } from "common/helpers";
 import { NextRouter } from "next/router";
+import { signout } from "redux/slicers/authSlicer";
+import { AppDispatch } from "redux/store";
 import { Page, paths } from "routes/constants";
 import { TMenuItem } from "./types";
 
@@ -40,4 +43,9 @@ export const getItem = (
     children,
     label,
   } as TMenuItem;
+}
+
+export const handleLogout = (router: NextRouter, dispatch: AppDispatch) => async () => {
+  await dispatch(signout());
+  navigateTo(router, Page.LOGIN)();
 }
