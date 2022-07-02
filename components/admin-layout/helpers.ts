@@ -1,6 +1,6 @@
 import { NextRouter } from "next/router";
 import { Page, paths } from "routes/constants";
-import { TMenuItem } from "./type";
+import { TMenuItem } from "./types";
 
 export const currentPath = (router: NextRouter) => {
   if (router.pathname === paths[Page.CATEGORIES]) {

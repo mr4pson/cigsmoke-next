@@ -16,7 +16,6 @@ export const handleRedirect = (router, isSaved) => {
 }
 
 export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch) => async (form) => {
-  console.log(form);
   if (router.query.id) {
     const isSaved: any = await dispatch(
       editCategory({
