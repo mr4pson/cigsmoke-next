@@ -151,7 +151,7 @@ const categoriesSlicer = createSlice({
         (state, action: PayloadAction<any, any, any>) => {
           // state.categories.push(action.payload);
           state.saveLoading = false;
-          openSuccessNotification();
+          openSuccessNotification('Категория успешно создана');
           console.log('fulfilled');
         },
       )
@@ -166,7 +166,7 @@ const categoriesSlicer = createSlice({
           ...category,
           ...action.payload,
         };
-        openSuccessNotification();
+        openSuccessNotification('Категория успешно обновлена');
         state.loading = false;
         console.log('fulfilled');
       })
@@ -178,7 +178,7 @@ const categoriesSlicer = createSlice({
           (item) => item.id !== action.payload,
         );
         state.loading = false;
-        openSuccessNotification();
+        openSuccessNotification('Категория успешно удалена');
         console.log('fulfilled');
       })
       .addCase(deleteCategory.rejected, handleError);
