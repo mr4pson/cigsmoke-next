@@ -1,15 +1,16 @@
-export type Category = {
+export type TCategory = {
     id?: string,
     name?: string,
     createdAt?: string,
     updatedAt?: string,
     url?: string,
-    parent?: Category | null,
-    children?: Category[]
+    parent?: TCategory | null,
+    children?: TCategory[],
 }
 
-export type categoryState = {
-    categoriesList: Category[],
+export type TCategoryState = {
+    categories: TCategory[],
+    category: TCategory | null,
     loading: boolean,
     saveLoading: boolean,
 }

@@ -1,140 +1,190 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { axiosInstance } from "common/axios.instance";
-import { Category, categoryState } from 'common/interfaces/types';
+import { axiosInstance } from 'common/axios.instance';
+import { TCategory, TCategoryState } from 'common/interfaces/types';
 import {
-    getErrorMassage,
-    handleChangePending,
-    handlePending,
-    handleError,
-    handleChangeError
-}
-    from "../../common/helpers"
+  getErrorMassage,
+  handleChangePending,
+  handlePending,
+  handleError,
+  handleChangeError,
+} from '../../common/helpers';
 import { PayloadCategory } from 'common/interfaces/payload-category.interface';
+import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 
-export const fetchCategories = createAsyncThunk<Category[], undefined, { rejectValue: string }>(
-    'categoriesList/fetchCategories',
-    async function (_, { rejectWithValue }): Promise<any> {
-        try {
-            const resp = await axiosInstance.get('/api/categories');
-            return resp.data
-        } catch (error: any) {
-            rejectWithValue(getErrorMassage(error.status))
-        }
+export const fetchCategories = createAsyncThunk<
+  TCategory[],
+  undefined,
+  { rejectValue: string }
+>(
+  'categories/fetchCategories',
+  async function (_, { rejectWithValue }): Promise<any> {
+    try {
+      const resp = await axiosInstance.get('/api/categories');
+      return resp.data;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
     }
-)
+  },
+);
+
+export const fetchCategory = createAsyncThunk<
+  TCategory,
+  string,
+  { rejectValue: string }
+>(
+  'categories/fetchCategory',
+  async function (id, { rejectWithValue }): Promise<any> {
+    try {
+      const resp = await axiosInstance.get(`/api/categories/${id}`);
+      return resp.data;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 //проверить правильность исполнения функции после исправления ошибки с созданием категории!
-export const createNewCategory = createAsyncThunk<Category[], PayloadCategory, { rejectValue: string }>(
-    'categoriesList/createNewCategory',
-    async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
-        const respError = "Возникла проблема при создании новой категории. Пожалуйста, проверьте соединение, корректность введенных данных и повторите попытку."
-        try {
-            const resp = await axiosInstance.post('/api/categories/',
-                {
-                    "name": payload.name,
-                    "url": payload.url,
-                    "parentId": payload.parent
-                }
-            );
-            console.log(resp)
-            return resp.data
-        } catch (error: any) {
-            console.log(error)
-            return rejectWithValue(getErrorMassage(error.response.status))
-        }
+export const createNewCategory = createAsyncThunk<
+  TCategory[],
+  PayloadCategory,
+  { rejectValue: string }
+>(
+  'categories/createNewCategory',
+  async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
+    try {
+      const resp = await axiosInstance.post('/api/categories/', {
+        name: payload.name,
+        url: payload.url,
+        parentId: payload.parent,
+      });
+      return resp.data;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
     }
-)
+  },
+);
 //проверить правильность исполнения функции после исправления ошибки с созданием категории!
-export const editCategory = createAsyncThunk<Category[], PayloadCategory, { rejectValue: string }>(
-    'categoriesList/editCategory',
-    async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
-        const respError = "Возникла проблема при редактировании категории. Пожалуйста, проверьте соединение, корректность введенных данных и повторите попытку."
-        try {
-            const resp = await axiosInstance.put(`/api/categories/${payload.id}`,
-                {
-                    "name": payload.name,
-                    "url": payload.url,
-                }
-            );
-            return resp.data
-        } catch (error: any) {
-            return rejectWithValue(getErrorMassage(error.status))
-        }
+export const editCategory = createAsyncThunk<
+  TCategory[],
+  PayloadCategory,
+  { rejectValue: string }
+>(
+  'categories/editCategory',
+  async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
+    try {
+      const resp = await axiosInstance.put(`/api/categories/${payload.id}`, {
+        name: payload.name,
+        url: payload.url,
+        parentId: payload.parent,
+      });
+      console.log(resp);
+      return resp.data;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
     }
-)
+  },
+);
 
-export const deleteCategory = createAsyncThunk<Category[], string, { rejectValue: string }>(
-    'categoriesList/deleteCategory',
-    async function (id, { rejectWithValue }): Promise<any> {
-        const respError = "Возникла проблема при удалении категории. Пожалуйста, проверьте соединение и повторите попытку."
-        try {
-            const resp = await axiosInstance.delete(`/api/categories/${id}`);
-            console.log(resp)
-            if (resp.statusText !== "OK") {
-                return rejectWithValue(respError)
-            }
-            return id
-        } catch (error) {
-            return rejectWithValue(respError)
-        }
+export const deleteCategory = createAsyncThunk<
+  TCategory[],
+  string,
+  { rejectValue: string }
+>(
+  'categories/deleteCategory',
+  async function (id, { rejectWithValue }): Promise<any> {
+    try {
+      const resp = await axiosInstance.delete(`/api/categories/${id}`);
+      console.log(resp);
+      return id;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
     }
-)
+  },
+);
 
-const initialState: categoryState = {
-    categoriesList: [],
-    loading: false,
-    saveLoading: false,
+const initialState: TCategoryState = {
+  categories: [],
+  category: null,
+  loading: false,
+  saveLoading: false,
 };
 
 const categoriesSlicer = createSlice({
-    name: 'categories',
-    initialState,
-    reducers: {
-        clearCategories(state: categoryState) {
-            state.categoriesList = []
-        },
+  name: 'categories',
+  initialState,
+  reducers: {
+    clearCategories(state: TCategoryState) {
+      state.categories = [];
     },
-    extraReducers: (builder) => {
-        builder
-            //fetchCategories
-            .addCase(fetchCategories.pending, handlePending)
-            .addCase(fetchCategories.fulfilled, (state, action: PayloadAction<Category[]>) => {
-                state.categoriesList = action.payload;
-                state.loading = false;
-                console.log('fulfilled')
-            })
-            .addCase(fetchCategories.rejected, handleError)
-            //createNewCategory ПРОВЕРИТЬ НА ПРАВИЛЬНОСТЬ ИСПОЛНЕНИЯ ПОСЛЕ ИСПРАВЛЕНИЯ ОШИБКИ С СОЗДАНИЕМ КАТЕГОРИИ!
-            .addCase(createNewCategory.pending, handleChangePending)
-            .addCase(createNewCategory.fulfilled, (state, action: PayloadAction<any, any, any>) => {
-                // state.categoriesList.push(action.payload);
-                state.saveLoading = false;
-                console.log('fulfilled')
-            })
-            .addCase(createNewCategory.rejected, handleChangeError)
-            //editCategory ПРОВЕРИТЬ НА ПРАВИЛЬНОСТЬ ИСПОЛНЕНИЯ ПОСЛЕ ИСПРАВЛЕНИЯ ОШИБКИ С СОЗДАНИЕМ КАТЕГОРИИ!
-            .addCase(editCategory.pending, handlePending)
-            .addCase(editCategory.fulfilled, (state, action: { payload: any }) => {
-                let category = state.categoriesList.find(category => category.id === action.payload.id);
-                category = {
-                    ...category,
-                    ...action.payload
-                }
-                state.loading = false;
-                console.log('fulfilled')
-            })
-            .addCase(editCategory.rejected, handleError)
-            //deleteCategory
-            .addCase(deleteCategory.pending, handlePending)
-            .addCase(deleteCategory.fulfilled, (state, action: { payload: any }) => {
-                state.categoriesList = state.categoriesList.filter(item => item.id !== action.payload);
-                state.loading = false;
-                console.log('fulfilled')
-            })
-            .addCase(deleteCategory.rejected, handleError)
-    }
-})
+    clearCategory(state: TCategoryState) {
+      state.category = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      //fetchCategories
+      .addCase(fetchCategories.pending, handlePending)
+      .addCase(
+        fetchCategories.fulfilled,
+        (state, action: PayloadAction<TCategory[]>) => {
+          state.categories = action.payload;
+          state.loading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(fetchCategories.rejected, handleError)
+      //fetchCategory
+      .addCase(fetchCategory.pending, handlePending)
+      .addCase(
+        fetchCategory.fulfilled,
+        (state, action: PayloadAction<TCategory>) => {
+          state.category = action.payload;
+          state.loading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(fetchCategory.rejected, handleError)
+      //createCategory
+      .addCase(createNewCategory.pending, handleChangePending)
+      .addCase(
+        createNewCategory.fulfilled,
+        (state, action: PayloadAction<any, any, any>) => {
+          // state.categories.push(action.payload);
+          state.saveLoading = false;
+          openSuccessNotification();
+          console.log('fulfilled');
+        },
+      )
+      .addCase(createNewCategory.rejected, handleChangeError)
+      //editCategory
+      .addCase(editCategory.pending, handlePending)
+      .addCase(editCategory.fulfilled, (state, action: { payload: any }) => {
+        let category = state.categories.find(
+          (category) => category.id === action.payload.id,
+        );
+        category = {
+          ...category,
+          ...action.payload,
+        };
+        openSuccessNotification();
+        state.loading = false;
+        console.log('fulfilled');
+      })
+      .addCase(editCategory.rejected, handleError)
+      //deleteCategory
+      .addCase(deleteCategory.pending, handlePending)
+      .addCase(deleteCategory.fulfilled, (state, action: { payload: any }) => {
+        state.categories = state.categories.filter(
+          (item) => item.id !== action.payload,
+        );
+        state.loading = false;
+        openSuccessNotification();
+        console.log('fulfilled');
+      })
+      .addCase(deleteCategory.rejected, handleError);
+  },
+});
 
-
-export const { clearCategories } = categoriesSlicer.actions;
+export const { clearCategories, clearCategory } = categoriesSlicer.actions;
 
 export default categoriesSlicer.reducer;

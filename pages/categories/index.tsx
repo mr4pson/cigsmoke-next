@@ -10,12 +10,12 @@ import styles from './index.module.scss';
 import { Spin } from 'antd';
 import { Button } from 'antd';
 import { useRouter } from 'next/router';
+import { Page, paths } from 'routes/constants';
 
 const CategoriesPage: NextPage = () => {
   const dispatch = useAppDispatch();
-  const categories = useAppSelector((state) => state.categories.categoriesList);
+  const categories = useAppSelector((state) => state.categories.categories);
   const isLoading = useAppSelector((state) => state.categories.loading);
-
   const history = useRouter();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const CategoriesPage: NextPage = () => {
   }, []);
 
   const handleCreateCategoryClick = () => {
-    history.push(`/categories/create-category/`);
+    history.push(paths[Page.CREATE_CATEGORY]);
   };
 
   return (

@@ -34,14 +34,17 @@ const AdminLayout = ({ children }) => {
   const router = useRouter();
 
   const currentPath = () => {
-    if (router.pathname === '/categories') {
+    if (router.pathname === paths[Page.CATEGORIES]) {
       return 'Категории';
     }
-    if (router.pathname === '/products') {
+    if (router.pathname === paths[Page.PRODCUCTS]) {
       return 'Продукты';
     }
-    if (router.pathname === '/categories/create-category') {
+    if (router.pathname === paths[Page.CREATE_CATEGORY]) {
       return 'Создание новой категории';
+    }
+    if (router.pathname === paths[Page.EDIT_CATEGORY]) {
+      return 'Редактирование категории';
     }
   };
 

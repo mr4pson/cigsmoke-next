@@ -1,8 +1,7 @@
 import { ColumnsType, TableProps } from 'antd/lib/table';
-import { Category } from '../../../common/interfaces/types';
-import ActionButtonsWrapper from '../ActionButtonsWrapper';
+import ActionButtonsWrapper from './ActionButtonsWrapper';
 
-const columns: ColumnsType<Category> = [
+const columns: ColumnsType<any> = [
   {
     title: 'Id',
     dataIndex: 'id',
