@@ -1,7 +1,7 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Select, Spin } from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
-import { TCategory } from 'common/interfaces/types';
+import { Category } from 'common/interfaces/category.interface';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from 'redux/hooks';
 import { Page } from 'routes/constants';
@@ -12,8 +12,8 @@ import { ManageCategoryFields } from './ManageCategoryFields.enum';
 const { Option } = Select;
 
 type Props = {
-  categories: TCategory[];
-  category?: TCategory;
+  categories: Category[];
+  category?: Category;
   title: string;
   isLoading: boolean;
   isSaveLoading: boolean;

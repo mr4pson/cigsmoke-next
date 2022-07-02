@@ -1,13 +1,26 @@
-import { Breadcrumb, Layout, Menu } from 'antd';
+import { Breadcrumb, Button, Layout, Menu } from 'antd';
+import { User } from 'common/interfaces/user.interface';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
 import { items } from './constants';
-import { currentPath, getSelectedKeys, handleSelect } from './helpers';
+import {
+  currentPath,
+  getSelectedKeys,
+  handleLogout,
+  handleSelect,
+} from './helpers';
 import styles from './layout.module.scss';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const AdminLayout = ({ children }) => {
+type Props = {
+  user: User | null;
+  children: any;
+};
+
+const AdminLayout: React.FC<Props> = ({ user, children }) => {
+  const dispatch = useAppDispatch();
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
 
@@ -31,10 +44,16 @@ const AdminLayout = ({ children }) => {
           />
         </Sider>
         <Layout className="site-layout">
-          <Header
-            className={styles['site-layout__header']}
-            style={{ padding: 0 }}
-          />
+          <Header className={styles['site-layout__header']}>
+            {
+              <div>
+                <span>{user?.email}</span>
+                <Button onClick={handleLogout(router, dispatch)} type="link">
+                  Выйти
+                </Button>
+              </div>
+            }
+          </Header>
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Администрирование</Breadcrumb.Item>

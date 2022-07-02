@@ -1,11 +1,11 @@
 import { Table } from 'antd';
 import { columns } from './constants';
 import { handleTableChange } from './helpers';
-import { TCategory } from '../../common/interfaces/types';
 import { DataType } from 'common/interfaces/data-type.interface';
+import { Category } from 'common/interfaces/category.interface';
 
 type Props = {
-  categories: TCategory[];
+  categories: Category[];
 };
 
 const CategoriesTable: React.FC<Props> = ({ categories }) => {

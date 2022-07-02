@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAccessToken } from "./helpers/jwtToken.helpers";
 
 const defaultOptions = {
   baseURL: "/"
@@ -9,7 +10,10 @@ export const axiosInstance = axios.create(defaultOptions);
 
 // Set the AUTH token for any request
 axiosInstance.interceptors.request.use(async function (config) {
-  // const token = await getJwtPair();
-  // config.headers!.Authorization = token ? `Bearer ${token}` : "";
+  if (typeof window !== "undefined") {
+    const token = await getAccessToken();
+    console.log(token, 'TOKEN');
+    config.headers!.Authorization = token ? `Bearer ${token}` : "";
+  }
   return config;
 });
