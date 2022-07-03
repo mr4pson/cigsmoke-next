@@ -19,7 +19,7 @@ export const signin = createAsyncThunk<
   'auth/signin',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const resp = await axiosInstance.post('/api/auth/signin', payload);
+      const resp = await axiosInstance.post('/auth/signin', payload);
 
       if (resp.data.user.role !== Role.Admin) {
         return rejectWithValue(getErrorMassage(HttpStatus.FORBIDDEN));
