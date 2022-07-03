@@ -3,15 +3,16 @@ import { NextPage } from 'next/types';
 import {
   fetchCategories,
   clearCategories,
-} from '../../redux/slicers/categoriesSlicer';
+} from '../../../redux/slicers/categoriesSlicer';
 import { useEffect } from 'react';
-import CategoriesTable from '../../components/categories/CategoriesTable';
+import CategoriesTable from '../../../components/categories/CategoriesTable';
 import styles from './index.module.scss';
 import { Spin } from 'antd';
 import { Button } from 'antd';
 import { useRouter } from 'next/router';
 import { Page } from 'routes/constants';
 import { navigateTo } from 'common/helpers';
+import AdminLayout from 'components/admin-layout/layout';
 
 const CategoriesPage: NextPage = () => {
   const dispatch = useAppDispatch();
@@ -47,5 +48,5 @@ const CategoriesPage: NextPage = () => {
     </>
   );
 };
-
+CategoriesPage.PageLayout = AdminLayout;
 export default CategoriesPage;
