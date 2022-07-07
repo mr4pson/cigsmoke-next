@@ -1,17 +1,17 @@
 export enum Page {
   HOME,
   LOGIN,
-  CATEGORIES,
-  PRODCUCTS,
-  CREATE_CATEGORY,
-  EDIT_CATEGORY,
+  ADMIN_CATEGORIES,
+  ADMIN_PRODCUCTS,
+  ADMIN_CREATE_CATEGORY,
+  ADMIN_EDIT_CATEGORY,
 }
 
 export const paths = {
   [Page.HOME]: "/",
-  [Page.LOGIN]: "/login",
-  [Page.CATEGORIES]: '/categories',
-  [Page.PRODCUCTS]: "/products",
-  [Page.CREATE_CATEGORY]: '/categories/create-category',
-  [Page.EDIT_CATEGORY]: '/categories/[id]',
+  [Page.LOGIN]: "/admin/login",
+  [Page.ADMIN_CATEGORIES]: '/admin/categories',
+  [Page.ADMIN_PRODCUCTS]: "/admin/products",
+  [Page.ADMIN_CREATE_CATEGORY]: '/admin/categories/create-category',
+  [Page.ADMIN_EDIT_CATEGORY]: '/admin/categories/[id]',
 };

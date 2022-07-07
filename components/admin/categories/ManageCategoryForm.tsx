@@ -100,7 +100,7 @@ const ManageCategoryForm = ({
             </Button>
             <Button
               type="primary"
-              onClick={navigateTo(router, Page.CATEGORIES)}
+              onClick={navigateTo(router, Page.ADMIN_CATEGORIES)}
             >
               Вернуться назад
             </Button>

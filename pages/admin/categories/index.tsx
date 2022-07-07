@@ -5,16 +5,16 @@ import {
   clearCategories,
 } from '../../../redux/slicers/categoriesSlicer';
 import { useEffect } from 'react';
-import CategoriesTable from '../../../components/categories/CategoriesTable';
+import CategoriesTable from '../../../components/admin/categories/CategoriesTable';
 import styles from './index.module.scss';
 import { Spin } from 'antd';
 import { Button } from 'antd';
 import { useRouter } from 'next/router';
 import { Page } from 'routes/constants';
 import { navigateTo } from 'common/helpers';
-import AdminLayout from 'components/admin-layout/layout';
+import AdminLayout from 'components/admin/adminLayout/layout';
 
-const CategoriesPage: NextPage = () => {
+const CategoriesPage = () => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.categories.categories);
   const isLoading = useAppSelector((state) => state.categories.loading);
@@ -35,7 +35,7 @@ const CategoriesPage: NextPage = () => {
         <Button
           className={styles.categoriesHeader__createCategoryButton}
           type="primary"
-          onClick={navigateTo(router, Page.CREATE_CATEGORY)}
+          onClick={navigateTo(router, Page.ADMIN_CREATE_CATEGORY)}
         >
           Создать новую категорию
         </Button>
@@ -48,5 +48,7 @@ const CategoriesPage: NextPage = () => {
     </>
   );
 };
+
 CategoriesPage.PageLayout = AdminLayout;
+
 export default CategoriesPage;

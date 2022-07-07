@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
+import { Container, Content, Wrapper } from './common';
 
 const Path = (props) => (
   <motion.path
@@ -36,19 +37,25 @@ const Header = () => {
           animate="middle"
           exit="end"
         >
-          <Wrapper>
+          <LocationBtn
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.grow}
+          >
+            <Image src="/icons/location-btn.svg" width={18} height={24} />
+            <span style={{ whiteSpace: 'nowrap' }}>Выберите ваш город</span>
+          </LocationBtn>
+        </Container>
+        <Wrapper
+          variants={variants.fadInOut}
+          key="header"
+          initial="start"
+          animate="middle"
+          exit="end"
+        >
+          <Container>
             <Content>
               <LogoWrapper>
-                <LocationBtn
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.grow}
-                >
-                  <Image src="/icons/location-btn.svg" width={18} height={24} />
-                  <span style={{ whiteSpace: 'nowrap' }}>
-                    Выберите ваш город
-                  </span>
-                </LocationBtn>
                 <Image src="/icons/cigsmoke-logo.svg" width={150} height={35} />
               </LogoWrapper>
               <CatBtn
@@ -169,7 +176,7 @@ const Header = () => {
                 {/* Search form reasult goese here */}
               </SearchWrapper>
               {/* filter category goese here */}
-              <SignInBtn
+              <NavBtn
                 onClick={() => {
                   toggleSignIn(!isSignIn);
                   setTimeout(() => toggleSignIn(false), 200);
@@ -202,56 +209,29 @@ const Header = () => {
                     />
                   </AnimatePresence>
                 </svg>
-                <span> Войти</span>
-              </SignInBtn>
+                <div> Войти</div>
+              </NavBtn>
               {/* sign in wrapper and form goes here */}
-              <OrdersBtn>
+              <NavBtn>
                 <Image src="/icons/order-icon.svg" width="26" height="26" />
-                <span> Заказы</span>
-              </OrdersBtn>
+                <div> Заказы</div>
+              </NavBtn>
               {/* Mini order form goes here */}
-              <WishListBtn>
+              <NavBtn>
                 <Image src="/icons/wishlist-icon.svg" width="26" height="26" />
-                <span>Избранное</span>
-              </WishListBtn>
-              <CartBtn>
+                <div>Избранное</div>
+              </NavBtn>
+              <NavBtn>
                 <Image src="/icons/cart-icon.svg" width="30" height="28" />
-                <span>Избранное</span>
-              </CartBtn>
+                <div>Корзина</div>
+              </NavBtn>
             </Content>
-          </Wrapper>
-        </Container>
+          </Container>
+        </Wrapper>
       </AnimatePresence>
     </>
   );
 };
-
-const Container = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 10px 0 20px 0;
-  position: sticky;
-  top: 0;
-  z-index: 999999;
-  background-color: ${color.textPrimary};
-`;
-const Wrapper = styled.div`
-  width: 100%;
-  max-width: 90%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-`;
-
-const Content = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  place-items: center;
-`;
 
 const LogoWrapper = styled.div`
   display: flex;
@@ -273,29 +253,34 @@ const LocationBtn = styled(motion.button)`
 
 const CatBtn = styled(motion.button)`
   width: 130px;
-  height: 45px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  height: 43px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   background: ${color.btnPrimary};
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   align-items: center;
   align-self: flex-end;
+  span {
+    margin-left: 15px;
+  }
 `;
 
 const SearchWrapper = styled.form`
   width: 525px;
-  height: 45px;
+  height: 43px;
   position: relative;
   align-self: flex-end;
 `;
 
 const SerachField = styled(motion.input)`
   width: 525px;
-  height: 45px;
+  height: 43px;
   border: 1px solid ${color.btnPrimary};
-  border-radius: 8px;
+  border-radius: 4px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -309,7 +294,7 @@ const FilterSelected = styled(motion.button)`
   top: 7px;
   left: 10px;
   font-size: 14px;
-  border-radius: 8px;
+  border-radius: 4px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -322,7 +307,7 @@ const FilterIcon = styled(motion.button)`
   cursor: pointer;
   position: absolute;
   top: 12px;
-  left: -8px;
+  left: -18px;
 `;
 
 const SearchBtn = styled(motion.button)`
@@ -331,77 +316,31 @@ const SearchBtn = styled(motion.button)`
   top: 0;
   right: 0;
   background: ${color.btnPrimary};
-  width: 80px;
-  height: 45px;
+  width: 65px;
+  height: 43px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 0px 4px 4px 0px;
 `;
 
 const SearchIcon = styled(motion.div)`
-  width: 22;
-  height: 22;
+  width: 22px;
+  height: 22px;
 `;
 
-const SignInBtn = styled(motion.button)`
+const NavBtn = styled(motion.button)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   align-self: flex-end;
-  gap: 5px;
-  span {
-    font-size: 18px;
-    line-height: 1;
-  }
-  &:hover {
-    color: ${color.hover};
-  }
-`;
-
-const OrdersBtn = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: flex-end;
-  gap: 5px;
-  span {
-    font-size: 18px;
-    line-height: 1;
-  }
-  &:hover {
-    color: ${color.hover};
-  }
-`;
-
-const WishListBtn = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: flex-end;
-  gap: 5px;
-  span {
-    font-size: 18px;
-    line-height: 1;
-  }
-  &:hover {
-    color: ${color.hover};
-  }
-`;
-
-const CartBtn = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: flex-end;
-  gap: 5px;
-  span {
-    font-size: 18px;
+  gap: 4px;
+  width: 40px;
+  cursor: pointer;
+  div {
+    font-size: 14px;
     line-height: 1;
   }
   &:hover {
