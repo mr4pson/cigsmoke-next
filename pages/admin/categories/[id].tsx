@@ -6,7 +6,7 @@ import {
   clearCategory,
   fetchCategories,
   fetchCategory,
-} from '../../redux/slicers/categoriesSlicer';
+} from '../../../redux/slicers/categoriesSlicer';
 
 const ManageCategory = () => {
   const title = 'Редактирование категории';

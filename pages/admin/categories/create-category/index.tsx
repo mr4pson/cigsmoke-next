@@ -1,7 +1,7 @@
 import ManageCategoryForm from 'components/categories/ManageCategoryForm';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchCategories } from '../../../redux/slicers/categoriesSlicer';
+import { fetchCategories } from '../../../../redux/slicers/categoriesSlicer';
 
 const ManageCategory = () => {
   const title = 'Создание категории';
