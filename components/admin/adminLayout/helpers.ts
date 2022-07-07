@@ -6,16 +6,16 @@ import { Page, paths } from "routes/constants";
 import { TMenuItem } from "./types";
 
 export const currentPath = (router: NextRouter) => {
-  if (router.pathname === paths[Page.CATEGORIES]) {
+  if (router.pathname === paths[Page.ADMIN_CATEGORIES]) {
     return 'Категории';
   }
-  if (router.pathname === paths[Page.PRODCUCTS]) {
+  if (router.pathname === paths[Page.ADMIN_PRODCUCTS]) {
     return 'Продукты';
   }
-  if (router.pathname === paths[Page.CREATE_CATEGORY]) {
+  if (router.pathname === paths[Page.ADMIN_CREATE_CATEGORY]) {
     return 'Создание новой категории';
   }
-  if (router.pathname === paths[Page.EDIT_CATEGORY]) {
+  if (router.pathname === paths[Page.ADMIN_EDIT_CATEGORY]) {
     return 'Редактирование категории';
   }
 };

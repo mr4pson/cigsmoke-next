@@ -21,7 +21,7 @@ export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch) => a
     );
 
     if (!isSaved.error) {
-      navigateTo(router, Page.CATEGORIES)();
+      navigateTo(router, Page.ADMIN_CATEGORIES)();
     }
 
     return;
@@ -30,7 +30,7 @@ export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch) => a
   const isSaved: any = await dispatch(createCategory(form));
 
   if (!isSaved.error) {
-    navigateTo(router, Page.CATEGORIES)();
+    navigateTo(router, Page.ADMIN_CATEGORIES)();
   }
 };
 
@@ -43,5 +43,5 @@ export const handleDeleteClick = (id: string, dispatch: AppDispatch, setVisible:
 };
 
 export const handleRedirectEdit = (id: string, router: NextRouter) => () => {
-  router.push(`${paths[Page.CATEGORIES]}/${id}`);
+  router.push(`${paths[Page.ADMIN_CATEGORIES]}/${id}`);
 };

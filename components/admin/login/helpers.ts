@@ -8,6 +8,6 @@ export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch) => a
   const res: any = await dispatch(signin(form));
 
   if (!res.error) {
-    navigateTo(router, Page.CATEGORIES)();
+    navigateTo(router, Page.ADMIN_CATEGORIES)();
   }
 };

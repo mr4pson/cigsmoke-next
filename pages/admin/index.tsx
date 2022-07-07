@@ -1,15 +1,12 @@
 import Head from 'next/head';
-import AdminLayout from 'components/admin-layout/layout';
+import AdminLayout from 'components/admin/adminLayout/layout';
 
 const IndexPage = (): JSX.Element => {
   return (
     <>
       <Head>
         <title>cigsmoke | Admin</title>
-        <meta
-          name="description"
-          content="Test description"
-        />
+        <meta name="description" content="Test description" />
       </Head>
       Main page
     </>

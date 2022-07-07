@@ -1,4 +1,5 @@
-import ManageCategoryForm from 'components/categories/ManageCategoryForm';
+import AdminLayout from 'components/admin/adminLayout/layout';
+import ManageCategoryForm from 'components/admin/categories/ManageCategoryForm';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -8,7 +9,7 @@ import {
   fetchCategory,
 } from '../../../redux/slicers/categoriesSlicer';
 
-const ManageCategory = () => {
+const EditCategory = () => {
   const title = 'Редактирование категории';
   const router = useRouter();
   const categories = useAppSelector((state) => state.categories.categories);
@@ -47,4 +48,6 @@ const ManageCategory = () => {
   );
 };
 
-export default ManageCategory;
+EditCategory.PageLayout = AdminLayout;
+
+export default EditCategory;
