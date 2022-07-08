@@ -8,10 +8,20 @@ import {
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import authReducer from './slicers/authSlicer';
 import categoriesReducer from './slicers/categoriesSlicer';
+import colorsReducer from './slicers/colorsSlicer'
+import brandsReducer from "./slicers/brandsSlicer"
+import parametersReducer from "./slicers/parametersSlicer"
+import productsReducer from './slicers/productsSlicer';
+import imagesReducer from './slicers/imagesSlicer';
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
   auth: authReducer,
+  colors: colorsReducer,
+  brands: brandsReducer,
+  parameters: parametersReducer,
+  products: productsReducer,
+  images: imagesReducer
 });
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {

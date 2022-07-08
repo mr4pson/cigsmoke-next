@@ -1,7 +1,8 @@
-import { ColumnsType, TableProps } from 'antd/lib/table';
+import { ColumnsType } from 'antd/lib/table';
+import { Category } from 'swagger/services';
 import ActionButtonsWrapper from './ActionButtonsWrapper';
 
-const columns: ColumnsType<any> = [
+const columns: ColumnsType<Category> = [
   {
     title: 'Id',
     dataIndex: 'id',

@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { NextPage } from 'next/types';
 import {
   fetchCategories,
   clearCategories,
@@ -12,6 +11,7 @@ import { Button } from 'antd';
 import { useRouter } from 'next/router';
 import { Page } from 'routes/constants';
 import { navigateTo } from 'common/helpers';
+import { NextPage } from 'next';
 
 const CategoriesPage: NextPage = () => {
   const dispatch = useAppDispatch();

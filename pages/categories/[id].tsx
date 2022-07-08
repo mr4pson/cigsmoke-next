@@ -33,6 +33,8 @@ const ManageCategory = () => {
     if (router.query.id) {
       dispatch(fetchCategory(router.query.id as string));
     }
+
+    
   }, [dispatch, router.query]);
 
   return (
