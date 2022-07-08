@@ -1,16 +1,13 @@
-import { navigateTo } from 'common/helpers';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { Page } from 'routes/constants';
+import { Container } from 'components/store/storeLayout/common';
+import StoreLayout from 'components/store/storeLayout/layouts';
 
 const IndexPage = (): JSX.Element => {
-  const router = useRouter();
-
-  useEffect(() => {
-    navigateTo(router, Page.LOGIN)();
-  }, []);
-
-  return <></>;
+  return (
+    <Container>
+      <div>Home page</div>
+    </Container>
+  );
 };
 
+IndexPage.PageLayout = StoreLayout;
 export default IndexPage;

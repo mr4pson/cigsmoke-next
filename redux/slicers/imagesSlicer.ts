@@ -35,7 +35,7 @@ export const createImage = createAsyncThunk<
   'images/createImage',
   async function (payload: any, { rejectWithValue }): Promise<any> {
     try {
-      return await ImageService.createImage({ body: {...payload} });
+      return await ImageService.createImage({ payload });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
