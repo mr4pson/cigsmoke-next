@@ -4,20 +4,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
-import { Container, Content, Wrapper } from './common';
 
 const Footer = (): JSX.Element => {
   return (
     <AnimatePresence>
-      <Wrapper
+      <Container
         variants={variants.fadInOut}
         key="header"
         initial="start"
         animate="middle"
         exit="end"
-        style={{ backgroundColor: '#f5f1f1;' }}
       >
-        <Container>
+        <Wrapper>
           <Content>
             <Grid>
               <Sections_wrapper>
@@ -157,11 +155,37 @@ const Footer = (): JSX.Element => {
               </Sections_wrapper>
             </Grid>
           </Content>
-        </Container>
-      </Wrapper>
+        </Wrapper>
+      </Container>
     </AnimatePresence>
   );
 };
+
+const Container = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 20px 0;
+  background-color: #f5f1f1;
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  max-width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+`;
+
+const Content = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  place-items: space-between;
+  gap: 25px;
+`;
 
 const Grid = styled.div`
   width: 100%;
