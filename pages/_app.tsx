@@ -9,6 +9,7 @@ import { setUser } from 'redux/slicers/authSlicer';
 import { Page } from 'routes/constants';
 import 'styles.css';
 import { wrapper } from '../redux/store';
+import type {} from 'styled-components/cssprop';
 
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {

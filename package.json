@@ -12,7 +12,6 @@
     "@brainhubeu/react-carousel": "^2.0.4",
     "@reduxjs/toolkit": "^1.8.2",
     "@svgr/webpack": "^6.2.1",
-    "@types/styled-components": "^5.1.25",
     "antd": "^4.21.3",
     "axios": "^0.27.2",
     "babel-plugin-inline-react-svg": "^2.0.1",
@@ -30,6 +29,7 @@
     "react": "^18.2.0",
     "react-awesome-reveal": "^3.8.1",
     "react-countdown": "^2.3.2",
+    "react-custom-checkbox": "^2.0.2",
     "react-dom": "^18.2.0",
     "react-indiana-drag-scroll": "^2.2.0",
     "react-modal": "^3.15.1",
@@ -44,8 +44,12 @@
   "devDependencies": {
     "@types/brainhubeu__react-carousel": "^2.0.5",
     "@types/classnames": "^2.3.1",
+    "@types/styled-components": "^5.1.25",
     "eslint-config-prettier": "^8.5.0",
     "import-sort-style-module": "^6.0.0",
     "prettier": "^2.7.1"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }

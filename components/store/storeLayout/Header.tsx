@@ -32,7 +32,7 @@ const Header = () => {
       <AnimatePresence>
         <Container
           variants={variants.fadInOut}
-          key="header"
+          key="container1"
           initial="start"
           animate="middle"
           exit="end"
@@ -48,10 +48,11 @@ const Header = () => {
         </Container>
         <Wrapper
           variants={variants.fadInOut}
-          key="header"
+          key="header-Wrapper"
           initial="start"
           animate="middle"
           exit="end"
+          style={{ paddingBottom: '28px' }}
         >
           <Container>
             <Content>
@@ -339,6 +340,8 @@ const NavBtn = styled(motion.button)`
   gap: 4px;
   width: 40px;
   cursor: pointer;
+  transition: all 0.2s;
+
   div {
     font-size: 14px;
     line-height: 1;

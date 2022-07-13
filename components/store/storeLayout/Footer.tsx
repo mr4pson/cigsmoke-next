@@ -15,7 +15,7 @@ const Footer = (): JSX.Element => {
         initial="start"
         animate="middle"
         exit="end"
-        style={{ backgroundColor: '#f5f1f1;' }}
+        style={{ backgroundColor: '#f5f1f1', padding: '85px 0' }}
       >
         <Container>
           <Content>
