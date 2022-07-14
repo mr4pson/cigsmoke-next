@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+}
+
+@font-face {
+  font-family: 'Intro';
+  src: url('/fonts/IntroDemo-BlackCAPS.ttf');
+}
 html {
   scroll-behavior: smooth;
 }
@@ -7,6 +16,7 @@ html {
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  font-family: 'Roboto';
 }
 
 body {
@@ -36,6 +46,26 @@ button {
   border: none;
   background: transparent;
 }
+
+/* custom scroll bar */
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(60, 60, 60);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #000;
+}
+
 
 .container {
   width: 100%;
