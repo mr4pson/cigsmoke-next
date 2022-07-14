@@ -1,4 +1,4 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, BgColorsOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Select, Spin } from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
@@ -9,6 +9,7 @@ import styles from './colors.module.scss';
 import { handleFormSubmitColors } from './helpers';
 import { ManageColorFields } from './ManageColorFields.enum';
 import { Colorpicker, ColorPickerValue } from 'antd-colorpicker';
+import { useEffect, useState } from 'react';
 
 const { Option } = Select;
 
@@ -36,6 +37,21 @@ const ManageColorForm = ({
     name: color?.name,
     url: color?.url,
     code: color?.code,
+  };
+
+  const [openCP, setOpenCP] = useState(false);
+  const [currColor, setCurrColor] = useState<string>();
+
+  useEffect(() => {
+    setCurrColor(initialValues.code);
+  }, [color]);
+
+  const handleOpenCP = () => {
+    setOpenCP(!openCP);
+  };
+
+  const handleChangeColor = (e) => {
+    setCurrColor(e.hex);
   };
 
   return (
@@ -70,15 +86,16 @@ const ManageColorForm = ({
           >
             <Input placeholder="Введите URL" />
           </Form.Item>
-          <Form.Item
-            name={ManageColorFields.Code}
-            label="Выберите цвет"
-            tooltip={{
-              title: 'Выберите цвет',
-              icon: <InfoCircleOutlined />,
-            }}
+          <Button
+            type="default"
+            icon={<BgColorsOutlined />}
+            className={styles.createColorForm__openColorButton}
+            onClick={handleOpenCP}
           >
-            <Colorpicker />
+            {currColor || 'Выбрать цвет'}
+          </Button>
+          <Form.Item name={ManageColorFields.Code}>
+            {openCP && <Colorpicker onChange={handleChangeColor} />}
           </Form.Item>
           <Form.Item className={styles.createColorForm__buttonsStack}>
             <Button

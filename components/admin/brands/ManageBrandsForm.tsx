@@ -2,12 +2,15 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Select, Spin } from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
-import { useAppDispatch } from 'redux/hooks';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setDefaultImageList } from 'redux/slicers/imagesSlicer';
 import { Page } from 'routes/constants';
 import { Brand } from 'swagger/services';
+
 import styles from './brands.module.scss';
 import { handleFormSubmitBrands } from './helpers';
-import ImageUpload from './ImageUpload';
+import ImageUpload from '../generalComponents/ImageUpload';
 import { ManageBrandFields } from './ManageBrandsFields.enum';
 
 const { Option } = Select;
@@ -37,6 +40,19 @@ const ManageBrandForm = ({
     image: brand?.image,
   };
 
+  const imageList = useAppSelector((state) => state.images.imageList);
+
+  useEffect(() => {
+    if (brand?.image) {
+      dispatch(
+        setDefaultImageList({
+          name: brand.image,
+          url: `/api/images/${brand?.image}`,
+        }),
+      );
+    }
+  }, [brand]);
+
   return (
     <>
       <div className={styles.createBrandHeader}>
@@ -47,7 +63,7 @@ const ManageBrandForm = ({
       ) : (
         <Form
           layout="vertical"
-          onFinish={handleFormSubmitBrands(router, dispatch)}
+          onFinish={handleFormSubmitBrands(router, dispatch, imageList)}
           form={form}
           initialValues={initialValues}
           requiredMark={true}
@@ -70,7 +86,7 @@ const ManageBrandForm = ({
               icon: <InfoCircleOutlined />,
             }}
           >
-            <ImageUpload />
+            <ImageUpload fileList={imageList} />
           </Form.Item>
           <Form.Item className={styles.createBrandForm__buttonsStack}>
             <Button

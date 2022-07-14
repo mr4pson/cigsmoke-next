@@ -10,6 +10,8 @@ import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.
 import { TBrandState } from 'redux/types';
 import { Brand, BrandService } from 'swagger/services';
 import { PayloadBrand } from 'common/interfaces/payload-brand.interface';
+import { useAppDispatch } from 'redux/hooks';
+import { setDefaultImageList } from './imagesSlicer';
 
 export const fetchBrands = createAsyncThunk<
   Brand[],

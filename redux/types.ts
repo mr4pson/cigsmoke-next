@@ -1,4 +1,4 @@
-import { Brand, Category, Color, Image, Parameter, Product, User } from "swagger/services";
+import { Brand, Category, Color, Image, Parameter, Product, Tag, User } from "swagger/services";
 
 export type TCategoryState = {
   categories: Category[],
@@ -41,7 +41,18 @@ export type TProductState = {
 }
 
 export type TImageState = {
-  image: Image | null,
+  imageList: Image[],
+  loading: boolean,
+}
+
+export interface PayloadCreateImage {
+  config: {},
+  file: any
+}
+
+export interface TTagState {
+  tags: Tag[],
+  tag: Tag | null,
   loading: boolean,
   saveLoading: boolean,
 }

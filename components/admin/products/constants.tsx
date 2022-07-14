@@ -1,7 +1,6 @@
 import { ColumnsType } from 'antd/lib/table';
 import ActionButtonsWrapper from './ActionButtonsWrapper';
-import { Product } from 'swagger/services';
-
+import { Color, Product, Tag } from 'swagger/services';
 
 export const columns: ColumnsType<Product> = [
   {
@@ -19,7 +18,7 @@ export const columns: ColumnsType<Product> = [
     title: 'Цена',
     dataIndex: 'price',
     sorter: {
-      compare: (a, b) => a.price - b.price,
+      compare: (a, b) => (a.price as number) - (b.price as number),
     },
   },
   {
@@ -29,13 +28,24 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Доступно',
     dataIndex: 'available',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
+    render: (_, record) => {
+      return <div>{record.available?.toString()}</div>;
     },
   },
   {
     title: 'Цвета',
     dataIndex: 'colors',
+    render: (_, record) => {
+      return (
+        <ul>
+          {(record?.colors as Color[]).map((color) => (
+            <li key={color.id}>
+              Имя: {color.name}, id: {color.code}
+            </li>
+          ))}
+        </ul>
+      );
+    },
   },
   {
     title: 'Категория',
@@ -47,20 +57,45 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Изображения',
     dataIndex: 'images',
+    render: (_, record?) => {
+      if (record?.images) {
+        return (
+          <ul>
+            {record?.images.map((image) => (
+              <li key={image}>{image}</li>
+            ))}
+          </ul>
+        );
+      }
+    },
   },
-    {
+  {
     title: 'Бренд',
     dataIndex: 'brand',
-    sorter: {
-      compare: (a, b) => a.brand!.localeCompare(b.brand!),
+  },
+  {
+    title: 'URL',
+    dataIndex: 'url',
+  },
+  {
+    title: 'Теги',
+    dataIndex: 'tags',
+    render: (_, record) => {
+      return (
+        <ul>
+          {(record?.tags as Tag[]).map((tag) => (
+            <li key={tag.id}>
+              Имя: {tag.name}, id: {tag.id}
+            </li>
+          ))}
+        </ul>
+      );
     },
   },
   {
     title: 'Действия',
     render: (_, record) => {
-      const chosenstate = 'categories'
-
-      return <ActionButtonsWrapper id={record.id} />
+      return <ActionButtonsWrapper id={record.id as string} />;
     },
   },
 ];

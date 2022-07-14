@@ -9,7 +9,7 @@ export const currentPath = (router: NextRouter) => {
   if (router.pathname === paths[Page.ADMIN_CATEGORIES]) {
     return 'Категории';
   }
-  if (router.pathname === paths[Page.ADMIN_PRODCUCTS]) {
+  if (router.pathname === paths[Page.ADMIN_PRODUCTS]) {
     return 'Продукты';
   }
   if (router.pathname === paths[Page.ADMIN_CREATE_CATEGORY]) {

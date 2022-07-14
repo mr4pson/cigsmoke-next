@@ -34,7 +34,6 @@ export const handleFormSubmitColors = (router: NextRouter, dispatch: AppDispatch
 
     return;
   }
-
   const isSaved: any = await dispatch(createColor(form));
 
   if (!isSaved.error) {

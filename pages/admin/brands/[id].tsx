@@ -3,11 +3,11 @@ import ManageBrandForm from 'components/admin/brands/ManageBrandsForm';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { clearImageList } from 'redux/slicers/imagesSlicer';
+
 import {
-  clearBrands,
-  fetchBrands,
-  fetchChosenBrand,
   clearChosenBrand,
+  fetchChosenBrand,
 } from '../../../redux/slicers/brandsSlicer';
 
 const ManageBrand = () => {
@@ -24,20 +24,15 @@ const ManageBrand = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchBrands());
-
-    return () => {
-      dispatch(clearBrands());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (router.query.id) {
-      dispatch(fetchChosenBrand(router.query.id as string));
-    }
+    (async () => {
+      if (router.query.id) {
+        await dispatch(fetchChosenBrand(router.query.id as string));
+      }
+    })();
 
     return () => {
       dispatch(clearChosenBrand());
+      dispatch(clearImageList());
     };
   }, [dispatch, router.query]);
 

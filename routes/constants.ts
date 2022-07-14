@@ -13,7 +13,7 @@ export enum Page {
   ADMIN_CREATE_PRODUCT,
   ADMIN_EDIT_PRODUCT,
   ADMIN_CATEGORIES,
-  ADMIN_PRODCUCTS,
+  ADMIN_PRODUCTS,
   ADMIN_CREATE_CATEGORY,
   ADMIN_EDIT_CATEGORY,
 }
@@ -33,7 +33,7 @@ export const paths = {
   [Page.ADMIN_PARAMETERS]: '/admin/parameters',
   [Page.ADMIN_CREATE_PARAMETER]: '/admin/parameters/create-parameter',
   [Page.ADMIN_EDIT_PARAMETER]: '/admin/parameters/[id]',
-  [Page.ADMIN_PRODCUCTS]: '/admin/products',
+  [Page.ADMIN_PRODUCTS]: '/admin/products',
   [Page.ADMIN_CREATE_PRODUCT]: '/admin/products/create-product',
   [Page.ADMIN_EDIT_PRODUCT]: '/admin/products/[id]',
 };

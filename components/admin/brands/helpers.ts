@@ -19,11 +19,12 @@ export const handleDeleteBrand = (id: string, dispatch: AppDispatch, setVisible:
   }
 };
 
-export const handleFormSubmitBrands = (router: NextRouter, dispatch: AppDispatch, ) => async (form) => {
+export const handleFormSubmitBrands = (router: NextRouter, dispatch: AppDispatch, image: any) => async (form) => {
   if (router.query.id) {
     const isSaved: any = await dispatch(
       editBrand({
         ...form,
+        image: image[0].url.split("/api/images/")[1],
         id: router.query.id,
       }),
     );
@@ -35,7 +36,9 @@ export const handleFormSubmitBrands = (router: NextRouter, dispatch: AppDispatch
     return;
   }
 
-  const isSaved: any = await dispatch(createBrand(form));
+  const imageUrl = image[0].url.split("/api/images/")[1]
+
+  const isSaved: any = await dispatch(createBrand({...form, image: imageUrl}));
 
   if (!isSaved.error) {
     navigateTo(router, Page.ADMIN_BRANDS)();

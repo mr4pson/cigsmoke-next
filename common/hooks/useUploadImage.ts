@@ -1,38 +1,50 @@
-import { FormInstance } from "antd";
-import axios from "axios";
-import { useState } from "react";
+import { useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { createImage, removeImageFromList, setDefaultImageList } from 'redux/slicers/imagesSlicer';
 
-export function useUploadFile(
-  formRef: React.RefObject<FormInstance<any>>,
-  fieldName: string = 'uploadFile',
-): any {
-  const [mediaFile, setMediaFile] = useState<string>();
-  const path = '/attachments/addAttachments';
+export function useUploadImage():
+ any {
 
-  async function uploadFiles(files: FileList) {
-    const formData = new FormData();
-    formData.append("files", files[0]);
-    return await axios.post(path, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
+  const [progress, setProgress] = useState(0);
+
+  const dispatch = useAppDispatch()
+
+  async function uploadImage(options) {
+    const { onSuccess, onError, file, onProgress } = options;
+    
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+      onUploadProgress: event => {
+        const percent = Math.floor((event.loaded / event.total) * 100);
+        setProgress(percent);
+        if (percent === 100) {
+          setTimeout(() => setProgress(0), 1000);
+        }
+        onProgress({ percent: (event.loaded / event.total) * 100 });
       }
-    });
+    };
+
+    try {
+      await dispatch(setDefaultImageList(file))
+      await dispatch(createImage({
+        config,
+        file
+      }))
+      onSuccess("Ok");
+    } catch(error: any) {
+      onError({ error });
+    }
+
   }
 
-  async function uploadMediaFile(event): Promise<string> {
-    const uploadFileResponse = await uploadFiles(event.currentTarget.files as FileList);
-
-    formRef.current?.setFieldsValue({
-      [fieldName]: uploadFileResponse.data[0].fileName,
-    });
-
-    setMediaFile(uploadFileResponse.data[0].fileName);
-    return uploadFileResponse.data[0].fileName;
+  const handleRemoveImage = (options) => {
+    console.log(options)
+    dispatch(removeImageFromList(options.name))
   }
 
   return {
-    uploadMediaFile,
-    mediaFile,
-    uploadFiles,
+    uploadImage,
+    progress,
+    handleRemoveImage
   }
 }

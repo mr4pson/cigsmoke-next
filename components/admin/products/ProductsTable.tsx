@@ -4,6 +4,7 @@ import { columns } from './constants';
 import { DataType } from 'common/interfaces/data-type.interface';
 import { Product } from 'swagger/services';
 import { handleTableChange } from './helpers';
+import { ColumnsType } from 'antd/lib/table';
 
 type Props = {
   products: Product[];
@@ -11,19 +12,7 @@ type Props = {
 
 const ProductsTable: React.FC<Props> = ({ products }) => {
   const dataSource = products?.map(
-    ({ 
-      id, 
-      name, 
-      price,
-      desc,
-      available,
-      colors,
-      category,
-      images,
-      brand,
-      url, 
-      ...rest }) => ({
-      key: id,
+    ({
       id,
       name,
       price,
@@ -33,6 +22,21 @@ const ProductsTable: React.FC<Props> = ({ products }) => {
       category,
       images,
       brand,
+      tags,
+      url,
+      ...rest
+    }) => ({
+      key: id,
+      id,
+      name,
+      price,
+      desc,
+      available,
+      colors,
+      category: `id: ${category?.id}, имя: ${category?.name}`,
+      images: (images as string)?.split(','),
+      brand: `id: ${brand?.id}, имя: ${brand?.name}`,
+      tags,
       url,
     }),
   ) as unknown as DataType[];
@@ -40,7 +44,7 @@ const ProductsTable: React.FC<Props> = ({ products }) => {
   return (
     <>
       <Table
-        columns={columns}
+        columns={columns as ColumnsType<DataType>}
         dataSource={dataSource}
         onChange={handleTableChange}
       />
