@@ -16,6 +16,9 @@ export enum Page {
   ADMIN_PRODUCTS,
   ADMIN_CREATE_CATEGORY,
   ADMIN_EDIT_CATEGORY,
+  ADMIN_TAGS,
+  ADMIN_CREATE_TAG,
+  ADMIN_EDIT_TAG,
 }
 
 export const paths = {
@@ -36,4 +39,7 @@ export const paths = {
   [Page.ADMIN_PRODUCTS]: '/admin/products',
   [Page.ADMIN_CREATE_PRODUCT]: '/admin/products/create-product',
   [Page.ADMIN_EDIT_PRODUCT]: '/admin/products/[id]',
+  [Page.ADMIN_TAGS]: '/admin/tags',
+  [Page.ADMIN_CREATE_TAG]: '/admin/tags/create-tag',
+  [Page.ADMIN_EDIT_TAG]: '/admin/tag/[id]',
 };
