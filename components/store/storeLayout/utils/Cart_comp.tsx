@@ -46,7 +46,7 @@ const Item_counter = () => {
         >
           -
         </motion.button>
-        <input value={item_counter} type="number" min={1} />
+        <input value={item_counter} type="number" min={1} onChange={() => {}} />
         <motion.button
           whileHover="hover"
           whileTap="tap"
@@ -129,7 +129,7 @@ const Cart_comp = () => {
             <PopUp_content>
               {data.map((item: any, index: any) => {
                 return (
-                  <Link href="">
+                  <Link key={index} href="/">
                     <a key={index}>
                       <Item>
                         <motion.img
@@ -167,7 +167,7 @@ const Cart_comp = () => {
               })}
             </PopUp_content>
             <Popup_btns_divider>
-              <Link href="">
+              <Link href="/">
                 <a>
                   <Action_btns
                     whileHover="hover"
@@ -178,7 +178,7 @@ const Cart_comp = () => {
                   </Action_btns>
                 </a>
               </Link>
-              <Link href="">
+              <Link href="/">
                 <a>
                   <Action_btns
                     whileHover="hover"
@@ -227,6 +227,7 @@ const PopUp_wrapper = styled(motion.div)`
   background-color: ${color.textPrimary};
   box-shadow: 0px 2px 10px ${color.box_shadow_btn};
   overflow: hidden;
+  z-index: 1000;
 `;
 
 const Popup_divider = styled.div`

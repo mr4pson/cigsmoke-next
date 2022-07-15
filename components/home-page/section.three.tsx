@@ -12,6 +12,7 @@ import Arrow_right from '../../assets/arrow_right.svg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Wrapper, Content } from './common';
+import { Container } from 'components/store/storeLayout/common';
 
 interface props {
   rotate?: string;
@@ -346,14 +347,19 @@ const ProductGrid = () => {
 const Section = () => {
   return (
     <AnimatePresence>
-      <Container
-        variants={variants.fadInOut}
-        key="section_one"
-        initial="start"
-        animate="middle"
-        exit="end"
+      <Wrapper
+        style={{
+          backgroundColor: color.bg_secondary,
+        }}
       >
-        <Wrapper>
+        <Container
+          style={{ padding: 0 }}
+          variants={variants.fadInOut}
+          key="section_one"
+          initial="start"
+          animate="middle"
+          exit="end"
+        >
           <Content>
             <AnimatePresence>
               <Header
@@ -402,20 +408,11 @@ const Section = () => {
               </Footer>
             </Content_inner>
           </Content>
-        </Wrapper>
-      </Container>
+        </Container>
+      </Wrapper>
     </AnimatePresence>
   );
 };
-
-const Container = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 50px 0 0 0;
-  background-color: ${color.bg_secondary};
-`;
 
 const Content_inner = styled.div`
   width: 100%;
@@ -476,7 +473,7 @@ const Grid = styled.ul`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  padding: 50px 30px;
+  padding: 50px 20px;
 `;
 
 const Item_container = styled(motion.li)`
