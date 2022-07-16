@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Btns } from './common';
+import { Btns, Container, Content, Wrapper } from './common';
 import Auth_comp from './utils/Auth_comp';
 import Cart_comp from './utils/Cart_comp';
 import Filter_comp from './utils/Filter_comp';
@@ -74,7 +74,28 @@ const Header = () => {
       <AnimatePresence>
         <Container
           variants={variants.fadInOut}
-          key="header"
+          key="container1"
+          initial="start"
+          animate="middle"
+          exit="end"
+        >
+          <LocationBtn
+            whileHover="hover"
+            whileTap="tap"
+            custom={1.05}
+            variants={variants.grow}
+          >
+            <span>
+              <Pointer />
+            </span>
+            <span style={{ whiteSpace: 'nowrap', fontSize: '0.8rem' }}>
+              Выберите ваш город
+            </span>
+          </LocationBtn>
+        </Container>
+        <Container
+          variants={variants.fadInOut}
+          key="header-Wrapper"
           initial="start"
           animate="middle"
           exit="end"
@@ -88,19 +109,6 @@ const Header = () => {
           <Wrapper>
             <Content>
               <LogoWrapper>
-                <LocationBtn
-                  whileHover="hover"
-                  whileTap="tap"
-                  custom={1.05}
-                  variants={variants.grow}
-                >
-                  <span>
-                    <Pointer />
-                  </span>
-                  <span style={{ whiteSpace: 'nowrap', fontSize: '0.8rem' }}>
-                    Выберите ваш город
-                  </span>
-                </LocationBtn>
                 <Link href="/">
                   <a>
                     <Logo />
@@ -113,7 +121,7 @@ const Header = () => {
                 display={display_categories}
                 setDisplay={set_display_categories}
               />
-              <Relitive_container>
+              <SearchWrapper>
                 <Filter_btn
                   selected={selected_filter}
                   set_selected={set_selected_filter}
@@ -121,10 +129,9 @@ const Header = () => {
                   isOpen={open_filter}
                   display={display_filter}
                   setDisplay={set_display_filter}
+                  type=""
                 />
-              </Relitive_container>
-              <SearchWrapper>
-                <SerachField
+                <SearchField
                   whileHover="hover"
                   whileTap="tap"
                   variants={variants.boxShadow}
@@ -136,28 +143,30 @@ const Header = () => {
                     <Search />
                   </span>
                 </SearchBtn>
-                <Relitive_container>
+                <Relitive_container style={{ position: 'absolute' }}>
                   <Search_comp result={result} />
                 </Relitive_container>
               </SearchWrapper>
-              <Relitive_container id="auth-container">
-                {isSignedIn ? 'profile component' : <Auth_comp />}
-              </Relitive_container>
-              <Btns>
-                <span>
-                  <Order />
-                </span>
-                <span> Заказы</span>
-              </Btns>
-              <Btns>
-                <span>
-                  <WishList />
-                </span>
-                <span>Избранное</span>
-              </Btns>
-              <Relitive_container>
-                <Cart_comp />
-              </Relitive_container>
+              <NavButtons>
+                <Relitive_container id="auth-container">
+                  {isSignedIn ? 'profile component' : <Auth_comp />}
+                </Relitive_container>
+                <Btns style={{ width: '45px' }}>
+                  <span>
+                    <Order />
+                  </span>
+                  <span> Заказы</span>
+                </Btns>
+                <Btns style={{ width: '45px' }}>
+                  <span>
+                    <WishList />
+                  </span>
+                  <span>Избранное</span>
+                </Btns>
+                <Relitive_container>
+                  <Cart_comp />
+                </Relitive_container>
+              </NavButtons>
             </Content>
           </Wrapper>
           <Filter_comp
@@ -172,34 +181,6 @@ const Header = () => {
     </>
   );
 };
-
-const Container = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0 20px 0;
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background-color: ${color.textPrimary};
-`;
-const Wrapper = styled.div`
-  width: 100%;
-  max-width: 90%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-`;
-
-const Content = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  place-items: center;
-`;
 
 const LogoWrapper = styled.div`
   display: flex;
@@ -221,16 +202,17 @@ const LocationBtn = styled(motion.button)`
 
 const SearchWrapper = styled.form`
   width: 525px;
+  width: calc(100% - 680px);
   height: 45px;
   position: relative;
-  align-self: flex-end;
+  display: flex;
 `;
 
-const SerachField = styled(motion.input)`
-  width: 525px;
+const SearchField = styled(motion.input)`
+  width: 100%;
   height: 45px;
   border: 1px solid ${color.btnPrimary};
-  border-radius: 8px;
+  border-radius: 8px 0 0 8px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -239,11 +221,8 @@ const SerachField = styled(motion.input)`
 
 const SearchBtn = styled(motion.button)`
   cursor: pointer;
-  position: absolute;
-  top: 0;
-  right: 0;
   background: ${color.btnPrimary};
-  width: 80px;
+  width: 65px;
   height: 45px;
   display: flex;
   flex-direction: row;
@@ -251,10 +230,18 @@ const SearchBtn = styled(motion.button)`
   align-items: center;
   border-radius: 0px 10px 10px 0px;
   span {
-    width: 22;
-    height: 22;
+    width: 22px;
+    height: 22px;
   }
 `;
+
+const NavButtons = styled.div`
+  display: flex;
+  width: 289px;
+  justify-content: space-between;
+`;
+
+const Image = styled.img``;
 
 const Relitive_container = styled.div`
   display: flex;
@@ -262,6 +249,18 @@ const Relitive_container = styled.div`
   justify-content: center;
   align-items: center;
   align-self: flex-end;
+  gap: 4px;
+  width: 45px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  div {
+    font-size: 14px;
+    line-height: 1;
+  }
+  &:hover {
+    color: ${color.hover};
+  }
   position: relative;
 `;
 

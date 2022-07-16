@@ -68,6 +68,7 @@ const Filter_btn = (props: any) => {
           exit="exit"
           variants={variants.fadeInSlideIn}
           color={props.selected != '' ? color.btnPrimary : ''}
+          onClick={(e) => e.preventDefault()}
         >
           {props.selected}
           <svg
@@ -100,9 +101,10 @@ const Filter_btn = (props: any) => {
           animate="animate"
           exit="exit"
           variants={variants.fadeOutSlideOut}
-          onClick={() => {
+          onClick={(e) => {
             props.setOpen(true);
             props.setDisplay('flex');
+            e.preventDefault();
           }}
         >
           <span>
@@ -147,8 +149,8 @@ const FilterSelected = styled(motion.button)`
 const FilterBtn = styled(motion.button)`
   cursor: pointer;
   position: absolute;
-  top: -32px;
-  left: 15px;
+  top: 12px;
+  left: -17px;
   z-index: 1;
   height: 21px;
   width: 80px;

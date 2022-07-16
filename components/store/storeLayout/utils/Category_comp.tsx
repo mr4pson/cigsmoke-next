@@ -10,7 +10,7 @@ import Arrow from '../../../../assets/arrow.svg';
 
 interface props {
   fontSize?: string;
-  fontWight?: string;
+  fontWeight?: string;
   padding?: string;
 }
 const fake_data = [
@@ -74,7 +74,7 @@ const Category_comp = (props: any) => {
         <Wrapper_main_menu>
           {data.map((item, index) => {
             return (
-              <Link href="">
+              <Link key={`Wrapper_main_menu${index}`} href="/">
                 <AnimatePresence>
                   <Row_flex
                     onHoverStart={() => ste_sub_menu(item)}
@@ -84,7 +84,7 @@ const Category_comp = (props: any) => {
                     animate={props.isOpen ? 'animate' : 'exit'}
                     variants={variants.fadInSlideUp}
                     fontSize="1rem"
-                    fontWight="600"
+                    fontWeight="600"
                     padding="15px 15px 15px 25%"
                     whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
                     whileTap={{ scale: 1 }}
@@ -109,7 +109,7 @@ const Category_comp = (props: any) => {
         <Wrapper_sub_menu>
           {sub_data.map((item: any, index) => {
             return (
-              <Link href="">
+              <Link key={`Wrapper-sub-menu-${index}`} href="/">
                 <AnimatePresence>
                   <Row_flex
                     key={index}
@@ -118,7 +118,7 @@ const Category_comp = (props: any) => {
                     animate={props.isOpen ? 'animate' : 'exit'}
                     variants={variants.fadInSlideUp}
                     fontSize="0.875rem"
-                    fontWight="400"
+                    fontWeight="400"
                     padding="10px"
                     whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
                     whileTap={{ scale: 1 }}
@@ -135,7 +135,7 @@ const Category_comp = (props: any) => {
         <Wrapper_brands>
           {sub_data.map((item: any, index) => {
             return (
-              <Link href="">
+              <Link key={`Wrapper-brands-${index}`} href="/">
                 <AnimatePresence>
                   <motion.a
                     key={index}
@@ -176,6 +176,7 @@ const Wrapper = styled(motion.div)`
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  z-index: 1000;
 `;
 
 const Wrapper_grid = styled.nav`
@@ -213,7 +214,7 @@ const Row_flex = styled(motion.a)`
 
   span {
     font-size: ${(p: props) => p.fontSize};
-    font-weight: ${(p: props) => p.fontWight};
+    font-weight: ${(p: props) => p.fontWeight};
   }
   padding: ${(p: props) => p.padding};
 

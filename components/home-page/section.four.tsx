@@ -7,6 +7,7 @@ import color from 'components/store/lib/ui.colors';
 import Arrow from '../../assets/arrow.svg';
 import { Wrapper, Content } from './common';
 import { useEffect, useState, useRef } from 'react';
+import { Container } from 'components/store/storeLayout/common';
 const data = [1, 2, 3, 4, 5];
 const stars = [{ rate: 4 }, { rate: 5 }, { rate: 5 }, { rate: 5 }, { rate: 4 }];
 interface props {
@@ -49,14 +50,18 @@ const Section = () => {
 
   return (
     <AnimatePresence>
-      <Container
-        variants={variants.fadInOut}
-        key="section_one"
-        initial="start"
-        animate="middle"
-        exit="end"
+      <Wrapper
+        style={{
+          backgroundColor: '#1e1e1e',
+        }}
       >
-        <Wrapper>
+        <Container
+          variants={variants.fadInOut}
+          key="section_one"
+          initial="start"
+          animate="middle"
+          exit="end"
+        >
           <Content>
             <Header>
               <h4>Пусть клиенты</h4>
@@ -117,9 +122,9 @@ const Section = () => {
                         </p>
                         <div id="user">
                           <span>7 Июля 2022</span>
-                          <span>иван а.</span>
+                          <span>Иван а.</span>
                         </div>
-                        <Link href="">
+                        <Link href="/">
                           <a>
                             <motion.img
                               whileHover="hover"
@@ -161,20 +166,11 @@ const Section = () => {
               </Item_btns>
             </Btn_wrapper>
           </Content>
-        </Wrapper>
-      </Container>
+        </Container>
+      </Wrapper>
     </AnimatePresence>
   );
 };
-
-const Container = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 50px 0;
-  background-color: #1e1e1e;
-`;
 
 const Header = styled.div`
   width: 100%;
@@ -204,7 +200,7 @@ const Flex = styled(motion.ul)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 40px;
+  gap: 33px;
 `;
 
 const Item_container = styled(motion.li)`
