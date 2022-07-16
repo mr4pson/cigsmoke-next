@@ -20,7 +20,7 @@ const Search_comp = (props: any) => {
       >
         {props.result.map((item: any, index: any) => {
           return (
-            <Link href="/">
+            <Link href="">
               <motion.a
                 custom={1.05}
                 whileHover="hover"
@@ -66,7 +66,7 @@ const Search_comp = (props: any) => {
 
 const Wrapper = styled.div`
   width: 525px;
-  top: 25px;
+  top: 75px;
   left: 0;
   background-color: ${color.textPrimary};
   box-shadow: 0px 2px 6px ${(P: props) => P.box_shadow};
@@ -76,7 +76,6 @@ const Wrapper = styled.div`
   flex-directio: row;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 `;
 
 const Content = styled.ul`

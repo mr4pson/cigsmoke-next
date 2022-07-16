@@ -4,21 +4,29 @@ import Link from 'next/link';
 import Image from 'next/image';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
-import { Container, Content, Wrapper } from './common';
+import { Container, Wrapper, Content } from './common';
 
 const Footer = (): JSX.Element => {
   return (
     <AnimatePresence>
-      <Wrapper style={{ backgroundColor: '#f5f1f1' }}>
-        <Container
-          variants={variants.fadInOut}
-          key="header"
-          initial="start"
-          animate="middle"
-          exit="end"
-          style={{ backgroundColor: '#f5f1f1', padding: '85px 0' }}
-        >
-          <Content>
+      <Container
+        variants={variants.fadInOut}
+        key="header"
+        initial="start"
+        animate="middle"
+        exit="end"
+        flex_direction="row"
+        justify_content="space-evenly"
+        padding="85px 0"
+        bg_color="#f5f1f1"
+      >
+        <Wrapper>
+          <Content
+            flex_direction="column"
+            justify_content="center"
+            align_items="space-between"
+            gap="25px"
+          >
             <Grid>
               <Sections_wrapper>
                 <Sections_header>Персональная информация</Sections_header>
@@ -26,40 +34,35 @@ const Footer = (): JSX.Element => {
                   <Sections_item>
                     <Link href="/categories">
                       <a>
-                        {' '}
-                        <span>Категории</span>{' '}
+                        <span>Категории</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/acount">
                       <a>
-                        {' '}
-                        <span>Личный кабинет</span>{' '}
+                        <span>Личный кабинет</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/wishlist">
                       <a>
-                        {' '}
-                        <span>Избранное</span>{' '}
+                        <span>Избранное</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/orders">
                       <a>
-                        {' '}
-                        <span>Заказы</span>{' '}
+                        <span>Заказы</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/cart">
                       <a>
-                        {' '}
-                        <span>Корзина</span>{' '}
+                        <span>Корзина</span>
                       </a>
                     </Link>
                   </Sections_item>
@@ -71,24 +74,21 @@ const Footer = (): JSX.Element => {
                   <Sections_item>
                     <Link href="/privacy">
                       <a>
-                        {' '}
-                        <span>Политика безопасности</span>{' '}
+                        <span>Политика безопасности</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/policy">
                       <a>
-                        {' '}
-                        <span>Условия соглашения</span>{' '}
+                        <span>Условия соглашения</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/blog">
                       <a>
-                        {' '}
-                        <span>Рассылка новостей</span>{' '}
+                        <span>Рассылка новостей</span>
                       </a>
                     </Link>
                   </Sections_item>
@@ -101,8 +101,7 @@ const Footer = (): JSX.Element => {
                     <Image width="20" height="14" src="/icons/phone.svg" />
                     <Link href="tel:+79855675947">
                       <a>
-                        {' '}
-                        <span>+7 (985) 567-59-47</span>{' '}
+                        <span>+7 (985) 567-59-47</span>
                       </a>
                     </Link>
                   </Sections_item>
@@ -110,8 +109,7 @@ const Footer = (): JSX.Element => {
                     <Image width="20" height="14" src="/icons/mail.svg" />
                     <Link href="mailto:info@cigsmoke.ru">
                       <a>
-                        {' '}
-                        <span>info@cigsmoke</span>{' '}
+                        <span>info@cigsmoke</span>
                       </a>
                     </Link>
                   </Sections_item>
@@ -157,8 +155,8 @@ const Footer = (): JSX.Element => {
               </Sections_wrapper>
             </Grid>
           </Content>
-        </Container>
-      </Wrapper>
+        </Wrapper>
+      </Container>
     </AnimatePresence>
   );
 };
@@ -170,6 +168,7 @@ const Footer = (): JSX.Element => {
 //   justify-content: space-evenly;
 //   padding: 20px 0;
 //   background-color: #f5f1f1;
+//   align-items: center;
 // `;
 
 // const Wrapper = styled.div`
@@ -185,7 +184,7 @@ const Footer = (): JSX.Element => {
 //   display: flex;
 //   flex-direction: column;
 //   justify-content: center;
-//   place-items: space-between;
+//   align-items: space-between;
 //   gap: 25px;
 // `;
 
