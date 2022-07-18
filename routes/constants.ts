@@ -19,6 +19,8 @@ export enum Page {
   ADMIN_TAGS,
   ADMIN_CREATE_TAG,
   ADMIN_EDIT_TAG,
+  ADMIN_REVIEWS,
+  ADMIN_ORDERS,
 }
 
 export const paths = {
@@ -42,4 +44,6 @@ export const paths = {
   [Page.ADMIN_TAGS]: '/admin/tags',
   [Page.ADMIN_CREATE_TAG]: '/admin/tags/create-tag',
   [Page.ADMIN_EDIT_TAG]: '/admin/tag/[id]',
+  [Page.ADMIN_REVIEWS]: '/admin/reviews',
+  [Page.ADMIN_ORDERS]: '/admin/orders',
 };
