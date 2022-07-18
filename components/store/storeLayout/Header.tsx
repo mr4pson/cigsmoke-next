@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Btns, Container, Content, Wrapper } from './common';
-import Auth_comp from './utils/Auth_comp';
+import AuthComp from './utils/AuthComp';
 import Cart_comp from './utils/Cart_comp';
 import Filter_comp from './utils/Filter_comp';
 import Search_comp from './utils/Search_comp';
 import Category_comp from './utils/Category_comp';
-import { Category_btn, Filter_btn } from './utils/Animated_btns';
+import { Category_btn, Filter_btn } from './utils/AnimatedBtns';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import Pointer from '../../../assets/pointer.svg';
@@ -17,6 +17,10 @@ import Logo from '../../../assets/logo.svg';
 import Search from '../../../assets/search.svg';
 import Order from '../../../assets/order.svg';
 import WishList from '../../../assets/wishlist.svg';
+
+interface props {
+  padding?: string;
+}
 
 const fake_data = [
   {
@@ -43,7 +47,6 @@ const fake_data = [
 ];
 
 const Header = () => {
-  const [isSignedIn, setSignedIn] = useState(false);
   // __________ Filter hooks______________
   const [open_filter, set_open_filter] = useState(false);
   const [display_filter, set_display_filter] = useState('none');
@@ -72,33 +75,20 @@ const Header = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <AnimatePresence>
-        <Container
+        <Container // this container should always be the first child of animatedPresence in order to transition
+          // between pages work
           variants={variants.fadInOut}
-          key="container1"
+          key="header"
           initial="start"
           animate="middle"
           exit="end"
-        >
-          <LocationBtn
-            whileHover="hover"
-            whileTap="tap"
-            custom={1.05}
-            variants={variants.grow}
-          >
-            <span>
-              <Pointer />
-            </span>
-            <span style={{ whiteSpace: 'nowrap', fontSize: '0.8rem' }}>
-              Выберите ваш город
-            </span>
-          </LocationBtn>
-        </Container>
-        <Container
-          variants={variants.fadInOut}
-          key="header-Wrapper"
-          initial="start"
-          animate="middle"
-          exit="end"
+          flex_direction="column"
+          justify_content="center"
+          padding="10px 0 20px 0"
+          position="sticky"
+          top="0"
+          z_index="20"
+          bg_color={color.textPrimary}
         >
           <Category_comp
             isOpen={open_categories}
@@ -107,8 +97,25 @@ const Header = () => {
             setDisplay={set_display_categories}
           />
           <Wrapper>
-            <Content>
+            <Content
+              flex_direction="row"
+              justify_content="space-between"
+              align_items="center"
+            >
               <LogoWrapper>
+                <LocationBtn
+                  whileHover="hover"
+                  whileTap="tap"
+                  custom={1.05}
+                  variants={variants.grow}
+                >
+                  <span>
+                    <Pointer />
+                  </span>
+                  <span style={{ whiteSpace: 'nowrap', fontSize: '0.8rem' }}>
+                    Выберите ваш город
+                  </span>
+                </LocationBtn>
                 <Link href="/">
                   <a>
                     <Logo />
@@ -121,7 +128,24 @@ const Header = () => {
                 display={display_categories}
                 setDisplay={set_display_categories}
               />
+
               <SearchWrapper>
+                <SearchField
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={variants.boxShadow}
+                  onChange={handleChange}
+                  type="input"
+                  padding={
+                    selected_filter == '' ? '0 80px 0 40px' : '0 80px 0 100px'
+                  }
+                />
+                <SearchBtn onClick={(e) => e.preventDefault()}>
+                  <span>
+                    <Search />
+                  </span>
+                </SearchBtn>
+                <Search_comp result={result} />
                 <Filter_btn
                   selected={selected_filter}
                   set_selected={set_selected_filter}
@@ -129,44 +153,26 @@ const Header = () => {
                   isOpen={open_filter}
                   display={display_filter}
                   setDisplay={set_display_filter}
-                  type=""
                 />
-                <SearchField
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.boxShadow}
-                  onChange={handleChange}
-                  type="input"
-                />
-                <SearchBtn onClick={(e) => e.preventDefault()}>
-                  <span>
-                    <Search />
-                  </span>
-                </SearchBtn>
-                <Relitive_container style={{ position: 'absolute' }}>
-                  <Search_comp result={result} />
-                </Relitive_container>
               </SearchWrapper>
-              <NavButtons>
-                <Relitive_container id="auth-container">
-                  {isSignedIn ? 'profile component' : <Auth_comp />}
-                </Relitive_container>
-                <Btns style={{ width: '45px' }}>
-                  <span>
-                    <Order />
-                  </span>
-                  <span> Заказы</span>
-                </Btns>
-                <Btns style={{ width: '45px' }}>
-                  <span>
-                    <WishList />
-                  </span>
-                  <span>Избранное</span>
-                </Btns>
-                <Relitive_container>
-                  <Cart_comp />
-                </Relitive_container>
-              </NavButtons>
+              <Relitive_container id="auth-container">
+                <AuthComp />
+              </Relitive_container>
+              <Btns>
+                <span>
+                  <Order />
+                </span>
+                <span> Заказы</span>
+              </Btns>
+              <Btns>
+                <span>
+                  <WishList />
+                </span>
+                <span>Избранное</span>
+              </Btns>
+              <Relitive_container>
+                <Cart_comp />
+              </Relitive_container>
             </Content>
           </Wrapper>
           <Filter_comp
@@ -202,27 +208,29 @@ const LocationBtn = styled(motion.button)`
 
 const SearchWrapper = styled.form`
   width: 525px;
-  width: calc(100% - 680px);
   height: 45px;
   position: relative;
-  display: flex;
+  align-self: flex-end;
 `;
 
 const SearchField = styled(motion.input)`
-  width: 100%;
+  width: 525px;
   height: 45px;
   border: 1px solid ${color.btnPrimary};
-  border-radius: 8px 0 0 8px;
+  border-radius: 8px;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  padding: 0 110px;
+  padding: ${(p: props) => p.padding};
 `;
 
 const SearchBtn = styled(motion.button)`
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
   background: ${color.btnPrimary};
-  width: 65px;
+  width: 80px;
   height: 45px;
   display: flex;
   flex-direction: row;
@@ -235,32 +243,12 @@ const SearchBtn = styled(motion.button)`
   }
 `;
 
-const NavButtons = styled.div`
-  display: flex;
-  width: 289px;
-  justify-content: space-between;
-`;
-
-const Image = styled.img``;
-
 const Relitive_container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   align-self: flex-end;
-  gap: 4px;
-  width: 45px;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  div {
-    font-size: 14px;
-    line-height: 1;
-  }
-  &:hover {
-    color: ${color.hover};
-  }
   position: relative;
 `;
 

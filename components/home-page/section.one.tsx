@@ -8,8 +8,11 @@ import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import Arrow from '../../assets/arrow.svg';
 import Arrow_white from '../../assets/arrow_white.svg';
-import { Wrapper, Content } from './common';
-import { Container } from 'components/store/storeLayout/common';
+import {
+  Container,
+  Wrapper,
+  Content,
+} from 'components/store/storeLayout/common';
 
 interface props {
   rotate?: string;
@@ -55,15 +58,23 @@ const Section = () => {
 
   return (
     <AnimatePresence>
-      <Wrapper style={{ paddingTop: '42px' }}>
-        <Container
-          variants={variants.fadInOut}
-          key="section_one"
-          initial="start"
-          animate="middle"
-          exit="end"
-        >
-          <Content>
+      <Container
+        variants={variants.fadInOut}
+        key="section_one"
+        initial="start"
+        animate="middle"
+        exit="end"
+        flex_direction="row"
+        justify_content="space-evenly"
+        padding="42px 0 0 20px"
+      >
+        <Wrapper>
+          <Content
+            flex_direction="column"
+            justify_content="space-between"
+            align_items="center"
+            gap="35px"
+          >
             <Grid>
               <AnimatePresence>
                 <Slider_wrapper
@@ -264,19 +275,11 @@ const Section = () => {
               </Btn_wrapper>
             </Flex_box_brands_column>
           </Content>
-        </Container>
-      </Wrapper>
+        </Wrapper>
+      </Container>
     </AnimatePresence>
   );
 };
-
-// const Container = styled(motion.div)`
-//   width: 100%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-evenly;
-//   padding: 20px 0;
-// `;
 
 const Grid = styled.div`
   width: 100%;
@@ -312,7 +315,7 @@ const Arrow_btn = styled(motion.button)`
   position: absolute;
   left: ${(p: props) => p.left}px;
   right: ${(p: props) => p.right}px;
-  top: 185px;
+  top: auto;
   background-color: ${color.textPrimary};
   z-index: 10;
   display: flex;

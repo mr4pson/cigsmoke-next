@@ -7,15 +7,17 @@ import styled from 'styled-components';
 
 const CatalogPage = () => {
   return (
-    <Wrapper
+    <Container
       variants={variants.fadInOut}
       key="header"
       initial="start"
       animate="middle"
       exit="end"
+      flex_direction="column"
+      justify_content="center"
       style={{ backgroundColor: '#F6F6F6', padding: '35px 0 50px' }}
     >
-      <Container>
+      <Wrapper>
         <FilterBar />
         <Content>
           <CategoryTitle>Кальяны</CategoryTitle>
@@ -34,7 +36,7 @@ const CatalogPage = () => {
                 price: 3000,
               }}
             />
-            <ProductItem 
+            <ProductItem
               data={{
                 name: 'Кальян Magix 2203 Black',
                 images: JSON.stringify(['./assets/images/test-product.jpg']),
@@ -43,8 +45,8 @@ const CatalogPage = () => {
             />
           </Products>
         </Content>
-      </Container>
-    </Wrapper>
+      </Wrapper>
+    </Container>
   );
 };
 
