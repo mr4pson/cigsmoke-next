@@ -12,6 +12,7 @@ import styles from './brands.module.scss';
 import { handleFormSubmitBrands } from './helpers';
 import ImageUpload from '../generalComponents/ImageUpload';
 import { ManageBrandFields } from './ManageBrandsFields.enum';
+import FormItem from '../generalComponents/FormItem';
 
 const { Option } = Select;
 
@@ -69,25 +70,14 @@ const ManageBrandForm = ({
           requiredMark={true}
           className={styles.createBrandForm}
         >
-          <Form.Item
-            name={ManageBrandFields.Name}
-            label="Имя"
-            required
-            tooltip="Введите имя"
-          >
-            <Input placeholder="Введите имя" />
-          </Form.Item>
-          <Form.Item
-            label="Изображение"
-            name={ManageBrandFields.Image}
-            required
-            tooltip={{
-              title: 'Выберите изображение из локального хранилища',
-              icon: <InfoCircleOutlined />,
-            }}
-          >
-            <ImageUpload fileList={imageList} />
-          </Form.Item>
+          <FormItem
+            option={ManageBrandFields.Name}
+            children={<Input placeholder="Введите имя бренда" />}
+          />
+          <FormItem
+            option={ManageBrandFields.Image}
+            children={<ImageUpload fileList={imageList} />}
+          />
           <Form.Item className={styles.createBrandForm__buttonsStack}>
             <Button
               type="primary"

@@ -8,6 +8,7 @@ import { Parameter } from 'swagger/services';
 import styles from './parameters.module.scss';
 import { handleFormSubmitParameter } from './helpers';
 import { ManageParameterFields } from './ManageParametersFields.enum';
+import FormItem from '../generalComponents/FormItem';
 
 const { Option } = Select;
 
@@ -50,16 +51,11 @@ const ManageParameterForm = ({
           initialValues={initialValues}
           requiredMark={true}
           className={styles.createParameterForm}
-      
         >
-          <Form.Item
-            name={ManageParameterFields.Name}
-            label="Имя"
-            required
-            tooltip="Введите имя"
-          >
-            <Input placeholder="Введите имя" />
-          </Form.Item>
+          <FormItem
+            option={ManageParameterFields.Name}
+            children={<Input placeholder="Введите имя параметра" />}
+          />
           <Form.Item className={styles.createParameterForm__buttonsStack}>
             <Button
               type="primary"
