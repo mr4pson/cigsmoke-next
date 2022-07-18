@@ -1,3 +1,3 @@
 export const getImageUrl = (imageName: string): string => {
-  return `/assets/images/${imageName}`;
+  return `http://localhost:3000/api/images/${imageName}`;
 }

@@ -25,7 +25,7 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
     const user = getUserInfo();
 
     if (!user && router.pathname.includes('/admin')) {
-      navigateTo(router, Page.LOGIN)();
+      navigateTo(router, Page.ADMIN_LOGIN)();
     }
 
     dispatch(setUser(user));
