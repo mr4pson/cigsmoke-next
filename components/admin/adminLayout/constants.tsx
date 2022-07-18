@@ -4,6 +4,7 @@ import {
   DesktopOutlined,
   HeatMapOutlined,
   PieChartOutlined,
+  TagsOutlined,
 } from '@ant-design/icons';
 import { Page, paths } from 'routes/constants';
 
@@ -16,4 +17,5 @@ export const items: TMenuItem[] = [
   getItem('Цвета', paths[Page.ADMIN_COLORS], <BgColorsOutlined />),
   getItem('Бренды', paths[Page.ADMIN_BRANDS], <HeatMapOutlined />),
   getItem('Параметры', paths[Page.ADMIN_PARAMETERS], <AppstoreAddOutlined />),
+  getItem('Теги', paths[Page.ADMIN_TAGS], <TagsOutlined />),
 ];
