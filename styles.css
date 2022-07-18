@@ -1,11 +1,12 @@
-@font-face {
-  font-family: 'Roboto';
-  src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 @font-face {
   font-family: 'Intro';
-  src: url('/fonts/IntroDemo-BlackCAPS.ttf');
+  src: url('/fonts/IntroDemo-BlackCAPS.woff2') format('woff2'),
+    url('/fonts/IntroDemo-BlackCAPS.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
 }
 html {
   scroll-behavior: smooth;
@@ -16,7 +17,7 @@ html {
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -65,7 +66,6 @@ button {
 ::-webkit-scrollbar-thumb:hover {
   background: #000;
 }
-
 
 .container {
   width: 100%;

@@ -1,21 +1,22 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import Stars from 'react-stars';
+import { Rating } from '@mui/material'; // docs: https://mui.com/material-ui/api/rating/ *** https://mui.com/material-ui/react-rating/
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import Arrow from '../../assets/arrow.svg';
-import { Wrapper, Content } from './common';
 import { useEffect, useState, useRef } from 'react';
+import {
+  Container,
+  Wrapper,
+  Content,
+} from 'components/store/storeLayout/common';
 const data = [1, 2, 3, 4, 5];
 const stars = [{ rate: 4 }, { rate: 5 }, { rate: 5 }, { rate: 5 }, { rate: 4 }];
 interface props {
   rotate?: string;
 }
 
-// const swipePower = (offset: number, velocity: number) => {
-//   return Math.abs(offset) * velocity;
-// };
 const Section = () => {
   const [width, setWidth] = useState(0);
   const wrapper_width = useRef<any>();
@@ -30,16 +31,6 @@ const Section = () => {
       slideTo < -width + 150 ? setSlideTo(-width) : setSlideTo(slideTo - 150);
     }
   };
-  //   const swipPaginate = (newDirection: number, offset: number) => {
-  //     setWidth(
-  //       wrapper_width.current.scrollWidth - wrapper_width.current.offsetWidth,
-  //     );
-  //     if (newDirection > 0) {
-  //       setSlideTo(slideTo + offset);
-  //     } else {
-  //       setSlideTo(slideTo - offset);
-  //     }
-  //   };
 
   useEffect(() => {
     setWidth(
@@ -51,13 +42,22 @@ const Section = () => {
     <AnimatePresence>
       <Container
         variants={variants.fadInOut}
-        key="section_one"
+        key="section_four"
         initial="start"
         animate="middle"
         exit="end"
+        flex_direction="row"
+        justify_content="space-evenly"
+        padding="50px 0"
+        bg_color="#1e1e1e"
       >
         <Wrapper>
-          <Content>
+          <Content
+            flex_direction="column"
+            justify_content="space-between"
+            align_items="center"
+            gap="35px"
+          >
             <Header>
               <h4>Пусть клиенты</h4>
               <h3>Говорит за нас</h3>
@@ -70,16 +70,6 @@ const Section = () => {
                 custom={slideTo}
                 animate="animate"
                 variants={variants.sliderUi}
-                // onDragEnd={(e, { offset, velocity }) => {
-                //   const swipe = swipePower(offset.x, velocity.x);
-                //   if (swipe < -width) {
-                //     slideTo > 150 ? setSlideTo(0) : swipPaginate(-1, offset.x);
-                //   } else if (swipe > width) {
-                //     slideTo < -width + 150
-                //       ? setSlideTo(-width)
-                //       : swipPaginate(1, offset.x);
-                //   }
-                // }}
               >
                 <AnimatePresence>
                   {data.map((item, index) => {
@@ -101,12 +91,10 @@ const Section = () => {
                           viewport={{ once: true }}
                           variants={variants.fadInSlideUp}
                         >
-                          <Stars
+                          <Rating
                             value={stars[index].rate}
-                            size={25}
-                            color1={color.rating_empty}
-                            color2={color.rating}
-                            edit={false}
+                            size="small"
+                            readOnly
                           />
                         </Star_wrapper>
                         <h3>Качественный товар</h3>
@@ -117,9 +105,9 @@ const Section = () => {
                         </p>
                         <div id="user">
                           <span>7 Июля 2022</span>
-                          <span>иван а.</span>
+                          <span>Иван а.</span>
                         </div>
-                        <Link href="">
+                        <Link href="/">
                           <a>
                             <motion.img
                               whileHover="hover"
@@ -167,15 +155,6 @@ const Section = () => {
   );
 };
 
-const Container = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 50px 0;
-  background-color: #1e1e1e;
-`;
-
 const Header = styled.div`
   width: 100%;
   display: flex;
@@ -204,7 +183,7 @@ const Flex = styled(motion.ul)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 40px;
+  gap: 33px;
 `;
 
 const Item_container = styled(motion.li)`

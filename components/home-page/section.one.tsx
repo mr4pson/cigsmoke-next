@@ -8,7 +8,11 @@ import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import Arrow from '../../assets/arrow.svg';
 import Arrow_white from '../../assets/arrow_white.svg';
-import { Wrapper, Content } from './common';
+import {
+  Container,
+  Wrapper,
+  Content,
+} from 'components/store/storeLayout/common';
 
 interface props {
   rotate?: string;
@@ -60,9 +64,17 @@ const Section = () => {
         initial="start"
         animate="middle"
         exit="end"
+        flex_direction="row"
+        justify_content="space-evenly"
+        padding="42px 0 0 20px"
       >
         <Wrapper>
-          <Content>
+          <Content
+            flex_direction="column"
+            justify_content="space-between"
+            align_items="center"
+            gap="35px"
+          >
             <Grid>
               <AnimatePresence>
                 <Slider_wrapper
@@ -269,18 +281,10 @@ const Section = () => {
   );
 };
 
-const Container = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 20px 0;
-`;
-
 const Grid = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 2.7fr 1fr;
+  grid-template-columns: 3fr 1fr;
   justify-content: space-between;
   place-items: flex-start;
   gap: 40px;
@@ -288,7 +292,7 @@ const Grid = styled.div`
 
 const Slider_wrapper = styled(motion.div)`
   width: 100%;
-  height: 400px;
+  height: 462px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -297,7 +301,7 @@ const Slider_wrapper = styled(motion.div)`
 
 const Slider = styled(motion.img)`
   width: 100%;
-  height: 400px;
+  height: 462px;
   border-radius: 25px;
   position: absolute;
   left: 0;
@@ -311,7 +315,7 @@ const Arrow_btn = styled(motion.button)`
   position: absolute;
   left: ${(p: props) => p.left}px;
   right: ${(p: props) => p.right}px;
-  top: 185px;
+  top: auto;
   background-color: ${color.textPrimary};
   z-index: 10;
   display: flex;
@@ -333,7 +337,7 @@ const Arrow_span = styled.span`
 
 const Flex_box_column = styled.div`
   width: 100%;
-  height: 400px;
+  height: 462px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -344,7 +348,7 @@ const Flex_box_column = styled.div`
 
 const Discount_wrapper = styled(motion.div)`
   width: 100%;
-  height: 400px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -380,8 +384,7 @@ const Discount_wrapper = styled(motion.div)`
 `;
 
 const Discount_img = styled(motion.img)`
-  width: 45%;
-  height: 65%;
+  width: 149px;
   border-radius: 25px;
 `;
 
@@ -393,7 +396,7 @@ const Flex_box_brands_column = styled.div`
   align-items: flex-start;
   gap: 25px;
   position: relative;
-  padding: 20px 0;
+  padding: 20px 0 30px;
   h3 {
     font-weight: 700;
     font-size: 1.5rem;

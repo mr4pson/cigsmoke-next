@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
+import { Container, Wrapper, Content } from './common';
 
 const Footer = (): JSX.Element => {
   return (
@@ -14,9 +15,18 @@ const Footer = (): JSX.Element => {
         initial="start"
         animate="middle"
         exit="end"
+        flex_direction="row"
+        justify_content="space-evenly"
+        padding="85px 0"
+        bg_color="#f5f1f1"
       >
         <Wrapper>
-          <Content>
+          <Content
+            flex_direction="column"
+            justify_content="center"
+            align_items="space-between"
+            gap="25px"
+          >
             <Grid>
               <Sections_wrapper>
                 <Sections_header>Персональная информация</Sections_header>
@@ -24,40 +34,35 @@ const Footer = (): JSX.Element => {
                   <Sections_item>
                     <Link href="/categories">
                       <a>
-                        {' '}
-                        <span>Категории</span>{' '}
+                        <span>Категории</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/acount">
                       <a>
-                        {' '}
-                        <span>Личный кабинет</span>{' '}
+                        <span>Личный кабинет</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/wishlist">
                       <a>
-                        {' '}
-                        <span>Избранное</span>{' '}
+                        <span>Избранное</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/orders">
                       <a>
-                        {' '}
-                        <span>Заказы</span>{' '}
+                        <span>Заказы</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/cart">
                       <a>
-                        {' '}
-                        <span>Корзина</span>{' '}
+                        <span>Корзина</span>
                       </a>
                     </Link>
                   </Sections_item>
@@ -69,24 +74,21 @@ const Footer = (): JSX.Element => {
                   <Sections_item>
                     <Link href="/privacy">
                       <a>
-                        {' '}
-                        <span>Политика безопасности</span>{' '}
+                        <span>Политика безопасности</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/policy">
                       <a>
-                        {' '}
-                        <span>Условия соглашения</span>{' '}
+                        <span>Условия соглашения</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
                     <Link href="/blog">
                       <a>
-                        {' '}
-                        <span>Рассылка новостей</span>{' '}
+                        <span>Рассылка новостей</span>
                       </a>
                     </Link>
                   </Sections_item>
@@ -99,8 +101,7 @@ const Footer = (): JSX.Element => {
                     <Image width="20" height="14" src="/icons/phone.svg" />
                     <Link href="tel:+79855675947">
                       <a>
-                        {' '}
-                        <span>+7 (985) 567-59-47</span>{' '}
+                        <span>+7 (985) 567-59-47</span>
                       </a>
                     </Link>
                   </Sections_item>
@@ -108,8 +109,7 @@ const Footer = (): JSX.Element => {
                     <Image width="20" height="14" src="/icons/mail.svg" />
                     <Link href="mailto:info@cigsmoke.ru">
                       <a>
-                        {' '}
-                        <span>info@cigsmoke</span>{' '}
+                        <span>info@cigsmoke</span>
                       </a>
                     </Link>
                   </Sections_item>
@@ -161,31 +161,32 @@ const Footer = (): JSX.Element => {
   );
 };
 
-const Container = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 20px 0;
-  background-color: #f5f1f1;
-`;
+// const Container = styled(motion.div)`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-evenly;
+//   padding: 20px 0;
+//   background-color: #f5f1f1;
+//   align-items: center;
+// `;
 
-const Wrapper = styled.div`
-  width: 100%;
-  max-width: 90%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-`;
+// const Wrapper = styled.div`
+//   width: 100%;
+//   max-width: 90%;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-evenly;
+// `;
 
-const Content = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  place-items: space-between;
-  gap: 25px;
-`;
+// const Content = styled.div`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: space-between;
+//   gap: 25px;
+// `;
 
 const Grid = styled.div`
   width: 100%;

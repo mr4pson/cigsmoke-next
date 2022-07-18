@@ -3,13 +3,13 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Btns } from './common';
-import Auth_comp from './utils/Auth_comp';
+import { Btns, Container, Content, Wrapper } from './common';
+import AuthComp from './utils/AuthComp';
 import Cart_comp from './utils/Cart_comp';
 import Filter_comp from './utils/Filter_comp';
 import Search_comp from './utils/Search_comp';
 import Category_comp from './utils/Category_comp';
-import { Category_btn, Filter_btn } from './utils/Animated_btns';
+import { Category_btn, Filter_btn } from './utils/AnimatedBtns';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import Pointer from '../../../assets/pointer.svg';
@@ -17,6 +17,10 @@ import Logo from '../../../assets/logo.svg';
 import Search from '../../../assets/search.svg';
 import Order from '../../../assets/order.svg';
 import WishList from '../../../assets/wishlist.svg';
+
+interface props {
+  padding?: string;
+}
 
 const fake_data = [
   {
@@ -43,7 +47,6 @@ const fake_data = [
 ];
 
 const Header = () => {
-  const [isSignedIn, setSignedIn] = useState(false);
   // __________ Filter hooks______________
   const [open_filter, set_open_filter] = useState(false);
   const [display_filter, set_display_filter] = useState('none');
@@ -72,12 +75,20 @@ const Header = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <AnimatePresence>
-        <Container
+        <Container // this container should always be the first child of animatedPresence in order to transition
+          // between pages work
           variants={variants.fadInOut}
           key="header"
           initial="start"
           animate="middle"
           exit="end"
+          flex_direction="column"
+          justify_content="center"
+          padding="10px 0 20px 0"
+          position="sticky"
+          top="0"
+          z_index="20"
+          bg_color={color.textPrimary}
         >
           <Category_comp
             isOpen={open_categories}
@@ -86,7 +97,11 @@ const Header = () => {
             setDisplay={set_display_categories}
           />
           <Wrapper>
-            <Content>
+            <Content
+              flex_direction="row"
+              justify_content="space-between"
+              align_items="center"
+            >
               <LogoWrapper>
                 <LocationBtn
                   whileHover="hover"
@@ -113,7 +128,24 @@ const Header = () => {
                 display={display_categories}
                 setDisplay={set_display_categories}
               />
-              <Relitive_container>
+
+              <SearchWrapper>
+                <SearchField
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={variants.boxShadow}
+                  onChange={handleChange}
+                  type="input"
+                  padding={
+                    selected_filter == '' ? '0 80px 0 40px' : '0 80px 0 100px'
+                  }
+                />
+                <SearchBtn onClick={(e) => e.preventDefault()}>
+                  <span>
+                    <Search />
+                  </span>
+                </SearchBtn>
+                <Search_comp result={result} />
                 <Filter_btn
                   selected={selected_filter}
                   set_selected={set_selected_filter}
@@ -122,26 +154,9 @@ const Header = () => {
                   display={display_filter}
                   setDisplay={set_display_filter}
                 />
-              </Relitive_container>
-              <SearchWrapper>
-                <SerachField
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.boxShadow}
-                  onChange={handleChange}
-                  type="input"
-                />
-                <SearchBtn onClick={(e) => e.preventDefault()}>
-                  <span>
-                    <Search />
-                  </span>
-                </SearchBtn>
-                <Relitive_container>
-                  <Search_comp result={result} />
-                </Relitive_container>
               </SearchWrapper>
               <Relitive_container id="auth-container">
-                {isSignedIn ? 'profile component' : <Auth_comp />}
+                <AuthComp />
               </Relitive_container>
               <Btns>
                 <span>
@@ -173,34 +188,6 @@ const Header = () => {
   );
 };
 
-const Container = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0 20px 0;
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background-color: ${color.textPrimary};
-`;
-const Wrapper = styled.div`
-  width: 100%;
-  max-width: 90%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-`;
-
-const Content = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  place-items: center;
-`;
-
 const LogoWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -226,7 +213,7 @@ const SearchWrapper = styled.form`
   align-self: flex-end;
 `;
 
-const SerachField = styled(motion.input)`
+const SearchField = styled(motion.input)`
   width: 525px;
   height: 45px;
   border: 1px solid ${color.btnPrimary};
@@ -234,7 +221,7 @@ const SerachField = styled(motion.input)`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  padding: 0 110px;
+  padding: ${(p: props) => p.padding};
 `;
 
 const SearchBtn = styled(motion.button)`
@@ -251,8 +238,8 @@ const SearchBtn = styled(motion.button)`
   align-items: center;
   border-radius: 0px 10px 10px 0px;
   span {
-    width: 22;
-    height: 22;
+    width: 22px;
+    height: 22px;
   }
 `;
 

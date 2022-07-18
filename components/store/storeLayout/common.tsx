@@ -1,6 +1,18 @@
 import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { devices } from './Devices';
+interface props {
+  flex_direction?: string;
+  justify_content?: string;
+  position?: string;
+  padding?: string;
+  top?: string;
+  z_index?: string;
+  bg_color?: string;
+  align_items?: string;
+  gap?: string;
+}
 
 const Btns = styled(motion.button)`
   display: flex;
@@ -8,11 +20,11 @@ const Btns = styled(motion.button)`
   justify-content: center;
   align-items: center;
   align-self: flex-end;
-  gap: 5px;
+  gap: 2px;
   user-select: none;
   cursor: pointer;
   span {
-    font-size: 1rem;
+    font-size: 14px;
     line-height: 1;
   }
   &:hover {
@@ -20,4 +32,36 @@ const Btns = styled(motion.button)`
   }
 `;
 
-export { Btns };
+const Container = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  flex-direction: ${(p: props) => p.flex_direction};
+  justify-content: ${(p: props) => p.justify_content};
+  align-items: center;
+  position: ${(p: props) => p.position};
+  padding: ${(p: props) => p.padding};
+  top: ${(p: props) => p.top};
+  z-index: ${(p: props) => p.z_index};
+  background-color: ${(p: props) => p.bg_color};
+`;
+const Wrapper = styled.div`
+  width: 100%;
+  max-width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  @media ${devices.laptopM} {
+    max-width: 1230px;
+  }
+`;
+
+const Content = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: ${(p: props) => p.flex_direction};
+  justify-content: ${(p: props) => p.justify_content};
+  align-items: ${(p: props) => p.align_items};
+  gap: ${(p: props) => p.gap};
+`;
+
+export { Container, Wrapper, Content, Btns };

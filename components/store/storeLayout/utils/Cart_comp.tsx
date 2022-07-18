@@ -35,23 +35,23 @@ const Item_counter = () => {
   const [item_counter, set_item_counter] = useState(1);
   return (
     <>
-      <Item_counter_wrapper>
+      <Item_counter_wrapper onClick={(e) => e.preventDefault()}>
         <motion.button
           whileHover="hover"
           whileTap="tap"
           variants={variants.boxShadow}
-          onClick={() =>
+          onClick={(e) =>
             set_item_counter(item_counter < 2 ? 1 : item_counter - 1)
           }
         >
           -
         </motion.button>
-        <input value={item_counter} type="number" min={1} />
+        <input readOnly value={item_counter} type="number" min={1} />
         <motion.button
           whileHover="hover"
           whileTap="tap"
           variants={variants.boxShadow}
-          onClick={() => set_item_counter(item_counter + 1)}
+          onClick={(e) => set_item_counter(item_counter + 1)}
         >
           +
         </motion.button>
@@ -123,14 +123,14 @@ const Cart_comp = () => {
         variants={variants.fadeInReveal}
       >
         {isEmpty ? (
-          <span>Корзина пуста</span>
+          <span style={{ color: color.hover }}>Корзина пуста</span>
         ) : (
           <Popup_divider>
             <PopUp_content>
               {data.map((item: any, index: any) => {
                 return (
-                  <Link href="">
-                    <a key={index}>
+                  <Link key={index} href="">
+                    <a>
                       <Item>
                         <motion.img
                           whileHover="hover"

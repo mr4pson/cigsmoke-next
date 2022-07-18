@@ -66,7 +66,7 @@ const Search_comp = (props: any) => {
 
 const Wrapper = styled.div`
   width: 525px;
-  top: 25px;
+  top: 75px;
   left: 0;
   background-color: ${color.textPrimary};
   box-shadow: 0px 2px 6px ${(P: props) => P.box_shadow};

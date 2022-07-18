@@ -10,7 +10,11 @@ import Heart_full from '../../assets/heart_full.svg';
 import Cart from '../../assets/added_to_cart.svg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Wrapper, Content } from './common';
+import {
+  Container,
+  Wrapper,
+  Content,
+} from 'components/store/storeLayout/common';
 
 interface props {
   rotate?: string;
@@ -265,13 +269,22 @@ const Section = () => {
     <AnimatePresence>
       <Container
         variants={variants.fadInOut}
-        key="section_one"
+        key="section_two"
         initial="start"
         animate="middle"
         exit="end"
+        flex_direction="row"
+        justify_content="space-evenly"
+        bg_color={color.bg_product}
+        padding="50px 0"
       >
         <Wrapper>
-          <Content>
+          <Content
+            flex_direction="column"
+            justify_content="space-between"
+            align_items="center"
+            gap="35px"
+          >
             <AnimatePresence>
               <Header
                 key="header-goods"
@@ -302,15 +315,6 @@ const Section = () => {
   );
 };
 
-const Container = styled(motion.div)`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 50px 0;
-  background-color: ${color.bg_product};
-`;
-
 const Header = styled(motion.div)`
   width: 100%;
   display: flex;
@@ -339,9 +343,8 @@ const Grid = styled.ul`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  justify-content: space-between;
-  align-items: center;
-  gap: 35px;
+  column-gap: inherit;
+  row-gap: 30px;
 `;
 
 const Item_container = styled(motion.li)`
