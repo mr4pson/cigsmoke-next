@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { NextPage } from 'next/types';
 import {
   fetchCategories,
   clearCategories,

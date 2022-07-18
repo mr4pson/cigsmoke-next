@@ -9,7 +9,7 @@ export const currentPath = (router: NextRouter) => {
   if (router.pathname === paths[Page.ADMIN_CATEGORIES]) {
     return 'Категории';
   }
-  if (router.pathname === paths[Page.ADMIN_PRODCUCTS]) {
+  if (router.pathname === paths[Page.ADMIN_PRODUCTS]) {
     return 'Продукты';
   }
   if (router.pathname === paths[Page.ADMIN_CREATE_CATEGORY]) {
@@ -47,5 +47,5 @@ export const getItem = (
 
 export const handleLogout = (router: NextRouter, dispatch: AppDispatch) => async () => {
   await dispatch(signout());
-  navigateTo(router, Page.LOGIN)();
+  navigateTo(router, Page.ADMIN_LOGIN)();
 }

@@ -8,10 +8,22 @@ import {
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import authReducer from './slicers/authSlicer';
 import categoriesReducer from './slicers/categoriesSlicer';
+import colorsReducer from './slicers/colorsSlicer'
+import brandsReducer from "./slicers/brandsSlicer"
+import parametersReducer from "./slicers/parametersSlicer"
+import productsReducer from './slicers/productsSlicer';
+import imagesReducer from './slicers/imagesSlicer';
+import tagsReducer from "./slicers/tagsSlicer"
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
   auth: authReducer,
+  colors: colorsReducer,
+  brands: brandsReducer,
+  parameters: parametersReducer,
+  products: productsReducer,
+  images: imagesReducer,
+  tags: tagsReducer,
 });
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {
@@ -29,6 +41,9 @@ const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) =
 export const makeStore = () =>
   configureStore({
     reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+      serializableCheck: false
+    }),
   } as any);
 
 type Store = ReturnType<typeof makeStore>;
