@@ -21,5 +21,5 @@ export const items: TMenuItem[] = [
   getItem('Параметры', paths[Page.ADMIN_PARAMETERS], <AppstoreAddOutlined />),
   getItem('Теги', paths[Page.ADMIN_TAGS], <TagsOutlined />),
   getItem('Комментарии', paths[Page.ADMIN_REVIEWS], <CommentOutlined />),
-  getItem('Заказы', paths[Page.ADMIN_ORDERS], <ReconciliationOutlined />),
+  getItem('Заказы', paths[Page.ADMIN_CHECKOUTS], <ReconciliationOutlined />),
 ];
