@@ -33,7 +33,7 @@ export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch) => a
   }
 };
 
-export const handleDeleteClick = (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
+export const handleDeleteTag = (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
   const isSaved: any = await dispatch(deleteTag(id));
   if (!isSaved.error) {
     dispatch(fetchTags());
@@ -41,6 +41,6 @@ export const handleDeleteClick = (id: string, dispatch: AppDispatch, setVisible:
   }
 };
 
-export const handleRedirectEdit = (id: string, router: NextRouter) => () => {
+export const handleRedirectTags = (id: string, router: NextRouter) => () => {
   router.push(`${paths[Page.ADMIN_TAGS]}/${id}`);
 };

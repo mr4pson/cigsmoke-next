@@ -1,3 +1,5 @@
+import { PathWords } from "components/admin/adminLayout/types";
+
 export enum Page {
   HOME,
   ADMIN_LOGIN,
@@ -43,7 +45,7 @@ export const paths = {
   [Page.ADMIN_EDIT_PRODUCT]: '/admin/products/[id]',
   [Page.ADMIN_TAGS]: '/admin/tags',
   [Page.ADMIN_CREATE_TAG]: '/admin/tags/create-tag',
-  [Page.ADMIN_EDIT_TAG]: '/admin/tag/[id]',
+  [Page.ADMIN_EDIT_TAG]: '/admin/tags/[id]',
   [Page.ADMIN_REVIEWS]: '/admin/reviews',
   [Page.ADMIN_CHECKOUTS]: '/admin/checkouts',
 };

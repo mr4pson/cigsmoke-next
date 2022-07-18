@@ -1,6 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
-import ActionButtonsWrapper from './ActionButtonsWrapper';
+import ActionButtons from '../generalComponents/ActionButtons';
 import { CheckoutsData } from './CheckoutsData.interface';
+import { handleDeleteCheckout } from './helpers';
 
 const columns: ColumnsType<CheckoutsData> = [
   {
@@ -28,7 +29,16 @@ const columns: ColumnsType<CheckoutsData> = [
   },
   {
     title: 'Действия',
-    render: (_, record) => <ActionButtonsWrapper id={record.id} />,
+    render: (_, record) => {
+      return (
+        <ActionButtons
+          id={record.id as string}
+          handleDelete={handleDeleteCheckout}
+          option={'checkouts'}
+          title="заказ"
+        />
+      );
+    },
   },
 ];
 

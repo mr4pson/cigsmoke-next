@@ -1,7 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
-import ActionButtonsWrapper from './ActionButtonsWrapper';
 import { Color } from 'swagger/services';
-
+import ActionButtons from '../generalComponents/ActionButtons';
+import { handleDeleteColor, handleRedirectColors } from './helpers';
 
 export const columns: ColumnsType<Color> = [
   {
@@ -29,9 +29,15 @@ export const columns: ColumnsType<Color> = [
   {
     title: 'Действия',
     render: (_, record) => {
-      const chosenstate = 'categories'
-
-      return <ActionButtonsWrapper id={record.id} />
+      return (
+        <ActionButtons
+          id={record.id as string}
+          handleDelete={handleDeleteColor}
+          handleRedirect={handleRedirectColors}
+          option={'colors'}
+          title="цвет"
+        />
+      );
     },
   },
 ];

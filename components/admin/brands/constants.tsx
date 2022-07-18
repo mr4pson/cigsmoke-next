@@ -1,7 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
-import ActionButtonsWrapper from './ActionButtonsWrapper';
 import { Brand } from 'swagger/services';
-
+import ActionButtons from '../generalComponents/ActionButtons';
+import { handleDeleteBrand, handleRedirectBrands } from './helpers';
 
 export const columns: ColumnsType<Brand> = [
   {
@@ -22,9 +22,15 @@ export const columns: ColumnsType<Brand> = [
   {
     title: 'Действия',
     render: (_, record) => {
-      const chosenstate = 'categories'
-
-      return <ActionButtonsWrapper id={record.id} />
+      return (
+        <ActionButtons
+          id={record.id as string}
+          handleDelete={handleDeleteBrand}
+          handleRedirect={handleRedirectBrands}
+          option={'brands'}
+          title="бренд"
+        />
+      );
     },
   },
 ];

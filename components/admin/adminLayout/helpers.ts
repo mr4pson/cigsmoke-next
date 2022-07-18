@@ -3,22 +3,27 @@ import { NextRouter } from "next/router";
 import { signout } from "redux/slicers/authSlicer";
 import { AppDispatch } from "redux/store";
 import { Page, paths } from "routes/constants";
+import { pathWords } from "./constants";
 import { TMenuItem } from "./types";
 
-export const currentPath = (router: NextRouter) => {
-  if (router.pathname === paths[Page.ADMIN_CATEGORIES]) {
-    return 'Категории';
+const getPathname = (router: NextRouter, pathIndex: number): string => {
+  const arr = router.route.substring(1).split('/')
+  let str
+  switch (pathIndex) {
+    case 1:
+      str = arr[1];
+      break;
+    case 2:
+      str = `${arr[1]}/${arr[2]}`;
+      break;
   }
-  if (router.pathname === paths[Page.ADMIN_PRODUCTS]) {
-    return 'Продукты';
-  }
-  if (router.pathname === paths[Page.ADMIN_CREATE_CATEGORY]) {
-    return 'Создание новой категории';
-  }
-  if (router.pathname === paths[Page.ADMIN_EDIT_CATEGORY]) {
-    return 'Редактирование категории';
-  }
-};
+  return str    
+}
+
+export const currentPath = (router: NextRouter, pathIndex: number): string => {
+  const lastPathname = getPathname(router, pathIndex)
+  return pathWords[lastPathname]
+}
 
 export const handleSelect = (router: NextRouter) => (route: any) => {
   router.push(route.key);

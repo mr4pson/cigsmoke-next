@@ -173,7 +173,7 @@ const brandsSlicer = createSlice({
           (item) => item.id !== action.payload,
         );
         state.saveLoading = false;
-        openSuccessNotification('Параметр успешно удален');
+        openSuccessNotification('Бренд успешно удален');
         console.log('fulfilled');
       })
       .addCase(deleteBrand.rejected, handleChangeError);
