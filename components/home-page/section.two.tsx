@@ -10,8 +10,11 @@ import Heart_full from '../../assets/heart_full.svg';
 import Cart from '../../assets/added_to_cart.svg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Wrapper, Content } from './common';
-import { Container } from 'components/store/storeLayout/common';
+import {
+  Container,
+  Wrapper,
+  Content,
+} from 'components/store/storeLayout/common';
 
 interface props {
   rotate?: string;
@@ -264,19 +267,24 @@ const ProductGrid = () => {
 const Section = () => {
   return (
     <AnimatePresence>
-      <Wrapper
-        style={{
-          backgroundColor: color.bg_product,
-        }}
+      <Container
+        variants={variants.fadInOut}
+        key="section_two"
+        initial="start"
+        animate="middle"
+        exit="end"
+        flex_direction="row"
+        justify_content="space-evenly"
+        bg_color={color.bg_product}
+        padding="50px 0"
       >
-        <Container
-          variants={variants.fadInOut}
-          key="section_one"
-          initial="start"
-          animate="middle"
-          exit="end"
-        >
-          <Content>
+        <Wrapper>
+          <Content
+            flex_direction="column"
+            justify_content="space-between"
+            align_items="center"
+            gap="35px"
+          >
             <AnimatePresence>
               <Header
                 key="header-goods"
@@ -301,8 +309,8 @@ const Section = () => {
             </AnimatePresence>
             <ProductGrid />
           </Content>
-        </Container>
-      </Wrapper>
+        </Wrapper>
+      </Container>
     </AnimatePresence>
   );
 };

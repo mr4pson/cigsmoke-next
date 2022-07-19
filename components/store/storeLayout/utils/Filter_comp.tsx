@@ -97,12 +97,12 @@ const Wrapper = styled.div`
   top: 0;
   left: 0;
   background-color: ${color.box_shadow_btn};
-  position: fixed;
+  position: absolute;
   display: flex;
   flex-directio: row;
   justify-content: center;
   align-items: center;
-  z-index: 1001;
+  z-index: 2;
 `;
 
 const Content = styled(motion.div)`

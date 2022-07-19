@@ -9,9 +9,10 @@ import axios from 'axios';
 import Arrow from '../../../../assets/arrow.svg';
 
 interface props {
-  fontSize?: string;
-  fontWeight?: string;
+  font_size?: string;
+  font_wight?: string;
   padding?: string;
+  bg_color?: string;
 }
 const fake_data = [
   { icon: 'hookah', catName: 'Кальяны' },
@@ -23,7 +24,7 @@ const fake_data = [
 ];
 const Category_comp = (props: any) => {
   const [data, setData] = useState([]);
-  const [sub_menu, ste_sub_menu] = useState('electronics');
+  const [sub_menu, set_sub_menu] = useState('electronics');
   const [sub_data, set_sub_data] = useState([]);
 
   useEffect(() => {
@@ -71,71 +72,77 @@ const Category_comp = (props: any) => {
       variants={variants.fadeInReveal}
     >
       <Wrapper_grid>
-        <Wrapper_main_menu>
+        <Wrapper_menu padding="0" bg_color={color.bg_product}>
           {data.map((item, index) => {
             return (
-              <Link key={`Wrapper_main_menu${index}`} href="/">
-                <AnimatePresence>
-                  <Row_flex
-                    onHoverStart={() => ste_sub_menu(item)}
-                    key={index}
-                    custom={index * 0.2}
-                    initial={false}
-                    animate={props.isOpen ? 'animate' : 'exit'}
-                    variants={variants.fadInSlideUp}
-                    fontSize="1rem"
-                    fontWeight="600"
-                    padding="15px 15px 15px 25%"
-                    whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                    whileTap={{ scale: 1 }}
-                  >
-                    <li>
+              <Link key={index} href="">
+                <a>
+                  <AnimatePresence>
+                    <Row_flex
+                      onHoverStart={() => set_sub_menu(item)}
+                      key={index}
+                      custom={index * 0.2}
+                      initial={false}
+                      animate={props.isOpen ? 'animate' : 'exit'}
+                      variants={variants.fadInSlideUp}
+                      font_size="1rem"
+                      font_wight="600"
+                      padding="15px 20px"
+                      whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.2 },
+                      }}
+                      whileTap={{ scale: 1 }}
+                    >
                       <Image
                         src={`/static/temp/${fake_data[index].icon}.svg`}
                         width="20"
                         height="20"
                       />
-                      <span style={{ padding: '0 0 0 15px' }}>{item}</span>
-                    </li>
-                    <span>
-                      <Arrow />
-                    </span>
-                  </Row_flex>
-                </AnimatePresence>
+                      <span id="main-category">{item}</span>
+                      <span>
+                        <Arrow />
+                      </span>
+                    </Row_flex>
+                  </AnimatePresence>
+                </a>
               </Link>
             );
           })}
-        </Wrapper_main_menu>
-        <Wrapper_sub_menu>
+        </Wrapper_menu>
+        <Wrapper_menu padding="20px 0" bg_color={color.textPrimary}>
           {sub_data.map((item: any, index) => {
             return (
-              <Link key={`Wrapper-sub-menu-${index}`} href="/">
-                <AnimatePresence>
-                  <Row_flex
-                    key={index}
-                    custom={index * 0.4}
-                    initial={false}
-                    animate={props.isOpen ? 'animate' : 'exit'}
-                    variants={variants.fadInSlideUp}
-                    fontSize="0.875rem"
-                    fontWeight="400"
-                    padding="10px"
-                    whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                    whileTap={{ scale: 1 }}
-                  >
-                    <li>
+              <Link key={index} href="">
+                <a>
+                  <AnimatePresence>
+                    <Row_flex
+                      key={index}
+                      custom={index * 0.4}
+                      initial={false}
+                      animate={props.isOpen ? 'animate' : 'exit'}
+                      variants={variants.fadInSlideUp}
+                      font_size="0.875rem"
+                      font_wight="400"
+                      padding="10px"
+                      whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.2 },
+                      }}
+                      whileTap={{ scale: 1 }}
+                    >
                       <span>{item.title}</span>
-                    </li>
-                  </Row_flex>
-                </AnimatePresence>
+                    </Row_flex>
+                  </AnimatePresence>
+                </a>
               </Link>
             );
           })}
-        </Wrapper_sub_menu>
+        </Wrapper_menu>
         <Wrapper_brands>
           {sub_data.map((item: any, index) => {
             return (
-              <Link key={`Wrapper-brands-${index}`} href="/">
+              <Link key={index} href="">
                 <AnimatePresence>
                   <motion.a
                     key={index}
@@ -168,7 +175,7 @@ const Wrapper = styled(motion.div)`
   top: 120px;
   left: 0;
   width: 100%;
-  height: 350px;
+  height: 400px;
   background-color: ${color.textPrimary};
   box-shadow: 0 0 2px 6px ${color.box_shadow};
   display: flex;
@@ -176,7 +183,6 @@ const Wrapper = styled(motion.div)`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  z-index: 1000;
 `;
 
 const Wrapper_grid = styled.nav`
@@ -184,64 +190,63 @@ const Wrapper_grid = styled.nav`
   height: 100%;
   display: flex;
   display: grid;
-  grid-template-columns: 1.2fr 1fr 3fr;
+  grid-template-columns: repeat(2, 1fr) 3fr;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 35px;
 `;
 
-const Wrapper_main_menu = styled.ul`
+const Wrapper_menu = styled.ul`
   height: 100%;
-  height: 90%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  background-color: ${color.bg_product};
+  background-color: ${(p: props) => p.bg_color};
+  padding: ${(p: props) => p.padding};
   overflow-y: scroll;
   overflow-x: hidden;
   ::-webkit-scrollbar {
     width: 10px;
   }
+  a {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
 `;
 
-const Row_flex = styled(motion.a)`
+const Row_flex = styled(motion.li)`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-  span {
-    font-size: ${(p: props) => p.fontSize};
-    font-weight: ${(p: props) => p.fontWeight};
-  }
   padding: ${(p: props) => p.padding};
+  span {
+    font-size: ${(p: props) => p.font_size};
+    font-weight: ${(p: props) => p.font_wight};
+  }
 
   &:hover {
     color: ${color.hover};
     background-color: ${color.textPrimary};
   }
-`;
-
-const Wrapper_sub_menu = styled.ul`
-  width: 100%;
-  height: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 20px 0;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  ::-webkit-scrollbar {
-    width: 10px;
+  #main-category {
+    width: 100%;
+    padding: 0 0 0 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
   }
 `;
 
 const Wrapper_brands = styled.ul`
   width: 100%;
-  height: 90%;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: center;
