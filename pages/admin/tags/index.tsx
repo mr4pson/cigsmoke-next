@@ -1,20 +1,30 @@
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchTags, clearTags } from '../../../redux/slicers/tagsSlicer';
-import { useEffect } from 'react';
-import TagsTable from '../../../components/admin/tags/TagsTable';
-import styles from './index.module.scss';
-import { Spin } from 'antd';
-import { Button } from 'antd';
-import { useRouter } from 'next/router';
-import { Page } from 'routes/constants';
+import { Button, Spin, Table } from 'antd';
+import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
 import { navigateTo } from 'common/helpers';
+import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
+import { columns } from 'components/admin/tags/constants';
+import { handleTableChange } from 'components/admin/tags/helpers';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { Page } from 'routes/constants';
+
+import { clearTags, fetchTags } from '../../../redux/slicers/tagsSlicer';
+import styles from './index.module.scss';
 
 const TagsPage = () => {
   const dispatch = useAppDispatch();
   const tags = useAppSelector((state) => state.tags.tags);
   const isLoading = useAppSelector((state) => state.tags.loading);
   const router = useRouter();
+
+  const dataSource = tags?.map(({ id, name, url }) => ({
+    key: id,
+    id,
+    name,
+    url,
+  })) as unknown as DataType[];
 
   useEffect(() => {
     dispatch(fetchTags());
@@ -39,7 +49,13 @@ const TagsPage = () => {
       {isLoading ? (
         <Spin className="spinner" size="large" />
       ) : (
-        <TagsTable tags={tags} />
+        <Table
+          columns={
+            columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
+          }
+          dataSource={dataSource}
+          onChange={handleTableChange}
+        />
       )}
     </>
   );

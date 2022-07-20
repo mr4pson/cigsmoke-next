@@ -15,6 +15,7 @@ import productsReducer from './slicers/productsSlicer';
 import imagesReducer from './slicers/imagesSlicer';
 import tagsReducer from "./slicers/tagsSlicer"
 import reviewsReducer from "./slicers/reviewsSlicer"
+import checkoutsReducer from "./slicers/checkoutsSlicer"
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
@@ -25,7 +26,8 @@ const combinedReducer = combineReducers({
   products: productsReducer,
   images: imagesReducer,
   tags: tagsReducer,
-  reviews: reviewsReducer
+  reviews: reviewsReducer,
+  checkouts: checkoutsReducer
 });
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {

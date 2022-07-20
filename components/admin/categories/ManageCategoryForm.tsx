@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useAppDispatch } from 'redux/hooks';
 import { Page } from 'routes/constants';
 import { Category } from 'swagger/services';
+import FormItem from '../generalComponents/FormItem';
 import styles from './categories.module.scss';
 import { handleFormSubmit } from './helpers';
 import { ManageCategoryFields } from './ManageCategoryFields.enum';
@@ -53,29 +54,17 @@ const ManageCategoryForm = ({
           requiredMark={true}
           className={styles.createCategoryForm}
         >
-          <Form.Item
-            name={ManageCategoryFields.Name}
-            label="Имя"
-            required
-            tooltip="Введите имя"
-          >
-            <Input placeholder="Введите имя" />
-          </Form.Item>
-          <Form.Item
-            label="URL"
-            name={ManageCategoryFields.Url}
-            required
-            tooltip={{ title: 'Введите URL', icon: <InfoCircleOutlined /> }}
-          >
-            <Input placeholder="Введите URL" />
-          </Form.Item>
+          <FormItem
+            option={ManageCategoryFields.Name}
+            children={<Input placeholder="Введите имя категории" />}
+          />
+          <FormItem
+            option={ManageCategoryFields.Url}
+            children={<Input placeholder="Введите URL категории" />}
+          />
           <Form.Item
             name={ManageCategoryFields.Parent}
             label="Выберите родительскую категорию"
-            tooltip={{
-              title: 'Выберите родительскую категорию из списка существующих',
-              icon: <InfoCircleOutlined />,
-            }}
           >
             <Select defaultValue="Не выбрано">
               <Option value="">Не выбрано</Option>

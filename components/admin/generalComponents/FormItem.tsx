@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import { InputField } from '../../../../common/enums/inputField.enum';
+import { InputField } from '../../../common/enums/inputField.enum';
 import _ from 'lodash';
 
 interface Props {

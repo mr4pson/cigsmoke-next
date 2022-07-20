@@ -3,17 +3,27 @@ import { Button, Modal, Tooltip } from 'antd';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import styles from './categories.module.scss';
-import { handleDeleteClick, handleRedirectEdit } from './helpers';
+import styles from './index.module.scss';
+// import { handleDeleteBrand, handleRedirectBrands } from './helpers';
 
 type Props = {
   id: string;
+  handleRedirect?: Function;
+  handleDelete: Function;
+  option: string;
+  title: string;
 };
 
-const ActionButtonsWrapper: React.FC<Props> = ({ id }) => {
+const ActionButtons: React.FC<Props> = ({
+  id,
+  handleRedirect,
+  handleDelete,
+  option,
+  title,
+}) => {
   const [visible, setVisible] = useState(false);
   const router = useRouter();
-  const isLoading = useAppSelector((state) => state.categories.loading);
+  const isLoading = useAppSelector((state) => state[option].loading);
   const dispatch = useAppDispatch();
 
   const showOrDontModal = () => {
@@ -22,16 +32,18 @@ const ActionButtonsWrapper: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <span>
-        <Tooltip title="Изменить">
-          <Button
-            type="default"
-            shape="circle"
-            icon={<EditOutlined />}
-            onClick={handleRedirectEdit(id, router)}
-          />
-        </Tooltip>
-      </span>
+      {handleRedirect && (
+        <span>
+          <Tooltip title="Изменить">
+            <Button
+              type="default"
+              shape="circle"
+              icon={<EditOutlined />}
+              onClick={handleRedirect(id, router)}
+            />
+          </Tooltip>
+        </span>
+      )}
       <span className={styles.deleteButtonSpan}>
         <Tooltip title="Удалить">
           <Button
@@ -45,14 +57,16 @@ const ActionButtonsWrapper: React.FC<Props> = ({ id }) => {
       <Modal
         title="Подтвердите действие."
         visible={visible}
-        onOk={handleDeleteClick(id, dispatch, setVisible)}
+        onOk={handleDelete(id, dispatch, setVisible)}
         confirmLoading={isLoading}
         onCancel={showOrDontModal}
       >
-        <p>Вы уверены, что хотите удалить категорию с ID {id}?</p>
+        <p>
+          Вы уверены, что хотите удалить {title} с ID {id}?
+        </p>
       </Modal>
     </>
   );
 };
 
-export default ActionButtonsWrapper;
+export default ActionButtons;

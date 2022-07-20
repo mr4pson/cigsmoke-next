@@ -1,6 +1,6 @@
 import { Breadcrumb, Button, Layout, Menu } from 'antd';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { User } from 'swagger/services';
 import { items } from './constants';
@@ -23,6 +23,10 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
   const dispatch = useAppDispatch();
   const [collapsed, setCollapsed] = useState(true);
   const router = useRouter();
+
+  // useEffect(() => {
+  //   console.log(router.pathname.substring(1).split('/'));
+  // }, [router]);
 
   return (
     <>
@@ -57,7 +61,8 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Администрирование</Breadcrumb.Item>
-              <Breadcrumb.Item>{currentPath(router)}</Breadcrumb.Item>
+              <Breadcrumb.Item>{currentPath(router, 1)}</Breadcrumb.Item>
+              <Breadcrumb.Item>{currentPath(router, 2)}</Breadcrumb.Item>
             </Breadcrumb>
             <div className={styles['site-layout__content']}>{children}</div>
           </Content>

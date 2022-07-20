@@ -1,7 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
-import ActionButtonsWrapper from './ActionButtonsWrapper';
 import { Parameter } from 'swagger/services';
-
+import ActionButtons from '../generalComponents/ActionButtons';
+import { handleDeleteParameter, handleRedirectParameters } from './helpers';
 
 export const columns: ColumnsType<Parameter> = [
   {
@@ -18,9 +18,15 @@ export const columns: ColumnsType<Parameter> = [
   {
     title: 'Действия',
     render: (_, record) => {
-      const chosenstate = 'categories'
-
-      return <ActionButtonsWrapper id={record.id} />
+      return (
+        <ActionButtons
+          id={record.id as string}
+          handleDelete={handleDeleteParameter}
+          handleRedirect={handleRedirectParameters}
+          option={'parameters'}
+          title="параметр"
+        />
+      );
     },
   },
 ];
