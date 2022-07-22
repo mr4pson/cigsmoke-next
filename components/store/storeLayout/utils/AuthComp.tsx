@@ -61,7 +61,7 @@ const AuthComp = () => {
         }}
       >
         <ProfileWrapper>
-          <Auth_devider style={{ justifyContent: 'flex-start' }}>
+          <Auth_devider style={{ justify_content: 'flex-start' }}>
             <Link href="/lk">
               <a>
                 <motion.img src="/static/temp/gamer.png" />
@@ -87,7 +87,7 @@ const AuthComp = () => {
             variants={variants.grow}
             style={{ alignSelf: 'flex-start' }}
           >
-            <Auth_devider style={{ justifyContent: 'flex-start' }}>
+            <Auth_devider style={{ justify_content: 'flex-start' }}>
               <Cards />
               <span style={{ fontWeight: '500', color: color.btnPrimary }}>
                 Мои карты
@@ -103,7 +103,7 @@ const AuthComp = () => {
             variants={variants.grow}
             style={{ alignSelf: 'flex-start' }}
           >
-            <Auth_devider style={{ justifyContent: 'flex-start' }}>
+            <Auth_devider style={{ justify_content: 'flex-start' }}>
               <Bookmark />
               <span style={{ fontWeight: '500', color: color.btnPrimary }}>
                 Любимые бренды
@@ -197,7 +197,7 @@ const AuthComp = () => {
             }}
           />
         </Auth_feilds_wrapper>
-        <Link href="">
+        <Link href="/">
           <a style={{ alignSelf: 'flex-start', color: color.hover }}>
             Забыл пароль
           </a>
@@ -575,7 +575,7 @@ const Auth_wrapper = styled(motion.div)`
   justify-content: center;
   align-items: center;
   background-color: ${color.textPrimary};
-  box-shadow: 0px 2px 10px ${color.box_shadow_btn};
+  box-shadow: 0px 2px 10px ${color.boxShadowBtn};
   overflow: hidden;
 `;
 
@@ -692,7 +692,7 @@ const ProfileDataWrapper = styled.div`
     font-family: 'Intro';
   }
   span {
-    color: ${color.rating_empty};
+    color: ${color.ratingEmpty};
   }
 `;
 

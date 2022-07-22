@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Btns, Container, Content, Wrapper } from './common';
 import AuthComp from './utils/AuthComp';
-import Cart_comp from './utils/Cart_comp';
+import HeaderCart from './utils/HeaderCart';
 import Filter_comp from './utils/Filter_comp';
 import Search_comp from './utils/Search_comp';
 import Category_comp from './utils/Category_comp';
@@ -155,9 +155,9 @@ const Header = () => {
                   setDisplay={set_display_filter}
                 />
               </SearchWrapper>
-              <Relitive_container id="auth-container">
+              <RelativeContainer id="auth-container">
                 <AuthComp />
-              </Relitive_container>
+              </RelativeContainer>
               <Btns>
                 <span>
                   <Order />
@@ -170,9 +170,9 @@ const Header = () => {
                 </span>
                 <span>Избранное</span>
               </Btns>
-              <Relitive_container>
-                <Cart_comp />
-              </Relitive_container>
+              <RelativeContainer>
+                <HeaderCart />
+              </RelativeContainer>
             </Content>
           </Wrapper>
           <Filter_comp
@@ -243,7 +243,7 @@ const SearchBtn = styled(motion.button)`
   }
 `;
 
-const Relitive_container = styled.div`
+const RelativeContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

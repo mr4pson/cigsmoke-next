@@ -103,7 +103,7 @@ const variants = {
     },
   },
 
-  slider_product: {
+  sliderProduct: {
     enter: (direction: number) => {
       return {
         y: direction > 0 ? 150 : -150,
