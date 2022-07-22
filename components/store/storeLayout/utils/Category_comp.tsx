@@ -72,10 +72,10 @@ const Category_comp = (props: any) => {
       variants={variants.fadeInReveal}
     >
       <Wrapper_grid>
-        <Wrapper_menu padding="0" bg_color={color.bg_product}>
+        <Wrapper_menu padding="0" bg_color={color.bgProduct}>
           {data.map((item, index) => {
             return (
-              <Link key={index} href="">
+              <Link key={index} href="/">
                 <a>
                   <AnimatePresence>
                     <Row_flex
@@ -113,7 +113,7 @@ const Category_comp = (props: any) => {
         <Wrapper_menu padding="20px 0" bg_color={color.textPrimary}>
           {sub_data.map((item: any, index) => {
             return (
-              <Link key={index} href="">
+              <Link key={index} href="/">
                 <a>
                   <AnimatePresence>
                     <Row_flex
@@ -142,7 +142,7 @@ const Category_comp = (props: any) => {
         <Wrapper_brands>
           {sub_data.map((item: any, index) => {
             return (
-              <Link key={index} href="">
+              <Link key={index} href="/">
                 <AnimatePresence>
                   <motion.a
                     key={index}
@@ -177,7 +177,7 @@ const Wrapper = styled(motion.div)`
   width: 100%;
   height: 400px;
   background-color: ${color.textPrimary};
-  box-shadow: 0 0 2px 6px ${color.box_shadow};
+  box-shadow: 0 0 2px 6px ${color.boxShadow};
   display: flex;
   flex-direction: row;
   justify-content: center;

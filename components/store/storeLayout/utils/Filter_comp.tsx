@@ -96,7 +96,7 @@ const Wrapper = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  background-color: ${color.box_shadow_btn};
+  background-color: ${color.boxShadowBtn};
   position: absolute;
   display: flex;
   flex-directio: row;

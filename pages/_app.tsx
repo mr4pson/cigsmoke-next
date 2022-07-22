@@ -10,6 +10,14 @@ import { Page } from 'routes/constants';
 import 'styles.css';
 import { wrapper } from '../redux/store';
 import type {} from 'styled-components/cssprop';
+import {
+  createCart,
+  fetchCart,
+  fetchWishlist,
+  createWishlist,
+} from 'redux/slicers/store/globalSlicer';
+
+import { v4 } from 'uuid';
 
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
@@ -23,6 +31,28 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
 
   useEffect(() => {
     const user = getUserInfo();
+    const basketId = localStorage.getItem('basketId');
+    const wishlistId = localStorage.getItem('wishlistId')!;
+    // let userId = localStorage.getItem('userId') ?? '';
+
+    // if (!user && !userId) {
+    //   userId = v4();
+    //   localStorage.setItem('userId', userId);
+    // } else if (user) {
+    //   userId = user.id!;
+    // }
+
+    if (!basketId) {
+      dispatch(createCart());
+    } else {
+      dispatch(fetchCart(basketId));
+    }
+
+    if (!wishlistId) {
+      dispatch(createWishlist());
+    } else {
+      dispatch(fetchWishlist(wishlistId));
+    }
 
     if (!user && router.pathname.includes('/admin')) {
       navigateTo(router, Page.ADMIN_LOGIN)();

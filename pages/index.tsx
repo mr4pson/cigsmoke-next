@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import SectionOne from 'components/home-page/section.one';
-import SectionTwo from 'components/home-page/section.two';
-import SectionThree from 'components/home-page/section.three';
-import SectionFour from 'components/home-page/section.four';
+import Banners from 'components/home-page/banners';
+import Bestsellers from 'components/home-page/bestsellers';
+import CreatedForYou from 'components/home-page/createdForYou';
+import Reviews from 'components/home-page/reviews';
 
 const IndexPage = (): JSX.Element => {
   return (
@@ -12,10 +12,10 @@ const IndexPage = (): JSX.Element => {
         <title>cigsmoke</title>
         <meta name="description" content="Test description" />
       </Head>
-      <SectionOne />
-      <SectionTwo />
-      <SectionThree /> {/* Shows products based on cockies */}
-      <SectionFour />
+      <Banners />
+      <Bestsellers />
+      <CreatedForYou /> {/* Shows products based on cockies */}
+      <Reviews />
     </>
   );
 };

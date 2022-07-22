@@ -8,19 +8,19 @@ import Image from 'next/image';
 
 interface props {
   padding?: string;
-  box_shadow?: string;
+  boxShadow?: string;
 }
 
 const Search_comp = (props: any) => {
   return (
     <Wrapper>
       <Content
-        box_shadow={props.result.length != 0 ? color.box_shadow : '#fff'}
+        boxShadow={props.result.length != 0 ? color.boxShadow : '#fff'}
         padding={props.result.length != 0 ? '15' : '0'}
       >
         {props.result.map((item: any, index: any) => {
           return (
-            <Link href="">
+            <Link href="/">
               <motion.a
                 custom={1.05}
                 whileHover="hover"
@@ -69,7 +69,7 @@ const Wrapper = styled.div`
   top: 75px;
   left: 0;
   background-color: ${color.textPrimary};
-  box-shadow: 0px 2px 6px ${(P: props) => P.box_shadow};
+  box-shadow: 0px 2px 6px ${(P: props) => P.boxShadow};
   border-radius: 25px;
   position: absolute;
   display: flex;
