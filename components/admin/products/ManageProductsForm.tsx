@@ -12,7 +12,7 @@ import { Page } from 'routes/constants';
 import { Brand, Category, Color, Product, Tag } from 'swagger/services';
 
 import ImageUpload from '../generalComponents/ImageUpload';
-import FormItem from './formComponents/FormItem';
+import FormItem from '../generalComponents/FormItem';
 import { handleFormSubmitProduct, initialValuesConverter } from './helpers';
 import { ManageProductFields } from './ManageProductsFields.enum';
 import styles from './products.module.scss';

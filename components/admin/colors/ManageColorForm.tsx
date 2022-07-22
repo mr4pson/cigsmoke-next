@@ -10,6 +10,7 @@ import { handleFormSubmitColors } from './helpers';
 import { ManageColorFields } from './ManageColorFields.enum';
 import { Colorpicker, ColorPickerValue } from 'antd-colorpicker';
 import { useEffect, useState } from 'react';
+import FormItem from '../generalComponents/FormItem';
 
 const { Option } = Select;
 
@@ -70,25 +71,23 @@ const ManageColorForm = ({
           requiredMark={true}
           className={styles.createColorForm}
         >
-          <Form.Item
-            name={ManageColorFields.Name}
-            label="Имя"
-            required
-            tooltip="Введите имя"
-          >
-            <Input placeholder="Введите имя" />
-          </Form.Item>
-          <Form.Item
-            label="URL"
-            name={ManageColorFields.Url}
-            required
-            tooltip={{ title: 'Введите URL', icon: <InfoCircleOutlined /> }}
-          >
-            <Input placeholder="Введите URL" />
-          </Form.Item>
+          <FormItem
+            option={ManageColorFields.Name}
+            children={<Input placeholder="Введите имя цвета" />}
+          />
+          <FormItem
+            option={ManageColorFields.Url}
+            children={<Input placeholder="Введите URL цвета" />}
+          />
           <Button
             type="default"
-            icon={<BgColorsOutlined />}
+            icon={
+              <BgColorsOutlined
+                style={{
+                  color: currColor,
+                }}
+              />
+            }
             className={styles.createColorForm__openColorButton}
             onClick={handleOpenCP}
           >

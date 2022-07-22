@@ -8,6 +8,7 @@ import { Tag } from 'swagger/services';
 import styles from './tags.module.scss';
 import { handleFormSubmit } from './helpers';
 import { ManageTagFields } from './ManageTagFields.enum';
+import FormItem from '../generalComponents/FormItem';
 
 const { Option } = Select;
 
@@ -52,22 +53,14 @@ const ManageTagForm = ({
           requiredMark={true}
           className={styles.createTagForm}
         >
-          <Form.Item
-            name={ManageTagFields.Name}
-            label="Имя"
-            required
-            tooltip="Введите имя"
-          >
-            <Input placeholder="Введите имя" />
-          </Form.Item>
-          <Form.Item
-            label="URL"
-            name={ManageTagFields.Url}
-            required
-            tooltip={{ title: 'Введите URL', icon: <InfoCircleOutlined /> }}
-          >
-            <Input placeholder="Введите URL" />
-          </Form.Item>
+          <FormItem
+            option={ManageTagFields.Name}
+            children={<Input placeholder="Введите имя тега" />}
+          />
+          <FormItem
+            option={ManageTagFields.Url}
+            children={<Input placeholder="Введите URL бренда" />}
+          />
           <Form.Item className={styles.createTagForm__buttonsStack}>
             <Button
               type="primary"

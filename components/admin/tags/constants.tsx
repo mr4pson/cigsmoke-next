@@ -1,6 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
 import { Tag } from 'swagger/services';
-import ActionButtonsWrapper from './ActionButtonsWrapper';
+import ActionButtons from '../generalComponents/ActionButtons';
+import { handleDeleteTag, handleRedirectTags } from './helpers';
 
 const columns: ColumnsType<Tag> = [
   {
@@ -23,7 +24,17 @@ const columns: ColumnsType<Tag> = [
   },
   {
     title: 'Действия',
-    render: (_, record) => <ActionButtonsWrapper id={record.id as string} />,
+    render: (_, record) => {
+      return (
+        <ActionButtons
+          id={record.id as string}
+          handleDelete={handleDeleteTag}
+          handleRedirect={handleRedirectTags}
+          option={'tags'}
+          title="тег"
+        />
+      );
+    },
   },
 ];
 

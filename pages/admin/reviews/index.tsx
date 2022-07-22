@@ -1,10 +1,11 @@
-import { Spin } from 'antd';
+import { Spin, Table } from 'antd';
+import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
+import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
-import { useRouter } from 'next/router';
+import { columns } from 'components/admin/reviews/constants';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
-import ReviewsTable from '../../../components/admin/reviews/ReviewsTable';
 import {
   clearReviews,
   fetchReviews,
@@ -15,7 +16,17 @@ const ReviewsPage = () => {
   const dispatch = useAppDispatch();
   const reviews = useAppSelector((state) => state.reviews.reviews);
   const isLoading = useAppSelector((state) => state.reviews.loading);
-  const router = useRouter();
+
+  const dataSource = reviews?.map(
+    ({ id, rating, comment, productId, userId, ...rest }) => ({
+      key: id,
+      id,
+      rating,
+      comment,
+      productId,
+      userId,
+    }),
+  ) as unknown as DataType[];
 
   useEffect(() => {
     dispatch(fetchReviews());
@@ -33,7 +44,14 @@ const ReviewsPage = () => {
       {isLoading ? (
         <Spin className="spinner" size="large" />
       ) : (
-        <ReviewsTable reviews={reviews} />
+        <>
+          <Table
+            columns={
+              columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
+            }
+            dataSource={dataSource}
+          />
+        </>
       )}
     </>
   );

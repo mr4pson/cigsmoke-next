@@ -1,4 +1,4 @@
-import { Basket, Brand, Category, Color, Image, Parameter, Product, Review, Tag, User, Wishlist } from "swagger/services";
+import { Basket, Brand, Category, Checkout, Color, Image, Parameter, Product, Review, Tag, User, Wishlist } from "swagger/services";
 
 export type TCategoryState = {
   categories: Category[],
@@ -67,4 +67,10 @@ export type TGlobalState = {
   cart: Basket | null;
   wishlist: Wishlist | null;
   loading: boolean;
+}
+
+export type TCheckoutState = {
+  checkouts: Checkout[],
+  loading: boolean,
+  saveLoading: boolean,
 }

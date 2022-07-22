@@ -34,7 +34,7 @@ export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch) => a
   }
 };
 
-export const handleDeleteClick = (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
+export const handleDeleteCategory = (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
   const isSaved: any = await dispatch(deleteCategory(id));
   if (!isSaved.error) {
     dispatch(fetchCategories());
@@ -42,6 +42,6 @@ export const handleDeleteClick = (id: string, dispatch: AppDispatch, setVisible:
   }
 };
 
-export const handleRedirectEdit = (id: string, router: NextRouter) => () => {
+export const handleRedirectCategory = (id: string, router: NextRouter) => () => {
   router.push(`${paths[Page.ADMIN_CATEGORIES]}/${id}`);
 };

@@ -6,18 +6,52 @@ import {
 import { useEffect } from 'react';
 import ProductsTable from '../../../components/admin/products/ProductsTable';
 import styles from './index.module.scss';
-import { Spin } from 'antd';
+import { Spin, Table } from 'antd';
 import { Button } from 'antd';
 import { useRouter } from 'next/router';
 import { Page } from 'routes/constants';
 import { navigateTo } from 'common/helpers';
 import AdminLayout from 'components/admin/adminLayout/layout';
+import { DataType } from 'common/interfaces/data-type.interface';
+import { columns } from 'components/admin/products/constants';
+import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
+import { handleTableChange } from 'components/admin/products/helpers';
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products.products);
   const isLoading = useAppSelector((state) => state.products.loading);
   const router = useRouter();
+
+  const dataSource = products?.map(
+    ({
+      id,
+      name,
+      price,
+      desc,
+      available,
+      colors,
+      category,
+      images,
+      brand,
+      tags,
+      url,
+      ...rest
+    }) => ({
+      key: id,
+      id,
+      name,
+      price,
+      desc,
+      available,
+      colors,
+      category: `id: ${category?.id}, имя: ${category?.name}`,
+      images: (images as string)?.split(','),
+      brand: `id: ${brand?.id}, имя: ${brand?.name}`,
+      tags,
+      url,
+    }),
+  ) as unknown as DataType[];
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -42,7 +76,13 @@ const ProductsPage = () => {
       {isLoading ? (
         <Spin className="spinner" size="large" />
       ) : (
-        <ProductsTable products={products} />
+        <Table
+          columns={
+            columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
+          }
+          dataSource={dataSource}
+          onChange={handleTableChange}
+        />
       )}
     </>
   );

@@ -1,6 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
 import { Category } from 'swagger/services';
-import ActionButtonsWrapper from './ActionButtonsWrapper';
+import ActionButtons from '../generalComponents/ActionButtons';
+import { handleDeleteCategory, handleRedirectCategory } from './helpers';
 
 const columns: ColumnsType<Category> = [
   {
@@ -42,7 +43,17 @@ const columns: ColumnsType<Category> = [
   },
   {
     title: 'Действия',
-    render: (_, record) => <ActionButtonsWrapper id={record.id} />,
+    render: (_, record) => {
+      return (
+        <ActionButtons
+          id={record.id as string}
+          handleDelete={handleDeleteCategory}
+          handleRedirect={handleRedirectCategory}
+          option={'categories'}
+          title="категорию"
+        />
+      );
+    },
   },
 ];
 

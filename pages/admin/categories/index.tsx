@@ -1,23 +1,38 @@
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  fetchCategories,
-  clearCategories,
-} from '../../../redux/slicers/categoriesSlicer';
-import { useEffect } from 'react';
-import CategoriesTable from '../../../components/admin/categories/CategoriesTable';
-import styles from './index.module.scss';
-import { Spin } from 'antd';
-import { Button } from 'antd';
-import { useRouter } from 'next/router';
-import { Page } from 'routes/constants';
+import { Button, Spin, Table } from 'antd';
+import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
 import { navigateTo } from 'common/helpers';
+import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
+import { columns } from 'components/admin/categories/constants';
+import { handleTableChange } from 'components/admin/categories/helpers';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { Page } from 'routes/constants';
+
+import {
+  clearCategories,
+  fetchCategories,
+} from '../../../redux/slicers/categoriesSlicer';
+import styles from './index.module.scss';
 
 const CategoriesPage = () => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.categories.categories);
   const isLoading = useAppSelector((state) => state.categories.loading);
   const router = useRouter();
+
+  const dataSource = categories?.map(
+    ({ id, name, createdAt, updatedAt, url, parent, ...rest }) => ({
+      key: id,
+      id,
+      name,
+      createdAt,
+      updatedAt,
+      url,
+      parent,
+    }),
+  ) as unknown as DataType[];
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -42,7 +57,13 @@ const CategoriesPage = () => {
       {isLoading ? (
         <Spin className="spinner" size="large" />
       ) : (
-        <CategoriesTable categories={categories} />
+        <Table
+          columns={
+            columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
+          }
+          dataSource={dataSource}
+          onChange={handleTableChange}
+        />
       )}
     </>
   );

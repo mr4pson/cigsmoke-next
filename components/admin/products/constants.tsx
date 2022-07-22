@@ -1,6 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
-import ActionButtonsWrapper from './ActionButtonsWrapper';
 import { Color, Product, Tag } from 'swagger/services';
+import ActionButtons from '../generalComponents/ActionButtons';
+import { handleDeleteProduct, handleRedirectProducts } from './helpers';
 
 export const columns: ColumnsType<Product> = [
   {
@@ -61,7 +62,7 @@ export const columns: ColumnsType<Product> = [
       if (record?.images) {
         return (
           <ul>
-            {record?.images.map((image) => (
+            {(record?.images as string[]).map((image) => (
               <li key={image}>{image}</li>
             ))}
           </ul>
@@ -95,7 +96,15 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Действия',
     render: (_, record) => {
-      return <ActionButtonsWrapper id={record.id as string} />;
+      return (
+        <ActionButtons
+          id={record.id as string}
+          handleDelete={handleDeleteProduct}
+          handleRedirect={handleRedirectProducts}
+          option={'products'}
+          title="продукт"
+        />
+      );
     },
   },
 ];

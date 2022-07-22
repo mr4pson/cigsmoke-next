@@ -1,6 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
 import { Review } from 'swagger/services';
-import ActionButtonsWrapper from './ActionButtonsWrapper';
+import ActionButtons from '../generalComponents/ActionButtons';
+import { handleDeleteReview } from './helpers';
 
 const columns: ColumnsType<Review> = [
   {
@@ -34,7 +35,16 @@ const columns: ColumnsType<Review> = [
   },
   {
     title: 'Действия',
-    render: (_, record) => <ActionButtonsWrapper id={record.id} />,
+    render: (_, record) => {
+      return (
+        <ActionButtons
+          id={record.id as string}
+          handleDelete={handleDeleteReview}
+          option={'reviews'}
+          title="комментарий"
+        />
+      );
+    },
   },
 ];
 
