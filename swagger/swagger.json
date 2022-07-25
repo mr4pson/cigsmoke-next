@@ -1708,6 +1708,46 @@
         }
       }
     },
+    "/products/priceRange": {
+      "get": {
+        "tags": ["product"],
+        "summary": "Get min and max product prices by category and name",
+        "description": "",
+        "operationId": "getPriceRange",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filtering products by name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "categories",
+            "in": "query",
+            "description": "Filtering products by categories URLs in array",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PriceRange"
+              }
+            }
+          }
+        }
+      }
+    },
     "/tags": {
       "get": {
         "tags": ["tag"],
@@ -3810,6 +3850,10 @@
         "name": {
           "type": "string"
         },
+        "url": {
+          "type": "string",
+          "required": true
+        },
         "image": {
           "type": "string"
         }
@@ -3903,6 +3947,9 @@
           "readOnly": true
         },
         "url": {
+          "type": "string"
+        },
+        "code": {
           "type": "string"
         }
       }
@@ -4452,6 +4499,16 @@
         "updatedAt": {
           "type": "string",
           "readOnly": true
+        }
+      }
+    },
+    "PriceRange": {
+      "properties": {
+        "minPrice": {
+          "type": "number"
+        },
+        "maxPrice": {
+          "type": "number"
         }
       }
     }

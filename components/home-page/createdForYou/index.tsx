@@ -1,23 +1,20 @@
-import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
-import { useEffect, useState } from 'react';
+import variants from 'components/store/lib/variants';
 import {
   Container,
-  Wrapper,
   Content,
+  Wrapper,
 } from 'components/store/storeLayout/common';
-import ProductGrid from '../productGrid';
+import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Product, ProductService } from 'swagger/services';
+import ProductGrid from '../../../ui-kit/products/productGrid';
 import Subscription from './subscription';
-import { Basket, Product, ProductService, Wishlist } from 'swagger/services';
-import { useAppSelector } from 'redux/hooks';
 
 const Section = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const cart: Basket = useAppSelector((state) => state.global.cart);
-  const wishlist: Wishlist = useAppSelector((state) => state.global.wishlist);
 
   useEffect(() => {
     (async () => {
@@ -69,8 +66,6 @@ const Section = () => {
                   padding: '50px 20px',
                 }}
                 products={products}
-                cart={cart}
-                wishlist={wishlist}
               >
                 <Subscription />
               </ProductGrid>

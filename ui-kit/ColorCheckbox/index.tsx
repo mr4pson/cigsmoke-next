@@ -9,8 +9,14 @@ type Props = {
   onChange?: (value: boolean) => void;
 };
 
-const ColorCheckbox: React.FC<Props> = ({ label, style, color, onChange }) => {
-  const [stateChecked, setStateChecked] = useState(false);
+const ColorCheckbox: React.FC<Props> = ({
+  label,
+  style,
+  color,
+  checked,
+  onChange,
+}) => {
+  const [stateChecked, setStateChecked] = useState(checked);
   const nativeCheckboxRef = useRef({} as any);
 
   const handleClick = () => {
@@ -27,7 +33,7 @@ const ColorCheckbox: React.FC<Props> = ({ label, style, color, onChange }) => {
 
   return (
     <CheckboxWrapper style={style} onClick={handleClick}>
-      <Checkbox active={stateChecked} style={{ backgroundColor: color }}>
+      <Checkbox active={!!stateChecked} style={{ backgroundColor: color }}>
         <input
           ref={nativeCheckboxRef}
           checked={stateChecked}

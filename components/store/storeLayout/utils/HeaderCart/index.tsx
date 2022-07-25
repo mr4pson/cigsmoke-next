@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { updateCart } from 'redux/slicers/store/globalSlicer';
 import styled from 'styled-components';
 import { Basket, Product } from 'swagger/services';
 import CartSVG from '../../../../../assets/cart.svg';
@@ -13,12 +12,13 @@ import CartItem from './cartItem';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { handleCartBtnClick, handleClickOutside } from './helpers';
 import { PopupDisplay } from './constants';
+import { updateCart } from 'redux/slicers/store/cartSlicer';
 
 const HeaderCart = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [display, setDisplay] = useState(PopupDisplay.None);
-  const cart: Basket | null = useAppSelector((state) => state.global.cart);
+  const cart: Basket | null = useAppSelector((state) => state.cart.cart);
 
   const ref = useDetectClickOutside({
     onTriggered: handleClickOutside(isOpen, setIsOpen, setDisplay),

@@ -1,38 +1,80 @@
+import { FilterType, getFilters } from 'components/store/catalog/constants';
 import ColorFilter from 'components/store/catalog/filters/ColorFilter';
-import {
-  getFilters,
-  FilterType,
-  sectionOptions,
-  brandOptions,
-  colorOptions,
-} from 'components/store/catalog/constants';
 import MultipleSelectionFilter from 'components/store/catalog/filters/MultipleSelectionFilter';
 import RangeFilter from 'components/store/catalog/filters/RangeFilter';
 import SingleSelectionFilter from 'components/store/catalog/filters/SingleSelectionFilter';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Brand, Category, Color, PriceRange } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
+import { convertQueryParams } from './helpers';
 
-const FilterBar = () => {
+type Props = {
+  categories: Category[];
+  brands: Brand[];
+  colors: Color[];
+  priceRange: PriceRange;
+};
+
+const FilterBar: React.FC<Props> = ({
+  categories,
+  brands,
+  colors,
+  priceRange,
+}) => {
+  const router = useRouter();
+  const query = convertQueryParams(router.query);
+  console.log(query);
+
   const filtersConfig = {
-    sectionOptions,
-    brandOptions,
-    colorOptions,
-    minPrice: 1000,
-    maxPrice: 10000,
+    sectionOptions: categories.map(({ id, name, url }) => ({
+      id,
+      name,
+      url,
+      checked: !!query.categories?.find((categoryUrl) => categoryUrl === url),
+    })) as FilterOption[],
+    brandOptions: brands.map(({ id, name, url }) => ({
+      id,
+      name,
+      url,
+      checked: !!query.brands?.find((brandUrl) => brandUrl === url),
+    })) as FilterOption[],
+    colorOptions: colors.map(({ id, name, url, code }) => ({
+      id,
+      name,
+      url,
+      color: code,
+      checked: !!query.colors?.find((colorUrl) => colorUrl === url),
+    })) as FilterOption[],
+    minPrice: priceRange.minPrice!,
+    maxPrice: priceRange.maxPrice!,
   };
-  const [filters, setFilters] = useState(getFilters(filtersConfig));
+  const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
 
   const handleResetFilters = () => {
-    setFilters([]);
+    setLocalFilters([]);
     setTimeout(() => {
-      setFilters(getFilters(filtersConfig));
+      setLocalFilters(getFilters(filtersConfig));
     });
   };
 
+  const hanldeResetBtnClick = () => {
+    router.push({
+      pathname: '/catalog',
+      query: {},
+    });
+
+    handleResetFilters();
+  };
+
+  useEffect(() => {
+    handleResetFilters();
+  }, [categories, brands, colors, priceRange]);
+
   return (
     <FilterBarContent>
-      {filters.map(
+      {localFilters.map(
         (filter, key) =>
           (filter.type === FilterType.SINGLE_SELECTION && (
             <SingleSelectionFilter
@@ -78,7 +120,7 @@ const FilterBar = () => {
             />
           )),
       )}
-      <ResetButton onClick={handleResetFilters}>
+      <ResetButton onClick={hanldeResetBtnClick}>
         <span>Сбросить</span>
         <img src="assets/images/reset-icon.png" />
       </ResetButton>

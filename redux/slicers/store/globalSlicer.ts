@@ -1,57 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TGlobalState } from 'redux/types';
-import { Basket, BasketDTO, BasketService, Brand, Wishlist, WishlistService } from 'swagger/services';
+import { BasketDTO, Wishlist, WishlistService } from 'swagger/services';
 import {
   getErrorMassage, handleError, handlePending
 } from '../../../common/helpers';
-
-export const fetchCart = createAsyncThunk<
-  Basket,
-  string,
-  { rejectValue: string }
->(
-  'global/fetchCart',
-  async function (payload, { rejectWithValue }): Promise<any> {
-    // const userId = localStorage.getItem('userId');
-    try {
-      return await BasketService.findBasketById({ basketId: payload });
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
-
-export const createCart = createAsyncThunk<
-  Basket,
-  undefined,
-  { rejectValue: string }
->(
-  'global/createCart',
-  async function (_, { rejectWithValue }): Promise<any> {
-    try {
-      return await BasketService.createBasket();
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
-
-export const updateCart = createAsyncThunk<
-  Basket,
-  BasketDTO,
-  { rejectValue: string }
->(
-  'global/updateCart',
-  async function (payload: BasketDTO, { rejectWithValue }): Promise<any> {
-    try {
-      const basketId = localStorage.getItem('basketId') ?? '';
-
-      return await BasketService.updateBasket({ basketId, body: payload });
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
 
 export const fetchWishlist = createAsyncThunk<
   Wishlist,
@@ -102,7 +54,6 @@ export const updateWishlist = createAsyncThunk<
 );
 
 const initialState: TGlobalState = {
-  cart: null,
   wishlist: null,
   loading: false,
 };
@@ -117,42 +68,7 @@ const brandsSlicer = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      //fetchCart
-      .addCase(fetchCart.pending, handlePending)
-      .addCase(
-        fetchCart.fulfilled,
-        (state, action) => {
-          state.cart = action.payload;
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
-      .addCase(fetchCart.rejected, handleError)
-      //createCart
-      .addCase(createCart.pending, handlePending)
-      .addCase(
-        createCart.fulfilled,
-        (state, action) => {
-          state.cart = action.payload;
-          localStorage.setItem('basketId', action.payload.id!);
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
-      .addCase(createCart.rejected, handleError)
-      //updateCart
-      .addCase(updateCart.pending, handlePending)
-      .addCase(
-        updateCart.fulfilled,
-        (state, action) => {
-          state.cart = action.payload;
-          localStorage.setItem('basketId', action.payload.id!);
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
-      .addCase(updateCart.rejected, handleError)
-      //fetchCart
+      //fetchWishlist
       .addCase(fetchWishlist.pending, handlePending)
       .addCase(
         fetchWishlist.fulfilled,
@@ -163,6 +79,7 @@ const brandsSlicer = createSlice({
         },
       )
       .addCase(fetchWishlist.rejected, handleError)
+      // createWishlist
       .addCase(createWishlist.pending, handlePending)
       .addCase(
         createWishlist.fulfilled,
@@ -174,7 +91,7 @@ const brandsSlicer = createSlice({
         },
       )
       .addCase(createWishlist.rejected, handleError)
-      //updateCart
+      //updateWishlist
       .addCase(updateWishlist.pending, handlePending)
       .addCase(
         updateWishlist.fulfilled,

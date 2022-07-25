@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Product } from 'swagger/services';
-import AddToCart from './bestsellers/cartBtn';
+import AddToCart from '../../components/home-page/bestsellers/cartBtn';
 import Slider from './slider';
 
 type Props = {

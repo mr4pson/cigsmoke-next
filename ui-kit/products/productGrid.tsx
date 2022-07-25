@@ -1,6 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
-import { useAppDispatch } from 'redux/hooks';
-import { updateCart, updateWishlist } from 'redux/slicers/store/globalSlicer';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { updateCart } from 'redux/slicers/store/cartSlicer';
+import { updateWishlist } from 'redux/slicers/store/globalSlicer';
 import styled from 'styled-components';
 import { Basket, Product, Wishlist } from 'swagger/services';
 import { getAnimationDelay } from './helpers';
@@ -8,19 +9,13 @@ import ProductItem from './productItem';
 
 type Props = {
   products: Product[];
-  cart: Basket | null;
-  wishlist: Wishlist | null;
   gridStyle?: object;
   children?: JSX.Element;
 };
 
-const ProductGrid: React.FC<Props> = ({
-  products,
-  gridStyle,
-  cart,
-  wishlist,
-  children,
-}) => {
+const ProductGrid: React.FC<Props> = ({ products, gridStyle, children }) => {
+  const cart: Basket = useAppSelector((state) => state.cart.cart);
+  const wishlist: Wishlist = useAppSelector((state) => state.global.wishlist);
   const delay = getAnimationDelay(products.length);
   const dispatch = useAppDispatch();
 
