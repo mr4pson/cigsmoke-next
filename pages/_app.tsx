@@ -11,13 +11,11 @@ import 'styles.css';
 import { wrapper } from '../redux/store';
 import type {} from 'styled-components/cssprop';
 import {
-  createCart,
-  fetchCart,
   fetchWishlist,
   createWishlist,
 } from 'redux/slicers/store/globalSlicer';
 
-import { v4 } from 'uuid';
+import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {

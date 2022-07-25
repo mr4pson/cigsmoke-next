@@ -8,15 +8,12 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useAppSelector } from 'redux/hooks';
 import styled from 'styled-components';
-import { Basket, Product, ProductService, Wishlist } from 'swagger/services';
-import ProductGrid from '../productGrid';
+import { Product, ProductService } from 'swagger/services';
+import ProductGrid from '../../../ui-kit/products/productGrid';
 
 const Bestsellers = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const cart: Basket = useAppSelector((state) => state.global.cart);
-  const wishlist: Wishlist = useAppSelector((state) => state.global.wishlist);
 
   useEffect(() => {
     (async () => {
@@ -67,7 +64,7 @@ const Bestsellers = () => {
                 </Link>
               </Header>
             </AnimatePresence>
-            <ProductGrid cart={cart} products={products} wishlist={wishlist} />
+            <ProductGrid products={products} />
           </Content>
         </Wrapper>
       </Container>

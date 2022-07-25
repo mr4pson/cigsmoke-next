@@ -1,6 +1,7 @@
+import cloneDeep from 'lodash/cloneDeep';
+import Router from 'next/router';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { Filter } from './types';
-import cloneDeep from 'lodash/cloneDeep';
 
 enum FilterType {
   MULTIPLE_SELECTION,
@@ -8,47 +9,6 @@ enum FilterType {
   RANGE,
   COLOR,
 }
-
-// TODO: set options from store
-export const sectionOptions: FilterOption[] = [
-  {
-    id: '1',
-    name: 'Кальяны',
-    checked: true,
-  },
-  {
-    id: '2',
-    name: 'Вейпы',
-  },
-  {
-    id: '3',
-    name: 'Жижи',
-  },
-];
-
-export const brandOptions: FilterOption[] = [
-  {
-    id: '1',
-    name: 'Test 1',
-  },
-  {
-    id: '2',
-    name: 'Test 2',
-  },
-];
-
-export const colorOptions: FilterOption[] = [
-  {
-    id: '1',
-    name: 'Красный',
-    color: 'red',
-  },
-  {
-    id: '2',
-    name: 'Зеленый',
-    color: 'green',
-  },
-];
 
 const getFilters = ({
   sectionOptions,
@@ -69,7 +29,15 @@ const getFilters = ({
       options: cloneDeep(sectionOptions),
       type: FilterType.SINGLE_SELECTION,
       onChange: (selectedOption: FilterOption | undefined) => {
-        console.log(selectedOption);
+        const categories = [selectedOption?.url!];
+
+        Router.push({
+          pathname: '/catalog',
+          query: {
+            ...Router.query,
+            categories,
+          },
+        });
       },
     },
     {
@@ -77,7 +45,15 @@ const getFilters = ({
       options: cloneDeep(brandOptions),
       type: FilterType.MULTIPLE_SELECTION,
       onChange: (selectedOptions: FilterOption[] | undefined) => {
-        console.log(selectedOptions);
+        const brands = selectedOptions?.map(option => option.url);
+
+        Router.push({
+          pathname: '/catalog',
+          query: {
+            ...Router.query,
+            brands,
+          },
+        });
       },
     },
     {
@@ -85,7 +61,15 @@ const getFilters = ({
       options: cloneDeep(colorOptions),
       type: FilterType.COLOR,
       onChange: (selectedOptions: FilterOption[] | undefined) => {
-        console.log(selectedOptions);
+        const colors = selectedOptions?.map(option => option.url);
+
+        Router.push({
+          pathname: '/catalog',
+          query: {
+            ...Router.query,
+            colors,
+          },
+        });
       },
     },
     {
@@ -93,11 +77,19 @@ const getFilters = ({
       type: FilterType.RANGE,
       min: minPrice,
       max: maxPrice,
-      onChange: (values: [number, number]) => {
-        console.log(values);
+      onChange: ([minPrice, maxPrice]: [number, number]) => {
+        Router.push({
+          pathname: '/catalog',
+          query: {
+            ...Router.query,
+            minPrice,
+            maxPrice,
+          },
+        });
       },
     },
   ];
 };
 
 export { FilterType, getFilters };
+

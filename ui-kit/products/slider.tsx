@@ -9,13 +9,13 @@ import { Product } from 'swagger/services';
 import Arrow from '../../assets/arrow.svg';
 import HeartEmpty from '../../assets/heart_empty.svg';
 import HeartFull from '../../assets/heart_full.svg';
-import { SWIPE_CONFIDENCE_THRESHOLD } from './bestsellers/constants';
+import { SWIPE_CONFIDENCE_THRESHOLD } from '../../components/home-page/bestsellers/constants';
 import {
   handleDragEnd,
   handleWishBtnClick,
   paginateBack,
   paginateForward,
-} from './helpers';
+} from '../../components/home-page/helpers';
 
 type StyleProps = {
   rotate?: string;

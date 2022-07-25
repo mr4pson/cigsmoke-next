@@ -49,7 +49,7 @@ const Wrapper = styled.div`
   max-width: 90%;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  // justify-content: space-evenly;
   @media ${devices.laptopM} {
     max-width: 1230px;
   }

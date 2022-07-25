@@ -1,76 +1,104 @@
-import { Basket, Brand, Category, Checkout, Color, Image, Parameter, Product, Review, Tag, User, Wishlist } from "swagger/services";
+import { Basket, Brand, Category, Checkout, Color, Image, Parameter, PriceRange, Product, Review, Tag, User, Wishlist } from "swagger/services";
 
-export type TCategoryState = {
+type TCategoryState = {
   categories: Category[],
   category: Category | null,
   loading: boolean,
   saveLoading: boolean,
 }
 
-export type TAuthState = {
+type TAuthState = {
   user: User | null;
   loading: boolean;
 }
 
-export type TColorState = {
+type TColorState = {
   colors: Color[],
   chosenColor: Color | null,
   loading: boolean,
   saveLoading: boolean,
 }
 
-export type TBrandState = {
+type TBrandState = {
   brands: Brand[],
   chosenBrand: Brand | null,
   loading: boolean,
   saveLoading: boolean,
 }
 
-export type TParameterState = {
+type TParameterState = {
   parameters: Parameter[],
   chosenParameter: Parameter | null,
   loading: boolean,
   saveLoading: boolean,
 }
 
-export type TProductState = {
+type TProductState = {
   products: Product[],
   chosenProduct: Product | null,
   loading: boolean,
   saveLoading: boolean,
 }
 
-export type TImageState = {
+type TImageState = {
   imageList: Image[],
   loading: boolean,
 }
 
-export interface PayloadCreateImage {
+interface PayloadCreateImage {
   config: {},
   file: any
 }
 
-export interface TTagState {
+interface TTagState {
   tags: Tag[],
   tag: Tag | null,
   loading: boolean,
   saveLoading: boolean,
 }
 
-export type TReviewState = {
+type TReviewState = {
   reviews: Review[],
   loading: boolean,
   saveLoading: boolean,
 }
 
-export type TGlobalState = {
-  cart: Basket | null;
+type TGlobalState = {
   wishlist: Wishlist | null;
   loading: boolean;
 }
 
-export type TCheckoutState = {
+type TCartState = {
+  cart: Basket | null;
+  loading: boolean;
+}
+
+type TFilters = {
+  name?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  desc?: string;
+  available?: boolean;
+  colors?: string[];
+  categories?: string[];
+  brands?: string[];
+  tags?: string[];
+};
+
+type TCatalogState = {
+  categories: Category[];
+  brands: Brand[];
+  colors: Color[];
+  priceRange: PriceRange;
+  products: Product[];
+  loading: boolean;
+  filters: TFilters;
+}
+
+type TCheckoutState = {
   checkouts: Checkout[],
   loading: boolean,
   saveLoading: boolean,
 }
+
+export type { TCategoryState, TAuthState, TColorState, TBrandState, TParameterState, TProductState, TImageState, PayloadCreateImage, TTagState, TReviewState, TGlobalState, TCartState, TFilters, TCatalogState, TCheckoutState };
