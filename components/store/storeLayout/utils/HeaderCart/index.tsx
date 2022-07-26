@@ -85,16 +85,14 @@ const HeaderCart = () => {
               })}
             </PopupContent>
             <PopupBtnsDivider>
-              <Link href="/">
-                <a>
-                  <ActionBtns
-                    whileHover="hover"
-                    whileTap="tap"
-                    variants={variants.boxShadow}
-                  >
-                    Перейти в корзину
-                  </ActionBtns>
-                </a>
+              <Link href="/cart">
+                <ActionBtns
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={variants.boxShadow}
+                >
+                  Перейти в корзину
+                </ActionBtns>
               </Link>
               <Link href="/">
                 <a>

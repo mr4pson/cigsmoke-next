@@ -4,7 +4,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { OrderProduct, Product } from 'swagger/services';
 import CloseSVG from '../../../../../assets/close_black.svg';
-import ItemCounter from './ItemCounter';
+import ItemCounter from '../../../../../ui-kit/ItemCounter';
 
 type Props = {
   item: OrderProduct;

@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Brand, Category, Color, PriceRange } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
-import { convertQueryParams } from './helpers';
+import { convertQueryParams, getFiltersConfig } from './helpers';
 
 type Props = {
   categories: Category[];
@@ -24,32 +24,14 @@ const FilterBar: React.FC<Props> = ({
   priceRange,
 }) => {
   const router = useRouter();
-  const query = convertQueryParams(router.query);
-  console.log(query);
-
-  const filtersConfig = {
-    sectionOptions: categories.map(({ id, name, url }) => ({
-      id,
-      name,
-      url,
-      checked: !!query.categories?.find((categoryUrl) => categoryUrl === url),
-    })) as FilterOption[],
-    brandOptions: brands.map(({ id, name, url }) => ({
-      id,
-      name,
-      url,
-      checked: !!query.brands?.find((brandUrl) => brandUrl === url),
-    })) as FilterOption[],
-    colorOptions: colors.map(({ id, name, url, code }) => ({
-      id,
-      name,
-      url,
-      color: code,
-      checked: !!query.colors?.find((colorUrl) => colorUrl === url),
-    })) as FilterOption[],
-    minPrice: priceRange.minPrice!,
-    maxPrice: priceRange.maxPrice!,
-  };
+  const filters = convertQueryParams(router.query);
+  const filtersConfig = getFiltersConfig({
+    categories,
+    brands,
+    colors,
+    priceRange,
+    filters,
+  });
   const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
 
   const handleResetFilters = () => {
