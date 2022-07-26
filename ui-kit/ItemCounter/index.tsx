@@ -3,15 +3,24 @@ import styled from 'styled-components';
 import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
 import variants from 'components/store/lib/variants';
-import { decreaseCounter, increaseCounter } from './helpers';
+import {
+  decreaseCounter,
+  increaseCounter,
+} from '../../components/store/storeLayout/utils/HeaderCart/helpers';
 import { Product } from 'swagger/services';
 
 type Props = {
   qty: number;
   product: Product;
+  inputStyle?: Object;
   onCountChange: (counter: number, product: Product) => void;
 };
-const ItemCounter: React.FC<Props> = ({ qty, product, onCountChange }) => {
+const ItemCounter: React.FC<Props> = ({
+  qty,
+  product,
+  inputStyle,
+  onCountChange,
+}) => {
   const [itemCounter, setItemCounter] = useState(qty);
 
   return (
@@ -24,7 +33,13 @@ const ItemCounter: React.FC<Props> = ({ qty, product, onCountChange }) => {
       >
         -
       </motion.button>
-      <input readOnly value={itemCounter} type="number" min={1} />
+      <input
+        style={inputStyle}
+        readOnly
+        value={itemCounter}
+        type="number"
+        min={1}
+      />
       <motion.button
         whileHover="hover"
         whileTap="tap"
@@ -41,7 +56,7 @@ const ItemCounterWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  aling-items: center;
+  align-items: center;
   gap: 5px;
 
   button {
@@ -50,11 +65,13 @@ const ItemCounterWrapper = styled.div`
     border-radius: 5px;
     background-color: ${color.btnPrimary};
     color: ${color.textPrimary};
+    align-self: center !important;
   }
 
   input {
-    width: 25px;
-    height: 25px;
+    width: 34px;
+    height: 30px;
+    text-align: center;
     border-radius: 5px;
     padding: 0 8px;
     border: 1px solid ${color.btnPrimary};
