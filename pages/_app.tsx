@@ -5,6 +5,7 @@ import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch } from 'redux/hooks';
+import { AnimatePresence } from 'framer-motion';
 import { setUser } from 'redux/slicers/authSlicer';
 import { Page } from 'routes/constants';
 import 'styles.css';
@@ -63,7 +64,9 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
     <>
       {Component.PageLayout ? (
         <Component.PageLayout>
-          <Component {...pageProps} />
+          <AnimatePresence exitBeforeEnter>
+            <Component {...pageProps} key={router.asPath} />
+          </AnimatePresence>
         </Component.PageLayout>
       ) : (
         <Component {...pageProps} />

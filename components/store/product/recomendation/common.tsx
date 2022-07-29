@@ -1,21 +1,27 @@
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import variants from 'components/store/lib/variants';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { updateCart } from 'redux/slicers/store/cartSlicer';
 import { updateWishlist } from 'redux/slicers/store/globalSlicer';
-import styled from 'styled-components';
 import { Basket, Product, Wishlist } from 'swagger/services';
-import { getAnimationDelay } from './helpers';
-import ProductItem from './productItem';
+import ProductItem from 'ui-kit/products/productItem';
 
 type Props = {
   products: Product[];
-  gridStyle?: object;
   children?: JSX.Element;
+  width?: any;
+  widthRef?: any;
+  slideTo?: number;
 };
-
-const ProductGrid: React.FC<Props> = ({ products, gridStyle, children }) => {
+const ProductFlex: React.FC<Props> = ({
+  products,
+  width,
+  widthRef,
+  slideTo,
+}) => {
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const wishlist: Wishlist = useAppSelector((state) => state.global.wishlist);
-  const delay = getAnimationDelay(products.length);
   const dispatch = useAppDispatch();
 
   const handleCartBtnClick = (product: Product) => async () => {
@@ -85,33 +91,77 @@ const ProductGrid: React.FC<Props> = ({ products, gridStyle, children }) => {
 
   const checkIfItemInWishlist = (product: Product) =>
     !!wishlist?.items?.find((item) => item.productId == product.id);
-
   return (
-    <Grid style={gridStyle}>
-      {children}
-      {products.map((product, index) => {
-        return (
-          <ProductItem
-            key={`product-item-${index}`}
-            product={product}
-            custom={delay[index]}
-            isInCart={checkIfItemInCart(product)}
-            isInWishlist={checkIfItemInWishlist(product)}
-            onCartBtnClick={handleCartBtnClick(product)}
-            onWishBtnClick={handleWishBtnClick(product)}
-          />
-        );
-      })}
-    </Grid>
+    <FlexWrapper>
+      <SliderWrapper
+        drag="x"
+        dragConstraints={{ right: 0, left: -width }}
+        ref={widthRef}
+        custom={slideTo}
+        animate="animate"
+        variants={variants.sliderX}
+      >
+        {products.map((product, index) => {
+          return (
+            <ProductItem
+              key={`product-item-${index}`}
+              product={product}
+              custom={index * 0.05}
+              isInCart={checkIfItemInCart(product)}
+              isInWishlist={checkIfItemInWishlist(product)}
+              onCartBtnClick={handleCartBtnClick(product)}
+              onWishBtnClick={handleWishBtnClick(product)}
+            />
+          );
+        })}
+      </SliderWrapper>
+    </FlexWrapper>
   );
 };
 
-const Grid = styled.ul`
+const FlexWrapper = styled(motion.div)`
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  column-gap: inherit;
-  row-gap: 30px;
+  overflow: hidden;
 `;
 
-export default ProductGrid;
+const SliderWrapper = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+`;
+
+const ContentWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aling-items: center;
+  gap: 20px;
+`;
+const HeaderWrapper = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  h3 {
+    font-family: 'intro';
+    font-size: 1.2rem;
+    margin: 0;
+  }
+`;
+
+const BtnsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+`;
+
+export { ProductFlex, ContentWrapper, HeaderWrapper, BtnsWrapper };

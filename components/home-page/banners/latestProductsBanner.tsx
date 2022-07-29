@@ -1,28 +1,27 @@
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styled from 'styled-components';
 
 export const LatestProductsBanner = () => {
   return (
     <FlexBoxColumn>
-      <AnimatePresence>
-        <DiscountWrapper
-          key="disount-wrapper"
-          custom={0.2}
-          initial="init"
-          animate="animate"
-          exit="exit"
-          variants={variants.fadeIn}
-        >
-          <AnimatePresence>
+      <DiscountWrapper
+        key="latest-home-disount-wrapper"
+        custom={0.2}
+        initial="init"
+        animate="animate"
+        variants={variants.fadeIn}
+      >
+        <Link href="/catalog">
+          <a>
             <DiscountImg
-              key="discount-img"
-              custom={0.5}
+              key="latest-home-discount-img"
+              custom={0.3}
               initial="init"
               animate="animate"
-              exit="exit"
+              exit={{ y: -80, opacity: 0, transition: { delay: 0.05 } }}
               src="/static/pm40.webp"
               variants={variants.fadInSlideUp}
               whileHover={{
@@ -32,49 +31,47 @@ export const LatestProductsBanner = () => {
                 scale: 1,
               }}
             />
-            <motion.h3
-              key="discount-header"
-              custom={0.8}
+          </a>
+        </Link>
+        <motion.h3
+          key="latest-home-discount-header"
+          custom={0.4}
+          initial="init"
+          animate="animate"
+          exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
+          variants={variants.fadInSlideUp}
+        >
+          НОВИНКИ
+        </motion.h3>
+        <motion.p
+          key="latest-home-discount-text"
+          custom={0.5}
+          initial="init"
+          animate="animate"
+          exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
+          variants={variants.fadInSlideUp}
+        >
+          Только в этом сезонe действует скидка на Vaperesso Luxe
+        </motion.p>
+        <Link href="/catalog">
+          <motion.a
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.boxShadow}
+          >
+            <motion.button
+              key="latest-home-discount-btn"
+              custom={0.6}
               initial="init"
               animate="animate"
-              exit="exit"
+              exit={{ y: -80, opacity: 0, transition: { delay: 0.2 } }}
               variants={variants.fadInSlideUp}
             >
-              НОВИНКИ
-            </motion.h3>
-            <motion.p
-              key="discount-text"
-              custom={1.1}
-              initial="init"
-              animate="animate"
-              exit="exit"
-              variants={variants.fadInSlideUp}
-            >
-              Только в этом сезонe действует скидка на Vaperesso Luxe
-            </motion.p>
-            <Link href="/">
-              <motion.a
-                whileHover="hover"
-                whileTap="tap"
-                variants={variants.boxShadow}
-              >
-                <AnimatePresence>
-                  <motion.button
-                    key="discount-btn"
-                    custom={1.4}
-                    initial="init"
-                    animate="animate"
-                    exit="exit"
-                    variants={variants.fadInSlideUp}
-                  >
-                    Посмотреть
-                  </motion.button>
-                </AnimatePresence>
-              </motion.a>
-            </Link>
-          </AnimatePresence>
-        </DiscountWrapper>
-      </AnimatePresence>
+              Посмотреть
+            </motion.button>
+          </motion.a>
+        </Link>
+      </DiscountWrapper>
     </FlexBoxColumn>
   );
 };

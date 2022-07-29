@@ -1,8 +1,8 @@
 import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { devices } from './Devices';
-interface props {
+import { devices } from '../lib/Devices';
+type props = {
   flex_direction?: string;
   justify_content?: string;
   position?: string;
@@ -12,7 +12,7 @@ interface props {
   bg_color?: string;
   align_items?: string;
   gap?: string;
-}
+};
 
 const Btns = styled(motion.button)`
   display: flex;

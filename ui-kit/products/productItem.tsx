@@ -32,7 +32,6 @@ const ProductItem: React.FC<Props> = ({
       custom={custom}
       initial="init"
       whileInView="animate"
-      exit="exit"
       viewport={{ once: true }}
       variants={variants.fadInSlideUp}
     >
@@ -44,7 +43,7 @@ const ProductItem: React.FC<Props> = ({
           isInWishlist={isInWishlist}
           onWishBtnClick={onWishBtnClick}
         />
-        <Link href={`/${product.id}`}>
+        <Link href={`/product/${product.id}`}>
           <a>
             <span>{product.name}</span>
             <PriceWrapper>

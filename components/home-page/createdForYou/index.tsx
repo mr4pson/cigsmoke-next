@@ -5,7 +5,7 @@ import {
   Content,
   Wrapper,
 } from 'components/store/storeLayout/common';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -24,86 +24,81 @@ const Section = () => {
   }, []);
 
   return (
-    <AnimatePresence>
-      <Container
-        variants={variants.fadInOut}
-        key="section_three"
-        initial="start"
-        animate="middle"
-        exit="end"
-        flex_direction="row"
-        justify_content="space-evenly"
-        padding="50px 0 0 0"
-        bg_color={color.bgSecondary}
-      >
-        <Wrapper>
-          <Content
-            flex_direction="column"
-            justify_content="space-between"
-            align_items="center"
-            gap="35px"
+    <Container
+      variants={variants.fadInOut}
+      key="section_three"
+      initial="start"
+      whileInView="middle"
+      flex_direction="row"
+      justify_content="space-evenly"
+      padding="50px 0 0 0"
+      bg_color={color.bgSecondary}
+    >
+      <Wrapper>
+        <Content
+          flex_direction="column"
+          justify_content="space-between"
+          align_items="center"
+          gap="35px"
+        >
+          <Header
+            key="header-goods"
+            custom={0.2}
+            initial="init"
+            whileInView="animate"
+            exit="exit"
+            viewport={{ once: true }}
+            variants={variants.fadInSlideUp}
           >
-            <AnimatePresence>
-              <Header
-                key="header-goods"
-                custom={0.2}
-                initial="init"
-                whileInView="animate"
-                exit="exit"
-                viewport={{ once: true }}
-                variants={variants.fadInSlideUp}
-              >
-                <h2>Создано для тебе</h2>
-              </Header>
-            </AnimatePresence>
-            <ContentInner>
-              <ProductGrid
-                gridStyle={{
-                  gridTemplateAreas: "'item item item subscribe'",
-                  justify_content: 'space-between',
-                  alignItems: 'center',
-                  gap: '20px',
-                  padding: '50px 20px',
-                }}
-                products={products}
-              >
-                <Subscription />
-              </ProductGrid>
-              <Footer
-                key="header-messege"
-                custom={0.4}
-                initial="init"
-                whileInView="animate"
-                exit="exit"
-                viewport={{ once: true }}
-                variants={variants.fadInSlideUp}
-              >
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Maxime mollitia, molestiae quas vel sint commodi repudiandae
-                  consequuntur voluptatum laborum numquam blanditiis harum
-                  quisquam eius sed odit fugiat iusto fuga praesentium optio,
-                  eaque rerum! Provident similique accusantium nemo autem.
-                  Veritatis obcaecati tenetur iure eius earum ut molestias
-                  architecto voluptate aliquam nihil, eveniet aliquid culpa
-                  officia aut! Impedit sit sunt quaerat, odit, tenetur error,
-                  harum nesciunt ipsum debitis quas aliquid
-                </p>
-                <Link href="#">
-                  <motion.a
-                    whileHover="hover"
-                    whileTap="tap"
-                    variants={variants.boxShadow}
-                  >
-                    <button>Показать все</button>
-                  </motion.a>
-                </Link>
-              </Footer>
-            </ContentInner>
-          </Content>
-        </Wrapper>
-      </Container>
-    </AnimatePresence>
+            <h2>Создано для тебе</h2>
+          </Header>
+
+          <ContentInner>
+            <ProductGrid
+              gridStyle={{
+                gridTemplateAreas: "'item item item subscribe'",
+                justify_content: 'space-between',
+                alignItems: 'center',
+                gap: '20px',
+                padding: '50px 20px',
+              }}
+              products={products}
+            >
+              <Subscription />
+            </ProductGrid>
+            <Footer
+              key="header-messege"
+              custom={0.2}
+              initial="init"
+              whileInView="animate"
+              viewport={{ once: true }}
+              variants={variants.fadInSlideUp}
+            >
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
+                mollitia, molestiae quas vel sint commodi repudiandae
+                consequuntur voluptatum laborum numquam blanditiis harum
+                quisquam eius sed odit fugiat iusto fuga praesentium optio,
+                eaque rerum! Provident similique accusantium nemo autem.
+                Veritatis obcaecati tenetur iure eius earum ut molestias
+                architecto voluptate aliquam nihil, eveniet aliquid culpa
+                officia aut! Impedit sit sunt quaerat, odit, tenetur error,
+                harum nesciunt ipsum debitis quas aliquid
+              </p>
+              <Link href={`/catalog/id`}>
+                <motion.a
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={variants.boxShadow}
+                >
+                  <button>Показать все</button>
+                </motion.a>
+              </Link>
+            </Footer>
+          </ContentInner>
+        </Content>
+      </Wrapper>
+    </Container>
   );
 };
 
