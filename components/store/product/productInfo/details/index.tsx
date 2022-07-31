@@ -37,7 +37,7 @@ const Details = (props: any) => {
             variants={variants.fadInSlideUp}
           >
             <Rating value={5} size="small" readOnly />
-            <Link href="#reveiws">
+            <Link href="#reveiws-quastions">
               <a>
                 <span>148 Отзывы</span>
               </a>
@@ -54,7 +54,7 @@ const Details = (props: any) => {
             <span>
               <Quastions />
             </span>
-            <Link href="#quastions">
+            <Link href="#reveiws-quastions">
               <a>
                 <span>31 вопрос</span>
               </a>

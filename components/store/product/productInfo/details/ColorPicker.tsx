@@ -86,7 +86,7 @@ const ColorPicker = (props: any) => {
                 style={{
                   border: `1px solid ${
                     props.selectedIndex == index
-                      ? color.hover
+                      ? color.yellow
                       : color.textPrimary
                   }`,
                 }}

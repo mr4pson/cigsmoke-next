@@ -97,6 +97,7 @@ const ShareToSocial = () => {
               <motion.span
                 animate={isCopied ? 'animate' : 'exit'}
                 variants={variants.fadeInSlideIn}
+                style={{ color: color.ok }}
               >
                 Ссылка скопирована
               </motion.span>
@@ -165,7 +166,7 @@ const SocialParent = styled(motion.div)`
     justify-content: center;
     align-items: center;
     gap: 5px;
-    color: ${color.hover};
+    color: ${color.yellow};
     cursor: pointer;
     }
   }

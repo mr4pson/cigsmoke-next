@@ -54,7 +54,7 @@ const NavWrapper = styled.div`
   align-items: center;
   gap: 10px;
   a {
-    color: ${color.hover};
+    color: ${color.yellow};
   }
 `;
 

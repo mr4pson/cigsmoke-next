@@ -3,12 +3,8 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import { paginateHandler } from 'components/store/storeLayout/helpers';
-import {
-  ProductFlex,
-  ContentWrapper,
-  HeaderWrapper,
-  BtnsWrapper,
-} from './common';
+import { ProductFlex, ContentWrapper, BtnsWrapper } from './common';
+import { HeaderWrapper } from '../common';
 import { Product, ProductService } from 'swagger/services';
 import ArrowWhite from '../../../../assets/arrow_white.svg';
 

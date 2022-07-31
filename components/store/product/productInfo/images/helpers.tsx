@@ -7,8 +7,8 @@ const MagnifieHelper = () => {
   useEffect(() => {
     const img = imgRef.current;
     const lens = lensRef.current;
-    lens.style.backgroundImage = `url(/static/backpack.jpg)`; //TODO add magnified image state here for dynamic variables
-    let zoomLevel = 2;
+    lens.style.backgroundImage = `url(https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg)`; //TODO add magnified image state here for dynamic variables
+    let zoomLevel = 1.5;
 
     lens.style.backgroundSize = `${img.width * zoomLevel}px ${
       img.height * zoomLevel

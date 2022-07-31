@@ -67,48 +67,48 @@ const DropDown = () => {
           <DeleveryBox />
           <h3>ВАРИАНТЫ ДОСТАВКИ CIGSMOKE:</h3>
         </DeleveryInfoHeader>
-        <DeleverInfoContaiener>
-          <DeleverInfoItems borderbottom="1px solid" borderright="1px solid">
+        <DeleveryInfoContaiener>
+          <DeleveryInfoItems borderbottom="1px solid" borderright="1px solid">
             <span className="headers-delevery">Услуги</span>
-          </DeleverInfoItems>
-          <DeleverInfoItems borderbottom="1px solid" borderright="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderbottom="1px solid" borderright="1px solid">
             <span className="headers-delevery">Доступный</span>
-          </DeleverInfoItems>
-          <DeleverInfoItems borderbottom="1px solid" borderright="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderbottom="1px solid" borderright="1px solid">
             <span className="headers-delevery">Расходы</span>
-          </DeleverInfoItems>
-          <DeleverInfoItems borderbottom="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderbottom="1px solid">
             <span className="headers-delevery">Бесплатно, если потратить</span>
-          </DeleverInfoItems>
-          <DeleverInfoItems borderbottom="1px solid" borderright="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderbottom="1px solid" borderright="1px solid">
             <span>Стандартная Доставка</span>
-          </DeleverInfoItems>
-          <DeleverInfoItems borderbottom="1px solid" borderright="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderbottom="1px solid" borderright="1px solid">
             <span>2-5 рабочих дней</span>
-          </DeleverInfoItems>
-          <DeleverInfoItems borderbottom="1px solid" borderright="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderbottom="1px solid" borderright="1px solid">
             <span className="prices-delever">500₽</span>
             {/* TODO add dynamic pricing */}
-          </DeleverInfoItems>
-          <DeleverInfoItems borderbottom="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderbottom="1px solid">
             <span className="prices-delever">10000₽</span>
             {/* TODO add dynamic pricing */}
-          </DeleverInfoItems>
-          <DeleverInfoItems borderright="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderright="1px solid">
             <span>Экспресс-доставка</span>
-          </DeleverInfoItems>
-          <DeleverInfoItems borderright="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderright="1px solid">
             <span>2-3 рабочих дня</span>
-          </DeleverInfoItems>
-          <DeleverInfoItems borderright="1px solid">
+          </DeleveryInfoItems>
+          <DeleveryInfoItems borderright="1px solid">
             <span className="prices-delever">2500₽</span>
             {/* TODO add dynamic pricing */}
-          </DeleverInfoItems>
-          <DeleverInfoItems>
+          </DeleveryInfoItems>
+          <DeleveryInfoItems>
             <span className="prices-delever">15000₽</span>
             {/* TODO add dynamic pricing */}
-          </DeleverInfoItems>
-        </DeleverInfoContaiener>
+          </DeleveryInfoItems>
+        </DeleveryInfoContaiener>
         <span>
           Обратите внимание, что примерная стоимость доставки зависит от вашего
           местоположения, и курьеры могут продлить окно доставки, если ваше
@@ -177,7 +177,7 @@ const DeleveryInfoHeader = styled.div`
   }
 `;
 
-const DeleverInfoContaiener = styled.ul`
+const DeleveryInfoContaiener = styled.ul`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -186,7 +186,7 @@ const DeleverInfoContaiener = styled.ul`
   border-radius: 15px;
 `;
 
-const DeleverInfoItems = styled.li`
+const DeleveryInfoItems = styled.li`
   width: 100%;
   height: 100%;
   display: flex;

@@ -79,7 +79,7 @@ const Pagination = (props: any) => {
                   }
                 }}
                 border={
-                  index == props.selectedIndex ? color.hover : 'transparent'
+                  index == props.selectedIndex ? color.yellow : 'transparent'
                 }
                 initial="init"
                 animate="animate"

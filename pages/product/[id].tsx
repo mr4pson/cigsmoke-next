@@ -3,6 +3,7 @@ import SEO from 'components/store/SEO';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import ProductInfo from 'components/store/product/productInfo';
 import Recomendation from 'components/store/product/recomendation';
+import ReveiwsAndQuastions from 'components/store/product/reviewsAndQuastions';
 
 const Product = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const Product = () => {
       />
       <ProductInfo />
       <Recomendation />
+      <ReveiwsAndQuastions />
     </>
   );
 };

@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { MagnifieHelper } from './helpers';
+import { SliderImage } from '../../common';
 import { handleDragEnd } from 'components/home-page/helpers';
-import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
+import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
 
 const Slider = (props: any) => {
   const [lensDisplay, setLensDisplay] = useState('none');
@@ -80,16 +81,6 @@ const Lens = styled(motion.div)`
   border-radius: 50%;
   background-repeat: no-repeat;
   cursor: none;
-`;
-
-const SliderImage = styled(motion.img)`
-  width: 95%;
-  height: 95%;
-  position: absolute;
-  left: auto;
-  top: auto;
-  padding: 20px;
-  object-fit: cover;
 `;
 
 export default Slider;
