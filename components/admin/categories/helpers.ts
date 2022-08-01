@@ -4,6 +4,7 @@ import { navigateTo } from "common/helpers";
 import { DataType } from "common/interfaces/data-type.interface";
 import { NextRouter } from "next/router";
 import { createCategory, deleteCategory, editCategory, fetchCategories } from "redux/slicers/categoriesSlicer";
+import { clearImageList } from "redux/slicers/imagesSlicer";
 import { AppDispatch } from "redux/store";
 import { Page, paths } from "routes/constants";
 
@@ -11,13 +12,15 @@ export const handleTableChange: TableProps<DataType>['onChange'] = (pagination, 
   console.log('params', pagination, filters, sorter, extra);
 };
 
-export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch) => async (form) => {
+export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch, image: any) => async (form) => {
   if (router.query.id) {
+    const payload = {
+      ...form,
+      image: image[0].url.split("/api/images/")[1],
+      id: router.query.id,
+    };
     const isSaved: any = await dispatch(
-      editCategory({
-        ...form,
-        id: router.query.id,
-      }),
+      editCategory(payload),
     );
 
     if (!isSaved.error) {
@@ -27,7 +30,10 @@ export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch) => a
     return;
   }
 
-  const isSaved: any = await dispatch(createCategory(form));
+  const isSaved: any = await dispatch(createCategory({
+    ...form,
+    image: image[0]?.url.split("/api/images/")[1],
+  }));
 
   if (!isSaved.error) {
     navigateTo(router, Page.ADMIN_CATEGORIES)();

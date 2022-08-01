@@ -17,8 +17,10 @@ const Bestsellers = () => {
 
   useEffect(() => {
     (async () => {
-      const products = await ProductService.getProducts({ limit: 8 });
-      setProducts(products);
+      const products = (await ProductService.getProducts({
+        limit: 8,
+      })) as unknown as { rows: Product[] };
+      setProducts(products.rows);
     })();
   }, []);
 
