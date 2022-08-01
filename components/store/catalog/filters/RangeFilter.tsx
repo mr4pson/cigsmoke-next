@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Filter, FilterBody, FilterTitle } from '../common';
 import debounce from 'lodash/debounce';
+import variants from 'components/store/lib/variants';
 
 type Props = {
   title: string;
@@ -35,8 +36,22 @@ const RangeFilter: React.FC<Props> = ({ title, min, max, onChange }) => {
 
   return (
     <Filter>
-      <FilterTitle>{title}</FilterTitle>
-      <FilterBody>
+      <FilterTitle
+        custom={0.3}
+        initial="init"
+        animate="animate"
+        exit={{ y: -80, opacity: 0, transition: { delay: 0.3 } }}
+        variants={variants.fadInSlideUp}
+      >
+        {title}
+      </FilterTitle>
+      <FilterBody
+        custom={0.4}
+        initial="init"
+        animate="animate"
+        exit={{ y: -80, opacity: 0, transition: { delay: 0.4 } }}
+        variants={variants.fadInSlideUp}
+      >
         <FieldsWrapper>
           <Input
             min={min}

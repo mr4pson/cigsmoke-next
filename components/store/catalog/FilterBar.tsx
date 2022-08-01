@@ -6,6 +6,8 @@ import SingleSelectionFilter from 'components/store/catalog/filters/SingleSelect
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import variants from '../lib/variants';
 import { Brand, Category, Color, PriceRange } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
@@ -102,7 +104,14 @@ const FilterBar: React.FC<Props> = ({
             />
           )),
       )}
-      <ResetButton onClick={hanldeResetBtnClick}>
+      <ResetButton
+        initial="init"
+        whileInView="animate"
+        custom={0.2}
+        viewport={{ once: true }}
+        variants={variants.fadInSlideUp}
+        onClick={hanldeResetBtnClick}
+      >
         <span>Сбросить</span>
         <img src="assets/images/reset-icon.png" />
       </ResetButton>
@@ -114,7 +123,7 @@ const FilterBarContent = styled.div`
   min-width: 272px;
 `;
 
-const ResetButton = styled.button`
+const ResetButton = styled(motion.button)`
   background: #000;
   color: #fff;
   padding: 8.5px 17px;
