@@ -77,7 +77,7 @@ const Slider: React.FC<Props> = ({
                     custom={1.2}
                     variants={variants.grow}
                     transition={{ ease: 'easeInOut' }}
-                    src={images[imageIndex]}
+                    src={`/api/images/${images[imageIndex]}`}
                   />
                 </a>
               </AnimatePresence>

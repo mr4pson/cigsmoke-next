@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { Basket, Product } from 'swagger/services';
 import CartSVG from '../../../../../assets/cart.svg';
 import { Btns } from '../../common';
-import CartItem from './cartItem';
+import CartItem from './CartItem';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { handleCartBtnClick, handleClickOutside } from './helpers';
 import { PopupDisplay } from './constants';

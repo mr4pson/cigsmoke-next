@@ -2,12 +2,12 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AuthBtn } from './AnimatedBtns';
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
-import Arrow from '../../../../assets/arrow_white.svg';
-import Cards from '../../../../assets/creditCard.svg';
-import Bookmark from '../../../../assets/bookmark.svg';
+import Arrow from '../../../../../assets/arrow_white.svg';
+import Cards from '../../../../../assets/creditCard.svg';
+import Bookmark from '../../../../../assets/bookmark.svg';
+import AuthBtn from './AuthBtn';
 
 interface props {
   width?: string;
@@ -22,7 +22,7 @@ const validateEmail = (email: any) => {
     );
 };
 
-const AuthComp = () => {
+const AuthPopup = () => {
   const [[isForm, formDisplay], setForm] = useState([false, 'none']);
   const [formType, setformType] = useState('step-1');
   const [[page, direction], setPage] = useState([0, 0]);
@@ -61,7 +61,7 @@ const AuthComp = () => {
         }}
       >
         <ProfileWrapper>
-          <Auth_devider style={{ justify_content: 'flex-start' }}>
+          <Auth_devider style={{ justifyContent: 'flex-start' }}>
             <Link href="/lk">
               <a>
                 <motion.img src="/static/temp/gamer.png" />
@@ -87,7 +87,7 @@ const AuthComp = () => {
             variants={variants.grow}
             style={{ alignSelf: 'flex-start' }}
           >
-            <Auth_devider style={{ justify_content: 'flex-start' }}>
+            <Auth_devider style={{ justifyContent: 'flex-start' }}>
               <Cards />
               <span style={{ fontWeight: '500', color: color.btnPrimary }}>
                 Мои карты
@@ -103,7 +103,7 @@ const AuthComp = () => {
             variants={variants.grow}
             style={{ alignSelf: 'flex-start' }}
           >
-            <Auth_devider style={{ justify_content: 'flex-start' }}>
+            <Auth_devider style={{ justifyContent: 'flex-start' }}>
               <Bookmark />
               <span style={{ fontWeight: '500', color: color.btnPrimary }}>
                 Любимые бренды
@@ -696,4 +696,4 @@ const ProfileDataWrapper = styled.div`
   }
 `;
 
-export default AuthComp;
+export default AuthPopup;

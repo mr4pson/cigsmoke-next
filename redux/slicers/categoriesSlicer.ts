@@ -12,7 +12,7 @@ import { TCategoryState } from 'redux/types';
 import { Category, CategoryService } from 'swagger/services';
 
 export const fetchCategories = createAsyncThunk<
-  Category[],
+  { rows: Category[] },
   undefined,
   { rejectValue: string }
 >(
@@ -52,6 +52,7 @@ export const createCategory = createAsyncThunk<
       return await CategoryService.createCategory({
         body: {
           name: payload.name,
+          image: payload.image,
           url: payload.url,
           parentId: payload.parent,
         }
@@ -74,6 +75,7 @@ export const editCategory = createAsyncThunk<
         categoryId: payload.id as string, body: {
           name: payload.name,
           url: payload.url,
+          image: payload.image,
           parentId: payload.parent,
         }
       });
@@ -123,7 +125,8 @@ const categoriesSlicer = createSlice({
       .addCase(
         fetchCategories.fulfilled,
         (state, action) => {
-          state.categories = action.payload;
+          state.categories = action.payload.rows;
+          // console.log(state.categories);
           state.loading = false;
           console.log('fulfilled');
         },

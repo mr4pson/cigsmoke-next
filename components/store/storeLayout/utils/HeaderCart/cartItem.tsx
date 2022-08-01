@@ -14,7 +14,7 @@ type Props = {
 
 const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
   const { name, price, images } = item.product!;
-  const imageList = images ? JSON.parse(images) : [];
+  const imageList = images ? images.split(',') : [];
 
   const handleRemoveClick = (product: Product) => () => {
     onRemove(product);
@@ -29,7 +29,7 @@ const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
             whileTap="tap"
             custom={1.05}
             variants={variants.grow}
-            src={imageList[0]}
+            src={`/api/images/${imageList[0]}`}
           />
           <ItemDetails>
             <h4>{name}</h4>

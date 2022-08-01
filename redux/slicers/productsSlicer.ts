@@ -19,7 +19,8 @@ export const fetchProducts = createAsyncThunk<
   'products/fetchProducts',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await ProductService.getProducts();
+      const response = await ProductService.getProducts() as unknown as { rows: Product[] };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -141,7 +142,7 @@ const productsSlicer = createSlice({
         },
       )
       .addCase(fetchProducts.rejected, handleError)
-        //fetchChosenProduct
+      //fetchChosenProduct
       .addCase(fetchChosenProduct.pending, handlePending)
       .addCase(
         fetchChosenProduct.fulfilled,
@@ -152,7 +153,7 @@ const productsSlicer = createSlice({
         },
       )
       .addCase(fetchChosenProduct.rejected, handleError)
-        //createProduct
+      //createProduct
       .addCase(createProduct.pending, handleChangePending)
       .addCase(
         createProduct.fulfilled,
@@ -163,7 +164,7 @@ const productsSlicer = createSlice({
         },
       )
       .addCase(createProduct.rejected, handleChangeError)
-        //editProduct
+      //editProduct
       .addCase(editProduct.pending, handleChangePending)
       .addCase(editProduct.fulfilled, (state, action) => {
         let product = state.products.find(
@@ -178,7 +179,7 @@ const productsSlicer = createSlice({
         console.log('fulfilled');
       })
       .addCase(editProduct.rejected, handleChangeError)
-        //deleteProduct
+      //deleteProduct
       .addCase(deleteProduct.pending, handleChangePending)
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.products = state.products.filter(
