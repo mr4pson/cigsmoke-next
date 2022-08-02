@@ -25,7 +25,7 @@ const ProductItem: React.FC<Props> = ({
   onCartBtnClick,
   onWishBtnClick,
 }) => {
-  const images = product.images ? JSON.parse(product.images) : [];
+  const images = product.images ? product.images.split(',') : [];
 
   return (
     <ItemContainer

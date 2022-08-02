@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import axios from 'axios';
-import Arrow from '../../../../assets/arrow.svg';
+import Arrow from '../../../../../assets/arrow.svg';
 
 interface props {
   font_size?: string;
@@ -22,7 +22,7 @@ const fake_data = [
   { icon: 'holder', catName: 'Пепельницы' },
   { icon: 'cigar', catName: 'Табак' },
 ];
-const Category_comp = (props: any) => {
+const CatalogModal = (props: any) => {
   const [data, setData] = useState([]);
   const [sub_menu, set_sub_menu] = useState('electronics');
   const [sub_data, set_sub_data] = useState([]);
@@ -265,4 +265,4 @@ const Wrapper_brands = styled.ul`
   }
 `;
 
-export default Category_comp;
+export default CatalogModal;

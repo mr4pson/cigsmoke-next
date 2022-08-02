@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TGlobalState } from 'redux/types';
-import { BasketDTO, Wishlist, WishlistService } from 'swagger/services';
+import { BasketDTO, Category, CategoryService, Product, ProductService, Wishlist, WishlistService } from 'swagger/services';
 import {
   getErrorMassage, handleError, handlePending
 } from '../../../common/helpers';
@@ -53,18 +53,52 @@ export const updateWishlist = createAsyncThunk<
   },
 );
 
+export const fetchCategories = createAsyncThunk<
+  Category[],
+  undefined,
+  { rejectValue: string }
+>(
+  'catalog/fetchCategories',
+  async function (_, { rejectWithValue }): Promise<any> {
+    try {
+      const response = await CategoryService.getCategories() as unknown as { rows: Category[] };
+      return response.rows;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const searchProducts = createAsyncThunk<
+  Product[],
+  { name?: string, categories: string[] },
+  { rejectValue: string }
+>(
+  'catalog/searchProducts',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      const response = await ProductService.getProducts(payload) as unknown as { rows: Category[] };
+      return response.rows;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 const initialState: TGlobalState = {
   wishlist: null,
+  categories: [],
+  products: [],
   loading: false,
 };
 
-const brandsSlicer = createSlice({
+const globalSlicer = createSlice({
   name: 'global',
   initialState,
   reducers: {
-    // clearBrands(state) {
-    //   state.brands = [];
-    // },
+    clearSearchProducts(state) {
+      state.products = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -103,9 +137,31 @@ const brandsSlicer = createSlice({
         },
       )
       .addCase(updateWishlist.rejected, handleError)
+      //fetchCategories
+      .addCase(fetchCategories.pending, handlePending)
+      .addCase(
+        fetchCategories.fulfilled,
+        (state, action) => {
+          state.categories = action.payload.filter(category => !category.parent);
+          state.loading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(fetchCategories.rejected, handleError)
+      //searchProducts
+      .addCase(searchProducts.pending, handlePending)
+      .addCase(
+        searchProducts.fulfilled,
+        (state, action) => {
+          state.products = action.payload;
+          state.loading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(searchProducts.rejected, handleError)
   },
 });
 
-export const { } = brandsSlicer.actions;
+export const { clearSearchProducts } = globalSlicer.actions;
 
-export default brandsSlicer.reducer;
+export default globalSlicer.reducer;

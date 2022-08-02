@@ -23,10 +23,11 @@ const CategoriesPage = () => {
   const router = useRouter();
 
   const dataSource = categories?.map(
-    ({ id, name, createdAt, updatedAt, url, parent, ...rest }) => ({
+    ({ id, name, createdAt, updatedAt, url, image, parent, ...rest }) => ({
       key: id,
       id,
       name,
+      image,
       createdAt,
       updatedAt,
       url,
