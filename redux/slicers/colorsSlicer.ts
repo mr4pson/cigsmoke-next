@@ -19,7 +19,8 @@ export const fetchColors = createAsyncThunk<
   'colors/fetchColors',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await ColorService.getColors();
+      const response = await ColorService.getColors() as unknown as { rows: Color[] };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -129,7 +130,7 @@ const colorsSlicer = createSlice({
         },
       )
       .addCase(fetchColors.rejected, handleError)
-        //fetchColor
+      //fetchColor
       .addCase(fetchChosenColor.pending, handlePending)
       .addCase(
         fetchChosenColor.fulfilled,
@@ -140,7 +141,7 @@ const colorsSlicer = createSlice({
         },
       )
       .addCase(fetchChosenColor.rejected, handleError)
-        //createColor
+      //createColor
       .addCase(createColor.pending, handleChangePending)
       .addCase(
         createColor.fulfilled,
@@ -151,7 +152,7 @@ const colorsSlicer = createSlice({
         },
       )
       .addCase(createColor.rejected, handleChangeError)
-        //editColor
+      //editColor
       .addCase(editColor.pending, handleChangePending)
       .addCase(editColor.fulfilled, (state, action) => {
         let color = state.colors.find(
@@ -166,7 +167,7 @@ const colorsSlicer = createSlice({
         console.log('fulfilled');
       })
       .addCase(editColor.rejected, handleChangeError)
-        //deleteColor
+      //deleteColor
       .addCase(deleteColor.pending, handleChangePending)
       .addCase(deleteColor.fulfilled, (state, action) => {
         state.colors = state.colors.filter(

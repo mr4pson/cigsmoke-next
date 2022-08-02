@@ -11,7 +11,8 @@ export const fetchCategories = createAsyncThunk<
   'catalog/fetchCategories',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await CategoryService.getCategories();
+      const response = await CategoryService.getCategories() as unknown as { rows: Category[] };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -26,7 +27,8 @@ export const fetchBrands = createAsyncThunk<
   'catalog/fetchBrands',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await BrandService.getBrands();
+      const response = await BrandService.getBrands() as unknown as { rows: Brand[] };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -41,7 +43,8 @@ export const fetchColors = createAsyncThunk<
   'catalog/fetchColors',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await ColorService.getColors();
+      const response = await ColorService.getColors() as unknown as { rows: Color[] };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -56,7 +59,8 @@ export const fetchProducts = createAsyncThunk<
   'catalog/fetchProducts',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      return await ProductService.getProducts(payload);
+      const response = await ProductService.getProducts(payload) as unknown as { rows: Product[] };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }

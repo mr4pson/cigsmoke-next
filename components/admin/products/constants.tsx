@@ -2,11 +2,27 @@ import { ColumnsType } from 'antd/lib/table';
 import { Color, Product, Tag } from 'swagger/services';
 import ActionButtons from '../generalComponents/ActionButtons';
 import { handleDeleteProduct, handleRedirectProducts } from './helpers';
+import styles from './products.module.scss';
 
 export const columns: ColumnsType<Product> = [
   {
     title: 'Id',
     dataIndex: 'id',
+  },
+  {
+    title: 'Изображения',
+    dataIndex: 'images',
+    render: (_, record?) => {
+      console.log(record?.images);
+      if (record?.images) {
+        return (
+          <div
+            style={{ backgroundImage: `url(/api/images/${record?.images[0]})` }}
+            className={styles['image']}
+          ></div>
+        );
+      }
+    },
   },
   {
     title: 'Имя',
@@ -53,21 +69,6 @@ export const columns: ColumnsType<Product> = [
     dataIndex: 'category',
     sorter: {
       compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
-  },
-  {
-    title: 'Изображения',
-    dataIndex: 'images',
-    render: (_, record?) => {
-      if (record?.images) {
-        return (
-          <ul>
-            {(record?.images as string[]).map((image) => (
-              <li key={image}>{image}</li>
-            ))}
-          </ul>
-        );
-      }
     },
   },
   {

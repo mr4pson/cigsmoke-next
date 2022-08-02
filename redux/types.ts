@@ -65,6 +65,8 @@ type TReviewState = {
 
 type TGlobalState = {
   wishlist: Wishlist | null;
+  categories: Category[];
+  products: Product[];
   loading: boolean;
 }
 

@@ -21,7 +21,8 @@ export const fetchBrands = createAsyncThunk<
   'brands/fetchBrands',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await BrandService.getBrands();
+      const response = await BrandService.getBrands() as unknown as { rows: Brand[] };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -129,7 +130,7 @@ const brandsSlicer = createSlice({
         },
       )
       .addCase(fetchBrands.rejected, handleError)
-        //fetchBrand
+      //fetchBrand
       .addCase(fetchChosenBrand.pending, handlePending)
       .addCase(
         fetchChosenBrand.fulfilled,
@@ -140,7 +141,7 @@ const brandsSlicer = createSlice({
         },
       )
       .addCase(fetchChosenBrand.rejected, handleError)
-        //createBrand
+      //createBrand
       .addCase(createBrand.pending, handleChangePending)
       .addCase(
         createBrand.fulfilled,
@@ -151,7 +152,7 @@ const brandsSlicer = createSlice({
         },
       )
       .addCase(createBrand.rejected, handleChangeError)
-        //editBrand
+      //editBrand
       .addCase(editBrand.pending, handleChangePending)
       .addCase(editBrand.fulfilled, (state, action) => {
         let brand = state.brands.find(
@@ -166,7 +167,7 @@ const brandsSlicer = createSlice({
         console.log('fulfilled');
       })
       .addCase(editBrand.rejected, handleChangeError)
-        //deleteColor
+      //deleteColor
       .addCase(deleteBrand.pending, handleChangePending)
       .addCase(deleteBrand.fulfilled, (state, action) => {
         state.brands = state.brands.filter(

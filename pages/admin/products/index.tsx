@@ -4,7 +4,6 @@ import {
   clearProducts,
 } from '../../../redux/slicers/productsSlicer';
 import { useEffect } from 'react';
-import ProductsTable from '../../../components/admin/products/ProductsTable';
 import styles from './index.module.scss';
 import { Spin, Table } from 'antd';
 import { Button } from 'antd';

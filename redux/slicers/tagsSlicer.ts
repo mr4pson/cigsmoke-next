@@ -19,7 +19,8 @@ export const fetchTags = createAsyncThunk<
   'tags/fetchTags',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await TagService.getTags();
+      const response = await TagService.getTags() as unknown as { rows: Tag[] };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }

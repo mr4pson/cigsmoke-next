@@ -3871,6 +3871,9 @@
         "name": {
           "type": "string"
         },
+        "image": {
+          "type": "string"
+        },
         "createdAt": {
           "type": "string",
           "readOnly": true
@@ -3903,6 +3906,9 @@
       "required": ["name", "parameters", "url"],
       "properties": {
         "name": {
+          "type": "string"
+        },
+        "image": {
           "type": "string"
         },
         "parentId": {
