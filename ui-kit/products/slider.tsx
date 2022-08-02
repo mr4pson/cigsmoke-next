@@ -7,6 +7,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Product } from 'swagger/services';
 import Arrow from '../../assets/arrow.svg';
+import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import HeartEmpty from '../../assets/heart_empty.svg';
 import HeartFull from '../../assets/heart_full.svg';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../components/home-page/bestsellers/constants';
@@ -16,6 +17,7 @@ import {
   paginateBack,
   paginateForward,
 } from '../../components/home-page/helpers';
+import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 
 type StyleProps = {
   rotate?: string;
@@ -39,16 +41,17 @@ const Slider: React.FC<Props> = ({
   isInWishlist,
   onWishBtnClick,
 }) => {
-  const [[page, direction], setPage] = useState([0, 0]);
+  // const [[page, direction], setPage] = useState([0, 0]);
+  const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, images.length, page);
   const [isWish, setWish] = useState(isInWishlist);
 
   return (
     <>
       <ImageSliderWrapper>
-        <AnimatePresence>
+        <AnimatePresence initial={false} custom={direction}>
           <ImageSlider
-            key={'test'}
+            key="slider-image-home-page"
             custom={direction}
             variants={variants.sliderProduct}
             initial="enter"
@@ -67,8 +70,7 @@ const Slider: React.FC<Props> = ({
             dragElastic={1}
             onDragEnd={handleDragEnd(page, SWIPE_CONFIDENCE_THRESHOLD, setPage)}
           >
-            <Link href={`/${url}`}>
-              <AnimatePresence>
+            <Link href={`/product/${url}`}>
                 <a>
                   <motion.img
                     key={`slider-image`}
@@ -80,55 +82,58 @@ const Slider: React.FC<Props> = ({
                     src={`/api/images/${images[imageIndex]}`}
                   />
                 </a>
-              </AnimatePresence>
             </Link>
           </ImageSlider>
         </AnimatePresence>
-        <AnimatePresence>
-          <ItemBtns
-            key={isWish ? 'heart-full' : 'heart-empty'}
-            initial="init"
-            animate="animate"
-            exit="exit"
-            variants={
-              isWish ? variants.fadeInSlideIn : variants.fadeOutSlideOut
-            }
-            top="15"
-            bgcolor="transparent;"
-            boxshadow={color.textPrimary}
-            onClick={handleWishBtnClick(product, setWish, onWishBtnClick)}
-          >
-            {isWish ? <HeartFull /> : <HeartEmpty />}
-          </ItemBtns>
-        </AnimatePresence>
-        <ItemBtns
+
+        <ArrowBtns
+          key={isWish ? 'heart-full-home-page' : 'heart-empty-home-page'}
+          initial="init"
+          animate="animate"
+          exit="exit"
+          variants={isWish ? variants.fadeInSlideIn : variants.fadeOutSlideOut}
+          top="15px"
+          right="15px"
+          position="absolute"
+          bgcolor="transparent;"
+          boxshadow={color.textPrimary}
+          onClick={handleWishBtnClick(product, setWish, onWishBtnClick)}
+        >
+          {isWish ? <HeartFull /> : <HeartEmpty />}
+        </ArrowBtns>
+
+        <ArrowBtns
           whileHover="hover"
           whileTap="tap"
           custom={1.2}
           variants={variants.grow}
-          top="210"
+          top="210px"
+          right="15px"
+          position="absolute"
           bgcolor={color.textPrimary}
           boxshadow={color.boxShadowBtn}
-          onClick={paginateForward(page, setPage)}
+          onClick={() => paginateImage(1)}
         >
           <ArrowSpan rotate="-90">
             <Arrow />
           </ArrowSpan>
-        </ItemBtns>
-        <ItemBtns
+        </ArrowBtns>
+        <ArrowBtns
           whileHover="hover"
           whileTap="tap"
           custom={1.2}
           variants={variants.grow}
-          top="270"
+          top="270px"
+          right="15px"
+          position="absolute"
           bgcolor={color.textPrimary}
           boxshadow={color.boxShadowBtn}
-          onClick={paginateBack(page, setPage)}
+          onClick={() => paginateImage(-1)}
         >
           <ArrowSpan rotate="90">
             <Arrow />
           </ArrowSpan>
-        </ItemBtns>
+        </ArrowBtns>
       </ImageSliderWrapper>
     </>
   );
@@ -161,33 +166,6 @@ const ImageSlider = styled(motion.div)`
       height: 100%;
     }
   }
-`;
-
-const ItemBtns = styled(motion.button)`
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  position: absolute;
-  right: 15px;
-  top: ${(p: StyleProps) => p.top}px;
-  background-color: ${(P: StyleProps) => P.bgcolor};
-  box-shadow: 0px 2px 6px ${(P: StyleProps) => P.boxshadow};
-  z-index: 9;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const ArrowSpan = styled.span`
-  width: 20px;
-  height: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transform: rotate(${(p: StyleProps) => p.rotate}deg);
 `;
 
 export default Slider;

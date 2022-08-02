@@ -5,12 +5,12 @@ import {
   Content,
   Wrapper,
 } from 'components/store/storeLayout/common';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Product, ProductService } from 'swagger/services';
-import ProductGrid from '../../../ui-kit/products/productGrid';
+import ProductGrid from 'ui-kit/products/productGrid';
 
 const Bestsellers = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -25,52 +25,48 @@ const Bestsellers = () => {
   }, []);
 
   return (
-    <AnimatePresence>
-      <Container
-        variants={variants.fadInOut}
-        key="section_two"
-        initial="start"
-        animate="middle"
-        exit="end"
-        flex_direction="row"
-        justify_content="space-evenly"
-        bg_color={color.bgProduct}
-        padding="50px 0"
-      >
-        <Wrapper>
-          <Content
-            flex_direction="column"
-            justify_content="space-between"
-            align_items="center"
-            gap="35px"
+    <Container
+      variants={variants.fadInOut}
+      key="bestsellers-home-page"
+      initial="start"
+      whileInView="middle"
+      flex_direction="row"
+      justify_content="space-evenly"
+      bg_color={color.bgProduct}
+      padding="50px 0"
+    >
+      <Wrapper>
+        <Content
+          flex_direction="column"
+          justify_content="space-between"
+          align_items="center"
+          gap="35px"
+        >
+          <Header
+            key="header-goods"
+            custom={0.2}
+            initial="init"
+            whileInView="animate"
+            exit="exit"
+            viewport={{ once: true }}
+            variants={variants.fadInSlideUp}
           >
-            <AnimatePresence>
-              <Header
-                key="header-goods"
-                custom={0.2}
-                initial="init"
-                whileInView="animate"
-                exit="exit"
-                viewport={{ once: true }}
-                variants={variants.fadInSlideUp}
+            <h3>Бестселлер этой недели</h3>
+            <Link href={`/catalog/id`}>
+              <motion.a
+                whileHover="hover"
+                whileTap="tap"
+                variants={variants.boxShadow}
               >
-                <h3>Бестселлер этой недели</h3>
-                <Link href="#">
-                  <motion.a
-                    whileHover="hover"
-                    whileTap="tap"
-                    variants={variants.boxShadow}
-                  >
-                    <button>Показать все</button>
-                  </motion.a>
-                </Link>
-              </Header>
-            </AnimatePresence>
-            <ProductGrid products={products} />
-          </Content>
-        </Wrapper>
-      </Container>
-    </AnimatePresence>
+                <button>Показать все</button>
+              </motion.a>
+            </Link>
+          </Header>
+
+          <ProductGrid products={products} />
+        </Content>
+      </Wrapper>
+    </Container>
   );
 };
 

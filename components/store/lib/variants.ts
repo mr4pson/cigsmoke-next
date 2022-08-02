@@ -11,7 +11,7 @@ const variants = {
     },
     end: {
       opacity: 0,
-      transition: { ease: 'easeInOut' },
+      transition: { ease: 'easeInOut', delay: 0.1 },
     },
   },
   grow: {
@@ -140,10 +140,17 @@ const variants = {
     },
   },
 
-  sliderUi: {
+  sliderX: {
     animate: (direction: number) => {
       return {
         x: direction,
+      };
+    },
+  },
+  sliderY: {
+    animate: (direction: number) => {
+      return {
+        y: direction,
       };
     },
   },
@@ -189,6 +196,38 @@ const variants = {
       opacity: 1,
       y: 0,
       transition: { delay: 0.1 },
+    },
+  },
+  slideInFromRigh: {
+    init: {
+      x: 45,
+      opacity: 0,
+    },
+    animate: (delay: number) => {
+      return {
+        x: 0,
+        opacity: 1,
+        transition: {
+          delay: delay,
+        },
+      };
+    },
+    exit: (delay: number) => {
+      return {
+        x: -45,
+        opacity: 0,
+        transition: {
+          delay: delay,
+        },
+      };
+    },
+  },
+  rotate: {
+    close: {
+      rotate: 90,
+    },
+    open: {
+      rotate: -90,
     },
   },
 };

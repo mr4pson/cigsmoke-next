@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:gen": "node ./swagger/codegen.js"
+    "build:gen": "node ./swagger/codegen.js",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@brainhubeu/react-carousel": "^2.0.4",
@@ -31,6 +32,7 @@
     "moment": "^2.29.4",
     "next": "^12.1.6",
     "next-redux-wrapper": "^7.0.5",
+    "next-sitemap": "^3.1.15",
     "react": "^18.2.0",
     "react-awesome-reveal": "^3.8.1",
     "react-countdown": "^2.3.2",

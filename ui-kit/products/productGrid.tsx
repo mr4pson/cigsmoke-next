@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { updateCart } from 'redux/slicers/store/cartSlicer';
 import { updateWishlist } from 'redux/slicers/store/globalSlicer';
@@ -90,21 +89,19 @@ const ProductGrid: React.FC<Props> = ({ products, gridStyle, children }) => {
   return (
     <Grid style={gridStyle}>
       {children}
-      <AnimatePresence>
-        {products.map((product, index) => {
-          return (
-            <ProductItem
-              key={`product-item-${index}`}
-              product={product}
-              custom={delay[index]}
-              isInCart={checkIfItemInCart(product)}
-              isInWishlist={checkIfItemInWishlist(product)}
-              onCartBtnClick={handleCartBtnClick(product)}
-              onWishBtnClick={handleWishBtnClick(product)}
-            />
-          );
-        })}
-      </AnimatePresence>
+      {products.map((product, index) => {
+        return (
+          <ProductItem
+            key={`product-item-${index}`}
+            product={product}
+            custom={delay[index]}
+            isInCart={checkIfItemInCart(product)}
+            isInWishlist={checkIfItemInWishlist(product)}
+            onCartBtnClick={handleCartBtnClick(product)}
+            onWishBtnClick={handleWishBtnClick(product)}
+          />
+        );
+      })}
     </Grid>
   );
 };
