@@ -8,6 +8,7 @@ import Cart from '../../../../../assets/added_to_cart.svg';
 import CartWhite from '../../../../../assets/cartWhiteEmpty.svg';
 import HeartWhite from '../../../../../assets/heartWhiteEmpty.svg';
 import HeartFull from '../../../../../assets/heartFullWhite.svg';
+import Link from 'next/link';
 
 const ActionBtns = () => {
   const [itemCounter, setItemCounter]: [any, any] = useState(0);
@@ -80,46 +81,73 @@ const ActionBtns = () => {
           </ActionBtnsContentWrapper>
         </ActionBtn>
       </ActionBtnsWrapper>
-      <CounterWrapper
+      <CounterAndGotoCartWrapper
         animate={inCart ? 'animate' : 'exit'}
         variants={variants.fadeInSlideIn}
         style={{ display: inCart ? 'flex' : 'none' }}
       >
-        <motion.button
-          whileHover="hover"
-          whileTap="tap"
-          variants={variants.boxShadow}
-          onClick={() => setItemCounter(itemCounter < 1 ? 0 : itemCounter - 1)}
-        >
-          <span>-</span>
-        </motion.button>
-        <input
-          style={{ width: itemCounter > 999 ? '50px' : '30px' }}
-          onChange={(e) => {
-            e.target.value == ''
-              ? setItemCounter(e.target.value)
-              : setItemCounter(parseInt(e.target.value));
-          }}
-          value={itemCounter}
-          type="number"
-          min={0}
-        />
-        <motion.button
-          whileHover="hover"
-          whileTap="tap"
-          variants={variants.boxShadow}
-          onClick={() =>
-            setItemCounter(itemCounter == '' ? 1 : itemCounter + 1)
-          }
-        >
-          <span>+</span>
-        </motion.button>
-      </CounterWrapper>
+        <CounterWrapper>
+          <motion.button
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.boxShadow}
+            onClick={() =>
+              setItemCounter(itemCounter < 1 ? 0 : itemCounter - 1)
+            }
+          >
+            <span>-</span>
+          </motion.button>
+          <input
+            style={{ width: itemCounter > 999 ? '50px' : '30px' }}
+            onChange={(e) => {
+              e.target.value == ''
+                ? setItemCounter(e.target.value)
+                : setItemCounter(parseInt(e.target.value));
+            }}
+            value={itemCounter}
+            type="number"
+            min={0}
+          />
+          <motion.button
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.boxShadow}
+            onClick={() =>
+              setItemCounter(itemCounter == '' ? 1 : itemCounter + 1)
+            }
+          >
+            <span>+</span>
+          </motion.button>
+        </CounterWrapper>
+        <Link href="/cart">
+          <a style={{ justifySelf: 'flex-end' }}>
+            <ActionBtn
+              whileHover="hover"
+              whileTap="tap"
+              variants={variants.boxShadow}
+            >
+              <span>Перейти в корзине</span>
+            </ActionBtn>
+          </a>
+        </Link>
+      </CounterAndGotoCartWrapper>
+      <Link href="/checkout">
+        <a style={{ justifySelf: 'flex-end' }}>
+          <ActionBtn
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.boxShadow}
+          >
+            Купить в один клик
+          </ActionBtn>
+        </a>
+      </Link>
     </UserSelectWrapper>
   );
 };
 
 const CounterWrapper = styled(motion.div)`
+  width: 110%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -163,6 +191,17 @@ const CounterWrapper = styled(motion.div)`
       -webkit-appearance: none;
       margin: 0;
     }
+  }
+`;
+
+const CounterAndGotoCartWrapper = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  a {
+    width: 100%;
   }
 `;
 

@@ -4,9 +4,12 @@ import StoreLayout from 'components/store/storeLayout/layouts';
 import ProductInfo from 'components/store/product/productInfo';
 import Recomendation from 'components/store/product/recomendation';
 import ReveiwsAndQuastions from 'components/store/product/reviewsAndQuastions';
+import { useRef } from 'react';
 
 const Product = () => {
   const router = useRouter();
+  const reviewBtnRef = useRef(null);
+  const questionBtnRef = useRef(null);
   return (
     <>
       <SEO
@@ -17,9 +20,12 @@ const Product = () => {
         schemaType="cart"
         keywords="the, keywords, is, saperated, by, comma"
       />
-      <ProductInfo />
+      <ProductInfo reviewRef={reviewBtnRef} questionRef={questionBtnRef} />
       <Recomendation />
-      <ReveiwsAndQuastions />
+      <ReveiwsAndQuastions
+        reviewRef={reviewBtnRef}
+        questionRef={questionBtnRef}
+      />
     </>
   );
 };

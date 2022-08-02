@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import * as React from 'react';
 import { Rating } from '@mui/material'; // docs: https://mui.com/material-ui/api/rating/ *** https://mui.com/material-ui/react-rating/
 import variants from 'components/store/lib/variants';
@@ -37,11 +36,15 @@ const Details = (props: any) => {
             variants={variants.fadInSlideUp}
           >
             <Rating value={5} size="small" readOnly />
-            <Link href="#reveiws-quastions">
-              <a>
-                <span>148 Отзывы</span>
-              </a>
-            </Link>
+
+            <span
+              onClick={() => {
+                props.reviewRef.current.click();
+                props.reviewRef.current.scrollIntoView();
+              }}
+            >
+              <span>148 Отзывы</span>
+            </span>
           </ConvoWrappers>
           <ConvoWrappers
             key="quastions-product-page"
@@ -54,11 +57,15 @@ const Details = (props: any) => {
             <span>
               <Quastions />
             </span>
-            <Link href="#reveiws-quastions">
-              <a>
-                <span>31 вопрос</span>
-              </a>
-            </Link>
+
+            <span
+              onClick={() => {
+                props.questionRef.current.click();
+                props.questionRef.current.scrollIntoView();
+              }}
+            >
+              <span>31 вопрос</span>
+            </span>
           </ConvoWrappers>
         </ConvoContainer>
         <PriceWrapper
@@ -104,8 +111,9 @@ const ConvoWrappers = styled(motion.div)`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
-  a {
+  span {
     font-size: 0.8rem;
+    cursor: pointer;
     &:hover {
       color: ${color.hover};
     }

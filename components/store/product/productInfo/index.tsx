@@ -11,7 +11,7 @@ import Images from './images';
 import Details from './details';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 
-const ProductInfo = () => {
+const ProductInfo = (props: any) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   return (
@@ -49,6 +49,7 @@ const ProductInfo = () => {
               paginateImage={paginateImage}
               direction={direction}
               page={page}
+              {...props}
             />
           </Grid>
         </Content>
