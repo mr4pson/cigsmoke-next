@@ -2,6 +2,7 @@ import AdminLayout from 'components/admin/adminLayout/layout';
 import ManageCategoryForm from 'components/admin/categories/ManageCategoryForm';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { clearImageList } from 'redux/slicers/imagesSlicer';
 import { fetchCategories } from '../../../../redux/slicers/categoriesSlicer';
 
 const CreateCategory = () => {
@@ -13,6 +14,10 @@ const CreateCategory = () => {
 
   useEffect(() => {
     dispatch(fetchCategories());
+
+    return () => {
+      dispatch(clearImageList());
+    };
   }, [dispatch]);
 
   return (

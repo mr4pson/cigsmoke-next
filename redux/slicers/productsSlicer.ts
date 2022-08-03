@@ -60,6 +60,7 @@ export const createProduct = createAsyncThunk<
           brand: payload.brand,
           url: payload.url,
           desc: payload.desc,
+          tags: payload.tags,
           images: payload.images,
         }
       });
@@ -87,6 +88,7 @@ export const editProduct = createAsyncThunk<
           brand: payload.brand,
           url: payload.url,
           desc: payload.desc,
+          tags: payload.tags,
           images: payload.images,
         }
       });

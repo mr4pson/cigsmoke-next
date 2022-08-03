@@ -19,10 +19,11 @@ const Brands = () => {
   const isLoading = useAppSelector((state) => state.brands.loading);
   const router = useRouter();
 
-  const dataSource = brands?.map(({ id, name, image, ...rest }) => ({
+  const dataSource = brands?.map(({ id, name, url, image, ...rest }) => ({
     key: id,
     id,
     name,
+    url,
     image,
   })) as unknown as DataType[];
 

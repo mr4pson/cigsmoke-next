@@ -3,6 +3,7 @@ import { Category } from 'swagger/services';
 import ActionButtons from '../generalComponents/ActionButtons';
 import { handleDeleteCategory, handleRedirectCategory } from './helpers';
 import styles from './categories.module.scss';
+import { Image } from 'antd';
 
 const columns: ColumnsType<Category> = [
   {
@@ -14,10 +15,7 @@ const columns: ColumnsType<Category> = [
     dataIndex: 'image',
     render: (_, record) => {
       return (
-        <div
-          style={{ backgroundImage: `url(/api/images/${record?.image})` }}
-          className={styles['image']}
-        ></div>
+        <Image src={`/api/images/${record?.image}`} className={styles.image} />
       );
     },
   },
@@ -52,6 +50,9 @@ const columns: ColumnsType<Category> = [
   {
     title: 'Родитель',
     dataIndex: 'parent',
+    sorter: {
+      compare: (a, b) => a.name!.localeCompare(b.name!),
+    },
     render: (parent) => <div>{parent?.name}</div>,
   },
   {

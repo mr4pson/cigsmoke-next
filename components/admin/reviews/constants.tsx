@@ -3,7 +3,15 @@ import { Review } from 'swagger/services';
 import ActionButtons from '../generalComponents/ActionButtons';
 import { handleDeleteReview } from './helpers';
 
-const columns: ColumnsType<Review> = [
+interface ReviewsData {
+  id: string;
+  rating: number;
+  text: string;
+  product: string;
+  email: string;
+}
+
+const columns: ColumnsType<ReviewsData> = [
   {
     title: 'Id',
     dataIndex: 'id',
@@ -17,20 +25,20 @@ const columns: ColumnsType<Review> = [
   },
   {
     title: 'Комментарий',
-    dataIndex: 'comment',
+    dataIndex: 'text',
   },
   {
-    title: 'ID продукта',
-    dataIndex: 'productId',
+    title: 'Продукт',
+    dataIndex: 'product',
     sorter: {
-      compare: (a, b) => a?.productId!.localeCompare(b?.productId!),
+      compare: (a, b) => a?.product!.localeCompare(b?.product!),
     },
   },
   {
-    title: 'ID пользователя',
-    dataIndex: 'userId',
+    title: 'Почта пользователя',
+    dataIndex: 'email',
     sorter: {
-      compare: (a, b) => a?.userId!.localeCompare(b?.userId!),
+      compare: (a, b) => a?.email!.localeCompare(b?.email!),
     },
   },
   {

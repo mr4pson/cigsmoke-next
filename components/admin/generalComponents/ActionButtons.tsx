@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styles from './index.module.scss';
-// import { handleDeleteBrand, handleRedirectBrands } from './helpers';
 
 type Props = {
   id: string;

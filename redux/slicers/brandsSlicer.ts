@@ -55,6 +55,7 @@ export const createBrand = createAsyncThunk<
       return await BrandService.createBrand({
         body: {
           name: payload.name,
+          url: payload.url,
           image: payload.image,
         }
       });
@@ -75,6 +76,7 @@ export const editBrand = createAsyncThunk<
       return await BrandService.updateBrand({
         brandId: payload.id as string, body: {
           name: payload.name,
+          url: payload.url,
           image: payload.image,
         }
       });

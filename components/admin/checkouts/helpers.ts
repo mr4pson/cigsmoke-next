@@ -1,10 +1,10 @@
-import { deleteReview, fetchReviews } from 'redux/slicers/reviewsSlicer';
+import { deleteCheckout, fetchCheckouts } from 'redux/slicers/checkoutsSlicer';
 import { AppDispatch } from 'redux/store';
 
 export const handleDeleteCheckout = (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
-  const isSaved: any = await dispatch(deleteReview(id));
+  const isSaved: any = await dispatch(deleteCheckout(id));
   if (!isSaved.error) {
-    dispatch(fetchReviews());
+    dispatch(fetchCheckouts());
     setVisible(prev => !prev);
   }
 };

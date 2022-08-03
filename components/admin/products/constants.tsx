@@ -1,8 +1,14 @@
+import { Carousel, Image } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { Color, Product, Tag } from 'swagger/services';
+import { handleRedirectBrands } from '../brands/helpers';
+import { handleRedirectCategory } from '../categories/helpers';
+
 import ActionButtons from '../generalComponents/ActionButtons';
+import { handleRedirectTags } from '../tags/helpers';
 import { handleDeleteProduct, handleRedirectProducts } from './helpers';
 import styles from './products.module.scss';
+import TableLink from './TableLink';
 
 export const columns: ColumnsType<Product> = [
   {
@@ -17,9 +23,32 @@ export const columns: ColumnsType<Product> = [
       if (record?.images) {
         return (
           <div
-            style={{ backgroundImage: `url(/api/images/${record?.images[0]})` }}
-            className={styles['image']}
-          ></div>
+            style={{
+              width: '80px',
+              height: '80px',
+            }}
+          >
+            <Carousel effect="fade">
+              {(record.images! as string[]).map((image) => {
+                if (image) {
+                  return (
+                    <div>
+                      <Image
+                        className={styles.productsTable__contentStyle}
+                        src={`/api/images/${image.trim()}`}
+                      />
+                    </div>
+                  );
+                }
+                return (
+                  <img
+                    src={'/assets/images/no_photo.png'}
+                    className={styles.image}
+                  />
+                );
+              })}
+            </Carousel>
+          </div>
         );
       }
     },
@@ -56,9 +85,16 @@ export const columns: ColumnsType<Product> = [
       return (
         <ul>
           {(record?.colors as Color[]).map((color) => (
-            <li key={color.id}>
-              Имя: {color.name}, id: {color.code}
-            </li>
+            <div
+              style={{
+                minWidth: '70px',
+              }}
+            >
+              <div
+                className={styles.productsTable__colorBoxStyle}
+                style={{ backgroundColor: color.code }}
+              ></div>
+            </div>
           ))}
         </ul>
       );
@@ -66,28 +102,55 @@ export const columns: ColumnsType<Product> = [
   },
   {
     title: 'Категория',
-    dataIndex: 'category',
+    sorter: {
+      compare: (a, b) => a.name!.localeCompare(b.name!),
+    },
+    render: (_, record) => {
+      return (
+        <TableLink
+          id={record.category!.id as string}
+          name={record.category!.name as string}
+          handleRedirect={handleRedirectCategory}
+        />
+      );
+    },
+  },
+  {
+    title: 'Бренд',
+    sorter: {
+      compare: (a, b) => a.name!.localeCompare(b.name!),
+    },
+    render: (_, record) => {
+      return (
+        <TableLink
+          id={record.brand!.id as string}
+          name={record.brand!.name as string}
+          handleRedirect={handleRedirectBrands}
+        />
+      );
+    },
+  },
+  {
+    title: 'URL',
+    dataIndex: 'url',
     sorter: {
       compare: (a, b) => a.name!.localeCompare(b.name!),
     },
   },
   {
-    title: 'Бренд',
-    dataIndex: 'brand',
-  },
-  {
-    title: 'URL',
-    dataIndex: 'url',
-  },
-  {
     title: 'Теги',
     dataIndex: 'tags',
     render: (_, record) => {
+      console.log(record.tags);
       return (
         <ul>
           {(record?.tags as Tag[]).map((tag) => (
             <li key={tag.id}>
-              Имя: {tag.name}, id: {tag.id}
+              <TableLink
+                id={tag!.id as string}
+                name={tag!.name as string}
+                handleRedirect={handleRedirectTags}
+              />
             </li>
           ))}
         </ul>

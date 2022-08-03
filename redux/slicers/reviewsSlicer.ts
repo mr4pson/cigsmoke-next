@@ -18,7 +18,8 @@ export const fetchReviews = createAsyncThunk<
   'reviews/fetchReviews',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await ReviewService.getReviews();
+      const resp = await ReviewService.getReviews() as unknown as {rows: Review[]};
+      return resp.rows
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }

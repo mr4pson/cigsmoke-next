@@ -10,5 +10,6 @@ export interface PayloadProduct {
     url: string,
     desc?: string,
     images?: string,
+    tags?: number[],
     id?: string | string[] | undefined,
 }

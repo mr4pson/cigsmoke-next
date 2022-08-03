@@ -38,6 +38,7 @@ const ManageBrandForm = ({
   const [form] = Form.useForm();
   const initialValues = {
     name: brand?.name,
+    url: brand?.url,
     image: brand?.image,
   };
 
@@ -72,7 +73,15 @@ const ManageBrandForm = ({
         >
           <FormItem
             option={ManageBrandFields.Name}
-            children={<Input placeholder="Введите имя бренда" />}
+            children={
+              <Input required={true} placeholder="Введите имя бренда" />
+            }
+          />
+          <FormItem
+            option={ManageBrandFields.Url}
+            children={
+              <Input required={true} placeholder="Введите URL бренда" />
+            }
           />
           <FormItem
             option={ManageBrandFields.Image}

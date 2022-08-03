@@ -5,7 +5,7 @@ import {
     editColor 
 } from "redux/slicers/colorsSlicer";
 import { AppDispatch } from "redux/store";
-import { navigateTo } from "../../../common/helpers";
+import { navigateTo, openErrorNotification } from "../../../common/helpers";
 import { NextRouter } from "next/router";
 import { Page, paths } from "routes/constants";
 import { TableProps } from "antd";
@@ -33,6 +33,10 @@ export const handleFormSubmitColors = (router: NextRouter, dispatch: AppDispatch
     }
 
     return;
+  }
+  if(!form.code) {
+    openErrorNotification("Пожалуйста, укажите цвет.")
+    return
   }
   const isSaved: any = await dispatch(createColor(form));
 

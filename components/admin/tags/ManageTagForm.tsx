@@ -55,11 +55,13 @@ const ManageTagForm = ({
         >
           <FormItem
             option={ManageTagFields.Name}
-            children={<Input placeholder="Введите имя тега" />}
+            children={<Input required={true} placeholder="Введите имя тега" />}
           />
           <FormItem
             option={ManageTagFields.Url}
-            children={<Input placeholder="Введите URL бренда" />}
+            children={
+              <Input required={true} placeholder="Введите URL бренда" />
+            }
           />
           <Form.Item className={styles.createTagForm__buttonsStack}>
             <Button

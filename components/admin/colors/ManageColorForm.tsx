@@ -41,10 +41,14 @@ const ManageColorForm = ({
   };
 
   const [openCP, setOpenCP] = useState(false);
-  const [currColor, setCurrColor] = useState<string>();
+  const [currColor, setCurrColor] = useState<string | null>(null);
 
   useEffect(() => {
-    setCurrColor(initialValues.code);
+    setCurrColor(initialValues.code!);
+
+    return () => {
+      setCurrColor(null);
+    };
   }, [color]);
 
   const handleOpenCP = () => {
@@ -73,18 +77,18 @@ const ManageColorForm = ({
         >
           <FormItem
             option={ManageColorFields.Name}
-            children={<Input placeholder="Введите имя цвета" />}
+            children={<Input required={true} placeholder="Введите имя цвета" />}
           />
           <FormItem
             option={ManageColorFields.Url}
-            children={<Input placeholder="Введите URL цвета" />}
+            children={<Input required={true} placeholder="Введите URL цвета" />}
           />
           <Button
             type="default"
             icon={
               <BgColorsOutlined
                 style={{
-                  color: currColor,
+                  color: currColor ? currColor : 'black',
                 }}
               />
             }

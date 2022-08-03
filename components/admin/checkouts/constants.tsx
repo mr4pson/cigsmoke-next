@@ -3,29 +3,53 @@ import ActionButtons from '../generalComponents/ActionButtons';
 import { CheckoutsData } from './CheckoutsData.interface';
 import { handleDeleteCheckout } from './helpers';
 
-const columns: ColumnsType<CheckoutsData> = [
+interface CheckoutsTableData {
+  id: string;
+  user: { firstName: string; email: string };
+  basket: { id: string };
+  address: { city: string; address: string };
+}
+
+const columns: ColumnsType<CheckoutsTableData> = [
   {
     title: 'Id',
     dataIndex: 'id',
   },
   {
+    title: 'Пользователь',
+    dataIndex: 'user',
+    sorter: {
+      compare: (a, b) => a.user?.firstName!.localeCompare(b.user?.firstName!),
+    },
+    render: (_, record) => {
+      return (
+        <p>
+          {record.user?.firstName}, {record.user?.email}
+        </p>
+      );
+    },
+  },
+  {
+    title: 'Корзина',
+    dataIndex: 'basket',
+    render: (_, record) => {
+      return <p>Id: {record.basket.id}</p>;
+    },
+  },
+  {
     title: 'Адрес',
-    dataIndex: 'addressName',
+    dataIndex: 'address',
+    render: (_, record) => {
+      return (
+        <p>
+          Город: {record.address.city}, улица: {record.address.address}
+        </p>
+      );
+    },
   },
   {
-    title: 'Информация об оплате',
-    dataIndex: 'payment',
-  },
-  {
-    title: 'Заказанные продукты',
-    dataIndex: 'orderedProducts',
-    render: (_, record) => (
-      <div key={record.orderedProducts.id}>
-        ID продукта: {record.orderedProducts.productId}, {'\n'}
-        количество: {record.orderedProducts.qty}, {'\n'}
-        стоимость: {record.orderedProducts.productPrice}
-      </div>
-    ),
+    title: 'Комментарий',
+    dataIndex: 'comment',
   },
   {
     title: 'Действия',
