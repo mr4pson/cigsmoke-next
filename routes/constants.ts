@@ -50,4 +50,4 @@ export const paths = {
   [Page.ADMIN_CHECKOUTS]: '/admin/checkouts',
 };
 
-////
+//
