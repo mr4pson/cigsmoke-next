@@ -1,3 +1,4 @@
+import variants from 'components/store/lib/variants';
 import ColorCheckbox from 'ui-kit/ColorCheckbox';
 import { FilterOption } from '../../../../ui-kit/FilterCheckbox/types';
 import { Filter, FilterBody, FilterTitle } from '../common';
@@ -19,8 +20,22 @@ const ColorFilter: React.FC<Props> = ({ title, options, onChange }) => {
 
   return (
     <Filter>
-      <FilterTitle>{title}</FilterTitle>
-      <FilterBody>
+      <FilterTitle
+        custom={0.2}
+        initial="init"
+        animate="animate"
+        exit={{ y: -80, opacity: 0, transition: { delay: 0.2 } }}
+        variants={variants.fadInSlideUp}
+      >
+        {title}
+      </FilterTitle>
+      <FilterBody
+        custom={0.3}
+        initial="init"
+        animate="animate"
+        exit={{ y: -80, opacity: 0, transition: { delay: 0.3 } }}
+        variants={variants.fadInSlideUp}
+      >
         {options?.map((option) => (
           <ColorCheckbox
             style={{ marginBottom: '5px' }}

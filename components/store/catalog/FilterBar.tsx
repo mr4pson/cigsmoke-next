@@ -1,3 +1,8 @@
+import {
+  clearQueryParams,
+  getQueryParams,
+  pushQueryParams,
+} from 'common/helpers/manageQueryParams.helper';
 import { FilterType, getFilters } from 'components/store/catalog/constants';
 import ColorFilter from 'components/store/catalog/filters/ColorFilter';
 import MultipleSelectionFilter from 'components/store/catalog/filters/MultipleSelectionFilter';
@@ -6,6 +11,8 @@ import SingleSelectionFilter from 'components/store/catalog/filters/SingleSelect
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import variants from '../lib/variants';
 import { Brand, Category, Color, PriceRange } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
@@ -25,34 +32,41 @@ const FilterBar: React.FC<Props> = ({
 }) => {
   const router = useRouter();
   const filters = convertQueryParams(router.query);
-  const filtersConfig = getFiltersConfig({
-    categories,
-    brands,
-    colors,
-    priceRange,
-    filters,
-  });
+  const [filtersConfig, setFiltersConfig] = useState(
+    getFiltersConfig({
+      categories,
+      brands,
+      colors,
+      priceRange,
+      filters,
+    }),
+  );
   const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
 
   const handleResetFilters = () => {
-    setLocalFilters([]);
-    setTimeout(() => {
-      setLocalFilters(getFilters(filtersConfig));
-    });
+    clearQueryParams();
   };
 
   const hanldeResetBtnClick = () => {
-    router.push({
-      pathname: '/catalog',
-      query: {},
-    });
-
     handleResetFilters();
   };
 
   useEffect(() => {
-    handleResetFilters();
+    const filters = convertQueryParams(getQueryParams());
+    setFiltersConfig(
+      getFiltersConfig({
+        categories,
+        brands,
+        colors,
+        priceRange,
+        filters,
+      }),
+    );
   }, [categories, brands, colors, priceRange]);
+
+  useEffect(() => {
+    setLocalFilters(getFilters(filtersConfig));
+  }, [filtersConfig]);
 
   return (
     <FilterBarContent>
@@ -102,7 +116,14 @@ const FilterBar: React.FC<Props> = ({
             />
           )),
       )}
-      <ResetButton onClick={hanldeResetBtnClick}>
+      <ResetButton
+        initial="init"
+        whileInView="animate"
+        custom={0.2}
+        viewport={{ once: true }}
+        variants={variants.fadInSlideUp}
+        onClick={hanldeResetBtnClick}
+      >
         <span>Сбросить</span>
         <img src="assets/images/reset-icon.png" />
       </ResetButton>
@@ -114,7 +135,7 @@ const FilterBarContent = styled.div`
   min-width: 272px;
 `;
 
-const ResetButton = styled.button`
+const ResetButton = styled(motion.button)`
   background: #000;
   color: #fff;
   padding: 8.5px 17px;

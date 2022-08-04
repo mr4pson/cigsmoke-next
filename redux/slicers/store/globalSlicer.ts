@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TGlobalState } from 'redux/types';
 import { BasketDTO, Category, CategoryService, Product, ProductService, Wishlist, WishlistService } from 'swagger/services';
 import {
-  getErrorMassage, handleError, handlePending
+  getErrorMassage, handleError, handlePending, openErrorNotification
 } from '../../../common/helpers';
 
 export const fetchWishlist = createAsyncThunk<
@@ -85,17 +85,36 @@ export const searchProducts = createAsyncThunk<
   },
 );
 
+const handleProductsPending = (state: { productsLoading: boolean }) => {
+  state.productsLoading = true;
+  console.log('pending')
+}
+
+const handleProductsError = (state, action: PayloadAction<any, any, any, any>) => {
+  state.productsLoading = false;
+  openErrorNotification(action.payload)
+  console.log('rejected')
+}
+
 const initialState: TGlobalState = {
   wishlist: null,
+  searchQuery: '',
   categories: [],
   products: [],
   loading: false,
+  productsLoading: false,
 };
 
 const globalSlicer = createSlice({
   name: 'global',
   initialState,
   reducers: {
+    changeSearchQuery(state, action: PayloadAction<string>) {
+      state.searchQuery = action.payload;
+    },
+    clearSearchQuery(state) {
+      state.searchQuery = initialState.searchQuery;
+    },
     clearSearchProducts(state) {
       state.products = [];
     },
@@ -149,19 +168,19 @@ const globalSlicer = createSlice({
       )
       .addCase(fetchCategories.rejected, handleError)
       //searchProducts
-      .addCase(searchProducts.pending, handlePending)
+      .addCase(searchProducts.pending, handleProductsPending)
       .addCase(
         searchProducts.fulfilled,
         (state, action) => {
           state.products = action.payload;
-          state.loading = false;
+          state.productsLoading = false;
           console.log('fulfilled');
         },
       )
-      .addCase(searchProducts.rejected, handleError)
+      .addCase(searchProducts.rejected, handleProductsError)
   },
 });
 
-export const { clearSearchProducts } = globalSlicer.actions;
+export const { clearSearchProducts, changeSearchQuery, clearSearchQuery } = globalSlicer.actions;
 
 export default globalSlicer.reducer;

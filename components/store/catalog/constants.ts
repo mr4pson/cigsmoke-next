@@ -1,3 +1,4 @@
+import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
 import cloneDeep from 'lodash/cloneDeep';
 import Router from 'next/router';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
@@ -31,13 +32,7 @@ const getFilters = ({
       onChange: (selectedOption: FilterOption | undefined) => {
         const categories = [selectedOption?.url!];
 
-        Router.push({
-          pathname: '/catalog',
-          query: {
-            ...Router.query,
-            categories,
-          },
-        });
+        pushQueryParams('categories', categories);
       },
     },
     {
@@ -47,13 +42,7 @@ const getFilters = ({
       onChange: (selectedOptions: FilterOption[] | undefined) => {
         const brands = selectedOptions?.map(option => option.url);
 
-        Router.push({
-          pathname: '/catalog',
-          query: {
-            ...Router.query,
-            brands,
-          },
-        });
+        pushQueryParams('brands', brands);
       },
     },
     {
@@ -63,13 +52,7 @@ const getFilters = ({
       onChange: (selectedOptions: FilterOption[] | undefined) => {
         const colors = selectedOptions?.map(option => option.url);
 
-        Router.push({
-          pathname: '/catalog',
-          query: {
-            ...Router.query,
-            colors,
-          },
-        });
+        pushQueryParams('colors', colors);
       },
     },
     {
@@ -78,14 +61,8 @@ const getFilters = ({
       min: minPrice,
       max: maxPrice,
       onChange: ([minPrice, maxPrice]: [number, number]) => {
-        Router.push({
-          pathname: '/catalog',
-          query: {
-            ...Router.query,
-            minPrice,
-            maxPrice,
-          },
-        });
+        pushQueryParams('minPrice', minPrice);
+        pushQueryParams('maxPrice', maxPrice);
       },
     },
   ];

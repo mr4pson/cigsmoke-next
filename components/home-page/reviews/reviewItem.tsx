@@ -9,15 +9,16 @@ import Link from 'next/link';
 
 type Props = {
   review: Review;
+  index: number;
 };
 
-const ReviewItem: React.FC<Props> = ({ review }) => {
+const ReviewItem: React.FC<Props> = ({ index, review }) => {
   return (
     <ItemContainer
       initial="init"
       whileInView="animate"
-      exit="exit"
       viewport={{ once: true }}
+      custom={index * 0.1}
       variants={variants.fadInSlideUp}
     >
       <StarWrapper
@@ -37,7 +38,8 @@ const ReviewItem: React.FC<Props> = ({ review }) => {
           {review.user?.lastName} {review.user?.firstName}
         </span>
       </div>
-      <Link href="/">
+      {/* TODO add product id here */}
+      <Link href={`/product/${review.id}`}>
         <a>
           <motion.img
             whileHover="hover"

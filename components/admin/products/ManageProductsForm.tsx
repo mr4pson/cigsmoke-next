@@ -61,7 +61,6 @@ const ManageProductForm = ({
     return () => {
       dispatch(clearImageList());
     };
-    // console.log(imageList);
   }, [product]);
 
   return (

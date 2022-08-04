@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import variants from 'components/store/lib/variants';
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { FilterOption } from '../../../../ui-kit/FilterCheckbox/types';
 import { Filter, FilterBody, FilterTitle } from '../common';
@@ -15,6 +16,10 @@ const SingleSelectionFilter: React.FC<Props> = ({
   onChange,
 }) => {
   const [stateOptions, setStateOptions] = useState(options);
+
+  useEffect(() => {
+    setStateOptions(options);
+  }, [options]);
 
   const handleChange = (id: string) => () => {
     const options = [...stateOptions!];
@@ -33,8 +38,22 @@ const SingleSelectionFilter: React.FC<Props> = ({
 
   return (
     <Filter>
-      <FilterTitle>{title}</FilterTitle>
-      <FilterBody>
+      <FilterTitle
+        custom={0.05}
+        initial="init"
+        animate="animate"
+        exit={{ y: -80, opacity: 0, transition: { delay: 0.05 } }}
+        variants={variants.fadInSlideUp}
+      >
+        {title}
+      </FilterTitle>
+      <FilterBody
+        custom={0.1}
+        initial="init"
+        animate="animate"
+        exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
+        variants={variants.fadInSlideUp}
+      >
         {stateOptions?.map((option) => (
           <Selection
             key={`filter-selection-${option.id}`}
