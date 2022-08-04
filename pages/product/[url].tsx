@@ -4,7 +4,7 @@ import StoreLayout from 'components/store/storeLayout/layouts';
 import ProductInfo from 'components/store/product/productInfo';
 import Recomendation from 'components/store/product/recomendation';
 import ReveiwsAndQuastions from 'components/store/product/reviewsAndQuastions';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { fetchProduct } from 'redux/slicers/store/productInfoSlicer';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TProductInfoState } from 'redux/types';
@@ -19,6 +19,8 @@ const ProductInfoPage = () => {
   const wishlist: Wishlist = useAppSelector((state) => state.global.wishlist);
 
   const router = useRouter();
+  const reviewBtnRef = useRef(null);
+  const questionBtnRef = useRef(null);
 
   useEffect(() => {
     if (router.query.url) {
@@ -41,9 +43,18 @@ const ProductInfoPage = () => {
           schemaType="cart"
           keywords="the, keywords, is, saperated, by, comma"
         />
-        <ProductInfo product={product} cart={cart} wishlist={wishlist} />
+        <ProductInfo
+          reviewRef={reviewBtnRef}
+          questionRef={questionBtnRef}
+          product={product}
+          cart={cart}
+          wishlist={wishlist}
+        />
         <Recomendation />
-        {/* <ReveiwsAndQuastions /> */}
+        {/* <ReveiwsAndQuastions 
+        reviewRef={reviewBtnRef}
+        questionRef={questionBtnRef}
+         /> */}
       </>
     )
   );

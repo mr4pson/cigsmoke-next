@@ -14,17 +14,8 @@ import { SWIPE_CONFIDENCE_THRESHOLD } from '../../components/home-page/bestselle
 import {
   handleDragEnd,
   handleWishBtnClick,
-  paginateBack,
-  paginateForward,
 } from '../../components/home-page/helpers';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
-
-type StyleProps = {
-  rotate?: string;
-  top?: string;
-  bgcolor?: string;
-  boxshadow?: string;
-};
 
 type Props = {
   url?: string;
@@ -71,17 +62,17 @@ const Slider: React.FC<Props> = ({
             onDragEnd={handleDragEnd(page, SWIPE_CONFIDENCE_THRESHOLD, setPage)}
           >
             <Link href={`/product/${url}`}>
-                <a>
-                  <motion.img
-                    key={`slider-image`}
-                    whileHover="hover"
-                    whileTap="tap"
-                    custom={1.2}
-                    variants={variants.grow}
-                    transition={{ ease: 'easeInOut' }}
-                    src={`/api/images/${images[imageIndex]}`}
-                  />
-                </a>
+              <a>
+                <motion.img
+                  key={`slider-image`}
+                  whileHover="hover"
+                  whileTap="tap"
+                  custom={1.2}
+                  variants={variants.grow}
+                  transition={{ ease: 'easeInOut' }}
+                  src={`/api/images/${images[imageIndex]}`}
+                />
+              </a>
             </Link>
           </ImageSlider>
         </AnimatePresence>

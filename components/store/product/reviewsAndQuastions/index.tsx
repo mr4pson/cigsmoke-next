@@ -16,7 +16,7 @@ import Reviews from './reviews';
 import Quastions from './quastions';
 import { HeaderWrapper } from '../common';
 
-const ReveiwsAndQuastions = () => {
+const ReveiwsAndQuastions = (props: any) => {
   const [tab, setTab] = useState(0);
   const [content, setContent] = useState(false);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -65,8 +65,16 @@ const ReveiwsAndQuastions = () => {
                 onChange={handleChange}
                 aria-label="reviews label"
               >
-                <Tab label="Отзывы о товаре" {...a11yProps(0)} />
-                <Tab label="Вопросы и ответы о товаре" {...a11yProps(1)} />
+                <Tab
+                  ref={props.reviewRef}
+                  label="Отзывы о товаре"
+                  {...a11yProps(0)}
+                />
+                <Tab
+                  ref={props.questionRef}
+                  label="Вопросы и ответы о товаре"
+                  {...a11yProps(1)}
+                />
               </Tabs>
             </Box>
             <TabPanel value={tab} index={0}>
@@ -79,7 +87,13 @@ const ReveiwsAndQuastions = () => {
               )}
             </TabPanel>
             <TabPanel value={tab} index={1}>
-              <Quastions />
+              {content ? (
+                <NoContent>
+                  <h3>Пока нет вопросов</h3>
+                </NoContent>
+              ) : (
+                <Quastions />
+              )}
             </TabPanel>
           </Box>
         </Content>

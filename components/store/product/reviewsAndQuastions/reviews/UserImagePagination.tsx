@@ -17,7 +17,9 @@ const UserImagePicker = (props: any) => {
             variants={variants.fadInSlideUp}
             onClick={() => {
               props.setSelectedIndex(index);
-              props.paginate(index > props.selectedIndex ? 1 : -1);
+              if (index != props.selectedIndex) {
+                props.paginate(index > props.selectedIndex ? 1 : -1);
+              }
             }}
           >
             <motion.img
@@ -49,11 +51,12 @@ const UserImagePicker = (props: any) => {
 
 const UserImageList = styled.ul`
   width: 100%;
-  height: 200px;
+  height: 600px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 10px;
   grid-row-gap: 10px;
+  align-items: center;
   overflow-y: scroll;
   overflow-x: hidden;
   user-select: none;
@@ -61,8 +64,8 @@ const UserImageList = styled.ul`
 `;
 
 const UserImageItems = styled(motion.li)`
-  width: 100%;
-  height: 100%;
+  width: 100px;
+  height: 100px;
   display: flex;
   flex-direction: row;
   justify-content: center;

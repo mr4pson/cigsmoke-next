@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import * as React from 'react';
 import { Rating } from '@mui/material'; // docs: https://mui.com/material-ui/api/rating/ *** https://mui.com/material-ui/react-rating/
 import variants from 'components/store/lib/variants';
@@ -12,7 +11,7 @@ import ColorPicker from './ColorPicker';
 import { UserSelectWrapper } from './common';
 import Quastions from '../../../../../assets/quastions.svg';
 import { Basket, Product, Wishlist } from 'swagger/services';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import {
   checkIfItemInCart,
   checkIfItemInWishlist,
@@ -28,6 +27,8 @@ type Props = {
   cart?: Basket;
   wishlist?: Wishlist;
   selectedIndex: number;
+  reviewRef: MutableRefObject<any>;
+  questionRef: MutableRefObject<any>;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
   paginateImage: Dispatch<SetStateAction<number>>;
 };
@@ -38,6 +39,8 @@ const Details: React.FC<Props> = ({
   cart,
   wishlist,
   selectedIndex,
+  questionRef,
+  reviewRef,
   setSelectedIndex,
   paginateImage,
 }) => {
@@ -84,11 +87,15 @@ const Details: React.FC<Props> = ({
             variants={variants.fadInSlideUp}
           >
             <Rating value={5} size="small" readOnly />
-            <Link href="#reveiws-quastions">
-              <a>
-                <span>148 Отзывы</span>
-              </a>
-            </Link>
+
+            <span
+              onClick={() => {
+                reviewRef.current.click();
+                reviewRef.current.scrollIntoView();
+              }}
+            >
+              <span>148 Отзывы</span>
+            </span>
           </ConvoWrappers>
           <ConvoWrappers
             key="quastions-product-page"
@@ -101,11 +108,15 @@ const Details: React.FC<Props> = ({
             <span>
               <Quastions />
             </span>
-            <Link href="#reveiws-quastions">
-              <a>
-                <span>31 вопрос</span>
-              </a>
-            </Link>
+
+            <span
+              onClick={() => {
+                questionRef.current.click();
+                questionRef.current.scrollIntoView();
+              }}
+            >
+              <span>31 вопрос</span>
+            </span>
           </ConvoWrappers>
         </ConvoContainer>
         <PriceWrapper
@@ -164,8 +175,9 @@ const ConvoWrappers = styled(motion.div)`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
-  a {
+  span {
     font-size: 0.8rem;
+    cursor: pointer;
     &:hover {
       color: ${color.hover};
     }
