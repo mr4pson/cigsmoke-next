@@ -71,7 +71,7 @@ export const fetchCategories = createAsyncThunk<
 
 export const searchProducts = createAsyncThunk<
   Product[],
-  { name?: string, categories: string[] },
+  { name?: string, parent?: string },
   { rejectValue: string }
 >(
   'catalog/searchProducts',

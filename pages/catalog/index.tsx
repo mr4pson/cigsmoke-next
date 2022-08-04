@@ -14,26 +14,25 @@ import {
   fetchColors,
   fetchPriceRange,
   fetchProducts,
+  fetchSubCategories,
 } from 'redux/slicers/store/catalogSlicer';
-import { TFilters } from 'redux/types';
+import { TCatalogState, TFilters } from 'redux/types';
 import styled from 'styled-components';
 import ProductGrid from 'ui-kit/products/productGrid';
 
 const CatalogPage = () => {
   const router = useRouter();
   const [curCategories, setCurCategories] = useState(router.query.categories);
-  const products = useAppSelector((state) => state.catalog.products);
-  const categories = useAppSelector((state) => state.catalog.categories);
-  const brands = useAppSelector((state) => state.catalog.brands);
-  const colors = useAppSelector((state) => state.catalog.colors);
-  const priceRange = useAppSelector((state) => state.catalog.priceRange);
+  const { products, categories, subCategories, brands, colors, priceRange } =
+    useAppSelector<TCatalogState>((state) => state.catalog);
   const dispatch = useAppDispatch();
 
   const setPriceRange = () => {
     const queryParams = getQueryParams();
-    const { categories } = convertQueryParams(queryParams);
-    const payload: TFilters = {
-      categories,
+    const { categories, subCategories } = convertQueryParams(queryParams);
+    const payload = {
+      parent: categories ? categories[0] : undefined,
+      categories: subCategories,
     };
 
     dispatch(fetchPriceRange(payload));
@@ -41,14 +40,15 @@ const CatalogPage = () => {
 
   const onLocationChange = () => {
     const queryParams = getQueryParams();
-    const { minPrice, maxPrice } = queryParams;
-
-    const { categories, brands, colors } = convertQueryParams(queryParams);
-
-    const payload: TFilters = {
-      categories,
+    const { minPrice, maxPrice, name } = queryParams;
+    const { categories, subCategories, brands, colors } =
+      convertQueryParams(queryParams);
+    const payload = {
       brands,
       colors,
+      name,
+      parent: categories ? categories[0] : undefined,
+      categories: subCategories,
       minPrice: minPrice ? Number(minPrice) : undefined,
       maxPrice: maxPrice ? Number(maxPrice) : undefined,
     };
@@ -58,15 +58,21 @@ const CatalogPage = () => {
     if (JSON.stringify(categories) !== JSON.stringify(curCategories)) {
       setCurCategories(categories);
       setPriceRange();
+      if (categories) {
+        dispatch(fetchSubCategories(categories[0]));
+      }
     }
   };
 
   useEffect(() => {
     window.addEventListener('locationChange', onLocationChange);
     setPriceRange();
-    dispatch(fetchParentCategories());
-    dispatch(fetchBrands());
-    dispatch(fetchColors());
+    (async () => {
+      await dispatch(fetchParentCategories());
+      await dispatch(fetchBrands());
+      await dispatch(fetchColors());
+      onLocationChange();
+    })();
 
     return () => {
       window.removeEventListener('locationChange', onLocationChange);
@@ -87,6 +93,7 @@ const CatalogPage = () => {
       <Wrapper>
         <FilterBar
           categories={categories}
+          subCategories={subCategories}
           brands={brands}
           colors={colors}
           priceRange={priceRange}
@@ -108,6 +115,7 @@ const CatalogPage = () => {
                 columnGap: '53px',
               }}
               products={products}
+              emptyProductsTitle={'По вашему запросу ничего не найдено.'}
             />
           </Products>
         </Content>
