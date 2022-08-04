@@ -3,19 +3,41 @@ import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { ImageTooltip } from './helpers';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
+import { Color } from 'swagger/services';
 
-const fakeData = [
-  { available: true, price: '450', prevPrice: '' },
-  { available: true, price: '480', prevPrice: '600' },
-  { available: false, price: '850', prevPrice: '' },
-  { available: true, price: '490', prevPrice: '600' },
-  { available: true, price: '450', prevPrice: '' },
-  { available: false, price: '550', prevPrice: '' },
-  { available: true, price: '440', prevPrice: '600' },
-];
+type StyleProps = {
+  backgroundColor: string;
+};
 
-const ColorPicker = (props: any) => {
+type Props = {
+  images: string[];
+  colors: Color[];
+  selectedIndex: number;
+  setSelectedIndex: Dispatch<SetStateAction<number>>;
+  paginateImage: Dispatch<SetStateAction<number>>;
+};
+
+const ColorPicker: React.FC<Props> = ({
+  images,
+  colors,
+  selectedIndex,
+  setSelectedIndex,
+  paginateImage,
+}) => {
+  const handleImageChange =
+    (
+      index: number,
+      selectedIndex: number,
+      setSelectedIndex: (index: number) => void,
+      paginateImage: (index: number) => void,
+    ) =>
+    () => {
+      setSelectedIndex(index);
+      if (index != selectedIndex) {
+        paginateImage(selectedIndex > index ? -1 : 1);
+      }
+    };
   return (
     <ColorPickerContainer>
       <ColorPickerNameWrapper
@@ -26,13 +48,15 @@ const ColorPicker = (props: any) => {
         exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
         variants={variants.fadInSlideUp}
       >
-        <span>Цвет:</span>
-        <span style={{ color: color.btnPrimary }}>
-          vector navy / ftwr white / quartz met
-        </span>
+        <ColorWrapper>
+          <span>Цвета:</span>
+          {colors.map((color) => (
+            <ColorItem backgroundColor={color.code!} />
+          ))}
+        </ColorWrapper>
       </ColorPickerNameWrapper>
       <ColorPickerList>
-        {fakeData.map((item, index) => {
+        {images.map((image, index) => {
           return (
             <ImageTooltip
               key={index}
@@ -40,16 +64,16 @@ const ColorPicker = (props: any) => {
                 <React.Fragment>
                   <img
                     style={{ width: '100px', height: '100px' }}
-                    src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+                    src={`/api/images/${image}`}
                     alt=""
                   />
-                  <hr
+                  {/* <hr
                     style={{
                       backgroundColor: color.textTertiary,
                       width: '100%',
                     }}
-                  />
-                  {!item.available ? (
+                  /> */}
+                  {/* {!item.available ? (
                     <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
                   ) : (
                     <ColorPickerPriceWrapper>
@@ -62,7 +86,7 @@ const ColorPicker = (props: any) => {
                         </ColorPickerSpan>
                       )}
                     </ColorPickerPriceWrapper>
-                  )}
+                  )} */}
                 </React.Fragment>
               }
             >
@@ -77,25 +101,20 @@ const ColorPicker = (props: any) => {
                   transition: { delay: 0.05 * index },
                 }}
                 variants={variants.fadInSlideUp}
-                onClick={() => {
-                  props.setSelectedIndex(index);
-                  if (index != props.selectedIndex) {
-                    props.paginateImage(props.selectedIndex > index ? -1 : 1);
-                  }
-                }}
+                onClick={handleImageChange(
+                  index,
+                  selectedIndex,
+                  setSelectedIndex,
+                  paginateImage,
+                )}
                 style={{
                   border: `1px solid ${
-                    props.selectedIndex == index
-                      ? color.yellow
-                      : color.textPrimary
+                    selectedIndex == index ? color.yellow : color.textPrimary
                   }`,
                 }}
               >
-                <img
-                  src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-                  alt=""
-                />
-                {!item.available ? <div></div> : ''}
+                <img src={`/api/images/${image}`} alt="" />
+                {/* {!item.available ? <div></div> : ''} */}
               </ColorPickerItems>
             </ImageTooltip>
           );
@@ -179,6 +198,20 @@ const ColorPickerSpan = styled.span`
     text-decoration-color: ${color.hover};
     color: ${color.textSecondary};
   }
+`;
+
+const ColorWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: ${color.btnPrimary};
+`;
+
+const ColorItem = styled.div`
+  background-color: ${(props: StyleProps) => props.backgroundColor};
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 `;
 
 export default ColorPicker;

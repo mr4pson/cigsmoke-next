@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { MagnifieHelper } from './helpers';
@@ -8,14 +8,30 @@ import { SliderImage } from '../../common';
 import { handleDragEnd } from 'components/home-page/helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
 
-const Slider = (props: any) => {
+type Props = {
+  images: string[];
+  selectedIndex: number;
+  direction: number;
+  page: number;
+  setPage: Dispatch<SetStateAction<[number, number]>>;
+};
+
+const Slider: React.FC<Props> = ({
+  images,
+  selectedIndex,
+  direction,
+  page,
+  setPage,
+}) => {
   const [lensDisplay, setLensDisplay] = useState('none');
-  const [imgRef, lensRef, setMagnifiedImage] = MagnifieHelper();
+  const [imgRef, lensRef, setMagnifiedImage] = MagnifieHelper(
+    images[selectedIndex],
+  );
 
   useEffect(
     // TODO add api data and selectedIndex inside of it ie:data[selectedIndex]
-    () => setMagnifiedImage(props.selectedIndex),
-    [props.selectedIndex],
+    () => setMagnifiedImage(selectedIndex),
+    [selectedIndex],
   );
 
   return (
@@ -31,12 +47,12 @@ const Slider = (props: any) => {
     >
       <Lens ref={lensRef} style={{ display: lensDisplay }}></Lens>
 
-      <AnimatePresence initial={false} custom={props.direction}>
+      <AnimatePresence initial={false} custom={direction}>
         <SliderImage
           ref={imgRef}
-          key={props.page}
-          src="/static/backpack.jpg"
-          custom={props.direction}
+          key={page}
+          src={`/api/images/${images[selectedIndex]}`}
+          custom={direction}
           variants={variants.slider}
           initial="enter"
           animate="center"
@@ -48,11 +64,7 @@ const Slider = (props: any) => {
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={1}
-          onDragEnd={handleDragEnd(
-            props.page,
-            SWIPE_CONFIDENCE_THRESHOLD,
-            props.setPage,
-          )}
+          onDragEnd={handleDragEnd(page, SWIPE_CONFIDENCE_THRESHOLD, setPage)}
         />
       </AnimatePresence>
     </SliderWrapper>

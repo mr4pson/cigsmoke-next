@@ -13,8 +13,12 @@ import LogoSVG from '../../../assets/logo.svg';
 import Order from '../../../assets/order.svg';
 import WishList from '../../../assets/wishlist.svg';
 import HeaderCatalog from './utils/HeaderCatalog';
+import { useEffect } from 'react';
 
 const Header = () => {
+  useEffect(() => {
+    console.log('ON HEADER INIT');
+  }, []);
   return (
     <>
       <Head>

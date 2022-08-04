@@ -13,13 +13,18 @@ import Telegram from '../../../../../assets/telegram.svg';
 import Vk from '../../../../../assets/vk.svg';
 import Ok from '../../../../../assets/okSocial.svg';
 import Twitter from '../../../../../assets/twitter.svg';
+import { PopupDisplay } from 'components/store/storeLayout/utils/HeaderCart/constants';
 
-const ShareToSocial = () => {
+type Props = {
+  productId?: string;
+};
+
+const ShareToSocial: React.FC<Props> = ({ productId }) => {
   const router = useRouter();
   const [isCopied, setCopied, copy] = useCopyToClipboard();
   // _______________socila menu hooks _______________
   const [isOpen, setOpen] = useState(false);
-  const [display, setDisplay] = useState('none');
+  const [display, setDisplay] = useState(PopupDisplay.None);
   const [menuRef, setMenuRef] = useState(null);
   const [btnRef, setBtnRef] = useState(null);
   const [listening, setListening] = useState(false);
@@ -44,7 +49,9 @@ const ShareToSocial = () => {
   const closeHandler = () => {
     setOpen(!isOpen);
     setTimeout(() => {
-      setDisplay(display == 'none' ? 'flex' : 'none');
+      setDisplay(
+        display === PopupDisplay.None ? PopupDisplay.Flex : PopupDisplay.None,
+      );
     }, 100);
   };
 
@@ -57,7 +64,7 @@ const ShareToSocial = () => {
       exit={{ y: -30, opacity: 0, transition: { delay: 0.2 } }}
       variants={variants.fadInSlideUp}
     >
-      <span id="product-code">{`Код товара: 407729404`}</span>
+      <span id="product-code">{`Код товара: ${productId}`}</span>
       <motion.button
         ref={btnNode}
         custom={1.05}

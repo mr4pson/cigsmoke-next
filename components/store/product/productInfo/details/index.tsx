@@ -11,11 +11,58 @@ import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
 import { UserSelectWrapper } from './common';
 import Quastions from '../../../../../assets/quastions.svg';
+import { Basket, Product, Wishlist } from 'swagger/services';
+import { Dispatch, SetStateAction } from 'react';
+import {
+  checkIfItemInCart,
+  checkIfItemInWishlist,
+  handleCartBtnClick,
+  handleWishBtnClick,
+} from 'ui-kit/products/helpers';
+import { useAppDispatch } from 'redux/hooks';
+import { updateCart } from 'redux/slicers/store/cartSlicer';
 
-const Details = (props: any) => {
+type Props = {
+  images: string[];
+  product?: Product;
+  cart?: Basket;
+  wishlist?: Wishlist;
+  selectedIndex: number;
+  setSelectedIndex: Dispatch<SetStateAction<number>>;
+  paginateImage: Dispatch<SetStateAction<number>>;
+};
+
+const Details: React.FC<Props> = ({
+  images,
+  product,
+  cart,
+  wishlist,
+  selectedIndex,
+  setSelectedIndex,
+  paginateImage,
+}) => {
+  const dispatch = useAppDispatch();
+  const orderProduct = cart?.orderProducts?.find(
+    (orderProduct) => orderProduct.product?.id === product?.id,
+  );
+
+  const onCountChange = (counter: number, product: Product) => {
+    dispatch(
+      updateCart({
+        orderProducts: cart?.orderProducts
+          ?.filter((orderProduct) => orderProduct.product?.id != product.id)
+          ?.concat({ product: { id: product.id }, qty: counter })
+          .map((orderProduct) => ({
+            productId: orderProduct.product?.id,
+            qty: orderProduct.qty,
+          })),
+      }),
+    );
+  };
+
   return (
     <DetailsContainer>
-      <ShareToSocial />
+      <ShareToSocial productId={product?.id} />
       <UserSelectWrapper>
         <motion.h1
           key="title-product-page"
@@ -25,7 +72,7 @@ const Details = (props: any) => {
           exit={{ y: -20, opacity: 0, transition: { delay: 0.05 } }}
           variants={variants.fadInSlideUp}
         >
-          Чаша синий для кальяна
+          {product?.name}
         </motion.h1>
         <ConvoContainer>
           <ConvoWrappers
@@ -69,13 +116,26 @@ const Details = (props: any) => {
           exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
           variants={variants.fadInSlideUp}
         >
-          <PriceItem>350₽</PriceItem>
-          <PriceItem>450₽</PriceItem>
+          <PriceItem>{product?.price}₽</PriceItem>
+          {!!product?.oldPrice && <PriceItem>{product?.oldPrice}₽</PriceItem>}
         </PriceWrapper>
-        <ColorPicker {...props} />
+        <ColorPicker
+          images={images}
+          colors={product?.colors ?? []}
+          selectedIndex={selectedIndex}
+          setSelectedIndex={setSelectedIndex}
+          paginateImage={paginateImage}
+        />
       </UserSelectWrapper>
-      <ActionBtns />
-      <DropDowns />
+      <ActionBtns
+        orderProduct={orderProduct}
+        isInCart={checkIfItemInCart(product, cart)}
+        isInWishlist={checkIfItemInWishlist(product, wishlist)}
+        onCartBtnClick={handleCartBtnClick(product, dispatch, cart)}
+        onWishBtnClick={handleWishBtnClick(product, dispatch, wishlist)}
+        onCountChange={onCountChange}
+      />
+      <DropDowns description={product?.desc} />
     </DetailsContainer>
   );
 };

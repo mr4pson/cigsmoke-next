@@ -3,16 +3,16 @@ import { getErrorMassage, handleError, handlePending } from "common/helpers";
 import { TCatalogState, TFilters } from "redux/types";
 import { Brand, BrandService, Category, CategoryService, Color, ColorService, PriceRange, Product, ProductService } from "swagger/services";
 
-export const fetchCategories = createAsyncThunk<
+export const fetchParentCategories = createAsyncThunk<
   Category[],
   undefined,
   { rejectValue: string }
 >(
-  'catalog/fetchCategories',
+  'catalog/fetchParentCategories',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
       const response = await CategoryService.getCategories() as unknown as { rows: Category[] };
-      return response.rows;
+      return response.rows.filter(category => !category.parent);
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -27,7 +27,7 @@ export const fetchBrands = createAsyncThunk<
   'catalog/fetchBrands',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      const response = await BrandService.getBrands() as unknown as { rows: Brand[] };
+      const response = await BrandService.getBrands();
       return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -104,16 +104,16 @@ const cartSlicer = createSlice({
   extraReducers: (builder) => {
     builder
       //fetchCategories
-      .addCase(fetchCategories.pending, handlePending)
+      .addCase(fetchParentCategories.pending, handlePending)
       .addCase(
-        fetchCategories.fulfilled,
+        fetchParentCategories.fulfilled,
         (state, action) => {
           state.categories = action.payload;
           state.loading = false;
           console.log('fulfilled');
         },
       )
-      .addCase(fetchCategories.rejected, handleError)
+      .addCase(fetchParentCategories.rejected, handleError)
       //fetchBrands
       .addCase(fetchBrands.pending, handlePending)
       .addCase(

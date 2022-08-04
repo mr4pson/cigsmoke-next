@@ -55,13 +55,13 @@ const ItemCounter: React.FC<Props> = ({
 const ItemCounterWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   gap: 5px;
 
   button {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     border-radius: 5px;
     background-color: ${color.btnPrimary};
     color: ${color.textPrimary};

@@ -25,7 +25,7 @@ const ProductItem: React.FC<Props> = ({
   onCartBtnClick,
   onWishBtnClick,
 }) => {
-  const images = product.images ? product.images.split(',') : [];
+  const images = product.images ? product.images.split(', ') : [];
 
   return (
     <ItemContainer
@@ -39,11 +39,11 @@ const ProductItem: React.FC<Props> = ({
         <Slider
           product={product}
           images={images}
-          url={product.id}
+          url={product.url}
           isInWishlist={isInWishlist}
           onWishBtnClick={onWishBtnClick}
         />
-        <Link href={`/product/${product.id}`}>
+        <Link href={`/product/${product.url}`}>
           <a>
             <span>{product.name}</span>
             <PriceWrapper>
