@@ -36,7 +36,7 @@ export const handleFormSubmitBrands = (router: NextRouter, dispatch: AppDispatch
     return;
   }
 
-  const imageUrl = image[0].url.split("/api/images/")[1]
+  const imageUrl = image[0]?.url.split("/api/images/")[1]
 
   const isSaved: any = await dispatch(createBrand({...form, image: imageUrl}));
 

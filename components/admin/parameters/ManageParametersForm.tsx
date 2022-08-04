@@ -54,7 +54,7 @@ const ManageParameterForm = ({
         >
           <FormItem
             option={ManageParameterFields.Name}
-            children={<Input placeholder="Введите имя параметра" />}
+            children={<Input required={true} placeholder="Введите имя параметра" />}
           />
           <Form.Item className={styles.createParameterForm__buttonsStack}>
             <Button

@@ -49,3 +49,5 @@ export const paths = {
   [Page.ADMIN_REVIEWS]: '/admin/reviews',
   [Page.ADMIN_CHECKOUTS]: '/admin/checkouts',
 };
+
+//

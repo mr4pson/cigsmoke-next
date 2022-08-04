@@ -58,7 +58,9 @@ const ManageProductForm = ({
         dispatch(setDefaultImageList(image));
       });
     }
-    // console.log(imageList);
+    return () => {
+      dispatch(clearImageList());
+    };
   }, [product]);
 
   return (
@@ -80,23 +82,33 @@ const ManageProductForm = ({
           {/* ----------------------NAME---------------------- */}
           <FormItem
             option={ManageProductFields.Name}
-            children={<Input placeholder="Введите имя продукта" />}
+            children={
+              <Input required={true} placeholder="Введите имя продукта" />
+            }
           />
           {/* ----------------------PRICE---------------------- */}
           <FormItem
             option={ManageProductFields.Price}
-            children={<Input placeholder="Введите стоимость продукта" />}
+            children={
+              <Input required={true} placeholder="Введите стоимость продукта" />
+            }
           />
           {/* ----------------------ULR---------------------- */}
           <FormItem
             option={ManageProductFields.Url}
-            children={<Input placeholder="Введите Url продукта" />}
+            children={
+              <Input required={true} placeholder="Введите Url продукта" />
+            }
           />
           {/* ----------------------DESCRIPTION---------------------- */}
           <FormItem
             option={ManageProductFields.Desc}
             children={
-              <TextArea rows={4} placeholder="Введите описание продукта" />
+              <TextArea
+                required={true}
+                rows={4}
+                placeholder="Введите описание продукта"
+              />
             }
           />
           {/* ----------------------AVAILABLE---------------------- */}

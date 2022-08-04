@@ -18,19 +18,18 @@ const ReviewsPage = () => {
   const isLoading = useAppSelector((state) => state.reviews.loading);
 
   const dataSource = reviews?.map(
-    ({ id, rating, comment, productId, userId, ...rest }) => ({
+    ({ id, rating, text, product, user, ...rest }) => ({
       key: id,
       id,
       rating,
-      comment,
-      productId,
-      userId,
+      text,
+      product: product.name,
+      email: user.email,
     }),
   ) as unknown as DataType[];
 
   useEffect(() => {
     dispatch(fetchReviews());
-
     return () => {
       dispatch(clearReviews());
     };

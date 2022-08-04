@@ -18,7 +18,8 @@ export const fetchCheckouts = createAsyncThunk<
   'checkouts/fetchCheckouts',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await CheckoutService.getCheckouts();
+      const resp = await CheckoutService.getCheckouts() as unknown as { rows: Checkout[] };
+      return resp.rows
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }

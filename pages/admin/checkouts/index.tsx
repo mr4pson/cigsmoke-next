@@ -4,10 +4,8 @@ import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import { CheckoutsData } from 'components/admin/checkouts/CheckoutsData.interface';
 import { columns } from 'components/admin/checkouts/constants';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { OrderProduct } from 'swagger/services';
 
 import {
   clearCheckouts,
@@ -19,23 +17,21 @@ const CheckoutsPage = () => {
   const dispatch = useAppDispatch();
   const checkouts = useAppSelector((state) => state.checkouts.checkouts);
   const isLoading = useAppSelector((state) => state.checkouts.loading);
-  const router = useRouter();
 
   const dataSource = checkouts?.map(
-    ({ id, address, payment, basket, ...rest }): CheckoutsData => ({
+    ({ id, user, basket, address, comment, ...rest }): CheckoutsData => ({
       key: id as string,
-      id: id as string,
-      addressName: `Город: ${address?.city},${'\n'}адрес: ${address?.address}`,
-      payment: `ID пользователя: ${payment?.userId},${'\n'}номер карты: ${
-        payment?.cardNumber
-      }`,
-      orderedProducts: basket?.orderProducts as OrderProduct,
+      id,
+      user,
+      basket,
+      address,
+      comment,
     }),
   ) as unknown as DataType[];
 
   useEffect(() => {
     dispatch(fetchCheckouts());
-
+    console.log(checkouts);
     return () => {
       dispatch(clearCheckouts());
     };

@@ -25,19 +25,24 @@ const handleDataConvertation = (form, images) => {
   newForm.price = Number.parseInt(newForm.price, 10)
   newForm.available && (newForm.available = JSON.parse(newForm.available))
   
-  const imageNameArray = images.map(image => {
+  if(images.length) {
+    const imageNameArray = images.map(image => {
     return image.url.split("/api/images/")[1]
-  })
+    })
 
   newForm.images = imageNameArray.join(', ')
+  } else {
+    newForm.images = null
+  }
+  
   
   return newForm
 }
 
 export const handleFormSubmitProduct = (router: NextRouter, dispatch: AppDispatch, images: Image[]) => async (form) => {
   const convertedForm = handleDataConvertation(form, images)
-
-    if (router.query.id) {
+  console.log(convertedForm)
+  if (router.query.id) {
       const isSaved: any = await dispatch(
         editProduct({
           ...convertedForm,
@@ -52,7 +57,6 @@ export const handleFormSubmitProduct = (router: NextRouter, dispatch: AppDispatc
       return;
     }
 
-  console.log(convertedForm)
 
   const isSaved: any = await dispatch(createProduct(convertedForm));
 
