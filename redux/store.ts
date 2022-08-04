@@ -19,6 +19,7 @@ import globalSlicer from './slicers/store/globalSlicer';
 import checkoutsReducer from "./slicers/checkoutsSlicer"
 import cartSlicer from './slicers/store/cartSlicer';
 import catalogSlicer from './slicers/store/catalogSlicer';
+import analyticsReducer from './slicers/analyticsSlicer';
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
@@ -31,6 +32,7 @@ const combinedReducer = combineReducers({
   tags: tagsReducer,
   reviews: reviewsReducer,
   checkouts: checkoutsReducer,
+  analytics: analyticsReducer,
 
   global: globalSlicer,
   cart: cartSlicer,

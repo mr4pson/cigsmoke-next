@@ -1,3 +1,4 @@
+import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser } from "common/interfaces/data-analytics.interfaces";
 import { Basket, Brand, Category, Checkout, Color, Image, Parameter, PriceRange, Product, Review, Tag, User, Wishlist } from "swagger/services";
 
 type TCategoryState = {
@@ -103,4 +104,15 @@ type TCheckoutState = {
   saveLoading: boolean,
 }
 
-export type { TCategoryState, TAuthState, TColorState, TBrandState, TParameterState, TProductState, TImageState, PayloadCreateImage, TTagState, TReviewState, TGlobalState, TCartState, TFilters, TCatalogState, TCheckoutState };
+type TAnalyticsState = {
+  categories: AnalyticsCategory[],
+  products: AnalyticsProduct[],
+  brands: AnalyticsBrand[],
+  users: AnalyticsUser[],
+  categoriesLoading: boolean,
+  brandsLoading: boolean,
+  productsLoading: boolean,
+  usersLoading: boolean,
+}
+
+export type { TCategoryState, TAuthState, TColorState, TBrandState, TParameterState, TProductState, TImageState, PayloadCreateImage, TTagState, TReviewState, TGlobalState, TCartState, TFilters, TCatalogState, TCheckoutState, TAnalyticsState };

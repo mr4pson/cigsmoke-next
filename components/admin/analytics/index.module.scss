@@ -1,0 +1,13 @@
+.chart {
+    max-height: 300px;
+        @media screen and (max-width: 1599px) and (min-width: 992px) {
+            max-height: 250px;
+        }
+        @media screen and (max-width: 991px) and (min-width: 576px) {
+            max-height: 200px;
+        }
+         @media screen and (max-width: 575px) {
+            max-height: 150px;
+        }
+}
+

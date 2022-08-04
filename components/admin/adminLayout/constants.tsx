@@ -7,6 +7,7 @@ import {
   TagsOutlined,
   CommentOutlined,
   ReconciliationOutlined,
+  LineChartOutlined,
 } from '@ant-design/icons';
 import { Page, paths } from 'routes/constants';
 
@@ -22,6 +23,7 @@ export const items: TMenuItem[] = [
   getItem('Теги', paths[Page.ADMIN_TAGS], <TagsOutlined />),
   getItem('Комментарии', paths[Page.ADMIN_REVIEWS], <CommentOutlined />),
   getItem('Заказы', paths[Page.ADMIN_CHECKOUTS], <ReconciliationOutlined />),
+  getItem('Аналитика', paths[Page.ADMIN_ANALYTICS], <LineChartOutlined />),
 ];
 
 export const pathWords: PathWords = {
@@ -45,4 +47,5 @@ export const pathWords: PathWords = {
   'tags/[id]': 'Редактирование тега',
   reviews: 'Комментарии',
   checkouts: 'Заказы',
+  analytics: 'Аналитика',
 };
