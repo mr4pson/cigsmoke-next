@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { MutableRefObject, useState } from 'react';
 import {
   Container,
   Wrapper,
@@ -16,9 +16,17 @@ type Props = {
   product?: Product;
   cart?: Basket;
   wishlist?: Wishlist;
+  reviewRef: MutableRefObject<any>;
+  questionRef: MutableRefObject<any>;
 };
 
-const ProductInfo: React.FC<Props> = ({ product, cart, wishlist }) => {
+const ProductInfo: React.FC<Props> = ({
+  product,
+  cart,
+  wishlist,
+  reviewRef,
+  questionRef,
+}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const images = product?.images ? product.images?.split(', ') : [];
@@ -60,8 +68,10 @@ const ProductInfo: React.FC<Props> = ({ product, cart, wishlist }) => {
               wishlist={wishlist}
               images={images}
               selectedIndex={selectedIndex}
-              setSelectedIndex={setSelectedIndex}
               paginateImage={paginateImage}
+              reviewRef={reviewRef}
+              questionRef={questionRef}
+              setSelectedIndex={setSelectedIndex}
             />
           </Grid>
         </Content>

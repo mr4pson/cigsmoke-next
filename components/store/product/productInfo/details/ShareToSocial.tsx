@@ -20,6 +20,9 @@ type Props = {
 };
 
 const ShareToSocial: React.FC<Props> = ({ productId }) => {
+  // https://www.npmjs.com/package/next-share
+  // TODO use npm package or implement share to social buttons
+
   const router = useRouter();
   const [isCopied, setCopied, copy] = useCopyToClipboard();
   // _______________socila menu hooks _______________
@@ -111,14 +114,15 @@ const ShareToSocial: React.FC<Props> = ({ productId }) => {
             </button>
           </li>
           <li>
-            <Link href="/">
-              <a>
-                <span>
-                  <Vk />
-                </span>
-                <span>ВКонтакте</span>
-              </a>
-            </Link>
+            <a
+              href={`http://vkontakte.ru/share.php?url=https://www.cigsmoke.com/product/product_ID`}
+              target="popup"
+            >
+              <span>
+                <Vk />
+              </span>
+              <span>ВКонтакте</span>
+            </a>
           </li>
           <li>
             <Link href="/">
