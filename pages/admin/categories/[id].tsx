@@ -3,6 +3,7 @@ import ManageCategoryForm from 'components/admin/categories/ManageCategoryForm';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { clearImageList } from 'redux/slicers/imagesSlicer';
 import {
   clearCategory,
   fetchCategories,
@@ -13,7 +14,7 @@ const EditCategory = () => {
   const title = 'Редактирование категории';
   const router = useRouter();
   const categories = useAppSelector((state) => state.categories.categories);
-  const filteredCategories = categories.filter(
+  const filteredCategories = categories?.filter(
     (category) => category.id !== Number(router.query.id),
   );
   const category = useAppSelector((state) => state.categories.category);
@@ -27,6 +28,7 @@ const EditCategory = () => {
 
     return () => {
       dispatch(clearCategory());
+      dispatch(clearImageList());
     };
   }, [dispatch]);
 
@@ -34,8 +36,6 @@ const EditCategory = () => {
     if (router.query.id) {
       dispatch(fetchCategory(router.query.id as string));
     }
-
-    
   }, [dispatch, router.query]);
 
   return (

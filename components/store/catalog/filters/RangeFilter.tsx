@@ -1,5 +1,5 @@
 import { Input, Slider as SliderInit } from 'antd';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Filter, FilterBody, FilterTitle } from '../common';
 import debounce from 'lodash/debounce';
@@ -15,6 +15,10 @@ type Props = {
 const RangeFilter: React.FC<Props> = ({ title, min, max, onChange }) => {
   const [[minVal, maxVal], setValues] = useState([min, max]);
   const Slider = SliderInit as any;
+
+  useEffect(() => {
+    setValues([min, max]);
+  }, [min, max]);
 
   const handleSliderChange = (values: [number, number]) => {
     setValues(values);

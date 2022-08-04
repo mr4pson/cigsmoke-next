@@ -1,68 +1,89 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 
-const MagnifieHelper = () => {
+const getCursor = (img) => {
+  const e: any = window.event;
+  const bounds = img.getBoundingClientRect();
+  const x = e.pageX - bounds.left;
+  const y = e.pageY - bounds.top;
+
+  return { x: x - window.pageXOffset, y: y - window.pageYOffset };
+};
+
+const moveLens = (img, lens, zoomLevel: number) => () => {
+  const pos = getCursor(img);
+  let positionLeft = pos.x - lens.offsetWidth / 2;
+  let positionTop = pos.y - lens.offsetHeight / 2;
+
+  if (positionLeft < 0) {
+    positionLeft = 0;
+  }
+
+  if (positionTop < 0) {
+    positionTop = 0;
+  }
+
+  if (positionLeft > img.width - lens.offsetWidth / 3) {
+    positionLeft = img.width - lens.offsetWidth / 3;
+  }
+
+  if (positionTop > img.height - lens.offsetHeight / 3) {
+    positionTop = img.height - lens.offsetHeight / 3;
+  }
+
+  lens.style.left = `${positionLeft}px`;
+  lens.style.top = `${positionTop}px`;
+
+  lens.style.backgroundPosition = `-${pos.x * zoomLevel}px -${
+    pos.y * zoomLevel
+  }px`;
+};
+
+const MagnifieHelper = (image: string) => {
   const imgRef = useRef<any>();
   const lensRef = useRef<any>();
   const [magnifiedImage, setMagnifiedImage]: [any, any] = useState(0);
+
   useEffect(() => {
     const img = imgRef.current;
+
+    if (!img) {
+      return;
+    }
+
     const lens = lensRef.current;
-    lens.style.backgroundImage = `url(https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg)`; //TODO add magnified image state here for dynamic variables
-    let zoomLevel = 1.5;
+
+    lens.style.backgroundImage = `url(/api/images/${image})`;
+
+    const zoomLevel = 1.5;
 
     lens.style.backgroundSize = `${img.width * zoomLevel}px ${
       img.height * zoomLevel
     }px`;
 
-    const moveLens = () => {
-      let pos = getCursor();
+    img.addEventListener('mousemove', moveLens(img, lens, zoomLevel));
+    lens.addEventListener('mousemove', moveLens(img, lens, zoomLevel));
 
-      let positionLeft = pos.x - lens.offsetWidth / 2;
-      let positionTop = pos.y - lens.offsetHeight / 2;
-
-      if (positionLeft < 0) {
-        positionLeft = 0;
-      }
-
-      if (positionTop < 0) {
-        positionTop = 0;
-      }
-
-      if (positionLeft > img.width - lens.offsetWidth / 3) {
-        positionLeft = img.width - lens.offsetWidth / 3;
-      }
-
-      if (positionTop > img.height - lens.offsetHeight / 3) {
-        positionTop = img.height - lens.offsetHeight / 3;
-      }
-
-      lens.style.left = `${positionLeft}px`;
-      lens.style.top = `${positionTop}px`;
-
-      lens.style.backgroundPosition = `-${pos.x * zoomLevel}px -${
-        pos.y * zoomLevel
-      }px`;
-    };
-
-    const getCursor = () => {
-      let e: any = window.event;
-      let bounds = img.getBoundingClientRect();
-
-      let x = e.pageX - bounds.left;
-      let y = e.pageY - bounds.top;
-
-      return { x: x - window.pageXOffset, y: y - window.pageYOffset };
-    };
-
-    img.addEventListener('mousemove', moveLens);
-    lens.addEventListener('mousemove', moveLens);
     return () => {
-      img.removeEventListener('mousemove', moveLens);
-      lens.removeEventListener('mousemove', moveLens);
+      img.removeEventListener('mousemove', moveLens(img, lens, zoomLevel));
+      lens.removeEventListener('mousemove', moveLens(img, lens, zoomLevel));
     };
   }, [magnifiedImage]);
 
   return [imgRef, lensRef, setMagnifiedImage];
 };
 
-export { MagnifieHelper };
+const handlePaginate =
+  (
+    index: number,
+    selectedIndex: number,
+    setSelectedIndex: Dispatch<SetStateAction<number>>,
+    paginateImage: Dispatch<SetStateAction<number>>,
+  ) =>
+  () => {
+    setSelectedIndex(index);
+    if (index != selectedIndex) {
+      paginateImage(selectedIndex > index ? -1 : 1);
+    }
+  };
+
+export { MagnifieHelper, handlePaginate };

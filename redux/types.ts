@@ -64,8 +64,12 @@ type TReviewState = {
 }
 
 type TGlobalState = {
+  searchQuery: string;
   wishlist: Wishlist | null;
+  categories: Category[];
+  products: Product[];
   loading: boolean;
+  productsLoading: boolean;
 }
 
 type TCartState = {
@@ -101,4 +105,26 @@ type TCheckoutState = {
   saveLoading: boolean,
 }
 
-export type { TCategoryState, TAuthState, TColorState, TBrandState, TParameterState, TProductState, TImageState, PayloadCreateImage, TTagState, TReviewState, TGlobalState, TCartState, TFilters, TCatalogState, TCheckoutState };
+type TProductInfoState = {
+  product?: Product,
+  loading: boolean,
+}
+
+export type {
+  TCategoryState,
+  TAuthState,
+  TColorState,
+  TBrandState,
+  TParameterState,
+  TProductState,
+  TImageState,
+  PayloadCreateImage,
+  TTagState,
+  TReviewState,
+  TGlobalState,
+  TCartState,
+  TFilters,
+  TCatalogState,
+  TCheckoutState,
+  TProductInfoState,
+};

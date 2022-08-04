@@ -1,0 +1,52 @@
+import { useRouter } from 'next/router';
+import SEO from 'components/store/SEO';
+import StoreLayout from 'components/store/storeLayout/layouts';
+import ProductInfo from 'components/store/product/productInfo';
+import Recomendation from 'components/store/product/recomendation';
+import ReveiwsAndQuastions from 'components/store/product/reviewsAndQuastions';
+import { useEffect } from 'react';
+import { fetchProduct } from 'redux/slicers/store/productInfoSlicer';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { TProductInfoState } from 'redux/types';
+import { Basket, Wishlist } from 'swagger/services';
+
+const ProductInfoPage = () => {
+  const dispatch = useAppDispatch();
+  const { product, loading }: TProductInfoState = useAppSelector(
+    (state) => state.productInfo,
+  );
+  const cart: Basket = useAppSelector((state) => state.cart.cart);
+  const wishlist: Wishlist = useAppSelector((state) => state.global.wishlist);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.url) {
+      dispatch(fetchProduct(router.query.url as string));
+    }
+
+    return () => {};
+  }, [dispatch, router.query]);
+
+  const images = product?.images ? product?.images.split(', ') : [];
+
+  return (
+    !loading && (
+      <>
+        <SEO
+          url={`cigsmoke.ru${router.asPath}`}
+          title={product?.name}
+          description={product?.desc}
+          image={`/api/images/${images[0]}`}
+          schemaType="cart"
+          keywords="the, keywords, is, saperated, by, comma"
+        />
+        <ProductInfo product={product} cart={cart} wishlist={wishlist} />
+        <Recomendation />
+        {/* <ReveiwsAndQuastions /> */}
+      </>
+    )
+  );
+};
+ProductInfoPage.PageLayout = StoreLayout;
+export default ProductInfoPage;

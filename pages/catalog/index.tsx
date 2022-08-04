@@ -1,3 +1,4 @@
+import { getQueryParams } from 'common/helpers/manageQueryParams.helper';
 import FilterBar from 'components/store/catalog/FilterBar';
 import { convertQueryParams } from 'components/store/catalog/helpers';
 import variants from 'components/store/lib/variants';
@@ -5,11 +6,11 @@ import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   fetchBrands,
-  fetchCategories,
+  fetchParentCategories,
   fetchColors,
   fetchPriceRange,
   fetchProducts,
@@ -20,6 +21,7 @@ import ProductGrid from 'ui-kit/products/productGrid';
 
 const CatalogPage = () => {
   const router = useRouter();
+  const [curCategories, setCurCategories] = useState(router.query.categories);
   const products = useAppSelector((state) => state.catalog.products);
   const categories = useAppSelector((state) => state.catalog.categories);
   const brands = useAppSelector((state) => state.catalog.brands);
@@ -27,24 +29,22 @@ const CatalogPage = () => {
   const priceRange = useAppSelector((state) => state.catalog.priceRange);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-    dispatch(fetchBrands());
-    dispatch(fetchColors());
-  }, []);
-
-  useEffect(() => {
-    const { categories } = convertQueryParams(router.query);
+  const setPriceRange = () => {
+    const queryParams = getQueryParams();
+    const { categories } = convertQueryParams(queryParams);
     const payload: TFilters = {
       categories,
     };
 
     dispatch(fetchPriceRange(payload));
-  }, [router.query.categories]);
+  };
 
-  useEffect(() => {
-    const { minPrice, maxPrice } = router.query;
-    const { categories, brands, colors } = convertQueryParams(router.query);
+  const onLocationChange = () => {
+    const queryParams = getQueryParams();
+    const { minPrice, maxPrice } = queryParams;
+
+    const { categories, brands, colors } = convertQueryParams(queryParams);
+
     const payload: TFilters = {
       categories,
       brands,
@@ -54,7 +54,24 @@ const CatalogPage = () => {
     };
 
     dispatch(fetchProducts(payload));
-  }, [router.query]);
+
+    if (JSON.stringify(categories) !== JSON.stringify(curCategories)) {
+      setCurCategories(categories);
+      setPriceRange();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('locationChange', onLocationChange);
+    setPriceRange();
+    dispatch(fetchParentCategories());
+    dispatch(fetchBrands());
+    dispatch(fetchColors());
+
+    return () => {
+      window.removeEventListener('locationChange', onLocationChange);
+    };
+  }, []);
 
   return (
     <Container
@@ -109,6 +126,7 @@ const Content = styled.div`
 const CategoryTitle = styled(motion.h1)`
   font-size: 28px;
   font-weight: bold;
+  margin-bottom: 10px;
 `;
 
 const Products = styled.div`

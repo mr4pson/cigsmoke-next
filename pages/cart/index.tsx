@@ -1,4 +1,5 @@
-import CartItem from 'components/store/cart/cartItem';
+import CartFooter from 'components/store/cart/CartFooter';
+import CartItem from 'components/store/cart/CartItem';
 import variants from 'components/store/lib/variants';
 import {
   Container,
@@ -19,8 +20,8 @@ const CatalogPage = () => {
   const [selected, setSelected] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
-  const handleItemRemove = (product: Product) => {
-    dispatch(
+  const handleItemRemove = async (product: Product) => {
+    await dispatch(
       updateCart({
         orderProducts: cart?.orderProducts
           ?.filter((orderProduct) => orderProduct.product?.id != product.id)
@@ -71,10 +72,9 @@ const CatalogPage = () => {
   };
 
   const handleRemoveClick = () => () => {
-    selected.forEach((id) => {
+    selected.forEach(async (id) => {
       const orderProduct = cart?.orderProducts?.find((item) => item.id === id);
-      console.log(orderProduct?.product!);
-      handleItemRemove(orderProduct?.product!);
+      await handleItemRemove(orderProduct?.product!);
     });
   };
 
@@ -91,33 +91,36 @@ const CatalogPage = () => {
     >
       <Wrapper>
         <Content flex_direction="column">
-          <PageTitle>Корзина</PageTitle>
-          <CartBody>
-            <Actions>
-              <FilterCheckbox
-                label={'Выбрать все'}
-                onChange={handleSelecteAll}
-                size={FilterCheckboxSize.Big}
-              />
-              {!!selected.length && (
-                <DeleteBtn onClick={handleRemoveClick()}>Удалить</DeleteBtn>
-              )}
-            </Actions>
-            <CartItems>
-              {cart?.orderProducts?.map((item, index) => {
-                return (
-                  <CartItem
-                    key={`cart-item-page-${index}`}
-                    item={item}
-                    selected={checkIfSelected(item)}
-                    onSelect={handleItemSelect}
-                    onRemove={handleItemRemove}
-                    onCountChange={handleItemCountChange}
-                  />
-                );
-              })}
-            </CartItems>
-          </CartBody>
+          <>
+            <PageTitle>Корзина</PageTitle>
+            <CartBody>
+              <Actions>
+                <FilterCheckbox
+                  label={'Выбрать все'}
+                  onChange={handleSelecteAll}
+                  size={FilterCheckboxSize.Big}
+                />
+                {!!selected.length && (
+                  <DeleteBtn onClick={handleRemoveClick()}>Удалить</DeleteBtn>
+                )}
+              </Actions>
+              <CartItems>
+                {cart?.orderProducts?.map((item, index) => {
+                  return (
+                    <CartItem
+                      key={`cart-item-page-${index}`}
+                      item={item}
+                      selected={checkIfSelected(item)}
+                      onSelect={handleItemSelect}
+                      onRemove={handleItemRemove}
+                      onCountChange={handleItemCountChange}
+                    />
+                  );
+                })}
+              </CartItems>
+            </CartBody>
+            <CartFooter cart={cart} />
+          </>
         </Content>
       </Wrapper>
     </Container>

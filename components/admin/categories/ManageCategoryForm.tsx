@@ -1,11 +1,16 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Select, Spin } from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
-import { useAppDispatch } from 'redux/hooks';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  clearImageList,
+  setDefaultImageList,
+} from 'redux/slicers/imagesSlicer';
 import { Page } from 'routes/constants';
 import { Category } from 'swagger/services';
 import FormItem from '../generalComponents/FormItem';
+import ImageUpload from '../generalComponents/ImageUpload';
 import styles from './categories.module.scss';
 import { handleFormSubmit } from './helpers';
 import { ManageCategoryFields } from './ManageCategoryFields.enum';
@@ -35,8 +40,26 @@ const ManageCategoryForm = ({
   const initialValues = {
     name: category?.name,
     url: category?.url,
+    image: category?.image,
     parent: category?.parent?.id?.toString(),
   };
+
+  const imageList = useAppSelector((state) => state.images.imageList);
+
+  useEffect(() => {
+    dispatch(clearImageList());
+  }, []);
+
+  useEffect(() => {
+    if (category?.image) {
+      dispatch(
+        setDefaultImageList({
+          name: category.image,
+          url: `/api/images/${category?.image}`,
+        }),
+      );
+    }
+  }, [category]);
 
   return (
     <>
@@ -48,7 +71,7 @@ const ManageCategoryForm = ({
       ) : (
         <Form
           layout="vertical"
-          onFinish={handleFormSubmit(router, dispatch)}
+          onFinish={handleFormSubmit(router, dispatch, imageList)}
           form={form}
           initialValues={initialValues}
           requiredMark={true}
@@ -56,11 +79,19 @@ const ManageCategoryForm = ({
         >
           <FormItem
             option={ManageCategoryFields.Name}
-            children={<Input placeholder="Введите имя категории" />}
+            children={
+              <Input required={true} placeholder="Введите имя категории" />
+            }
           />
           <FormItem
             option={ManageCategoryFields.Url}
-            children={<Input placeholder="Введите URL категории" />}
+            children={
+              <Input required={true} placeholder="Введите URL категории" />
+            }
+          />
+          <FormItem
+            option={ManageCategoryFields.Image}
+            children={<ImageUpload fileList={imageList} />}
           />
           <Form.Item
             name={ManageCategoryFields.Parent}

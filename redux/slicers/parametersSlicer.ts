@@ -19,7 +19,8 @@ export const fetchParameters = createAsyncThunk<
   'parameters/fetchParameters',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await ParameterService.getParameters();
+      const response = await ParameterService.getParameters() as unknown as { rows: Parameter[] };
+      return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -125,7 +126,7 @@ const parametersSlicer = createSlice({
         },
       )
       .addCase(fetchParameters.rejected, handleError)
-        //fetchChosenParameter
+      //fetchChosenParameter
       .addCase(fetchChosenParameter.pending, handlePending)
       .addCase(
         fetchChosenParameter.fulfilled,
@@ -136,7 +137,7 @@ const parametersSlicer = createSlice({
         },
       )
       .addCase(fetchChosenParameter.rejected, handleError)
-        //createParameter
+      //createParameter
       .addCase(createParameter.pending, handleChangePending)
       .addCase(
         createParameter.fulfilled,
@@ -147,7 +148,7 @@ const parametersSlicer = createSlice({
         },
       )
       .addCase(createParameter.rejected, handleChangeError)
-        //editParameter
+      //editParameter
       .addCase(editParameter.pending, handleChangePending)
       .addCase(editParameter.fulfilled, (state, action) => {
         let parameter = state.parameters.find(
@@ -162,7 +163,7 @@ const parametersSlicer = createSlice({
         console.log('fulfilled');
       })
       .addCase(editParameter.rejected, handleChangeError)
-        //deleteParameter
+      //deleteParameter
       .addCase(deleteParameter.pending, handleChangePending)
       .addCase(deleteParameter.fulfilled, (state, action) => {
         state.parameters = state.parameters.filter(

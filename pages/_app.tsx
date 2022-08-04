@@ -14,6 +14,7 @@ import type {} from 'styled-components/cssprop';
 import {
   fetchWishlist,
   createWishlist,
+  fetchCategories,
 } from 'redux/slicers/store/globalSlicer';
 
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
@@ -52,6 +53,7 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
     } else {
       dispatch(fetchWishlist(wishlistId));
     }
+    dispatch(fetchCategories());
 
     if (!user && router.pathname.includes('/admin')) {
       navigateTo(router, Page.ADMIN_LOGIN)();

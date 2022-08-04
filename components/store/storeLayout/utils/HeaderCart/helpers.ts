@@ -8,14 +8,14 @@ const decreaseCounter =
     setItemCounter: Dispatch<SetStateAction<number>>,
     onDecrease: (counter: number, product: Product) => void,
   ) =>
-  () => {
-    setItemCounter((prev) => {
-      const itemCounter = prev < 2 ? 1 : prev - 1;
-      onDecrease(itemCounter, product);
+    () => {
+      setItemCounter((prev) => {
+        const itemCounter = prev < 2 ? 1 : prev - 1;
+        onDecrease(itemCounter, product);
 
-      return itemCounter;
-    });
-  };
+        return itemCounter;
+      });
+    };
 
 const increaseCounter =
   (
@@ -23,14 +23,14 @@ const increaseCounter =
     setItemCounter: Dispatch<SetStateAction<number>>,
     onIncrease: (counter: number, product: Product) => void,
   ) =>
-  () => {
-    setItemCounter((prev) => {
-      const itemCounter = prev + 1;
-      onIncrease(itemCounter, product);
+    () => {
+      setItemCounter((prev) => {
+        const itemCounter = prev + 1;
+        onIncrease(itemCounter, product);
 
-      return itemCounter;
-    });
-  };
+        return itemCounter;
+      });
+    };
 
 const handleClickOutside =
   (
@@ -38,29 +38,30 @@ const handleClickOutside =
     setIsOpen: Dispatch<SetStateAction<boolean>>,
     setDisplay: Dispatch<SetStateAction<PopupDisplay>>,
   ) =>
-  () => {
-    if (isOpen) {
-      setIsOpen(false);
-      setTimeout(() => {
-        setDisplay(PopupDisplay.None);
-      }, 100);
-    }
-  };
+    () => {
+      if (isOpen) {
+        setIsOpen(false);
+        setTimeout(() => {
+          setDisplay(PopupDisplay.None);
+        }, 100);
+      }
+    };
 
 const handleCartBtnClick =
   (
     setIsOpen: Dispatch<SetStateAction<boolean>>,
     setDisplay: Dispatch<SetStateAction<PopupDisplay>>,
   ) =>
-  (e) => {
-    e.stopPropagation();
-    setIsOpen((prev) => {
-      setTimeout(() => {
-        setDisplay(prev ? PopupDisplay.None : PopupDisplay.Flex);
-      }, 100);
-      return !prev;
-    });
-  };
+    (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      setIsOpen((prev) => {
+        setTimeout(() => {
+          setDisplay(prev ? PopupDisplay.None : PopupDisplay.Flex);
+        }, 100);
+        return !prev;
+      });
+    };
 
 export {
   decreaseCounter,

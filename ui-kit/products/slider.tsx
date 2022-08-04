@@ -71,16 +71,17 @@ const Slider: React.FC<Props> = ({
             onDragEnd={handleDragEnd(page, SWIPE_CONFIDENCE_THRESHOLD, setPage)}
           >
             <Link href={`/product/${url}`}>
-              <a>
-                <motion.img
-                  whileHover="hover"
-                  whileTap="tap"
-                  custom={1.2}
-                  variants={variants.grow}
-                  transition={{ ease: 'easeInOut' }}
-                  src={images[imageIndex]}
-                />
-              </a>
+                <a>
+                  <motion.img
+                    key={`slider-image`}
+                    whileHover="hover"
+                    whileTap="tap"
+                    custom={1.2}
+                    variants={variants.grow}
+                    transition={{ ease: 'easeInOut' }}
+                    src={`/api/images/${images[imageIndex]}`}
+                  />
+                </a>
             </Link>
           </ImageSlider>
         </AnimatePresence>

@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Product } from "swagger/services";
 
 const swipePower = (offset: number, velocity: number) => {
