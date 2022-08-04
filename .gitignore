@@ -27,3 +27,6 @@ debug.log
 #sitemap
 /public/robots.txt
 /public/sitemap.xml
+
+#cache
+/webprojnpm-cache

@@ -4,6 +4,7 @@ import { convertQueryParams } from 'components/store/catalog/helpers';
 import variants from 'components/store/lib/variants';
 import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -91,7 +92,15 @@ const CatalogPage = () => {
           priceRange={priceRange}
         />
         <Content>
-          <CategoryTitle>Кальяны</CategoryTitle>
+          <CategoryTitle
+            custom={0.1}
+            initial="init"
+            animate="animate"
+            exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
+            variants={variants.fadInSlideUp}
+          >
+            Кальяны
+          </CategoryTitle>
           <Products>
             <ProductGrid
               gridStyle={{
@@ -114,7 +123,7 @@ const Content = styled.div`
   margin-left: 41px;
 `;
 
-const CategoryTitle = styled.h1`
+const CategoryTitle = styled(motion.h1)`
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 10px;

@@ -11,6 +11,7 @@ import { handleDragEnd } from 'components/home-page/helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD, image } from '../../constants';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import CloseBtn from '../../../../../assets/close.svg';
+import { devices } from 'components/store/lib/Devices';
 
 const UserImagesSlider = (props: any) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
@@ -32,7 +33,7 @@ const UserImagesSlider = (props: any) => {
         </StarsWrapper>
         <ArrowBtns
           position="absolute"
-          top="128px"
+          top="25px"
           right="30px"
           bgcolor={color.btnPrimary}
           custom={1.1}
@@ -78,38 +79,41 @@ const UserImagesSlider = (props: any) => {
           </AnimatePresence>
         </SliderWrapper>
         <ReviewAndPaginateWrapper>
-          <ReviewHeaderWrapper
-            custom={props.isOpen ? 0.15 : 0.5}
-            animate={props.isOpen ? 'animate' : 'init'}
-            variants={variants.fadInSlideUp}
-          >
-            <h3>Комментарии</h3>
-            <span>1</span>
-          </ReviewHeaderWrapper>
-          <UserReviewWrapper
-            custom={props.isOpen ? 0.2 : 0.1}
-            animate={props.isOpen ? 'animate' : 'init'}
-            variants={variants.fadInSlideUp}
-          >
-            <img src={image} alt="" />
-            <div className="user-review">
-              <h3>User name</h3>
-              <span className="review-date">19.07.2022</span>
-              <span className="user-post-text">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia
-                suscipit quod culpa aut. Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Suscipit ut veniam unde sed adipisci error
-                ipsa dolore repellendus in accusamus. Officiis, sapiente!
-                Delectus eveniet est assumenda voluptatum a? Enim, esse. Lorem
-                ipsum dolor sit amet consectetur adipisicing elit. Officia
-                suscipit quod culpa aut. Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Suscipit ut veniam unde sed adipisci error
-                ipsa dolore repellendus in accusamus. Officiis, sapiente!
-                Delectus eveniet est assumenda voluptatum a? Enim, esse.
-              </span>
-            </div>
-          </UserReviewWrapper>
-          <LikeDisLike bgColor={color.bgProduct} />
+          <ReviewAndBtnsWrapper>
+            <ReviewHeaderWrapper
+              custom={props.isOpen ? 0.15 : 0.5}
+              animate={props.isOpen ? 'animate' : 'init'}
+              variants={variants.fadInSlideUp}
+            >
+              <h3>Комментарии</h3>
+              <span>1</span>
+            </ReviewHeaderWrapper>
+            <UserReviewWrapper
+              custom={props.isOpen ? 0.2 : 0.1}
+              animate={props.isOpen ? 'animate' : 'init'}
+              variants={variants.fadInSlideUp}
+            >
+              <img src={image} alt="" />
+              <div className="user-review">
+                <h3>User name</h3>
+                <span className="review-date">19.07.2022</span>
+                <span className="user-post-text">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Officia suscipit quod culpa aut. Lorem ipsum dolor sit amet
+                  consectetur adipisicing elit. Suscipit ut veniam unde sed
+                  adipisci error ipsa dolore repellendus in accusamus. Officiis,
+                  sapiente! Delectus eveniet est assumenda voluptatum a? Enim,
+                  esse. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Officia suscipit quod culpa aut. Lorem ipsum dolor sit amet
+                  consectetur adipisicing elit. Suscipit ut veniam unde sed
+                  adipisci error ipsa dolore repellendus in accusamus. Officiis,
+                  sapiente! Delectus eveniet est assumenda voluptatum a? Enim,
+                  esse.
+                </span>
+              </div>
+            </UserReviewWrapper>
+            <LikeDisLike bgColor={color.bgProduct} />
+          </ReviewAndBtnsWrapper>
           <UserImagePicker {...props} paginate={paginateImage} image={image} />
         </ReviewAndPaginateWrapper>
       </SliderContent>
@@ -129,14 +133,13 @@ const Slidercontainer = styled(motion.div)`
   align-items: center;
   background-color: ${color.textPrimary};
   box-shadow: 0px 2px 6px ${color.boxShadow};
-  z-index: 9;
+  z-index: 25;
   border-radius: 25px;
 `;
 
 const SliderContent = styled.div`
   width: 100%;
   height: 100%;
-  margin-top: 145px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -166,7 +169,7 @@ const StarsWrapper = styled(motion.div)`
   padding: 15px;
   border-radius: 20px;
   position: absolute;
-  top: 160px;
+  top: 25px;
   left: 65px;
   background-color: #0000005e;
   z-index: 10;
@@ -186,9 +189,21 @@ const ReviewAndPaginateWrapper = styled.div`
   padding: 40px 10px;
   border-left: 1px solid #e2e7ec;
   overflow-y: scroll;
+`;
+
+const ReviewAndBtnsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 15px;
   .user-post-text {
     height: 125px;
     overflow-y: scroll;
+    @media ${devices.laptopM} {
+      height: 200px;
+    }
   }
   ::-webkit-scrollbar {
     width: 10px;
