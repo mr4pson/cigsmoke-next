@@ -19,6 +19,7 @@ import { convertQueryParams, getFiltersConfig } from './helpers';
 
 type Props = {
   categories: Category[];
+  subCategories: Category[];
   brands: Brand[];
   colors: Color[];
   priceRange: PriceRange;
@@ -26,6 +27,7 @@ type Props = {
 
 const FilterBar: React.FC<Props> = ({
   categories,
+  subCategories,
   brands,
   colors,
   priceRange,
@@ -35,6 +37,7 @@ const FilterBar: React.FC<Props> = ({
   const [filtersConfig, setFiltersConfig] = useState(
     getFiltersConfig({
       categories,
+      subCategories,
       brands,
       colors,
       priceRange,
@@ -56,13 +59,14 @@ const FilterBar: React.FC<Props> = ({
     setFiltersConfig(
       getFiltersConfig({
         categories,
+        subCategories,
         brands,
         colors,
         priceRange,
         filters,
       }),
     );
-  }, [categories, brands, colors, priceRange]);
+  }, [categories, subCategories, brands, colors, priceRange]);
 
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
@@ -72,29 +76,31 @@ const FilterBar: React.FC<Props> = ({
     <FilterBarContent>
       {localFilters.map(
         (filter, key) =>
-          (filter.type === FilterType.SINGLE_SELECTION && (
-            <SingleSelectionFilter
-              key={`filter-${key}`}
-              title={filter.title}
-              options={filter.options}
-              onChange={
-                filter.onChange as (selectedOptions: FilterOption) => void
-              }
-            />
-          )) ||
-          (filter.type === FilterType.MULTIPLE_SELECTION && (
-            <MultipleSelectionFilter
-              key={`filter-${key}`}
-              title={filter.title}
-              options={filter.options}
-              onChange={
-                filter.onChange as (
-                  selectedOptions: FilterOption[] | undefined,
-                ) => void
-              }
-            />
-          )) ||
-          (filter.type === FilterType.COLOR && (
+          (filter.type === FilterType.SINGLE_SELECTION &&
+            !!filter.options?.length && (
+              <SingleSelectionFilter
+                key={`filter-${key}`}
+                title={filter.title}
+                options={filter.options}
+                onChange={
+                  filter.onChange as (selectedOptions: FilterOption) => void
+                }
+              />
+            )) ||
+          (filter.type === FilterType.MULTIPLE_SELECTION &&
+            !!filter.options?.length && (
+              <MultipleSelectionFilter
+                key={`filter-${key}`}
+                title={filter.title}
+                options={filter.options}
+                onChange={
+                  filter.onChange as (
+                    selectedOptions: FilterOption[] | undefined,
+                  ) => void
+                }
+              />
+            )) ||
+          (filter.type === FilterType.COLOR && !!filter.options?.length && (
             <ColorFilter
               key={`filter-${key}`}
               title={filter.title}
@@ -106,7 +112,7 @@ const FilterBar: React.FC<Props> = ({
               }
             />
           )) ||
-          (filter.type === FilterType.RANGE && (
+          (filter.type === FilterType.RANGE && !!filter.min && !!filter.max && (
             <RangeFilter
               key={`filter-${key}`}
               title={filter.title}

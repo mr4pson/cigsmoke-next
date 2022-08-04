@@ -19,6 +19,22 @@ export const fetchParentCategories = createAsyncThunk<
   },
 );
 
+export const fetchSubCategories = createAsyncThunk<
+  Category[],
+  string,
+  { rejectValue: string }
+>(
+  'catalog/fetchSubCategories',
+  async function (categoryUrl, { rejectWithValue }): Promise<any> {
+    try {
+      const response = await CategoryService.getCategories({ parent: categoryUrl }) as unknown as { rows: Category[] };
+      return response.rows;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 export const fetchBrands = createAsyncThunk<
   Brand[],
   undefined,
@@ -84,6 +100,7 @@ export const fetchPriceRange = createAsyncThunk<
 
 const initialState: TCatalogState = {
   categories: [],
+  subCategories: [],
   brands: [],
   colors: [],
   priceRange: {
@@ -114,6 +131,17 @@ const cartSlicer = createSlice({
         },
       )
       .addCase(fetchParentCategories.rejected, handleError)
+      //fetchSubCategories
+      .addCase(fetchSubCategories.pending, handlePending)
+      .addCase(
+        fetchSubCategories.fulfilled,
+        (state, action) => {
+          state.subCategories = action.payload;
+          state.loading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(fetchSubCategories.rejected, handleError)
       //fetchBrands
       .addCase(fetchBrands.pending, handlePending)
       .addCase(

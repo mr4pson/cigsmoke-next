@@ -1,13 +1,15 @@
-const pushQueryParams = (name: string, value: any) => {
+const pushQueryParams = (data: { name: string, value: any }[]) => {
   const url = new URL(window.location as any);
-  if (Array.isArray(value)) {
-    url.searchParams.delete(name);
-    value.forEach(value => {
-      url.searchParams.append(name, value);
-    })
-  } else {
-    url.searchParams.set(name, value);
-  }
+  data.forEach(({ name, value }) => {
+    if (Array.isArray(value)) {
+      url.searchParams.delete(name);
+      value.forEach(value => {
+        url.searchParams.append(name, value);
+      })
+    } else {
+      url.searchParams.set(name, value);
+    }
+  });
   window.history.pushState({}, "", url);
   window.dispatchEvent(new Event('locationChange'));
 };

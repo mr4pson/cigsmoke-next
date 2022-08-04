@@ -1,6 +1,5 @@
 import { pushQueryParams } from 'common/helpers/manageQueryParams.helper';
 import cloneDeep from 'lodash/cloneDeep';
-import Router from 'next/router';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { Filter } from './types';
 
@@ -13,12 +12,14 @@ enum FilterType {
 
 const getFilters = ({
   sectionOptions,
+  subSectionOptions,
   brandOptions,
   colorOptions,
   minPrice,
   maxPrice,
 }: {
   sectionOptions: FilterOption[];
+  subSectionOptions: FilterOption[];
   brandOptions: FilterOption[];
   colorOptions: FilterOption[];
   minPrice: number;
@@ -26,13 +27,26 @@ const getFilters = ({
 }): Filter[] => {
   return [
     {
-      title: 'Раздел',
+      title: 'Категории',
       options: cloneDeep(sectionOptions),
       type: FilterType.SINGLE_SELECTION,
       onChange: (selectedOption: FilterOption | undefined) => {
         const categories = [selectedOption?.url!];
 
-        pushQueryParams('categories', categories);
+        pushQueryParams([
+          { name: 'categories', value: categories },
+          { name: 'subCategories', value: [] },
+        ]);
+      },
+    },
+    {
+      title: 'Подкатегории',
+      options: cloneDeep(subSectionOptions),
+      type: FilterType.SINGLE_SELECTION,
+      onChange: (selectedOption: FilterOption | undefined) => {
+        const subCategories = [selectedOption?.url!];
+
+        pushQueryParams([{ name: 'subCategories', value: subCategories }]);
       },
     },
     {
@@ -40,9 +54,9 @@ const getFilters = ({
       options: cloneDeep(brandOptions),
       type: FilterType.MULTIPLE_SELECTION,
       onChange: (selectedOptions: FilterOption[] | undefined) => {
-        const brands = selectedOptions?.map(option => option.url);
+        const brands = selectedOptions?.map((option) => option.url);
 
-        pushQueryParams('brands', brands);
+        pushQueryParams([{ name: 'brands', value: brands }]);
       },
     },
     {
@@ -50,9 +64,9 @@ const getFilters = ({
       options: cloneDeep(colorOptions),
       type: FilterType.COLOR,
       onChange: (selectedOptions: FilterOption[] | undefined) => {
-        const colors = selectedOptions?.map(option => option.url);
+        const colors = selectedOptions?.map((option) => option.url);
 
-        pushQueryParams('colors', colors);
+        pushQueryParams([{ name: 'colors', value: colors }]);
       },
     },
     {
@@ -61,12 +75,13 @@ const getFilters = ({
       min: minPrice,
       max: maxPrice,
       onChange: ([minPrice, maxPrice]: [number, number]) => {
-        pushQueryParams('minPrice', minPrice);
-        pushQueryParams('maxPrice', maxPrice);
+        pushQueryParams([
+          { name: 'minPrice', value: minPrice },
+          { name: 'maxPrice', value: maxPrice },
+        ]);
       },
     },
   ];
 };
 
 export { FilterType, getFilters };
-

@@ -85,12 +85,15 @@ type TFilters = {
   available?: boolean;
   colors?: string[];
   categories?: string[];
+  subCategories?: string[];
+  parent?: string | undefined;
   brands?: string[];
   tags?: string[];
 };
 
 type TCatalogState = {
   categories: Category[];
+  subCategories: Category[];
   brands: Brand[];
   colors: Color[];
   priceRange: PriceRange;

@@ -13,10 +13,16 @@ import ProductItem from './productItem';
 type Props = {
   products: Product[];
   gridStyle?: object;
+  emptyProductsTitle?: string;
   children?: JSX.Element;
 };
 
-const ProductGrid: React.FC<Props> = ({ products, gridStyle, children }) => {
+const ProductGrid: React.FC<Props> = ({
+  products,
+  emptyProductsTitle,
+  gridStyle,
+  children,
+}) => {
   const cart: Basket = useAppSelector((state) => state.cart.cart);
   const wishlist: Wishlist = useAppSelector((state) => state.global.wishlist);
   const delay = getAnimationDelay(products.length);
@@ -25,19 +31,25 @@ const ProductGrid: React.FC<Props> = ({ products, gridStyle, children }) => {
   return (
     <Grid style={gridStyle}>
       {children}
-      {products.map((product, index) => {
-        return (
-          <ProductItem
-            key={`product-item-${index}`}
-            product={product}
-            custom={delay[index]}
-            isInCart={checkIfItemInCart(product, cart)}
-            isInWishlist={checkIfItemInWishlist(product, wishlist)}
-            onCartBtnClick={handleCartBtnClick(product, dispatch, cart)}
-            onWishBtnClick={handleWishBtnClick(product, dispatch, wishlist)}
-          />
-        );
-      })}
+      {!!products.length ? (
+        products.map((product, index) => {
+          return (
+            <ProductItem
+              key={`product-item-${index}`}
+              product={product}
+              custom={delay[index]}
+              isInCart={checkIfItemInCart(product, cart)}
+              isInWishlist={checkIfItemInWishlist(product, wishlist)}
+              onCartBtnClick={handleCartBtnClick(product, dispatch, cart)}
+              onWishBtnClick={handleWishBtnClick(product, dispatch, wishlist)}
+            />
+          );
+        })
+      ) : (
+        <EmptyProductsTitle>
+          {emptyProductsTitle ?? 'Список продуктов пуст'}
+        </EmptyProductsTitle>
+      )}
     </Grid>
   );
 };
@@ -48,6 +60,10 @@ const Grid = styled.ul`
   grid-template-columns: repeat(4, 1fr);
   column-gap: inherit;
   row-gap: 30px;
+`;
+
+const EmptyProductsTitle = styled.h3`
+  white-space: nowrap;
 `;
 
 export default ProductGrid;
