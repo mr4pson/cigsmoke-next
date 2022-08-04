@@ -91,6 +91,7 @@ const ProductFlex: React.FC<Props> = ({
 
   const checkIfItemInWishlist = (product: Product) =>
     !!wishlist?.items?.find((item) => item.productId == product.id);
+
   return (
     <FlexWrapper>
       <SliderWrapper
@@ -101,7 +102,7 @@ const ProductFlex: React.FC<Props> = ({
         animate="animate"
         variants={variants.sliderX}
       >
-        {products.map((product, index) => {
+        {products?.map((product, index) => {
           return (
             <ProductItem
               key={`product-item-${index}`}

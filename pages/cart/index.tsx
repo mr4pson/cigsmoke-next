@@ -74,7 +74,6 @@ const CatalogPage = () => {
   const handleRemoveClick = () => () => {
     selected.forEach(async (id) => {
       const orderProduct = cart?.orderProducts?.find((item) => item.id === id);
-      console.log(orderProduct?.product!);
       await handleItemRemove(orderProduct?.product!);
     });
   };

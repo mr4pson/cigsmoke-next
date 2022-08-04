@@ -1,3 +1,4 @@
+import { Spin } from 'antd';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
@@ -6,15 +7,20 @@ import { useDetectClickOutside } from 'react-detect-click-outside';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearSearchProducts,
-  searchProducts,
+  clearSearchQuery,
 } from 'redux/slicers/store/globalSlicer';
+import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
 import { Category, Product } from 'swagger/services';
 import SearchSVG from '../../../../../assets/search.svg';
 import { PopupDisplay } from '../HeaderCart/constants';
 import { FilterBtn } from './FilterBtn';
 import FilterModal from './FilterModal';
+import { handleSearchQueryChange } from './helpers';
 import SearchItem from './SearchItem';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 type StyleProps = {
   padding?: string;
@@ -25,20 +31,16 @@ type Props = {};
 
 const SearchBar: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
-  const products: Product[] = useAppSelector((state) => state.global.products);
+  const { searchQuery, products, productsLoading } =
+    useAppSelector<TGlobalState>((state) => state.global);
   const [selected, setSelected] = useState<Category>();
   const [isOpened, setIsOpened] = useState(false);
   const [display, setDisplay] = useState(PopupDisplay.None);
 
-  const handleChange = (e: any) => {
-    dispatch(
-      searchProducts({ name: e.target.value, categories: [selected?.url!] }),
-    );
-  };
-
   const ref = useDetectClickOutside({
     onTriggered: () => {
       dispatch(clearSearchProducts());
+      dispatch(clearSearchQuery());
     },
   });
 
@@ -49,26 +51,37 @@ const SearchBar: React.FC<Props> = () => {
           whileHover="hover"
           whileTap="tap"
           variants={variants.boxShadow}
-          onChange={handleChange}
+          onChange={handleSearchQueryChange(selected, dispatch)}
           type="input"
-          padding={selected == '' ? '0 80px 0 40px' : '0 80px 0 100px'}
+          padding={!selected ? '0 80px 0 40px' : '0 80px 0 100px'}
+          value={searchQuery}
         />
         <SearchBtn onClick={(e) => e.preventDefault()}>
           <span>
             <SearchSVG />
           </span>
         </SearchBtn>
-        <Wrapper boxShadow={products.length ? 'rgba(0, 0, 0, 0.16)' : '#fff'}>
+        <Wrapper boxShadow={searchQuery ? 'rgba(0, 0, 0, 0.16)' : '#fff'}>
           <Content>
-            {products.map((product, index: number) => {
-              return (
-                <SearchItem
-                  key={`search-bar-item-${index}`}
-                  product={product}
-                  index={index}
-                />
-              );
-            })}
+            {!!products.length && !productsLoading ? (
+              <>
+                {products.map((product, index: number) => {
+                  return (
+                    <SearchItem
+                      key={`search-bar-item-${index}`}
+                      product={product}
+                      index={index}
+                    />
+                  );
+                })}
+              </>
+            ) : !products.length && searchQuery && !productsLoading ? (
+              <div>По вашему запросу ничего не найдено.</div>
+            ) : productsLoading ? (
+              <Spin indicator={antIcon} />
+            ) : (
+              <></>
+            )}
           </Content>
         </Wrapper>
         <FilterBtn

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { FilterOption } from '../../../../ui-kit/FilterCheckbox/types';
 import { Filter, FilterBody, FilterTitle } from '../common';
@@ -15,6 +15,10 @@ const SingleSelectionFilter: React.FC<Props> = ({
   onChange,
 }) => {
   const [stateOptions, setStateOptions] = useState(options);
+
+  useEffect(() => {
+    setStateOptions(options);
+  }, [options]);
 
   const handleChange = (id: string) => () => {
     const options = [...stateOptions!];

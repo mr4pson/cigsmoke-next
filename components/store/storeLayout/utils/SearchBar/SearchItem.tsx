@@ -1,10 +1,12 @@
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useAppDispatch } from 'redux/hooks';
 import styled from 'styled-components';
 import { Product } from 'swagger/services';
 import ArrowSVG from '../../../../../assets/arrow.svg';
-import Image from 'next/image';
+import { handleSearchItemClick } from './helpers';
 
 type Props = {
   product: Product;
@@ -12,10 +14,11 @@ type Props = {
 };
 
 const SearchItem: React.FC<Props> = ({ product, index }) => {
-  const images = product.images ? product.images?.split(',') : [];
+  const dispatch = useAppDispatch();
+  const images = product.images ? product.images?.split(', ') : [];
 
   return (
-    <Link href="/">
+    <Link href={`/product/${product.url}`}>
       <motion.a
         custom={1.05}
         whileHover="hover"
@@ -29,6 +32,7 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
             animate="animate"
             exit="exit"
             variants={variants.fadInSlideUp}
+            onClick={handleSearchItemClick(dispatch)}
           >
             <ItemDividerY>
               <ItemWrapperY>

@@ -39,7 +39,7 @@ const ReviewsPage = () => {
   return (
     <>
       <div className={styles.reviewsHeader}>
-        <h1 className={styles.reviewsHeader__title}>Комментарии</h1>
+        <h1 className={styles.reviewsHeader__title}>Отзывы</h1>
       </div>
       {isLoading ? (
         <Spin className="spinner" size="large" />

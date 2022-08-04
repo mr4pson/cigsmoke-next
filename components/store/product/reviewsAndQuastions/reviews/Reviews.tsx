@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Rating } from '@mui/material';
 import Filters from '../Filters';
 import color from 'components/store/lib/ui.colors';
@@ -39,9 +39,9 @@ const Review = () => {
         setValue={setFilterValue}
       />
       <ReviewContainer>
-        {reviews.map(() => {
+        {reviews.map((review, key) => {
           return (
-            <>
+            <React.Fragment key={`review-${key}`}>
               <ReviewReplyWrapper
                 initial="init"
                 whileInView="animate"
@@ -137,7 +137,7 @@ const Review = () => {
                   </ReviewReplyItem>
                 </ReviewReplyContent>
               </ReviewReplyWrapper>
-            </>
+            </React.Fragment>
           );
         })}
         <LoadMoreBtnWrapper>

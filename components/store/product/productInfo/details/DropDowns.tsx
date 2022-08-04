@@ -4,9 +4,14 @@ import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { styleProps } from 'components/store/lib/types';
-import InfoDropdown from './DropDwonsParrent';
+import InfoDropdown from './DropDownsParrent';
 import DeleveryBox from '../../../../../assets/deleveryBox.svg';
-const DropDown = () => {
+
+type Props = {
+  description?: string;
+};
+
+const DropDowns: React.FC<Props> = ({ description }) => {
   const fakeData = generateArrayOfNumbers(6);
   return (
     <InfoContainer
@@ -20,17 +25,7 @@ const DropDown = () => {
       margintop="-35px"
     >
       <InfoDropdown title="Описание">
-        <h3>Чаша для кальяна Solaris, глина</h3>
-        <span>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-          mollitia, molestiae quas vel sint commodi repudiandae consequuntur
-          voluptatum laborum numquam blanditiis harum quisquam eius sed odit
-          fugiat iusto fuga praesentium optio, eaque rerum! Provident similique
-          accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut
-          molestias architecto voluptate aliquam nihil, eveniet aliquid culpa
-          officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum
-          nesciunt ipsum debitis quas aliquid. Reprehenderit,
-        </span>
+        <span>{description}</span>
       </InfoDropdown>
       <InfoDropdown title="Характеристики">
         <SpecsContainer>
@@ -212,4 +207,4 @@ const DeleveryInfoItems = styled.li`
   }
 `;
 
-export default DropDown;
+export default DropDowns;

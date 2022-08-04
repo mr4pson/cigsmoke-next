@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { paginateHandler } from 'components/store/storeLayout/helpers';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import color from 'components/store/lib/ui.colors';
@@ -8,9 +8,21 @@ import variants from 'components/store/lib/variants';
 import { styleProps } from 'components/store/lib/types';
 import Arrow from '../../../../../assets/arrow.svg';
 import { generateArrayOfNumbers } from 'common/helpers/array.helper';
-const fakeData = generateArrayOfNumbers(6);
+import { handlePaginate } from './helpers';
 
-const Pagination = (props: any) => {
+type Props = {
+  images: string[];
+  selectedIndex: number;
+  setSelectedIndex: Dispatch<SetStateAction<number>>;
+  paginateImage: Dispatch<SetStateAction<number>>;
+};
+
+const Pagination: React.FC<Props> = ({
+  images,
+  selectedIndex,
+  setSelectedIndex,
+  paginateImage,
+}) => {
   const [
     setRefType,
     widthOrHeightRef,
@@ -68,19 +80,17 @@ const Pagination = (props: any) => {
           animate="animate"
           variants={variants.sliderY}
         >
-          {fakeData.map((item, index) => {
+          {images.map((image, index) => {
             return (
               <ThumbnailItem
                 key={`thumbnail-wrap-${index}`}
-                onClick={() => {
-                  props.setSelectedIndex(index);
-                  if (index != props.selectedIndex) {
-                    props.paginateImage(props.selectedIndex > index ? -1 : 1);
-                  }
-                }}
-                border={
-                  index == props.selectedIndex ? color.yellow : 'transparent'
-                }
+                onClick={handlePaginate(
+                  index,
+                  selectedIndex,
+                  setSelectedIndex,
+                  paginateImage,
+                )}
+                border={index == selectedIndex ? color.yellow : 'transparent'}
                 initial="init"
                 animate="animate"
                 custom={index * 0.05}
@@ -95,7 +105,7 @@ const Pagination = (props: any) => {
                   whileTap={{ scale: 1 }}
                   custom={index * 0.09}
                   variants={variants.slideInFromRigh}
-                  src={`/static/backpack.jpg`}
+                  src={`/api/images/${image}`}
                 />
               </ThumbnailItem>
             );

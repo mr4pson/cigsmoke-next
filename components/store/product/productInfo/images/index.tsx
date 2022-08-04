@@ -4,31 +4,66 @@ import Pagination from './Pagination';
 import Slider from './Slider';
 import color from 'components/store/lib/ui.colors';
 import ArrowGray from '../../../../../assets/arrowGray.svg';
+import { Product } from 'swagger/services';
+import { Dispatch, SetStateAction } from 'react';
 
-const Images = (props: any) => {
+type Props = {
+  product?: Product;
+  images: string[];
+  selectedIndex: number;
+  direction: number;
+  page: number;
+  setSelectedIndex: Dispatch<SetStateAction<number>>;
+  paginateImage: Dispatch<SetStateAction<number>>;
+  setPage: Dispatch<SetStateAction<[number, number]>>;
+};
+
+const Images: React.FC<Props> = ({
+  selectedIndex,
+  direction,
+  product,
+  images,
+  page,
+  setSelectedIndex,
+  paginateImage,
+  setPage,
+}) => {
   return (
     <ImagesContainer>
       <NavWrapper>
-        <Link href="/main">
-          <a>Main category</a>
-        </Link>
+        {!!product?.category?.parent && (
+          <Link href={`/catalog?categories=${product?.category?.parent.url}`}>
+            <a>{product?.category?.parent?.name}</a>
+          </Link>
+        )}
         <span>
           <ArrowGray />
         </span>
-        <Link href="/main">
-          <a>Sub category</a>
-        </Link>
+        {!!product?.category && (
+          <Link href={`/catalog?subCategories=${product?.category?.url}`}>
+            <a>{product?.category?.name}</a>
+          </Link>
+        )}
         <span>
           <ArrowGray />
         </span>
-        <Link href="/main">
-          <a>Brands if exiest</a>
-        </Link>
+        <a>{product?.name}</a>
       </NavWrapper>
       <ImagesWrapper>
-        <Pagination {...props} />
+        <Pagination
+          images={images}
+          selectedIndex={selectedIndex}
+          setSelectedIndex={setSelectedIndex}
+          paginateImage={paginateImage}
+        />
 
-        <Slider {...props} />
+        <Slider
+          images={images}
+          selectedIndex={selectedIndex}
+          direction={direction}
+          page={page}
+          setPage={setPage}
+        />
       </ImagesWrapper>
     </ImagesContainer>
   );

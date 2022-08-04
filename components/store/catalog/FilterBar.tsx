@@ -1,3 +1,8 @@
+import {
+  clearQueryParams,
+  getQueryParams,
+  pushQueryParams,
+} from 'common/helpers/manageQueryParams.helper';
 import { FilterType, getFilters } from 'components/store/catalog/constants';
 import ColorFilter from 'components/store/catalog/filters/ColorFilter';
 import MultipleSelectionFilter from 'components/store/catalog/filters/MultipleSelectionFilter';
@@ -25,34 +30,42 @@ const FilterBar: React.FC<Props> = ({
 }) => {
   const router = useRouter();
   const filters = convertQueryParams(router.query);
-  const filtersConfig = getFiltersConfig({
-    categories,
-    brands,
-    colors,
-    priceRange,
-    filters,
-  });
+  const [filtersConfig, setFiltersConfig] = useState(
+    getFiltersConfig({
+      categories,
+      brands,
+      colors,
+      priceRange,
+      filters,
+    }),
+  );
   const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
 
   const handleResetFilters = () => {
-    setLocalFilters([]);
-    setTimeout(() => {
-      setLocalFilters(getFilters(filtersConfig));
-    });
+    clearQueryParams();
   };
 
   const hanldeResetBtnClick = () => {
-    router.push({
-      pathname: '/catalog',
-      query: {},
-    });
-
     handleResetFilters();
   };
 
   useEffect(() => {
-    handleResetFilters();
+    const filters = convertQueryParams(getQueryParams());
+    console.log(filters, getQueryParams());
+    setFiltersConfig(
+      getFiltersConfig({
+        categories,
+        brands,
+        colors,
+        priceRange,
+        filters,
+      }),
+    );
   }, [categories, brands, colors, priceRange]);
+
+  useEffect(() => {
+    setLocalFilters(getFilters(filtersConfig));
+  }, [filtersConfig]);
 
   return (
     <FilterBarContent>

@@ -13,8 +13,10 @@ const WeRecomend = () => {
 
   useEffect(() => {
     (async () => {
-      const products = await ProductService.getProducts({ limit: 8 });
-      setProducts(products);
+      const response = (await ProductService.getProducts({
+        limit: 8,
+      })) as unknown as { rows: Product[]; length: number };
+      setProducts(response.rows);
     })();
   }, []);
   const [
