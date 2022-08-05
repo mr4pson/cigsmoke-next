@@ -7,30 +7,3 @@
         line-height: 2rem;
     }
 }
-
-.spinner {
-    display: block;
-    margin-top: 100px;
-}
-
-.chartsContainer {
-    &__chart {
-      background-color: #f0f2f5;
-      border-radius: 3px;
-      padding: 10px;
-        &__title {
-            font-size: 0.95rem;
-            text-align: center;
-            height: 60px;
-            @media screen and (max-width: 1599px) and (min-width: 576px) {
-                font-size: 0.9rem;
-                height: 55px;
-            }
-            @media screen and (max-width: 575px) {
-                font-size: 0.7rem;
-                height: 40px;
-            }
-        }
-    }
-    
-}

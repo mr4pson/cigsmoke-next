@@ -8,6 +8,7 @@ import {
   CommentOutlined,
   ReconciliationOutlined,
   LineChartOutlined,
+  MinusOutlined,
 } from '@ant-design/icons';
 import { Page, paths } from 'routes/constants';
 
@@ -23,7 +24,25 @@ export const items: TMenuItem[] = [
   getItem('Теги', paths[Page.ADMIN_TAGS], <TagsOutlined />),
   getItem('Комментарии', paths[Page.ADMIN_REVIEWS], <CommentOutlined />),
   getItem('Заказы', paths[Page.ADMIN_CHECKOUTS], <ReconciliationOutlined />),
-  getItem('Аналитика', paths[Page.ADMIN_ANALYTICS], <LineChartOutlined />),
+  getItem('Аналитика', '', <LineChartOutlined />, [
+    getItem(
+      'Категории',
+      paths[Page.ADMIN_ANALYTICS_CATEGORIES],
+      <MinusOutlined />,
+    ),
+    getItem('Бренды', paths[Page.ADMIN_ANALYTICS_BRANDS], <MinusOutlined />),
+    getItem(
+      'Продукты',
+      paths[Page.ADMIN_ANALYTICS_PRODUCTS],
+      <MinusOutlined />,
+    ),
+    getItem(
+      'Пользователи',
+      paths[Page.ADMIN_ANALYTICS_USERS],
+      <MinusOutlined />,
+    ),
+    getItem('Динамика', paths[Page.ADMIN_ANALYTICS_DYNAMIC], <MinusOutlined />),
+  ]),
 ];
 
 export const pathWords: PathWords = {
@@ -48,4 +67,9 @@ export const pathWords: PathWords = {
   reviews: 'Комментарии',
   checkouts: 'Заказы',
   analytics: 'Аналитика',
+  'analytics/categories': 'Категории',
+  'analytics/brands': 'Бренды',
+  'analytics/products': 'Продукты',
+  'analytics/users': 'Пользователи',
+  'analytics/dynamic': 'Динамика',
 };

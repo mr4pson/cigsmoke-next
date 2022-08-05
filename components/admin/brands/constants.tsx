@@ -18,6 +18,10 @@ export const columns: ColumnsType<Brand> = [
           <Image
             src={`/api/images/${record?.image}`}
             className={styles.image}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = '/assets/images/img_error.png';
+            }}
           />
         );
       }

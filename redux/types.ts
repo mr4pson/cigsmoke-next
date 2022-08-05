@@ -105,14 +105,8 @@ type TCheckoutState = {
 }
 
 type TAnalyticsState = {
-  categories: AnalyticsCategory[],
-  products: AnalyticsProduct[],
-  brands: AnalyticsBrand[],
-  users: AnalyticsUser[],
-  categoriesLoading: boolean,
-  brandsLoading: boolean,
-  productsLoading: boolean,
-  usersLoading: boolean,
+  analyticsData: AnalyticsCategory[] | AnalyticsBrand[] | AnalyticsProduct[] | AnalyticsUser[],
+  loading: boolean,
 }
 
 export type { TCategoryState, TAuthState, TColorState, TBrandState, TParameterState, TProductState, TImageState, PayloadCreateImage, TTagState, TReviewState, TGlobalState, TCartState, TFilters, TCatalogState, TCheckoutState, TAnalyticsState };

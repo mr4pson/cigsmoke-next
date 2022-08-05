@@ -29,13 +29,17 @@ export const columns: ColumnsType<Product> = [
             }}
           >
             <Carousel effect="fade">
-              {(record.images! as string[]).map((image) => {
+              {(record.images as unknown as string[])?.map((image) => {
                 if (image) {
                   return (
                     <div>
                       <Image
                         className={styles.productsTable__contentStyle}
                         src={`/api/images/${image.trim()}`}
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null;
+                          currentTarget.src = '/assets/images/img_error.png';
+                        }}
                       />
                     </div>
                   );

@@ -6,11 +6,11 @@ const ColContainer = ({ children }) => {
   return (
     <Col
       xs={{ span: 24 }}
-      sm={{ span: 20 }}
-      md={{ span: 12 }}
-      lg={{ span: 12 }}
-      xl={{ span: 8 }}
-      xxl={{ span: 8 }}
+      sm={{ span: 24 }}
+      md={{ span: 24 }}
+      lg={{ span: 24 }}
+      xl={{ span: 12 }}
+      xxl={{ span: 12 }}
     >
       {children}
     </Col>
