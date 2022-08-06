@@ -33,17 +33,15 @@ const imageSlicer = createSlice({
   initialState,
   reducers: {
     setDefaultImageList(state, action) {
-      state.imageList = [...state.imageList, action.payload]
-      console.log(state.imageList)
+      state.imageList = [...state.imageList, action.payload];
     },
     removeImageFromList(state, action) {
-      state.imageList = state.imageList.filter(item => item.name !== action.payload)
-      console.log(state.imageList)
+      state.imageList = state.imageList.filter(item => item.name !== action.payload);
     },
     clearImageList(state) {
       state.imageList = initialState.imageList
     }
-  }, 
+  },
   extraReducers: (builder) => {
     builder
       //createImage

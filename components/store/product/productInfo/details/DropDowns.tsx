@@ -1,18 +1,18 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { styleProps } from 'components/store/lib/types';
 import InfoDropdown from './DropDownsParrent';
 import DeleveryBox from '../../../../../assets/deleveryBox.svg';
+import { ParameterProduct } from 'swagger/services';
 
 type Props = {
   description?: string;
+  parameterProducts?: ParameterProduct[];
 };
 
-const DropDowns: React.FC<Props> = ({ description }) => {
-  const fakeData = generateArrayOfNumbers(6);
+const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
   return (
     <InfoContainer
       key="info-product-page"
@@ -30,19 +30,19 @@ const DropDowns: React.FC<Props> = ({ description }) => {
       <InfoDropdown title="Характеристики">
         <SpecsContainer>
           <SpecsKeyValueWrapper>
-            {fakeData.map((item, index) => {
+            {parameterProducts?.map((item, index) => {
               return (
-                <li key={index}>
-                  <span id="key-specs">Вместимость: :</span>
+                <li key={`parameter-product-label-${index}`}>
+                  <span id="key-specs">{item.parameter?.name}: </span>
                 </li>
               );
             })}
           </SpecsKeyValueWrapper>
           <SpecsKeyValueWrapper>
-            {fakeData.map((item, index) => {
+            {parameterProducts?.map((item, index) => {
               return (
-                <li key={index}>
-                  <span>20гр</span>
+                <li key={`parameter-product-value-${index}`}>
+                  <span>{item.value}</span>
                 </li>
               );
             })}

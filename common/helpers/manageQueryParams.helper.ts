@@ -1,32 +1,35 @@
-const pushQueryParams = (data: { name: string, value: any }[]) => {
+const pushQueryParams = (data: { name: string; value: any }[]) => {
   const url = new URL(window.location as any);
   data.forEach(({ name, value }) => {
     if (Array.isArray(value)) {
       url.searchParams.delete(name);
-      value.forEach(value => {
+      value.forEach((value) => {
         url.searchParams.append(name, value);
-      })
+      });
     } else {
       url.searchParams.set(name, value);
     }
   });
-  window.history.pushState({}, "", url);
+  window.history.pushState({}, '', url);
   window.dispatchEvent(new Event('locationChange'));
 };
 
 const clearQueryParams = () => {
-  window.history.pushState({}, "", window.location.pathname);
+  window.history.pushState({}, '', window.location.pathname);
   window.dispatchEvent(new Event('locationChange'));
-}
+};
 
-const getQueryParams = (): {
+const getQueryParams = (
+  searchString: string,
+): {
   [k: string]: string;
 } => {
-  const urlSearchParams = new URLSearchParams(decodeURI(window.location.search));
+  const urlSearchParams = new URLSearchParams(decodeURI(searchString));
   const entries = urlSearchParams.entries();
   const result = {};
 
-  for (let entry of entries as any) { // each 'entry' is a [key, value]
+  for (let entry of entries as any) {
+    // each 'entry' is a [key, value]
     const key = entry[0];
     const val = entry[1];
     if (key in result) {
@@ -37,6 +40,6 @@ const getQueryParams = (): {
   }
 
   return result;
-}
+};
 
 export { pushQueryParams, getQueryParams, clearQueryParams };

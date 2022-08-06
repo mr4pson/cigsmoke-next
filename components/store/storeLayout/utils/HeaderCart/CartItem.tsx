@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { OrderProduct, Product } from 'swagger/services';
 import CloseSVG from '../../../../../assets/close_black.svg';
 import ItemCounter from '../../../../../ui-kit/ItemCounter';
+import { handleRemoveClick } from './helpers';
 
 type Props = {
   item: OrderProduct;
@@ -16,10 +17,6 @@ const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
   const { name, price, images } = item.product!;
   const imageList = images ? images.split(',') : [];
 
-  const handleRemoveClick = (product: Product) => () => {
-    onRemove(product);
-  };
-
   return (
     <Link href="/">
       <a>
@@ -30,6 +27,10 @@ const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
             custom={1.05}
             variants={variants.grow}
             src={`/api/images/${imageList[0]}`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = '/assets/images/no_photo.png';
+            }}
           />
           <ItemDetails>
             <h4>{name}</h4>
@@ -47,7 +48,7 @@ const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
             whileTap="tap"
             whileHover="hover"
             variants={variants.grow}
-            onClick={handleRemoveClick(item.product!)}
+            onClick={handleRemoveClick(item.product!, onRemove)}
           >
             <CloseSVG />
           </motion.button>

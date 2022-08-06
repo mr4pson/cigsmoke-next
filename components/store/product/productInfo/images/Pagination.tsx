@@ -135,6 +135,7 @@ const ThumbnailContainer = styled.div`
 
 const ThumbnailWrapper = styled(motion.ul)`
   height: 100%;
+  width: 106px;
   display: flex;
   flex-direction: column;
   justify-conten: space-between;

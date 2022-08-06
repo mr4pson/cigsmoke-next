@@ -19,7 +19,9 @@ export const fetchProducts = createAsyncThunk<
   'products/fetchProducts',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      const response = await ProductService.getProducts() as unknown as { rows: Product[] };
+      const response = (await ProductService.getProducts()) as unknown as {
+        rows: Product[];
+      };
       return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -61,8 +63,9 @@ export const createProduct = createAsyncThunk<
           url: payload.url,
           desc: payload.desc,
           tags: payload.tags,
+          parameterProducts: payload.parameterProducts,
           images: payload.images,
-        }
+        },
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -79,7 +82,8 @@ export const editProduct = createAsyncThunk<
   async function (payload: PayloadProduct, { rejectWithValue }): Promise<any> {
     try {
       return await ProductService.updateProduct({
-        productId: payload.id as string, body: {
+        productId: payload.id as string,
+        body: {
           name: payload.name,
           price: payload.price,
           available: payload.available,
@@ -89,8 +93,9 @@ export const editProduct = createAsyncThunk<
           url: payload.url,
           desc: payload.desc,
           tags: payload.tags,
+          parameterProducts: payload.parameterProducts,
           images: payload.images,
-        }
+        },
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -135,36 +140,27 @@ const productsSlicer = createSlice({
     builder
       //fetchProducts
       .addCase(fetchProducts.pending, handlePending)
-      .addCase(
-        fetchProducts.fulfilled,
-        (state, action) => {
-          state.products = action.payload;
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.products = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
       .addCase(fetchProducts.rejected, handleError)
       //fetchChosenProduct
       .addCase(fetchChosenProduct.pending, handlePending)
-      .addCase(
-        fetchChosenProduct.fulfilled,
-        (state, action) => {
-          state.chosenProduct = action.payload;
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
+      .addCase(fetchChosenProduct.fulfilled, (state, action) => {
+        state.chosenProduct = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
       .addCase(fetchChosenProduct.rejected, handleError)
       //createProduct
       .addCase(createProduct.pending, handleChangePending)
-      .addCase(
-        createProduct.fulfilled,
-        (state) => {
-          state.saveLoading = false;
-          openSuccessNotification('Продукт успешно создан');
-          console.log('fulfilled');
-        },
-      )
+      .addCase(createProduct.fulfilled, (state) => {
+        state.saveLoading = false;
+        openSuccessNotification('Продукт успешно создан');
+        console.log('fulfilled');
+      })
       .addCase(createProduct.rejected, handleChangeError)
       //editProduct
       .addCase(editProduct.pending, handleChangePending)

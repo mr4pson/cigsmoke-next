@@ -15,7 +15,7 @@ const EditCategory = () => {
   const router = useRouter();
   const categories = useAppSelector((state) => state.categories.categories);
   const filteredCategories = categories?.filter(
-    (category) => category.id !== Number(router.query.id),
+    (category) => category.id !== Number(router.query.id) && !category.parent,
   );
   const category = useAppSelector((state) => state.categories.category);
   const isLoading = useAppSelector((state) => state.categories.loading);

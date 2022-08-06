@@ -2,11 +2,11 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import { wrap } from 'popmotion';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import styled from 'styled-components';
 import Arrow from '../../../assets/arrow.svg';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
-import { handleDragEnd, paginateBack, paginateForward } from '../helpers';
+import { handleDragEnd } from '../helpers';
 import { IMAGES, SWIPE_CONFIDENCE_THRESHOLD } from './constants';
 import Link from 'next/link';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
@@ -92,6 +92,7 @@ const ImageBanner = () => {
 const SliderWrapper = styled(motion.div)`
   width: 100%;
   height: 462px;
+  padding-top: 5px;
   position: relative;
   display: flex;
   justify-content: center;
