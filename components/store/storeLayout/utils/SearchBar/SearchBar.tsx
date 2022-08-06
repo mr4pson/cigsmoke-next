@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { changeSearchQuery } from 'redux/slicers/store/globalSlicer';
 import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
-import { Category } from 'swagger/services';
+import { Category, CategoryInTree } from 'swagger/services';
 import SearchSVG from '../../../../../assets/search.svg';
 import { PopupDisplay } from '../HeaderCart/constants';
 import { FilterBtn } from './FilterBtn';
@@ -32,7 +32,7 @@ const SearchBar: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
   const { searchQuery, products, productsLoading } =
     useAppSelector<TGlobalState>((state) => state.global);
-  const [selectedCategory, setSelectedCategory] = useState<Category>();
+  const [selectedCategory, setSelectedCategory] = useState<CategoryInTree>();
   const [focused, setFocused] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const [display, setDisplay] = useState(PopupDisplay.None);

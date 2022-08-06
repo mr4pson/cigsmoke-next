@@ -45,8 +45,8 @@
 }
 
 .image {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     background-size: contain;
     background-image: center;
     background-repeat: no-repeat;
@@ -55,12 +55,13 @@
 
 .productsTable {
     &__contentStyle {
-        height: 80px;
+        height: 120px;
         color: black;
         line-height: 80px;
         text-align: center;
         background: none;
     }
+
     &__colorBoxStyle {
         width: 20px;
         height: 20px;
@@ -69,16 +70,24 @@
         border-radius: 2px;
         float: left
     }
+
     &__linkName {
         cursor: pointer;
         -webkit-touch-callout: none;
-        -webkit-user-select: none;   
-        -khtml-user-select: none;  
-        -moz-user-select: none;     
-        -ms-user-select: none;    
-        user-select: none; 
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
         &:hover {
             font-weight: 600;
         }
+    }
+}
+
+.list-item {
+    &__title {
+        width: 200px;
     }
 }

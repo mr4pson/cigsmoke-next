@@ -7,7 +7,7 @@ import {
   searchProducts,
 } from 'redux/slicers/store/globalSlicer';
 import { AppDispatch } from 'redux/store';
-import { Category } from 'swagger/services';
+import { Category, CategoryInTree } from 'swagger/services';
 
 const handleSearchItemClick = (dispatch: AppDispatch) => () => {
   dispatch(clearSearchProducts());
@@ -15,7 +15,12 @@ const handleSearchItemClick = (dispatch: AppDispatch) => () => {
 };
 
 const handleSearchQueryChange =
-  (selected: Category | undefined, setFocused: Dispatch<SetStateAction<boolean>>, dispatch: AppDispatch) => (e: any) => {
+  (
+    selected: CategoryInTree | undefined,
+    setFocused: Dispatch<SetStateAction<boolean>>,
+    dispatch: AppDispatch,
+  ) =>
+  (e: any) => {
     const searchQuery = e.target.value;
 
     dispatch(changeSearchQuery(searchQuery));
@@ -28,11 +33,10 @@ const handleSearchQueryChange =
 
     setFocused(true);
 
-    console.log(selected?.url);
-
     const payload = {
       name: searchQuery,
       parent: selected?.url,
+      limit: 5,
     };
 
     dispatch(searchProducts(payload));
@@ -40,27 +44,31 @@ const handleSearchQueryChange =
 
 const handleSearchFormSubmit =
   (
-    selectedCategory: Category | undefined,
+    selectedCategory: CategoryInTree | undefined,
     searchQuery: string,
     router: NextRouter,
     setFocused: Dispatch<SetStateAction<boolean>>,
   ) =>
-    (e) => {
-      e.preventDefault();
-      const query: { name: string; categories?: string } = {
-        name: searchQuery,
-      };
-
-      if (selectedCategory) {
-        query.categories = selectedCategory?.url;
-      }
-
-      router.push({
-        pathname: '/catalog',
-        query,
-      });
-
-      setFocused(false);
+  (e) => {
+    e.preventDefault();
+    const query: { name: string; categories?: string } = {
+      name: searchQuery,
     };
 
-export { handleSearchItemClick, handleSearchQueryChange, handleSearchFormSubmit };
+    if (selectedCategory) {
+      query.categories = selectedCategory?.url;
+    }
+
+    router.push({
+      pathname: '/catalog',
+      query,
+    });
+
+    setFocused(false);
+  };
+
+export {
+  handleSearchItemClick,
+  handleSearchQueryChange,
+  handleSearchFormSubmit,
+};

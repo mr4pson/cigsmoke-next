@@ -63,14 +63,23 @@ const Slider: React.FC<Props> = ({
           >
             <Link href={`/product/${url}`}>
               <a>
-                <motion.img
+                <motion.div
                   key={`slider-image`}
                   whileHover="hover"
                   whileTap="tap"
                   custom={1.2}
                   variants={variants.grow}
                   transition={{ ease: 'easeInOut' }}
-                  src={`/api/images/${images[imageIndex]}`}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundImage: images[imageIndex]
+                      ? `url(/api/images/${images[imageIndex]})`
+                      : 'url(/assets/images/no_photo.png)',
+                  }}
                 />
               </a>
             </Link>

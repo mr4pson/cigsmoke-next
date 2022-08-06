@@ -9,14 +9,14 @@
   font-display: swap;
 }
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
   font-family: 'Roboto', sans-serif;
 }
 
@@ -24,7 +24,7 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
   overflow-x: hidden;
 }
 
@@ -109,4 +109,8 @@ h6 {
   position: relative;
   left: -7px;
   top: 0px;
+}
+
+.ant-carousel .slick-list .slick-slide>div>div {
+  text-align: center;
 }

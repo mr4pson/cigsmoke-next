@@ -3,15 +3,15 @@ import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { Category } from 'swagger/services';
+import { Category, CategoryInTree } from 'swagger/services';
 import Filter from '../../../../../assets/filter.svg';
 import { PopupDisplay } from '../HeaderCart/constants';
 import { handleCartBtnClick } from '../HeaderCart/helpers';
 import { Path } from '../paths';
 
 type Props = {
-  selectedCategory: Category | undefined;
-  setSelectedCategory: Dispatch<SetStateAction<Category | undefined>>;
+  selectedCategory: CategoryInTree | undefined;
+  setSelectedCategory: Dispatch<SetStateAction<CategoryInTree | undefined>>;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
   setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
 };
