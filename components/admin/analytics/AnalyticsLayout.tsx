@@ -48,61 +48,65 @@ const AnalyticsLayout = ({
     };
   }, []);
 
-  return isLoaded ? (
-    <Spin className={styles.spinner} size="large" />
-  ) : (
+  return (
     <>
       <div className={styles.analyticsHeader}>
         <h1 className={styles.analyticsHeader__title}>Аналитика</h1>
       </div>
-      <Row
-        gutter={[
-          {
-            xs: 8,
-            sm: 16,
-            md: 24,
-            lg: 32,
-            xl: 40,
-            xxl: 48,
-          },
-          {
-            xs: 8,
-            sm: 16,
-            md: 24,
-            lg: 32,
-            xl: 40,
-            xxl: 48,
-          },
-        ]}
-        justify="center"
-        className={styles.chartsContainer}
-      >
-        <ColContainer>
-          <div className={styles.chartsContainer__chart}>
-            <div className={styles.chartsContainer__chart__title}>
-              <h1>{qtyTitle}</h1>
-            </div>
-            <QtyPie data={qtyData} />
-          </div>
-        </ColContainer>
-        <ColContainer>
-          <div className={styles.chartsContainer__chart}>
-            <div className={styles.chartsContainer__chart__title}>
-              <h1>{amountTitle}</h1>
-            </div>
+      {isLoaded ? (
+        <Spin className={styles.spinner} size="large" />
+      ) : (
+        <>
+          <Row
+            gutter={[
+              {
+                xs: 8,
+                sm: 16,
+                md: 24,
+                lg: 32,
+                xl: 40,
+                xxl: 48,
+              },
+              {
+                xs: 8,
+                sm: 16,
+                md: 24,
+                lg: 32,
+                xl: 40,
+                xxl: 48,
+              },
+            ]}
+            justify="center"
+            className={styles.chartsContainer}
+          >
+            <ColContainer>
+              <div className={styles.chartsContainer__chart}>
+                <div className={styles.chartsContainer__chart__title}>
+                  <h1>{qtyTitle}</h1>
+                </div>
+                <QtyPie data={qtyData} />
+              </div>
+            </ColContainer>
+            <ColContainer>
+              <div className={styles.chartsContainer__chart}>
+                <div className={styles.chartsContainer__chart__title}>
+                  <h1>{amountTitle}</h1>
+                </div>
 
-            <AmountDonut data={amountData} />
-          </div>
-        </ColContainer>
-        <Col span={24}>
-          <div className={styles.chartsContainer__chart}>
-            <div className={styles.chartsContainer__chart__title}>
-              <h1>{avgRatingTitle}</h1>
-            </div>
-            <AvgRatingColumns data={avgRatingData} />
-          </div>
-        </Col>
-      </Row>
+                <AmountDonut data={amountData} />
+              </div>
+            </ColContainer>
+            <Col span={24}>
+              <div className={styles.chartsContainer__chart}>
+                <div className={styles.chartsContainer__chart__title}>
+                  <h1>{avgRatingTitle}</h1>
+                </div>
+                <AvgRatingColumns data={avgRatingData} />
+              </div>
+            </Col>
+          </Row>
+        </>
+      )}
     </>
   );
 };

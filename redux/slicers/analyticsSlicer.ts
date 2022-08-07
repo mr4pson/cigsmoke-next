@@ -1,33 +1,75 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { axiosInstance } from 'common/axios.instance';
 import {
   AnalyticsBrand,
   AnalyticsCategory,
   AnalyticsProduct,
   AnalyticsUser,
+  DynamicData,
+  DynamicUsersData,
 } from 'common/interfaces/data-analytics.interfaces';
 import { TAnalyticsState } from 'redux/types';
-import { AnalyticsService } from 'swagger/services';
+import { AnalyticsService, User } from 'swagger/services';
 
 import { getErrorMassage, handleError, handlePending, openErrorNotification } from '../../common/helpers';
 
-interface AnalyticsPayload {
-    updatedFrom?: string,
-    updatedTo?: string,
-    groupBy?: string
+interface AnalyticsStaticPayload {
+    groupBy?: string,
+    createdFrom?: string,
+    createdTo?: string
+}
+
+interface AnalyticsDynamicPayload {
+    from: string;
+    to: string;
+    step: string;
 }
 
 export const fetchAnalytics = createAsyncThunk<
   { data: AnalyticsCategory[] | AnalyticsBrand[] | AnalyticsProduct[] | AnalyticsUser[]},
-  AnalyticsPayload,
+  AnalyticsStaticPayload,
   { rejectValue: string }
 >(
   'analytics/fetchAnalytics',
-  async function (payload: AnalyticsPayload, { rejectWithValue }): Promise<any> {
+  async function (payload: AnalyticsStaticPayload, { rejectWithValue }): Promise<any> {
     try {
       return await AnalyticsService.getAnalytics({
-        updatedFrom: payload?.updatedFrom,
-        updatedTo: payload?.updatedTo,
         groupBy: payload?.groupBy});
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const fetchDynamicAnalytics = createAsyncThunk<
+  DynamicData[],
+  AnalyticsDynamicPayload,
+  { rejectValue: string }
+>(
+  'analytics/fetchDynamicAnalytics',
+  async function (payload: AnalyticsDynamicPayload, { rejectWithValue }): Promise<any> {
+    try {
+      return await AnalyticsService.getDynamic({
+        from: payload.from,
+        to: payload.to,
+        step: payload.step
+      })
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const fetchAnalyticsUsers = createAsyncThunk<
+  DynamicUsersData,
+  AnalyticsStaticPayload,
+  { rejectValue: string }
+>(
+  'analytics/fetchAnalyticsUsers',
+  async function (payload: AnalyticsStaticPayload, { rejectWithValue }): Promise<any> {
+    try {
+      const resp = await axiosInstance.get(`/analytics/users?createdFrom=${payload.createdFrom}&createdTo=${payload.createdTo}`)
+      return resp.data
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -36,6 +78,7 @@ export const fetchAnalytics = createAsyncThunk<
 
 const initialState: TAnalyticsState = {
   analyticsData: [],
+  usersData: {},
   loading: false,
 };
 
@@ -60,6 +103,29 @@ const analyticsSlicer = createSlice({
         },
       )
       .addCase(fetchAnalytics.rejected, handleError)
+      //Dynamic
+      .addCase(fetchDynamicAnalytics.pending, handlePending)
+      .addCase(
+        fetchDynamicAnalytics.fulfilled,
+        (state, action) => {
+          state.analyticsData = action.payload;
+          state.loading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(fetchDynamicAnalytics.rejected, handleError)
+      //Users
+      .addCase(fetchAnalyticsUsers.pending, handlePending)
+      .addCase(
+        fetchAnalyticsUsers.fulfilled,
+        (state, action) => {
+          state.usersData = action.payload;
+          console.log(state.usersData)
+          state.loading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(fetchAnalyticsUsers.rejected, handleError)
   },
 });
 

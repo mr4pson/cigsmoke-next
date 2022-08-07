@@ -23,3 +23,12 @@ export interface AnalyticsUser extends User {
     amount: number,
     avgRating: number
 }
+
+export interface DynamicData {
+    date: string,
+    amount: number
+}
+
+export interface DynamicUsersData {
+    data?: User[], qty?: number
+}

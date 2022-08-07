@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import { Pie, measureTextWidth } from '@ant-design/plots';
 import styles from './index.module.scss';
+import { PieConfig } from '@ant-design/charts';
 
 interface Props {
   data: {
@@ -99,7 +99,7 @@ const AmountDonut = ({ data = { type: null, value: null } }: Props) => {
         type: 'pie-statistic-active',
       },
     ],
-  };
+  } as unknown as PieConfig;
   return <Pie className={styles.chart} {...config} />;
 };
 

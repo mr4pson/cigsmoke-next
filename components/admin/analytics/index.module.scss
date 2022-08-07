@@ -1,3 +1,23 @@
+%title {
+    font-size: 1.3rem;
+    text-align: center;
+    height: 60px;
+    @media screen and (max-width: 1599px) and (min-width: 576px) {
+        font-size: 1.2em;
+        height: 55px;
+    }
+    @media screen and (max-width: 575px) {
+        font-size: 0.7rem;
+        height: 40px;
+    }
+}
+
+%chartTab {
+    background-color: #f0f2f5;
+    border-radius: 3px;
+    padding: 10px;
+}
+
 .chart {
     max-height: 500px;
         @media screen and (max-width: 1599px) and (min-width: 992px) {
@@ -11,6 +31,16 @@
         }
 }
 
+.analyticsHeader {
+    display: flex;
+    flex-wrap: wrap;
+    &__title {
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 2rem;
+    }
+}
+
 .spinner {
     display: block;
     margin-top: 100px;
@@ -18,22 +48,38 @@
 
 .chartsContainer {
     &__chart {
-      background-color: #f0f2f5;
-      border-radius: 3px;
-      padding: 10px;
+        @extend %chartTab;
         &__title {
-            font-size: 1.3rem;
-            text-align: center;
-            height: 60px;
-            @media screen and (max-width: 1599px) and (min-width: 576px) {
-                font-size: 1.2em;
-                height: 55px;
-            }
-            @media screen and (max-width: 575px) {
-                font-size: 0.7rem;
-                height: 40px;
-            }
+            @extend %title
         }
     }
     
+}
+
+.dynamicChartContainer {
+    @extend %chartTab;
+    min-height: 400px;
+        &__title {
+            @extend %title
+        }
+        &__dynamicChart { 
+            max-width: 77.5%;
+        }
+        &__list {
+            min-width: 20%;
+            height: 400px;
+            position: absolute;
+            top: 130px;
+            right: 30px;
+            overflow-block: scroll;
+        }
+        &__rangePicker {
+            margin-left: auto;
+            margin-right: 0;
+            float: right;
+        }
+        &__spinner {
+            display: block;
+            margin-top: 200px;
+        }
 }

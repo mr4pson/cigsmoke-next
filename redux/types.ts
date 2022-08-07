@@ -1,4 +1,4 @@
-import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser } from "common/interfaces/data-analytics.interfaces";
+import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData, DynamicUsersData } from "common/interfaces/data-analytics.interfaces";
 import { Basket, Brand, Category, Checkout, Color, Image, Parameter, PriceRange, Product, Review, Tag, User, Wishlist } from "swagger/services";
 
 type TCategoryState = {
@@ -105,7 +105,12 @@ type TCheckoutState = {
 }
 
 type TAnalyticsState = {
-  analyticsData: AnalyticsCategory[] | AnalyticsBrand[] | AnalyticsProduct[] | AnalyticsUser[],
+  analyticsData: DynamicData[] | 
+  AnalyticsCategory[] | 
+  AnalyticsBrand[] | 
+  AnalyticsProduct[] | 
+  AnalyticsUser[],
+  usersData: DynamicUsersData | {},
   loading: boolean,
 }
 
