@@ -20,6 +20,7 @@ import checkoutsReducer from "./slicers/checkoutsSlicer"
 import cartSlicer from './slicers/store/cartSlicer';
 import catalogSlicer from './slicers/store/catalogSlicer';
 import analyticsReducer from './slicers/analyticsSlicer';
+import productInfoSlicer from './slicers/store/productInfoSlicer';
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
@@ -37,6 +38,7 @@ const combinedReducer = combineReducers({
   global: globalSlicer,
   cart: cartSlicer,
   catalog: catalogSlicer,
+  productInfo: productInfoSlicer,
 });
 
 const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {

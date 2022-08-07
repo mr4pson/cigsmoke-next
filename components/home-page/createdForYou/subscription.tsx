@@ -44,7 +44,7 @@ const Subscription = () => {
               </span>
             </motion.button>
             <motion.span
-              id="alert"
+              className="alert"
               key="promo-messege"
               animate={promo ? 'animate' : 'exit'}
               variants={variants.fadeOutSlideOut}
@@ -52,7 +52,7 @@ const Subscription = () => {
               Промокод активирован
             </motion.span>
           </form>
-          <hr />
+          <div id="home-subscription-devider"></div>
           <h3>Подписывайся</h3>
           <span style={{ textAlign: 'center', width: '90%' }}>
             Подписывайтесь на нашу новостную рассылку
@@ -62,6 +62,7 @@ const Subscription = () => {
               whileHover="hover"
               whileTap="tap"
               variants={variants.boxShadow}
+              type="email"
               placeholder="Введите Эл. адрес"
             />
             <motion.button
@@ -79,7 +80,7 @@ const Subscription = () => {
               </span>
             </motion.button>
             <motion.span
-              id="alert"
+              className="alert"
               key="promo-messege"
               animate={news ? 'animate' : 'exit'}
               variants={variants.fadeOutSlideOut}
@@ -151,15 +152,16 @@ const SubscribeContent = styled(motion.div)`
         align-items: center;
       }
     }
-    #alert {
+    .alert {
       position: absolute;
       top: 40px;
       left: 25px;
     }
   }
-  hr {
+
+  #home-subscription-devider {
     width: 100%;
-    border: 5px solid ${color.bgProduct};
+    border: 8px solid ${color.bgProduct};
     border-radius: 5px;
   }
 `;

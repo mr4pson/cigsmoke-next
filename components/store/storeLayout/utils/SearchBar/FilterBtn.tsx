@@ -1,27 +1,29 @@
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { Category } from 'swagger/services';
+import { Category, CategoryInTree } from 'swagger/services';
 import Filter from '../../../../../assets/filter.svg';
+import { PopupDisplay } from '../HeaderCart/constants';
 import { handleCartBtnClick } from '../HeaderCart/helpers';
 import { Path } from '../paths';
 
 type Props = {
-  selected: Category | undefined;
-  setSelected: any;
-  setIsOpened: any;
-  setDisplay: any;
+  selectedCategory: CategoryInTree | undefined;
+  setSelectedCategory: Dispatch<SetStateAction<CategoryInTree | undefined>>;
+  setIsOpened: Dispatch<SetStateAction<boolean>>;
+  setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
 };
 
 const FilterBtn: React.FC<Props> = ({
-  selected,
-  setSelected,
+  selectedCategory,
+  setSelectedCategory,
   setIsOpened,
   setDisplay,
 }) => {
   const handleResetSelected = () => {
-    setSelected(undefined);
+    setSelectedCategory(undefined);
   };
 
   const getShortedCategoryName = (categoryName: string): string => {
@@ -30,7 +32,7 @@ const FilterBtn: React.FC<Props> = ({
 
   return (
     <AnimatePresence>
-      {selected ? (
+      {selectedCategory ? (
         <FilterSelected
           id="filter-btn"
           key="filter-selected"
@@ -38,10 +40,10 @@ const FilterBtn: React.FC<Props> = ({
           animate="animate"
           exit="exit"
           variants={variants.fadeInSlideIn}
-          color={selected != '' ? color.btnPrimary : ''}
+          color={selectedCategory ? color.btnPrimary : ''}
           onClick={(e) => e.preventDefault()}
         >
-          {getShortedCategoryName(selected?.name!)}
+          {getShortedCategoryName(selectedCategory?.name!)}
           <svg
             style={{ cursor: 'pointer' }}
             width="20"
@@ -52,12 +54,12 @@ const FilterBtn: React.FC<Props> = ({
           >
             <Path
               d="M5.5 7.40295L20.5 7.40295"
-              animate={{ rotate: selected ? 45 : 0 }}
+              animate={{ rotate: selectedCategory ? 45 : 0 }}
               transition={{ delay: 0.1 }}
             />
             <Path
               d="M5.5 7.40295L20.5 7.40295"
-              animate={{ rotate: selected ? -45 : 0 }}
+              animate={{ rotate: selectedCategory ? -45 : 0 }}
               transition={{ delay: 0.1 }}
             />
           </svg>

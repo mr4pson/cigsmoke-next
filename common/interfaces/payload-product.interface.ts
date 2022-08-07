@@ -1,15 +1,16 @@
-import { Color } from "swagger/services";
+import { ParameterProductsDTO } from 'swagger/services';
 
 export interface PayloadProduct {
-    name: string,
-    price: number,
-    available: boolean,
-    colors: string[] | [],
-    category: string,
-    brand: string,
-    url: string,
-    desc?: string,
-    images?: string,
-    tags?: number[],
-    id?: string | string[] | undefined,
+  name: string;
+  price: number;
+  available: boolean;
+  colors: string[] | [];
+  category: string;
+  brand: string;
+  parameterProducts: ParameterProductsDTO[];
+  url: string;
+  desc?: string;
+  images?: string;
+  tags?: string[];
+  id?: string | string[] | undefined;
 }

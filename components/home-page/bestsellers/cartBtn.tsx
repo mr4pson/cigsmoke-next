@@ -1,6 +1,6 @@
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import Cart from '../../../assets/added_to_cart.svg';
 
@@ -17,24 +17,20 @@ const AddToCart: React.FC<Props> = ({ isInCart, onClick }) => {
       variants={variants.boxShadow}
       onClick={onClick}
     >
-      <AnimatePresence>
-        <motion.span
-          key="cart-text"
-          animate={isInCart ? 'exit' : 'animate'}
-          variants={variants.fadeOutSlideOut}
-          style={{ position: 'absolute', top: '6px', left: '12px' }}
-        >
-          В корзину
-        </motion.span>
-        <motion.span
-          key="cart-icon"
-          animate={isInCart ? 'animate' : 'exit'}
-          variants={variants.fadeInSlideIn}
-          style={{ position: 'absolute', top: '6px', left: '32px' }}
-        >
-          <Cart />
-        </motion.span>
-      </AnimatePresence>
+      <motion.span
+        animate={isInCart ? 'exit' : 'animate'}
+        variants={variants.fadeOutSlideOut}
+        style={{ left: '12px' }}
+      >
+        В корзину
+      </motion.span>
+      <motion.span
+        animate={isInCart ? 'animate' : 'exit'}
+        variants={variants.fadeInSlideIn}
+        style={{ left: '32px' }}
+      >
+        <Cart />
+      </motion.span>
     </CartBtn>
   );
 };
@@ -50,6 +46,8 @@ const CartBtn = styled(motion.button)`
   position: relative;
   span {
     display: flex;
+    position: absolute;
+    top: 6px;
   }
 `;
 

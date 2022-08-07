@@ -19,17 +19,16 @@ export const columns: ColumnsType<Product> = [
     title: 'Изображения',
     dataIndex: 'images',
     render: (_, record?) => {
-      console.log(record?.images);
       if (record?.images) {
         return (
           <div
             style={{
-              width: '80px',
-              height: '80px',
+              width: '120px',
+              height: '120px',
             }}
           >
             <Carousel effect="fade">
-              {(record.images as unknown as string[])?.map((image) => {
+              {(record.images as unknown as string[]).map((image) => {
                 if (image) {
                   return (
                     <div>
@@ -145,7 +144,6 @@ export const columns: ColumnsType<Product> = [
     title: 'Теги',
     dataIndex: 'tags',
     render: (_, record) => {
-      console.log(record.tags);
       return (
         <ul>
           {(record?.tags as Tag[]).map((tag) => (

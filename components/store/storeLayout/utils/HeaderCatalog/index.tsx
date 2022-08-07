@@ -1,23 +1,24 @@
 import { useState } from 'react';
+import { PopupDisplay } from '../HeaderCart/constants';
 import CatalogBtn from './CatalogBtn';
 import CatalogModal from './CatalogModal';
 
 const HeaderCatalog = () => {
-  const [open_categories, set_open_categorie] = useState(false);
-  const [display_categories, set_display_categories] = useState('none');
+  const [isOpened, setIsOpened] = useState(false);
+  const [display, setDisplay] = useState(PopupDisplay.None);
 
   return (
     <>
       <CatalogModal
-        isOpen={open_categories}
-        setOpen={set_open_categorie}
-        display={display_categories}
-        setDisplay={set_display_categories}
+        isOpened={isOpened}
+        setIsOpened={setIsOpened}
+        display={display}
+        setDisplay={setDisplay}
       />
       <CatalogBtn
-        isOpen={open_categories}
-        setOpen={set_open_categorie}
-        setDisplay={set_display_categories}
+        isOpened={isOpened}
+        setIsOpened={setIsOpened}
+        setDisplay={setDisplay}
       />
     </>
   );

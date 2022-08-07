@@ -1,19 +1,31 @@
-import { Button, Form, Input, Select, Spin } from 'antd';
+import { Button, Form, Input, List, Select, Spin } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearImageList,
   setDefaultImageList,
 } from 'redux/slicers/imagesSlicer';
 import { Page } from 'routes/constants';
-import { Brand, Category, Color, Product, Tag } from 'swagger/services';
+import {
+  Brand,
+  Category,
+  Color,
+  ParameterProduct,
+  Product,
+  Tag,
+} from 'swagger/services';
 
 import ImageUpload from '../generalComponents/ImageUpload';
 import FormItem from '../generalComponents/FormItem';
-import { handleFormSubmitProduct, initialValuesConverter } from './helpers';
+import {
+  handleCategoryChange,
+  handleFormSubmitProduct,
+  initialValuesConverter,
+  handleParameterChange,
+} from './helpers';
 import { ManageProductFields } from './ManageProductsFields.enum';
 import styles from './products.module.scss';
 
@@ -48,6 +60,10 @@ const ManageProductForm = ({
   const router = useRouter();
   const [form] = Form.useForm();
   const initialValues = initialValuesConverter(product as Product);
+  const [curCategory, setCurCategory] = useState<Category>();
+  const [parameterProducts, setParameterProducts] = useState<
+    ParameterProduct[]
+  >([]);
 
   const imageList = useAppSelector((state) => state.images.imageList);
 
@@ -58,10 +74,22 @@ const ManageProductForm = ({
         dispatch(setDefaultImageList(image));
       });
     }
+    setCurCategory(product?.category);
+    setParameterProducts(
+      product?.category?.parameters?.map((parameter) => {
+        const parameterProduct = product.parameterProducts?.find(
+          (parameterProduct) => parameterProduct.parameterId === parameter.id,
+        );
+
+        return {
+          parameter: parameter,
+          value: parameterProduct?.value,
+        };
+      })!,
+    );
     return () => {
       dispatch(clearImageList());
     };
-    // console.log(imageList);
   }, [product]);
 
   return (
@@ -74,7 +102,12 @@ const ManageProductForm = ({
       ) : (
         <Form
           layout="vertical"
-          onFinish={handleFormSubmitProduct(router, dispatch, imageList)}
+          onFinish={handleFormSubmitProduct(
+            router,
+            dispatch,
+            imageList,
+            parameterProducts,
+          )}
           form={form}
           initialValues={initialValues}
           requiredMark={true}
@@ -129,21 +162,25 @@ const ManageProductForm = ({
               placeholder={`Пожалуйста, выберите цвета`}
             >
               {colors?.map((item) => (
-                <Option
-                  key={item.id}
-                  value={item.id}
-                >{`ID: ${item.id}, имя: ${item.name}`}</Option>
+                <Option key={item.id} value={item.id}>{`${item.name}`}</Option>
               ))}
             </Select>
           </Form.Item>
 
           {/* ----------------------CATEGORIES---------------------- */}
           <Form.Item label="Категория" name="category" required>
-            <Select style={{ width: '100%' }}>
+            <Select
+              onChange={handleCategoryChange(
+                categories,
+                setCurCategory,
+                setParameterProducts,
+              )}
+              style={{ width: '100%' }}
+            >
               {categories?.map((item) => {
                 return (
                   <Option key={item.id} value={item.id}>
-                    ID: {item.id}, имя: {item.name}
+                    {item.parent?.name} / {item.name}
                   </Option>
                 );
               })}
@@ -156,7 +193,7 @@ const ManageProductForm = ({
               {brands?.map((item) => {
                 return (
                   <Option key={item.id} value={item.id}>
-                    ID: {item.id}, имя: {item.name}
+                    {item.name}
                   </Option>
                 );
               })}
@@ -172,10 +209,7 @@ const ManageProductForm = ({
               placeholder={`Пожалуйста, выберите теги`}
             >
               {tags?.map((item) => (
-                <Option
-                  key={item.id}
-                  value={item.id}
-                >{`ID: ${item.id}, имя: ${item.name}`}</Option>
+                <Option key={item.id} value={item.id}>{`${item.name}`}</Option>
               ))}
             </Select>
           </Form.Item>
@@ -184,6 +218,32 @@ const ManageProductForm = ({
             option={ManageProductFields.Images}
             children={<ImageUpload fileList={imageList} isProduct={true} />}
           />
+          {!!curCategory?.parameters?.length && (
+            <>
+              <h2 style={{ marginBottom: '10px' }}>Список характеристик</h2>
+              <List
+                bordered={true}
+                itemLayout="horizontal"
+                dataSource={parameterProducts}
+                style={{ marginBottom: '20px' }}
+                renderItem={(parameterProduct, index) => (
+                  <List.Item className={styles['list-item']}>
+                    <span className={styles['list-item__title']}>
+                      {parameterProduct.parameter?.name}
+                    </span>
+                    <Input
+                      value={parameterProduct.value}
+                      placeholder={'Ввдедите Значение характеристики'}
+                      onChange={handleParameterChange(
+                        index,
+                        setParameterProducts,
+                      )}
+                    />
+                  </List.Item>
+                )}
+              />
+            </>
+          )}
           {/* ----------------------THE END OF INPUTS---------------------- */}
           <Form.Item className={styles.createProductForm__buttonsStack}>
             <Button

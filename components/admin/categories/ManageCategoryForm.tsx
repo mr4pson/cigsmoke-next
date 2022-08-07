@@ -1,18 +1,24 @@
-import { Button, Form, Input, Select, Spin } from 'antd';
+import { Button, Form, Input, List, Select, Spin } from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearImageList,
   setDefaultImageList,
 } from 'redux/slicers/imagesSlicer';
 import { Page } from 'routes/constants';
-import { Category } from 'swagger/services';
+import { Category, Parameter } from 'swagger/services';
 import FormItem from '../generalComponents/FormItem';
 import ImageUpload from '../generalComponents/ImageUpload';
 import styles from './categories.module.scss';
-import { handleFormSubmit } from './helpers';
+import {
+  handleAddParameter,
+  handleChangeParent,
+  handleFormSubmit,
+  handleParameterChange,
+  handleRemoveParameter,
+} from './helpers';
 import { ManageCategoryFields } from './ManageCategoryFields.enum';
 
 const { Option } = Select;
@@ -37,14 +43,15 @@ const ManageCategoryForm = ({
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [form] = Form.useForm();
+  const [parameters, setParameters] = useState<Parameter[]>([]);
+  const [hasParent, setHasParent] = useState<boolean>(false);
+  const imageList = useAppSelector((state) => state.images.imageList);
   const initialValues = {
     name: category?.name,
     url: category?.url,
     image: category?.image,
     parent: category?.parent?.id?.toString(),
   };
-
-  const imageList = useAppSelector((state) => state.images.imageList);
 
   useEffect(() => {
     dispatch(clearImageList());
@@ -59,6 +66,8 @@ const ManageCategoryForm = ({
         }),
       );
     }
+    setHasParent(!!category?.parent);
+    setParameters(category?.parameters! ? [...category?.parameters!] : []);
   }, [category]);
 
   return (
@@ -71,7 +80,7 @@ const ManageCategoryForm = ({
       ) : (
         <Form
           layout="vertical"
-          onFinish={handleFormSubmit(router, dispatch, imageList)}
+          onFinish={handleFormSubmit(router, dispatch, imageList, parameters)}
           form={form}
           initialValues={initialValues}
           requiredMark={true}
@@ -97,7 +106,10 @@ const ManageCategoryForm = ({
             name={ManageCategoryFields.Parent}
             label="Выберите родительскую категорию"
           >
-            <Select defaultValue="Не выбрано">
+            <Select
+              onChange={handleChangeParent(setHasParent)}
+              defaultValue="Не выбрано"
+            >
               <Option value="">Не выбрано</Option>
               {categories?.map((category) => (
                 <Option
@@ -109,6 +121,42 @@ const ManageCategoryForm = ({
               ))}
             </Select>
           </Form.Item>
+
+          {hasParent && (
+            <>
+              <h2 style={{ marginBottom: '10px' }}>Список характеристик</h2>
+              <List
+                footer={
+                  <Button onClick={handleAddParameter(setParameters)}>
+                    Добавить
+                  </Button>
+                }
+                bordered={true}
+                itemLayout="horizontal"
+                dataSource={parameters}
+                style={{ marginBottom: '20px' }}
+                renderItem={(parameter, index) => (
+                  <List.Item
+                    actions={[
+                      <a
+                        key={`remove-btn`}
+                        onClick={handleRemoveParameter(index, setParameters)}
+                      >
+                        удалить
+                      </a>,
+                    ]}
+                  >
+                    <Input
+                      value={parameter.name}
+                      placeholder={'Ввдедите название характеристики'}
+                      onChange={handleParameterChange(index, setParameters)}
+                    />
+                  </List.Item>
+                )}
+              />
+            </>
+          )}
+
           <Form.Item className={styles.createCategoryForm__buttonsStack}>
             <Button
               type="primary"

@@ -22,7 +22,7 @@ export const items: TMenuItem[] = [
   getItem('Бренды', paths[Page.ADMIN_BRANDS], <HeatMapOutlined />),
   getItem('Параметры', paths[Page.ADMIN_PARAMETERS], <AppstoreAddOutlined />),
   getItem('Теги', paths[Page.ADMIN_TAGS], <TagsOutlined />),
-  getItem('Комментарии', paths[Page.ADMIN_REVIEWS], <CommentOutlined />),
+  getItem('Отзывы', paths[Page.ADMIN_REVIEWS], <CommentOutlined />),
   getItem('Заказы', paths[Page.ADMIN_CHECKOUTS], <ReconciliationOutlined />),
   getItem('Аналитика', '', <LineChartOutlined />, [
     getItem(
@@ -64,7 +64,7 @@ export const pathWords: PathWords = {
   tags: 'Теги',
   'tags/create-tag': 'Создание тега',
   'tags/[id]': 'Редактирование тега',
-  reviews: 'Комментарии',
+  reviews: 'Отзывы',
   checkouts: 'Заказы',
   analytics: 'Аналитика',
   'analytics/categories': 'Категории',

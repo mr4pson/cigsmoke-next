@@ -8,6 +8,7 @@ import { fetchCategories } from '../../../../redux/slicers/categoriesSlicer';
 const CreateCategory = () => {
   const title = 'Создание категории';
   const categories = useAppSelector((state) => state.categories.categories);
+  const filteredCategories = categories?.filter((category) => !category.parent);
   const isLoading = useAppSelector((state) => state.categories.loading);
   const isSaveLoading = useAppSelector((state) => state.categories.saveLoading);
   const dispatch = useAppDispatch();
@@ -24,7 +25,7 @@ const CreateCategory = () => {
     <ManageCategoryForm
       title={title}
       editMode={false}
-      categories={categories}
+      categories={filteredCategories}
       isLoading={isLoading}
       isSaveLoading={isSaveLoading}
     />

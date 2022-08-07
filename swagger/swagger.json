@@ -9,11 +9,15 @@
   "paths": {
     "/auth/signup": {
       "post": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "summary": "Signup like a new user",
         "description": "",
         "operationId": "signup",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -22,7 +26,12 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["firstName", "lastName", "email", "password"],
+              "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "password"
+              ],
               "properties": {
                 "firstName": {
                   "type": "string"
@@ -63,11 +72,15 @@
     },
     "/auth/signin": {
       "post": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "summary": "Login with email",
         "description": "",
         "operationId": "signin",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -76,7 +89,10 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["email", "password"],
+              "required": [
+                "email",
+                "password"
+              ],
               "properties": {
                 "email": {
                   "type": "string"
@@ -111,11 +127,15 @@
     },
     "/auth/token": {
       "post": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "summary": "Create token",
         "description": "",
         "operationId": "CreateToken",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -124,7 +144,9 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["token"],
+              "required": [
+                "token"
+              ],
               "properties": {
                 "token": {
                   "type": "string"
@@ -156,11 +178,15 @@
     },
     "/auth/reset": {
       "post": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "summary": "Reset password by email",
         "description": "",
         "operationId": "ResetPwd",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -169,7 +195,9 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["email"],
+              "required": [
+                "email"
+              ],
               "properties": {
                 "email": {
                   "type": "string"
@@ -201,11 +229,15 @@
     },
     "/auth/update-password": {
       "put": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "summary": "Update password",
         "description": "",
         "operationId": "UpdatePwd",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -214,7 +246,10 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["token", "password"],
+              "required": [
+                "token",
+                "password"
+              ],
               "properties": {
                 "token": {
                   "type": "string",
@@ -250,11 +285,15 @@
     },
     "/auth/authorize/:token": {
       "get": {
-        "tags": ["auth"],
+        "tags": [
+          "auth"
+        ],
         "summary": "Authorize by email ",
         "description": "",
         "operationId": "Auth",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -263,7 +302,9 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["token"],
+              "required": [
+                "token"
+              ],
               "properties": {
                 "token": {
                   "type": "string",
@@ -296,19 +337,25 @@
     },
     "/users": {
       "get": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "Get array of users",
         "description": "",
         "operationId": "getUsers",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "name": "firstName",
@@ -344,7 +391,10 @@
             "description": "Filtering tags by role",
             "required": false,
             "type": "string",
-            "enum": ["Admin", "User"]
+            "enum": [
+              "Admin",
+              "User"
+            ]
           },
           {
             "name": "sortBy",
@@ -387,18 +437,22 @@
         }
       },
       "post": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "Create a user",
         "description": "",
         "operationId": "createUser",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "in": "body",
@@ -436,18 +490,24 @@
     },
     "/users/{userId}": {
       "get": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "Find user by id",
         "operationId": "findUserById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token or user-token from user owner"
+            "description": "admin token or user-token from user owner"
           },
           {
             "name": "userId",
@@ -479,18 +539,22 @@
         }
       },
       "put": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "Update the user",
         "description": "",
         "operationId": "updateUser",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token or user-token from user owner"
+            "description": "admin token or user-token from user owner"
           },
           {
             "name": "userId",
@@ -531,18 +595,22 @@
         }
       },
       "delete": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "summary": "Delete the user",
         "description": "",
         "operationId": "deleteUser",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "name": "userId",
@@ -572,7 +640,10 @@
                   "default": false
                 },
                 "role": {
-                  "enum": ["User", "Admins"]
+                  "enum": [
+                    "User",
+                    "Admins"
+                  ]
                 }
               }
             }
@@ -591,31 +662,102 @@
     },
     "/brands": {
       "get": {
-        "tags": ["brand"],
+        "tags": [
+          "brand"
+        ],
         "summary": "Get array of brands",
         "description": "",
         "operationId": "getBrands",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "in": "query",
+            "name": "name",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "parent",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "category",
+            "required": false
+          },
+          {
+            "type": "boolean",
+            "in": "query",
+            "name": "showOnMain",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "default": "name"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "orderBy",
+            "required": false,
+            "default": "DESC",
+            "description": "can be ASC or DESC"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 10,
+            "description": "qty rows to take for pagination"
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Brand"
-              }
+              "$ref": "#/definitions/BrandResponse"
             }
           }
         }
       },
       "post": {
-        "tags": ["brand"],
+        "tags": [
+          "brand"
+        ],
         "summary": "Create a brand",
         "description": "",
         "operationId": "createBrand",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token"
+          },
           {
             "in": "body",
             "name": "body",
@@ -649,11 +791,17 @@
     },
     "/brands/{brandId}": {
       "get": {
-        "tags": ["brand"],
+        "tags": [
+          "brand"
+        ],
         "summary": "Find brand by id",
         "operationId": "findBrandById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "brandId",
@@ -679,12 +827,23 @@
         }
       },
       "put": {
-        "tags": ["brand"],
+        "tags": [
+          "brand"
+        ],
         "summary": "Update the brand",
         "description": "",
         "operationId": "updateBrand",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token"
+          },
           {
             "name": "brandId",
             "in": "path",
@@ -706,20 +865,7 @@
           "200": {
             "description": "successful updated",
             "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
-                }
-              }
+              "$ref": "#/definitions/Brand"
             }
           },
           "400": {
@@ -734,12 +880,23 @@
         }
       },
       "delete": {
-        "tags": ["brand"],
+        "tags": [
+          "brand"
+        ],
         "summary": "Delete the brand",
         "description": "",
         "operationId": "deleteBrand",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token"
+          },
           {
             "name": "brandId",
             "in": "path",
@@ -754,16 +911,19 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                "name": {
+                  "type": "string"
                 },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
+                "url": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                },
+                "showOnMain": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "value true can be post only with admin token"
                 }
               }
             }
@@ -771,72 +931,125 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Brand not found"
           }
         }
       }
     },
-    "/brands/getBrandsByCategory/{categoryUrl}": {
+    "/categories": {
       "get": {
-        "tags": ["brand"],
-        "summary": "Get array of brands by category url",
+        "tags": [
+          "category"
+        ],
+        "summary": "Get array of categories",
         "description": "",
-        "operationId": "getBrandsByCategoryUrl",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "operationId": "getCategories",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
-            "name": "categoryUrl",
-            "in": "path",
-            "description": "URL of category",
-            "required": true,
-            "type": "string"
+            "type": "string",
+            "in": "query",
+            "name": "name",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "url",
+            "required": false
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "parameters",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "parent",
+            "required": false
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "children",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "default": "name"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "orderBy",
+            "required": false,
+            "default": "DESC",
+            "description": "can be ASC or DESC"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 10,
+            "description": "qty rows to take for pagination"
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Brand"
-              }
-            }
-          },
-          "404": {
-            "description": "Category not found"
-          }
-        }
-      }
-    },
-    "/categories": {
-      "get": {
-        "tags": ["category"],
-        "summary": "Get array of categories",
-        "description": "",
-        "operationId": "getCategories",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Category"
-              }
+              "$ref": "#/definitions/CategoryResponse"
             }
           }
         }
       },
       "post": {
-        "tags": ["category"],
+        "tags": [
+          "category"
+        ],
         "summary": "Create a category",
         "description": "",
         "operationId": "createCategory",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token"
+          },
           {
             "in": "body",
             "name": "body",
@@ -862,6 +1075,9 @@
           "400": {
             "description": "Invalid Category request"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "401": {
             "description": "Unauthorized"
           }
@@ -870,11 +1086,17 @@
     },
     "/categories/{categoryId}": {
       "get": {
-        "tags": ["category"],
+        "tags": [
+          "category"
+        ],
         "summary": "Find category by id",
         "operationId": "findCategoryById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "categoryId",
@@ -900,12 +1122,23 @@
         }
       },
       "put": {
-        "tags": ["category"],
+        "tags": [
+          "category"
+        ],
         "summary": "Update the category",
         "description": "",
         "operationId": "updateCategory",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token"
+          },
           {
             "name": "categoryId",
             "in": "path",
@@ -929,16 +1162,32 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "readOnly": true
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "readOnly": true
+                },
+                "parameters": {
                   "type": "array",
                   "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                    "type": "object",
+                    "$ref": "#/definitions/Parameter"
+                  }
                 },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
+                "url": {
+                  "type": "string"
                 }
               }
             }
@@ -949,18 +1198,32 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Category not found"
           }
         }
       },
       "delete": {
-        "tags": ["category"],
+        "tags": [
+          "category"
+        ],
         "summary": "Delete the category",
         "description": "",
         "operationId": "deleteCategory",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token"
+          },
           {
             "name": "categoryId",
             "in": "path",
@@ -975,22 +1238,31 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                "name": {
+                  "type": "string"
                 },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
+                "image": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "readOnly": true
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "readOnly": true
+                },
+                "url": {
+                  "type": "string"
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Category not found"
@@ -1000,19 +1272,25 @@
     },
     "/categories/categoriesTree": {
       "get": {
-        "tags": ["category"],
+        "tags": [
+          "category"
+        ],
         "summary": "Get array of categories with parents and children trees",
         "description": "",
         "operationId": "getCategoriesTree",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Category"
+                "$ref": "#/definitions/CategoryInTree"
               }
             }
           },
@@ -1024,30 +1302,109 @@
     },
     "/colors": {
       "get": {
-        "tags": ["color"],
+        "tags": [
+          "color"
+        ],
         "summary": "Get array of colors",
         "description": "",
         "operationId": "getColors",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "in": "query",
+            "name": "name",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "url",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "parent",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "category",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "code",
+            "required": false
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "products",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "default": "name"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "orderBy",
+            "required": false,
+            "default": "DESC",
+            "description": "can be ASC or DESC"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 10,
+            "description": "qty rows to take for pagination"
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Color"
-              }
+              "$ref": "#/definitions/ColorResponse"
             }
           }
         }
       },
       "post": {
-        "tags": ["color"],
+        "tags": [
+          "color"
+        ],
         "summary": "Create a color",
         "description": "",
         "operationId": "createColor",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -1076,17 +1433,26 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
     },
     "/colors/{colorId}": {
       "get": {
-        "tags": ["color"],
+        "tags": [
+          "color"
+        ],
         "summary": "Find color by id",
         "operationId": "findColorById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "colorId",
@@ -1112,11 +1478,15 @@
         }
       },
       "put": {
-        "tags": ["color"],
+        "tags": [
+          "color"
+        ],
         "summary": "Update the color",
         "description": "",
         "operationId": "updateColor",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "colorId",
@@ -1139,20 +1509,7 @@
           "200": {
             "description": "successful updated",
             "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
-                }
-              }
+              "$ref": "#/definitions/ColorWithoutJoins"
             }
           },
           "400": {
@@ -1161,17 +1518,24 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Color not found"
           }
         }
       },
       "delete": {
-        "tags": ["color"],
+        "tags": [
+          "color"
+        ],
         "summary": "Delete the color",
         "description": "",
         "operationId": "deleteColor",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "colorId",
@@ -1187,22 +1551,23 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                "name": {
+                  "type": "string"
                 },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
+                "url": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Color not found"
@@ -1210,202 +1575,20 @@
         }
       }
     },
-    "/parameters": {
-      "get": {
-        "tags": ["parameter"],
-        "summary": "Get array of parameters",
-        "description": "",
-        "operationId": "getParameters",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Parameter"
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["parameter"],
-        "summary": "Create a parameter",
-        "description": "",
-        "operationId": "createParameter",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Parameter"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successful created",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid Parameter request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/parameters/{parameterId}": {
-      "get": {
-        "tags": ["parameter"],
-        "summary": "Find parameter by id",
-        "operationId": "findParameterById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "parameterId",
-            "in": "path",
-            "description": "ID of parameter to return",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Parameter"
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Parameter not found"
-          }
-        }
-      },
-      "put": {
-        "tags": ["parameter"],
-        "summary": "Update the parameter",
-        "description": "",
-        "operationId": "updateParameter",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "parameterId",
-            "in": "path",
-            "description": "ID of parameter to return",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Parameter"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful updated",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid Parameter request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Parameter not found"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["parameter"],
-        "summary": "Delete the parameter",
-        "description": "",
-        "operationId": "deleteParameter",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "parameterId",
-            "in": "path",
-            "description": "ID of parameter to return",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful deleted",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Parameter not found"
-          }
-        }
-      }
-    },
     "/products": {
       "get": {
-        "tags": ["product"],
+        "tags": [
+          "product"
+        ],
         "summary": "Get array of products",
         "description": "",
         "operationId": "getProducts",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "name",
@@ -1483,9 +1666,15 @@
             }
           },
           {
+            "name": "parent",
+            "in": "query",
+            "description": "Filtering products by parent url",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "sortBy",
             "in": "query",
-            "description": "Sorting products by property",
             "default": "name",
             "required": false,
             "type": "string"
@@ -1499,9 +1688,17 @@
             "type": "string"
           },
           {
+            "type": "string",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
             "name": "limit",
             "in": "query",
-            "description": "Limiting products in array",
+            "description": "qty rows to take for pagination",
             "default": 10,
             "required": false,
             "type": "integer"
@@ -1513,19 +1710,30 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Product"
+                "$ref": "#/definitions/ProductResponse"
               }
             }
           }
         }
       },
       "post": {
-        "tags": ["product"],
+        "tags": [
+          "product"
+        ],
         "summary": "Create a product",
         "description": "",
         "operationId": "createProduct",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token"
+          },
           {
             "in": "body",
             "name": "body",
@@ -1553,17 +1761,26 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
     },
     "/products/{productId}": {
       "get": {
-        "tags": ["product"],
+        "tags": [
+          "product"
+        ],
         "summary": "Find product by id",
         "operationId": "findProductById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "productId",
@@ -1583,18 +1800,32 @@
           "400": {
             "description": "Invalid ID supplied"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Product not found"
           }
         }
       },
       "put": {
-        "tags": ["product"],
+        "tags": [
+          "product"
+        ],
         "summary": "Update the product",
         "description": "",
         "operationId": "updateProduct",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token"
+          },
           {
             "name": "productId",
             "in": "path",
@@ -1616,20 +1847,7 @@
           "200": {
             "description": "successful updated",
             "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
-                }
-              }
+              "$ref": "#/definitions/ProductWithoutJoins"
             }
           },
           "400": {
@@ -1638,18 +1856,32 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Product not found"
           }
         }
       },
       "delete": {
-        "tags": ["product"],
+        "tags": [
+          "product"
+        ],
         "summary": "Delete the product",
         "description": "",
         "operationId": "deleteProduct",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token"
+          },
           {
             "name": "productId",
             "in": "path",
@@ -1664,22 +1896,82 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                "name": {
+                  "type": "string"
                 },
-                "affected": {
+                "price": {
                   "type": "integer",
-                  "description": "qty of deleted raws"
+                  "minimum": 1
+                },
+                "oldPrice": {
+                  "type": "integer"
+                },
+                "desc": {
+                  "type": "string"
+                },
+                "available": {
+                  "type": "boolean"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "readOnly": true
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "readOnly": true
+                },
+                "images": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    },
+    "/products/by-url/{url}": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Find product by url",
+        "operationId": "findProductByUrl",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "path",
+            "description": "URL of product to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ProductDTO"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
           },
           "404": {
             "description": "Product not found"
@@ -1689,19 +1981,25 @@
     },
     "/products/productsUnderOneThousand": {
       "get": {
-        "tags": ["product"],
+        "tags": [
+          "product"
+        ],
         "summary": "Get array of products which price is under 1000",
         "description": "",
         "operationId": "getProducts",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Product"
+                "$ref": "#/definitions/ProductResponse"
               }
             }
           }
@@ -1710,17 +2008,30 @@
     },
     "/products/priceRange": {
       "get": {
-        "tags": ["product"],
+        "tags": [
+          "product"
+        ],
         "summary": "Get min and max product prices by category and name",
         "description": "",
         "operationId": "getPriceRange",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "name",
             "in": "query",
             "description": "Filtering products by name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "parent",
+            "in": "query",
+            "description": "Filtering products by parent URL",
             "required": false,
             "type": "string"
           },
@@ -1739,10 +2050,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/PriceRange"
-              }
+              "$ref": "#/definitions/PriceRange"
             }
           }
         }
@@ -1750,31 +2058,102 @@
     },
     "/tags": {
       "get": {
-        "tags": ["tag"],
+        "tags": [
+          "tag"
+        ],
         "summary": "Get array of tags",
         "description": "",
         "operationId": "getTags",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "in": "query",
+            "name": "name",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "url",
+            "required": false
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "products",
+            "required": false
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "sortBy",
+            "required": false,
+            "default": "name"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "orderBy",
+            "required": false,
+            "default": "DESC",
+            "description": "can be ASC or DESC"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 10,
+            "description": "qty rows to take for pagination"
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Tag"
+                "$ref": "#/definitions/TagResponse"
               }
             }
           }
         }
       },
       "post": {
-        "tags": ["tag"],
+        "tags": [
+          "tag"
+        ],
         "summary": "Create a tag",
         "description": "",
         "operationId": "createTag",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token"
+          },
           {
             "in": "body",
             "name": "body",
@@ -1800,6 +2179,9 @@
           "400": {
             "description": "Invalid Tag request"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "401": {
             "description": "Unauthorized"
           }
@@ -1808,11 +2190,17 @@
     },
     "/tags/{tagId}": {
       "get": {
-        "tags": ["tag"],
+        "tags": [
+          "tag"
+        ],
         "summary": "Find tag by id",
         "operationId": "findTagById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "tagId",
@@ -1838,12 +2226,23 @@
         }
       },
       "put": {
-        "tags": ["tag"],
+        "tags": [
+          "tag"
+        ],
         "summary": "Update the tag",
         "description": "",
         "operationId": "updateTag",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token"
+          },
           {
             "name": "tagId",
             "in": "path",
@@ -1865,20 +2264,7 @@
           "200": {
             "description": "successful updated",
             "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
-                }
-              }
+              "$ref": "#/definitions/TagWithoutJoins"
             }
           },
           "400": {
@@ -1887,18 +2273,32 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Tag not found"
           }
         }
       },
       "delete": {
-        "tags": ["tag"],
+        "tags": [
+          "tag"
+        ],
         "summary": "Delete the tag",
         "description": "",
         "operationId": "deleteTag",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token"
+          },
           {
             "name": "tagId",
             "in": "path",
@@ -1913,22 +2313,20 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                "name": {
+                  "type": "string"
                 },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
+                "url": {
+                  "type": "string"
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Tag not found"
@@ -1938,11 +2336,17 @@
     },
     "/images/{fileName}": {
       "get": {
-        "tags": ["image"],
+        "tags": [
+          "image"
+        ],
         "summary": "Find image by filename",
         "operationId": "findImageByFileName",
-        "consumes": ["application/json"],
-        "produces": ["image/png"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "image/png"
+        ],
         "parameters": [
           {
             "name": "fileName",
@@ -1967,12 +2371,18 @@
     },
     "/images": {
       "post": {
-        "tags": ["image"],
+        "tags": [
+          "image"
+        ],
         "summary": "Create an image",
         "description": "Return array of filenames images which uploaded",
         "operationId": "createImage",
-        "consumes": ["multipart/form-data"],
-        "produces": ["application/json"],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -1980,7 +2390,9 @@
             "description": "",
             "required": true,
             "schema": {
-              "required": ["files"],
+              "required": [
+                "files"
+              ],
               "type": "object",
               "properties": {
                 "files": {
@@ -2014,19 +2426,35 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
     },
     "/addresses": {
       "get": {
-        "tags": ["address"],
+        "tags": [
+          "address"
+        ],
         "summary": "Get array of addresses",
         "description": "",
         "operationId": "getAddresses",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "name": "userId",
             "in": "query",
@@ -2093,12 +2521,20 @@
             "type": "string"
           },
           {
-            "name": "limit",
+            "type": "string",
             "in": "query",
-            "description": "Limiting addresses in array",
-            "default": 10,
+            "name": "offset",
             "required": false,
-            "type": "integer"
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 10,
+            "description": "qty rows to take for pagination"
           }
         ],
         "responses": {
@@ -2107,19 +2543,33 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Address"
+                "$ref": "#/definitions/AddressResponse"
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       },
       "post": {
-        "tags": ["address"],
+        "tags": [
+          "address"
+        ],
         "summary": "Create a address",
         "description": "",
         "operationId": "createAddress",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "in": "body",
             "name": "body",
@@ -2153,11 +2603,17 @@
     },
     "/addresses/{addressId}": {
       "get": {
-        "tags": ["address"],
+        "tags": [
+          "address"
+        ],
         "summary": "Find address by id",
         "operationId": "findAddressById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "addressId",
@@ -2183,12 +2639,23 @@
         }
       },
       "put": {
-        "tags": ["address"],
+        "tags": [
+          "address"
+        ],
         "summary": "Update the address",
         "description": "",
         "operationId": "updateAddress",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "name": "addressId",
             "in": "path",
@@ -2210,20 +2677,7 @@
           "200": {
             "description": "successful updated",
             "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
-                }
-              }
+              "$ref": "#/definitions/AddressWithoutJoins"
             }
           },
           "400": {
@@ -2232,18 +2686,32 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Address not found"
           }
         }
       },
       "delete": {
-        "tags": ["address"],
+        "tags": [
+          "address"
+        ],
         "summary": "Delete the address",
         "description": "",
         "operationId": "deleteAddress",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "name": "addressId",
             "in": "path",
@@ -2258,22 +2726,35 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                "userId": {
+                  "type": "string"
                 },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "address": {
+                  "type": "string"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "zipCode": {
+                  "type": "string"
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Address not found"
@@ -2283,12 +2764,18 @@
     },
     "/baskets": {
       "get": {
-        "tags": ["basket"],
+        "tags": [
+          "basket"
+        ],
         "summary": "Get array of baskets",
         "description": "",
         "operationId": "getBaskets",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "userId",
@@ -2312,6 +2799,25 @@
             "type": "integer"
           },
           {
+            "name": "status",
+            "in": "query",
+            "description": "Filtering baskets by status",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "updatedFrom",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "updatedTo",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "sortBy",
             "in": "query",
             "description": "Sorting baskets by property",
@@ -2328,12 +2834,20 @@
             "type": "string"
           },
           {
-            "name": "limit",
+            "type": "string",
             "in": "query",
-            "description": "Limiting baskets in array",
-            "default": 10,
+            "name": "offset",
             "required": false,
-            "type": "integer"
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 10,
+            "description": "qty rows to take for pagination"
           }
         ],
         "responses": {
@@ -2342,18 +2856,22 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Basket"
+                "$ref": "#/definitions/BasketResponse"
               }
             }
           }
         }
       },
       "post": {
-        "tags": ["basket"],
+        "tags": [
+          "basket"
+        ],
         "summary": "Create a basket",
         "description": "",
         "operationId": "createBasket",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -2388,11 +2906,17 @@
     },
     "/baskets/{basketId}": {
       "get": {
-        "tags": ["basket"],
+        "tags": [
+          "basket"
+        ],
         "summary": "Find basket by id",
         "operationId": "findBasketById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "basketId",
@@ -2418,11 +2942,15 @@
         }
       },
       "put": {
-        "tags": ["basket"],
+        "tags": [
+          "basket"
+        ],
         "summary": "Update the basket",
         "description": "",
         "operationId": "updateBasket",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "basketId",
@@ -2445,20 +2973,7 @@
           "200": {
             "description": "successful updated",
             "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
-                }
-              }
+              "$ref": "#/definitions/BasketWithoutJoins"
             }
           },
           "400": {
@@ -2467,18 +2982,32 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Basket not found"
           }
         }
       },
       "delete": {
-        "tags": ["basket"],
+        "tags": [
+          "basket"
+        ],
         "summary": "Delete the basket",
         "description": "",
         "operationId": "deleteBasket",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "name": "basketId",
             "in": "path",
@@ -2493,16 +3022,20 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                "userId": {
+                  "type": "string"
                 },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
+                "createdAt": {
+                  "type": "string",
+                  "readOnly": true
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "readOnly": true
+                },
+                "status": {
+                  "type": "string",
+                  "default": "New"
                 }
               }
             }
@@ -2518,12 +3051,18 @@
     },
     "/checkouts": {
       "get": {
-        "tags": ["checkout"],
+        "tags": [
+          "checkout"
+        ],
         "summary": "Get array of checkouts",
         "description": "",
         "operationId": "getCheckouts",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "addressId",
@@ -2563,12 +3102,20 @@
             "type": "string"
           },
           {
-            "name": "limit",
+            "type": "string",
             "in": "query",
-            "description": "Limiting checkouts in array",
-            "default": 10,
+            "name": "offset",
             "required": false,
-            "type": "integer"
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 10,
+            "description": "qty rows to take for pagination"
           }
         ],
         "responses": {
@@ -2577,18 +3124,22 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Checkout"
+                "$ref": "#/definitions/CheckoutResponse"
               }
             }
           }
         }
       },
       "post": {
-        "tags": ["checkout"],
+        "tags": [
+          "checkout"
+        ],
         "summary": "Create a checkout",
         "description": "",
         "operationId": "createCheckout",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -2623,11 +3174,17 @@
     },
     "/checkouts/{checkoutId}": {
       "get": {
-        "tags": ["checkout"],
+        "tags": [
+          "checkout"
+        ],
         "summary": "Find checkout by id",
         "operationId": "findCheckoutById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "checkoutId",
@@ -2653,11 +3210,15 @@
         }
       },
       "put": {
-        "tags": ["checkout"],
+        "tags": [
+          "checkout"
+        ],
         "summary": "Update the checkout",
         "description": "",
         "operationId": "updateCheckout",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "checkoutId",
@@ -2680,20 +3241,7 @@
           "200": {
             "description": "successful updated",
             "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
-                }
-              }
+              "$ref": "#/definitions/CheckoutWithoutJoins"
             }
           },
           "400": {
@@ -2702,17 +3250,24 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Checkout not found"
           }
         }
       },
       "delete": {
-        "tags": ["checkout"],
+        "tags": [
+          "checkout"
+        ],
         "summary": "Delete the checkout",
         "description": "",
         "operationId": "deleteCheckout",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "checkoutId",
@@ -2728,22 +3283,20 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                "userId": {
+                  "type": "string"
                 },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
+                "comment": {
+                  "type": "string"
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Checkout not found"
@@ -2753,17 +3306,36 @@
     },
     "/orderProducts": {
       "get": {
-        "tags": ["orderProduct"],
+        "tags": [
+          "orderProduct"
+        ],
         "summary": "Get array of orderProducts",
         "description": "",
         "operationId": "getOrderProducts",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "name": "productId",
             "in": "query",
             "description": "Filtering orderProducts by productId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
             "required": false,
             "type": "string"
           },
@@ -2826,7 +3398,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/OrderProduct"
+                "$ref": "#/definitions/OrderProductResponse"
               }
             }
           }
@@ -2835,12 +3407,25 @@
     },
     "/orderProducts/{orderProductId}": {
       "get": {
-        "tags": ["orderProduct"],
+        "tags": [
+          "orderProduct"
+        ],
         "summary": "Find orderProduct by id",
         "operationId": "findOrderProductById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "name": "orderProductId",
             "in": "path",
@@ -2863,59 +3448,22 @@
             "description": "OrderProduct not found"
           }
         }
-      },
-      "delete": {
-        "tags": ["orderProduct"],
-        "summary": "Delete the orderProduct",
-        "description": "",
-        "operationId": "deleteOrderProduct",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "orderProductId",
-            "in": "path",
-            "description": "ID of orderProduct to return",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful deleted",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "OrderProduct not found"
-          }
-        }
       }
     },
     "/reviews": {
       "get": {
-        "tags": ["review"],
+        "tags": [
+          "review"
+        ],
         "summary": "Get array of reviews",
         "description": "",
         "operationId": "getReviews",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "productId",
@@ -2930,6 +3478,19 @@
             "description": "Filtering reviews by userId",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "showOnMain",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "merge",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "default": "true"
           },
           {
             "name": "sortBy",
@@ -2948,12 +3509,20 @@
             "type": "string"
           },
           {
-            "name": "limit",
+            "type": "string",
             "in": "query",
-            "description": "Limiting reviews in array",
-            "default": 10,
+            "name": "offset",
             "required": false,
-            "type": "integer"
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 10,
+            "description": "qty rows to take for pagination"
           }
         ],
         "responses": {
@@ -2962,19 +3531,30 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Review"
+                "$ref": "#/definitions/ReviewResponse"
               }
             }
           }
         }
       },
       "post": {
-        "tags": ["review"],
+        "tags": [
+          "review"
+        ],
         "summary": "Create a review",
         "description": "",
         "operationId": "createReview",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "in": "body",
             "name": "body",
@@ -3008,12 +3588,25 @@
     },
     "/reviews/{reviewId}": {
       "get": {
-        "tags": ["review"],
+        "tags": [
+          "review"
+        ],
         "summary": "Find review by id",
         "operationId": "findReviewById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "name": "reviewId",
             "in": "path",
@@ -3038,12 +3631,23 @@
         }
       },
       "put": {
-        "tags": ["review"],
+        "tags": [
+          "review"
+        ],
         "summary": "Update the review",
         "description": "",
         "operationId": "updateReview",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "name": "reviewId",
             "in": "path",
@@ -3065,20 +3669,7 @@
           "200": {
             "description": "successful updated",
             "schema": {
-              "type": "object",
-              "properties": {
-                "raw": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": ""
-                },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of updated raws"
-                }
-              }
+              "$ref": "#/definitions/ReviewWithoutJoins"
             }
           },
           "400": {
@@ -3087,18 +3678,32 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Review not found"
           }
         }
       },
       "delete": {
-        "tags": ["review"],
+        "tags": [
+          "review"
+        ],
         "summary": "Delete the review",
         "description": "",
         "operationId": "deleteReview",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin-token or user-token"
+          },
           {
             "name": "reviewId",
             "in": "path",
@@ -3113,22 +3718,50 @@
             "schema": {
               "type": "object",
               "properties": {
-                "raw": {
+                "rating": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10
+                },
+                "comment": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                },
+                "showOnMain": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "productId": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "comments": {
                   "type": "array",
                   "items": {
-                    "type": "string"
-                  },
-                  "description": ""
+                    "$ref": "#/definitions/Comment"
+                  }
                 },
-                "affected": {
-                  "type": "integer",
-                  "description": "qty of deleted raws"
+                "reactions": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ReviewReaction"
+                  }
                 }
               }
             }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Review not found"
@@ -3138,12 +3771,18 @@
     },
     "/wishlists": {
       "get": {
-        "tags": ["wishlist"],
+        "tags": [
+          "wishlist"
+        ],
         "summary": "Get array of wishlists",
         "description": "",
         "operationId": "getWishlists",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "sortBy",
@@ -3183,11 +3822,15 @@
         }
       },
       "post": {
-        "tags": ["wishlist"],
+        "tags": [
+          "wishlist"
+        ],
         "summary": "Create a wishlist",
         "description": "",
         "operationId": "createWishlist",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -3216,11 +3859,17 @@
     },
     "/wishlists/{wishlistId}": {
       "get": {
-        "tags": ["wishlist"],
+        "tags": [
+          "wishlist"
+        ],
         "summary": "Find wishlist by id",
         "operationId": "findWishlistById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "wishlistId",
@@ -3246,11 +3895,15 @@
         }
       },
       "put": {
-        "tags": ["wishlist"],
+        "tags": [
+          "wishlist"
+        ],
         "summary": "Update the wishlist",
         "description": "",
         "operationId": "updateWishlist",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "wishlistId",
@@ -3301,11 +3954,15 @@
         }
       },
       "delete": {
-        "tags": ["wishlist"],
+        "tags": [
+          "wishlist"
+        ],
         "summary": "Delete the wishlist",
         "description": "",
         "operationId": "deleteWishlist",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "wishlistId",
@@ -3346,12 +4003,18 @@
     },
     "/slides": {
       "get": {
-        "tags": ["slide"],
+        "tags": [
+          "slide"
+        ],
         "summary": "Get array of slides",
         "description": "",
         "operationId": "getSlides",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -3365,18 +4028,22 @@
         }
       },
       "post": {
-        "tags": ["slide"],
+        "tags": [
+          "slide"
+        ],
         "summary": "Create a slide",
         "description": "",
         "operationId": "createSlide",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "in": "body",
@@ -3414,11 +4081,17 @@
     },
     "/slides/{slideId}": {
       "get": {
-        "tags": ["slide"],
+        "tags": [
+          "slide"
+        ],
         "summary": "Find slide by id",
         "operationId": "findSlideById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "slideId",
@@ -3444,18 +4117,22 @@
         }
       },
       "delete": {
-        "tags": ["slide"],
+        "tags": [
+          "slide"
+        ],
         "summary": "Delete the slide",
         "description": "",
         "operationId": "deleteSlide",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "name": "slideId",
@@ -3486,12 +4163,18 @@
     },
     "/advertisements": {
       "get": {
-        "tags": ["advertisement"],
+        "tags": [
+          "advertisement"
+        ],
         "summary": "Get array of advertisements",
         "description": "",
         "operationId": "getAdvertisements",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -3505,18 +4188,22 @@
         }
       },
       "post": {
-        "tags": ["advertisement"],
+        "tags": [
+          "advertisement"
+        ],
         "summary": "Create a advertisement",
         "description": "",
         "operationId": "createAdvertisement",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "in": "body",
@@ -3554,11 +4241,17 @@
     },
     "/advertisements/{advertisementId}": {
       "get": {
-        "tags": ["advertisement"],
+        "tags": [
+          "advertisement"
+        ],
         "summary": "Find advertisement by id",
         "operationId": "findAdvertisementById",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "advertisementId",
@@ -3584,18 +4277,22 @@
         }
       },
       "put": {
-        "tags": ["advertisement"],
+        "tags": [
+          "advertisement"
+        ],
         "summary": "Update the advertisement",
         "description": "",
         "operationId": "updateAdvertisement",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "name": "advertisementId",
@@ -3636,18 +4333,22 @@
         }
       },
       "delete": {
-        "tags": ["advertisement"],
+        "tags": [
+          "advertisement"
+        ],
         "summary": "Delete the advertisement",
         "description": "",
         "operationId": "deleteAdvertisement",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "name": "advertisementId",
@@ -3678,18 +4379,22 @@
     },
     "/analytics": {
       "get": {
-        "tags": ["analytics"],
+        "tags": [
+          "analytics"
+        ],
         "summary": "Get analytics object",
         "description": "",
         "operationId": "getAnalytics",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "name": "updatedFrom",
@@ -3721,7 +4426,9 @@
             "type": "string"
           }
         ],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -3755,18 +4462,22 @@
     },
     "/analytics/dynamic": {
       "get": {
-        "tags": ["analytics"],
+        "tags": [
+          "analytics"
+        ],
         "summary": "Get sales dynamic from period",
         "description": "",
         "operationId": "getDynamic",
-        "consumes": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
         "parameters": [
           {
             "type": "string",
-            "name": "Authorization",
+            "name": "authorization",
             "required": true,
             "in": "header",
-            "description": "Admin-token"
+            "description": "admin token"
           },
           {
             "name": "from",
@@ -3791,7 +4502,9 @@
             "type": "string"
           }
         ],
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -3841,7 +4554,10 @@
   },
   "definitions": {
     "Brand": {
-      "required": ["name"],
+      "required": [
+        "name",
+        "url"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -3851,15 +4567,32 @@
           "type": "string"
         },
         "url": {
-          "type": "string",
-          "required": true
+          "type": "string"
         },
         "image": {
           "type": "string"
+        },
+        "showOnMain": {
+          "type": "boolean",
+          "default": false,
+          "description": "value true can be post only with admin token"
         }
       },
       "xml": {
         "name": "Brand"
+      }
+    },
+    "BrandResponse": {
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Brand"
+          }
+        },
+        "length": {
+          "type": "number"
+        }
       }
     },
     "Category": {
@@ -3902,8 +4635,82 @@
         }
       }
     },
+    "CategoryWithoutJoins": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "readOnly": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "readOnly": true
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "CategoryInTree": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "readOnly": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "readOnly": true
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/CategoryInTree"
+          }
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "CategoryResponse": {
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Category"
+          }
+        },
+        "length": {
+          "type": "number"
+        }
+      }
+    },
     "CategoryDTO": {
-      "required": ["name", "parameters", "url"],
+      "required": [
+        "name",
+        "parameters",
+        "url"
+      ],
       "properties": {
         "name": {
           "type": "string"
@@ -3925,9 +4732,9 @@
         "parameters": {
           "type": "array",
           "items": {
-            "type": "string"
-          },
-          "description": "array of parameters IDs"
+            "type": "object",
+            "$ref": "#/definitions/Parameter"
+          }
         },
         "url": {
           "type": "string"
@@ -3935,7 +4742,11 @@
       }
     },
     "Color": {
-      "required": ["name", "url"],
+      "required": [
+        "name",
+        "url",
+        "code"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -3948,7 +4759,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/Product"
+            "$ref": "#/definitions/ProductWithoutJoins"
           },
           "readOnly": true
         },
@@ -3960,8 +4771,12 @@
         }
       }
     },
-    "Parameter": {
-      "required": ["name"],
+    "ColorWithoutJoins": {
+      "required": [
+        "name",
+        "url",
+        "code"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -3970,13 +4785,90 @@
         "name": {
           "type": "string"
         },
-        "categories": {
+        "url": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "ColorResponse": {
+      "properties": {
+        "rows": {
           "type": "array",
           "items": {
-            "type": "object",
-            "$ref": "#/definitions/Category"
-          },
+            "$ref": "#/definitions/Color"
+          }
+        },
+        "length": {
+          "type": "number"
+        }
+      }
+    },
+    "Parameter": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
           "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Rating": {
+      "properties": {
+        "1": {
+          "type": "number"
+        },
+        "2": {
+          "type": "number"
+        },
+        "3": {
+          "type": "number"
+        },
+        "4": {
+          "type": "number"
+        },
+        "5": {
+          "type": "number"
+        },
+        "avg": {
+          "type": "number"
+        }
+      }
+    },
+    "ParameterProduct": {
+      "properties": {
+        "productId": {
+          "type": "string"
+        },
+        "parameterId": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "parameter": {
+          "$ref": "#/definitions/Parameter"
+        }
+      }
+    },
+    "ParameterProductsDTO": {
+      "required": [
+        "parameterId",
+        "value"
+      ],
+      "properties": {
+        "parameterId": {
+          "type": "number"
+        },
+        "value": {
+          "type": "string"
         }
       }
     },
@@ -4011,23 +4903,96 @@
           "type": "string",
           "readOnly": true
         },
+        "images": {
+          "type": "string"
+        },
         "colors": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/Color"
+            "$ref": "#/definitions/ColorWithoutJoins"
           }
         },
         "category": {
           "type": "object",
           "$ref": "#/definitions/Category"
         },
-        "images": {
-          "type": "string"
-        },
         "brand": {
           "type": "object",
           "$ref": "#/definitions/Brand"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/TagWithoutJoins"
+          }
+        },
+        "url": {
+          "type": "string"
+        },
+        "rating": {
+          "$ref": "#/definitions/Rating"
+        },
+        "reviews": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReviewWithoutJoins"
+          }
+        },
+        "parameterProducts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterProduct"
+          }
+        }
+      }
+    },
+    "ProductResponse": {
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        },
+        "length": {
+          "type": "number"
+        }
+      }
+    },
+    "ProductWithoutJoins": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "oldPrice": {
+          "type": "integer"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "readOnly": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "readOnly": true
+        },
+        "images": {
+          "type": "string"
         },
         "url": {
           "type": "string"
@@ -4056,6 +5021,9 @@
           "type": "integer",
           "minimum": 1
         },
+        "oldPrice": {
+          "type": "integer"
+        },
         "desc": {
           "type": "string"
         },
@@ -4077,6 +5045,13 @@
           },
           "description": "array of colors IDs"
         },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "array of tags IDs"
+        },
         "category": {
           "type": "string",
           "description": "Category ID"
@@ -4091,11 +5066,20 @@
         },
         "url": {
           "type": "string"
+        },
+        "parameterProducts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterProductsDTO"
+          }
         }
       }
     },
     "Tag": {
-      "required": ["name", "url"],
+      "required": [
+        "name",
+        "url"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -4108,9 +5092,35 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/Product"
+            "$ref": "#/definitions/ProductWithoutJoins"
           },
           "readOnly": true
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "TagResponse": {
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        },
+        "length": {
+          "type": "number"
+        }
+      }
+    },
+    "TagWithoutJoins": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
         },
         "url": {
           "type": "string"
@@ -4143,10 +5153,10 @@
           "type": "string",
           "readOnly": true
         },
-        "userId": {
-          "type": "string"
+        "user": {
+          "$ref": "#/definitions/User"
         },
-        "fistName": {
+        "firstName": {
           "type": "string"
         },
         "lastName": {
@@ -4168,21 +5178,12 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/Checkout"
+            "$ref": "#/definitions/CheckoutWithoutJoins"
           }
         }
       }
     },
-    "AddressDTO": {
-      "required": [
-        "userId",
-        "fistName",
-        "lastName",
-        "address",
-        "city",
-        "country",
-        "zipCode"
-      ],
+    "AddressWithoutJoins": {
       "properties": {
         "id": {
           "type": "string",
@@ -4191,7 +5192,7 @@
         "userId": {
           "type": "string"
         },
-        "fistName": {
+        "firstName": {
           "type": "string"
         },
         "lastName": {
@@ -4208,18 +5209,63 @@
         },
         "zipCode": {
           "type": "string"
-        },
-        "checkouts": {
+        }
+      }
+    },
+    "AddressResponse": {
+      "properties": {
+        "rows": {
           "type": "array",
           "items": {
-            "type": "string"
-          },
-          "description": "Array of checkouts IDs"
+            "$ref": "#/definitions/Address"
+          }
+        },
+        "length": {
+          "type": "number"
+        }
+      }
+    },
+    "AddressDTO": {
+      "required": [
+        "firstName",
+        "lastName",
+        "address",
+        "city",
+        "country",
+        "zipCode"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
         }
       }
     },
     "Basket": {
-      "required": ["id", "orderProducts", "createdAt", "updatedAt"],
+      "required": [
+        "id",
+        "orderProducts",
+        "createdAt",
+        "updatedAt"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -4240,7 +5286,7 @@
         },
         "checkout": {
           "type": "object",
-          "$ref": "#/definitions/Checkout"
+          "$ref": "#/definitions/CheckoutWithoutJoins"
         },
         "createdAt": {
           "type": "string",
@@ -4249,6 +5295,46 @@
         "updatedAt": {
           "type": "string",
           "readOnly": true
+        },
+        "status": {
+          "type": "string",
+          "default": "New"
+        }
+      }
+    },
+    "BasketWithoutJoins": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "userId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "readOnly": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "readOnly": true
+        },
+        "status": {
+          "type": "string",
+          "default": "New"
+        }
+      }
+    },
+    "BasketResponse": {
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Basket"
+          }
+        },
+        "length": {
+          "type": "number"
         }
       }
     },
@@ -4281,7 +5367,7 @@
         },
         "address": {
           "type": "object",
-          "$ref": "#/definitions/Address"
+          "$ref": "#/definitions/AddressWithoutJoins"
         },
         "payment": {
           "type": "object",
@@ -4289,7 +5375,34 @@
         },
         "basket": {
           "type": "object",
-          "$ref": "#/definitions/Basket"
+          "$ref": "#/definitions/BasketWithoutJoins"
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    },
+    "CheckoutResponse": {
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Checkout"
+          }
+        },
+        "length": {
+          "type": "number"
+        }
+      }
+    },
+    "CheckoutWithoutJoins": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "userId": {
+          "type": "string"
         },
         "comment": {
           "type": "string"
@@ -4297,7 +5410,11 @@
       }
     },
     "CheckoutDTO": {
-      "required": ["address", "payment", "basket"],
+      "required": [
+        "address",
+        "payment",
+        "basket"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -4321,7 +5438,11 @@
       }
     },
     "OrderProduct": {
-      "required": ["id", "product", "inBasket"],
+      "required": [
+        "id",
+        "product",
+        "inBasket"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -4345,8 +5466,24 @@
         }
       }
     },
+    "OrderProductResponse": {
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderProduct"
+          }
+        },
+        "length": {
+          "type": "number"
+        }
+      }
+    },
     "OrderProductDTO": {
-      "required": ["productId", "qty"],
+      "required": [
+        "productId",
+        "qty"
+      ],
       "properties": {
         "productId": {
           "type": "string"
@@ -4384,18 +5521,15 @@
         },
         "cardholder": {
           "type": "string"
-        },
-        "checkouts": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/Checkout"
-          }
         }
       }
     },
     "ReviewDTO": {
-      "required": ["rating", "productId", "userId"],
+      "required": [
+        "rating",
+        "productId",
+        "userId"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -4414,6 +5548,19 @@
         },
         "userId": {
           "type": "string"
+        }
+      }
+    },
+    "ReviewResponse": {
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Review"
+          }
+        },
+        "length": {
+          "type": "number"
         }
       }
     },
@@ -4437,6 +5584,10 @@
         "updatedAt": {
           "type": "string"
         },
+        "showOnMain": {
+          "type": "boolean",
+          "default": false
+        },
         "product": {
           "type": "object",
           "$ref": "#/definitions/Product"
@@ -4444,11 +5595,89 @@
         "user": {
           "type": "object",
           "$ref": "#/definitions/User"
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
+          }
+        },
+        "reactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReviewReaction"
+          }
+        }
+      }
+    },
+    "ReviewWithoutJoins": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "rating": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "comment": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "showOnMain": {
+          "type": "boolean",
+          "default": false
+        },
+        "productId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
+          }
+        },
+        "reactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReviewReaction"
+          }
+        }
+      }
+    },
+    "ReviewReaction": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "commentId": {
+          "type": "string"
+        },
+        "reaction": {
+          "type": "string",
+          "default": "Like"
         }
       }
     },
     "User": {
-      "required": ["firstName", "lastName", "email", "password"],
+      "required": [
+        "firstName",
+        "lastName",
+        "email",
+        "password"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -4472,6 +5701,54 @@
         },
         "role": {
           "type": "string"
+        }
+      }
+    },
+    "Comment": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "user": {
+          "type": "object",
+          "$ref": "#/definitions/User"
+        },
+        "review": {
+          "type": "object",
+          "$ref": "#/definitions/Review"
+        },
+        "text": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "reactions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/CommentReaction"
+          }
+        }
+      }
+    },
+    "CommentReaction": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "commentId": {
+          "type": "string"
+        },
+        "reaction": {
+          "type": "string",
+          "default": "Like"
         }
       }
     },

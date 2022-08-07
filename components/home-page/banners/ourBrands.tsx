@@ -1,104 +1,97 @@
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import ArrowWhite from '../../../assets/arrow_white.svg';
-import { ArrowSpan } from './common';
-import {
-  getFakeImageUrls,
-  paginateBrandBack,
-  paginateBrandForward,
-} from './helpers';
+import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
+import { paginateHandler } from 'components/store/storeLayout/helpers';
+import { getFakeImageUrls } from './helpers';
 
 const OurBrands = () => {
-  const [width, setWidth] = useState(0);
-  const [slideTo, setSlideTo] = useState(0);
-
-  const brandsRef = useRef<any>();
   const imageUrls = getFakeImageUrls();
 
+  const [
+    setRefType,
+    widthOrHeightRef,
+    widthOrHeight,
+    slideTo,
+    paginate,
+    setSlideAmount,
+  ] = paginateHandler();
+
   useEffect(() => {
-    setWidth(brandsRef.current.scrollWidth - brandsRef.current.offsetWidth);
+    setRefType('width');
+    setSlideAmount(200);
   }, []);
 
   return (
     <FlexBoxBrandsColumn>
-      <AnimatePresence>
-        <motion.h3
-          key="brand-header"
-          custom={0.6}
-          initial="init"
-          animate="animate"
-          exit="exit"
-          variants={variants.fadInSlideUp}
-        >
-          НАШИ БРЕНДЫ
-        </motion.h3>
-      </AnimatePresence>
+      <motion.h3
+        key="brand-header"
+        custom={0.6}
+        initial="init"
+        animate="animate"
+        exit="exit"
+        variants={variants.fadInSlideUp}
+      >
+        НАШИ БРЕНДЫ
+      </motion.h3>
+
       <BrandsWrapper>
         <FlexBoxBrandsRow
           drag="x"
-          dragConstraints={{ right: 0, left: -width }}
-          ref={brandsRef}
+          dragConstraints={{ right: 0, left: -widthOrHeight }}
+          ref={widthOrHeightRef}
           custom={slideTo}
           animate="animate"
-          variants={variants.sliderUi}
+          variants={variants.sliderX}
         >
-          <AnimatePresence>
-            {imageUrls.map((item, index) => (
-              <Link key={index} href="#">
-                <a>
-                  <BrandsItem
-                    key={index}
-                    custom={index * 0.1}
-                    initial="init"
-                    whileInView="animate"
-                    exit="exit"
-                    src={`/static/${item}`}
-                    variants={variants.fadInSlideUp}
-                  />
-                </a>
-              </Link>
-            ))}
-          </AnimatePresence>
+          {imageUrls.map((item, index) => (
+            <Link key={index} href={`/catalog/id`}>
+              <a>
+                <BrandsItem
+                  key={index}
+                  custom={index * 0.1}
+                  initial="init"
+                  whileInView="animate"
+                  exit="exit"
+                  src={`/static/${item}`}
+                  variants={variants.fadInSlideUp}
+                />
+              </a>
+            </Link>
+          ))}
         </FlexBoxBrandsRow>
       </BrandsWrapper>
       <BtnWrapper>
-        <ItemBtns
+        <ArrowBtns
           whileHover="hover"
           whileTap="tap"
           custom={1.2}
           variants={variants.grow}
-          onClick={paginateBrandForward(
-            slideTo,
-            brandsRef,
-            setWidth,
-            setSlideTo,
-          )}
+          bgcolor={color.btnPrimary}
+          boxshadow={color.boxShadowBtn}
+          onClick={() => paginate(1)}
         >
           <ArrowSpan rotate="180">
             <ArrowWhite />
           </ArrowSpan>
-        </ItemBtns>
-        <ItemBtns
+        </ArrowBtns>
+        <ArrowBtns
           whileHover="hover"
           whileTap="tap"
           custom={1.2}
           variants={variants.grow}
-          onClick={paginateBrandBack(
-            slideTo,
-            width,
-            brandsRef,
-            setWidth,
-            setSlideTo,
-          )}
+          bgcolor={color.btnPrimary}
+          boxshadow={color.boxShadowBtn}
+          onClick={() => paginate(-1)}
         >
           <ArrowSpan rotate="0">
             <ArrowWhite />
           </ArrowSpan>
-        </ItemBtns>
+        </ArrowBtns>
       </BtnWrapper>
     </FlexBoxBrandsColumn>
   );
@@ -147,20 +140,6 @@ const BtnWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 30px;
-`;
-
-const ItemBtns = styled(motion.button)`
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  background-color: ${color.btnPrimary};
-  box-shadow: 0px 2px 6px ${color.boxShadowBtn};
-  z-index: 9;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
 `;
 
 export default OurBrands;

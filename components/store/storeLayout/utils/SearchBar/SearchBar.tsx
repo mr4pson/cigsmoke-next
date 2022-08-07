@@ -1,20 +1,24 @@
+import { Spin } from 'antd';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  clearSearchProducts,
-  searchProducts,
-} from 'redux/slicers/store/globalSlicer';
+import { changeSearchQuery } from 'redux/slicers/store/globalSlicer';
+import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
-import { Category, Product } from 'swagger/services';
+import { Category, CategoryInTree } from 'swagger/services';
 import SearchSVG from '../../../../../assets/search.svg';
 import { PopupDisplay } from '../HeaderCart/constants';
 import { FilterBtn } from './FilterBtn';
 import FilterModal from './FilterModal';
+import { handleSearchQueryChange, handleSearchFormSubmit } from './helpers';
 import SearchItem from './SearchItem';
+import { LoadingOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 type StyleProps = {
   padding?: string;
@@ -24,64 +28,95 @@ type StyleProps = {
 type Props = {};
 
 const SearchBar: React.FC<Props> = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
-  const products: Product[] = useAppSelector((state) => state.global.products);
-  const [selected, setSelected] = useState<Category>();
+  const { searchQuery, products, productsLoading } =
+    useAppSelector<TGlobalState>((state) => state.global);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryInTree>();
+  const [focused, setFocused] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const [display, setDisplay] = useState(PopupDisplay.None);
 
-  const handleChange = (e: any) => {
-    dispatch(
-      searchProducts({ name: e.target.value, categories: [selected?.url!] }),
-    );
-  };
-
   const ref = useDetectClickOutside({
     onTriggered: () => {
-      dispatch(clearSearchProducts());
+      setFocused(false);
     },
   });
 
+  useEffect(() => {
+    dispatch(changeSearchQuery(router.query.name as string));
+  }, [router.query.name]);
+
   return (
     <>
-      <SearchWrapper ref={ref}>
+      <SearchForm
+        ref={ref}
+        onSubmit={handleSearchFormSubmit(
+          selectedCategory,
+          searchQuery,
+          router,
+          setFocused,
+        )}
+      >
         <SearchField
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           whileHover="hover"
           whileTap="tap"
           variants={variants.boxShadow}
-          onChange={handleChange}
+          onChange={handleSearchQueryChange(
+            selectedCategory,
+            setFocused,
+            dispatch,
+          )}
           type="input"
-          padding={selected == '' ? '0 80px 0 40px' : '0 80px 0 100px'}
+          padding={!selectedCategory ? '0 80px 0 40px' : '0 80px 0 100px'}
+          value={searchQuery}
         />
-        <SearchBtn onClick={(e) => e.preventDefault()}>
+        <SearchBtn type={'submit'}>
           <span>
             <SearchSVG />
           </span>
         </SearchBtn>
-        <Wrapper boxShadow={products.length ? 'rgba(0, 0, 0, 0.16)' : '#fff'}>
+        <Wrapper
+          boxShadow={searchQuery && focused ? 'rgba(0, 0, 0, 0.16)' : '#fff'}
+        >
           <Content>
-            {products.map((product, index: number) => {
-              return (
-                <SearchItem
-                  key={`search-bar-item-${index}`}
-                  product={product}
-                  index={index}
-                />
-              );
-            })}
+            {!!products.length && focused && !productsLoading ? (
+              <>
+                {products.map((product, index: number) => {
+                  return (
+                    <SearchItem
+                      key={`search-bar-item-${index}`}
+                      product={product}
+                      index={index}
+                    />
+                  );
+                })}
+              </>
+            ) : !products.length &&
+              focused &&
+              searchQuery &&
+              !productsLoading ? (
+              <div>По вашему запросу ничего не найдено.</div>
+            ) : productsLoading ? (
+              <Spin indicator={antIcon} />
+            ) : (
+              <></>
+            )}
           </Content>
         </Wrapper>
         <FilterBtn
-          selected={selected}
-          setSelected={setSelected}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
           setIsOpened={setIsOpened}
           setDisplay={setDisplay}
         />
-      </SearchWrapper>
+      </SearchForm>
       <FilterModal
         isOpened={isOpened}
         display={display}
-        setSelected={setSelected}
+        setSelectedCategory={setSelectedCategory}
         setIsOpened={setIsOpened}
         setDisplay={setDisplay}
       />
@@ -89,7 +124,7 @@ const SearchBar: React.FC<Props> = () => {
   );
 };
 
-const SearchWrapper = styled.form`
+const SearchForm = styled.form`
   width: 525px;
   height: 45px;
   position: relative;

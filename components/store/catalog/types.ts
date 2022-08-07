@@ -18,6 +18,7 @@ export type Filter = {
 
 export type TFiltersConfig = {
   categories: Category[],
+  subCategories: Category[],
   brands: Brand[],
   colors: Color[],
   priceRange: PriceRange,

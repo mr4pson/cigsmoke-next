@@ -4,11 +4,13 @@
 
 .parametersHeader {
     display: flex;
-  flex-wrap: wrap;
+    flex-wrap: wrap;
+
     &__title {
-    font-size: 2rem;
-    font-weight: 600;
-    line-height: 2rem;
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 2rem;
+        margin-bottom: 20px;
     }
 
     &__createParameterButton {
@@ -38,5 +40,6 @@
         font-size: 2rem;
         font-weight: 600;
         line-height: 2rem;
+        margin-bottom: 20px;
     }
 }

@@ -1,59 +1,43 @@
 import FilterBar from 'components/store/catalog/FilterBar';
-import { convertQueryParams } from 'components/store/catalog/helpers';
+import {
+  onLocationChange,
+  setPriceRange,
+} from 'components/store/catalog/helpers';
 import variants from 'components/store/lib/variants';
 import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  fetchBrands,
-  fetchCategories,
-  fetchColors,
-  fetchPriceRange,
-  fetchProducts,
-} from 'redux/slicers/store/catalogSlicer';
-import { TFilters } from 'redux/types';
+import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
+import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
 import ProductGrid from 'ui-kit/products/productGrid';
 
 const CatalogPage = () => {
-  const router = useRouter();
-  const products = useAppSelector((state) => state.catalog.products);
-  const categories = useAppSelector((state) => state.catalog.categories);
-  const brands = useAppSelector((state) => state.catalog.brands);
-  const colors = useAppSelector((state) => state.catalog.colors);
-  const priceRange = useAppSelector((state) => state.catalog.priceRange);
+  const [curLocation, setCurLocation] = useState('');
+  const { products, categories, subCategories, brands, colors, priceRange } =
+    useAppSelector<TCatalogState>((state) => state.catalog);
   const dispatch = useAppDispatch();
 
+  const handleLocationChange = onLocationChange(
+    curLocation,
+    dispatch,
+    setCurLocation,
+  );
+
   useEffect(() => {
-    dispatch(fetchCategories());
-    dispatch(fetchBrands());
-    dispatch(fetchColors());
+    window.addEventListener('locationChange', handleLocationChange);
+    setPriceRange(dispatch);
+    (async () => {
+      await dispatch(fetchParentCategories());
+      await handleLocationChange();
+    })();
+
+    return () => {
+      window.removeEventListener('locationChange', handleLocationChange);
+    };
   }, []);
-
-  useEffect(() => {
-    const { categories } = convertQueryParams(router.query);
-    const payload: TFilters = {
-      categories,
-    };
-
-    dispatch(fetchPriceRange(payload));
-  }, [router.query.categories]);
-
-  useEffect(() => {
-    const { minPrice, maxPrice } = router.query;
-    const { categories, brands, colors } = convertQueryParams(router.query);
-    const payload: TFilters = {
-      categories,
-      brands,
-      colors,
-      minPrice: minPrice ? Number(minPrice) : undefined,
-      maxPrice: maxPrice ? Number(maxPrice) : undefined,
-    };
-
-    dispatch(fetchProducts(payload));
-  }, [router.query]);
 
   return (
     <Container
@@ -69,12 +53,21 @@ const CatalogPage = () => {
       <Wrapper>
         <FilterBar
           categories={categories}
+          subCategories={subCategories}
           brands={brands}
           colors={colors}
           priceRange={priceRange}
         />
         <Content>
-          <CategoryTitle>Кальяны</CategoryTitle>
+          <CategoryTitle
+            custom={0.1}
+            initial="init"
+            animate="animate"
+            exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
+            variants={variants.fadInSlideUp}
+          >
+            Кальяны
+          </CategoryTitle>
           <Products>
             <ProductGrid
               gridStyle={{
@@ -82,6 +75,7 @@ const CatalogPage = () => {
                 columnGap: '53px',
               }}
               products={products}
+              emptyProductsTitle={'По вашему запросу ничего не найдено.'}
             />
           </Products>
         </Content>
@@ -97,9 +91,10 @@ const Content = styled.div`
   margin-left: 41px;
 `;
 
-const CategoryTitle = styled.h1`
+const CategoryTitle = styled(motion.h1)`
   font-size: 28px;
   font-weight: bold;
+  margin-bottom: 10px;
 `;
 
 const Products = styled.div`

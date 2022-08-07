@@ -9,14 +9,14 @@
   font-display: swap;
 }
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
   font-family: 'Roboto', sans-serif;
 }
 
@@ -24,6 +24,8 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
+  /* scroll-behavior: smooth; */
+  overflow-x: hidden;
 }
 
 a {
@@ -46,6 +48,15 @@ input:focus {
 button {
   border: none;
   background: transparent;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }
 
 /* custom scroll bar */
@@ -100,3 +111,6 @@ button {
   top: 0px;
 }
 
+.ant-carousel .slick-list .slick-slide>div>div {
+  text-align: center;
+}

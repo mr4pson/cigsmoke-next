@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Btns, Container, Content, Wrapper } from './common';
-import AuthComp from './utils/HeaderAuth';
+import AuthComp from './utils/HeaderAuth/index';
 import HeaderCart from './utils/HeaderCart';
 import SearchBar from './utils/SearchBar/SearchBar';
 import variants from '../lib/variants';
@@ -12,7 +12,7 @@ import Pointer from '../../../assets/pointer.svg';
 import LogoSVG from '../../../assets/logo.svg';
 import Order from '../../../assets/order.svg';
 import WishList from '../../../assets/wishlist.svg';
-import HeaderCatalog from './utils/HeaderCatalog';
+import HeaderCatalog from './utils/HeaderCatalog/index';
 
 const Header = () => {
   return (

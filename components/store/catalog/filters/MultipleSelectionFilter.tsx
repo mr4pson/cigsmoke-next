@@ -1,6 +1,7 @@
 import FilterCheckbox from '../../../../ui-kit/FilterCheckbox';
 import { FilterOption } from '../../../../ui-kit/FilterCheckbox/types';
 import { Filter, FilterBody, FilterTitle } from '../common';
+import variants from '../../lib/variants';
 
 type Props = {
   title: string;
@@ -23,8 +24,22 @@ const MultipleSelectionFilter: React.FC<Props> = ({
 
   return (
     <Filter>
-      <FilterTitle>{title}</FilterTitle>
-      <FilterBody>
+      <FilterTitle
+        custom={0.1}
+        initial="init"
+        animate="animate"
+        exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
+        variants={variants.fadInSlideUp}
+      >
+        {title}
+      </FilterTitle>
+      <FilterBody
+        custom={0.2}
+        initial="init"
+        animate="animate"
+        exit={{ y: -80, opacity: 0, transition: { delay: 0.2 } }}
+        variants={variants.fadInSlideUp}
+      >
         {options?.map((option) => (
           <FilterCheckbox
             style={{ marginBottom: '5px' }}

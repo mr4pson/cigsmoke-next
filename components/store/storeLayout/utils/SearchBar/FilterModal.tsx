@@ -2,31 +2,32 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
+import { Dispatch, SetStateAction } from 'react';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { useAppSelector } from 'redux/hooks';
+import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
-import { Category } from 'swagger/services';
+import { Category, CategoryInTree } from 'swagger/services';
 import CloseSVG from '../../../../../assets/close_black.svg';
+import { PopupDisplay } from '../HeaderCart/constants';
 import { handleClickOutside } from '../HeaderCart/helpers';
 
 type Props = {
   isOpened: boolean;
   display: string;
-  setSelected: any;
-  setIsOpened: any;
-  setDisplay: any;
+  setSelectedCategory: Dispatch<SetStateAction<CategoryInTree | undefined>>;
+  setIsOpened: Dispatch<SetStateAction<boolean>>;
+  setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
 };
 
 const FilterModal: React.FC<Props> = ({
   isOpened,
   display,
-  setSelected,
+  setSelectedCategory,
   setIsOpened,
   setDisplay,
 }) => {
-  const categories: Category[] = useAppSelector(
-    (state) => state.global.categories,
-  );
+  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
 
   const ref = useDetectClickOutside({
     onTriggered: handleClickOutside(isOpened, setIsOpened, setDisplay),
@@ -35,14 +36,13 @@ const FilterModal: React.FC<Props> = ({
   const handleClose = (e) => {
     e.preventDefault();
     setIsOpened(false);
-    setTimeout(() => setDisplay('none'), 150);
+    setTimeout(() => setDisplay(PopupDisplay.None), 150);
   };
 
-  const handleSelect = (category: Category) => () => {
-    // setSelected(`${category.name?.slice(0, 5)}..`);
-    setSelected(category);
+  const handleSelect = (category: CategoryInTree) => () => {
+    setSelectedCategory(category);
     setIsOpened(false);
-    setTimeout(() => setDisplay('none'), 150);
+    setTimeout(() => setDisplay(PopupDisplay.None), 150);
   };
 
   return (
