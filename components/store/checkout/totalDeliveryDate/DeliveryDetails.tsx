@@ -1,0 +1,37 @@
+import styled from 'styled-components';
+import ProductDetails from './ProductDetails';
+import UserDetails from './UserDetails';
+import color from 'components/store/lib/ui.colors';
+import { Wrapper } from './common';
+
+const DeliveryDetails = (props: any) => {
+  return (
+    <Container>
+      <h3 className="header-delivery">ДОСТАВКА Wuluxe</h3>
+      <Wrapper>
+        <UserDetails {...props} />
+      </Wrapper>
+      <ProductDetails />
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 30px;
+  .header-delivery {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: 'intro';
+    color: ${color.textSecondary};
+  }
+`;
+
+export default DeliveryDetails;

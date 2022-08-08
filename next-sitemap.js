@@ -15,6 +15,15 @@ module.exports = {
       },
       {
         userAgent: '*',
+        disallow: '/checkout',
+      },
+      {
+        userAgent: '*',
+        disallow: '/checkout/*',
+      },
+
+      {
+        userAgent: '*',
         allow: '/',
       },
     ],
@@ -23,5 +32,5 @@ module.exports = {
       `${siteUrl}/server-sitemap.xml`,
     ],
   },
-  exclude: ['/admin', '/admin/*'],
+  exclude: ['/admin', '/admin/*', '/checkout', '/checkout/*'],
 };
