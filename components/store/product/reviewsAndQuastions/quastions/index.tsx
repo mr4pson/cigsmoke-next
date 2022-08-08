@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import Quastion from './quastions';
+import Quastion from './Quastions';
 import AuthorizeQuastionBtn from '../AuthorizeBtn';
 import AskQuastion from './askQuastion';
 const Quastions = () => {
