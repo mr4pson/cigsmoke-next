@@ -30,7 +30,7 @@ const Authorize = (props: any) => {
             whileInView="animate"
             variants={variants.fadInSlideUp}
           >
-            <h3>Cigsmoke</h3>
+            <h3>Wuluxe</h3>
             <h4>Войдите или зарегистрируйтесь для оформления заказа</h4>
             <span>
               Для регистрации мы вышлем вам ссылку для подтверждения на ваш

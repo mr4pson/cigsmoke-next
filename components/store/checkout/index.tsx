@@ -1,19 +1,15 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import color from '../lib/ui.colors';
-import variants from '../lib/variants';
 import Header from './Header';
-import Footer from './Footer';
 import Authorize from './authorize';
 import UserData from './userdata';
-import DeliveryDetails from './deliverDetails';
-import TotalDetails from './TotalDetails';
+import TotalDeleveryDate from './totalDeliveryDate';
 
 const CheckoutContent = () => {
   const [isAuthorized, setAuthorized] = useState(false);
-  const [hasAddress, setAddress] = useState(false);
+  const [hasAddress, setHasAddress] = useState(false);
+  const [backToFinal, setBacktoFinal] = useState(false);
   const [step, setStep] = useState(0);
+
   return (
     <>
       <Header step={step} setStep={setStep} />
@@ -23,16 +19,19 @@ const CheckoutContent = () => {
           step={step}
           setStep={setStep}
         />
-      ) : step == 1 && isAuthorized ? (
-        <UserData step={step} setStep={setStep} />
+      ) : step == 1 && isAuthorized && !hasAddress ? (
+        <UserData
+          setStep={setStep}
+          backToFinal={backToFinal}
+          setHasAddress={setHasAddress}
+        />
       ) : (
-        <>
-          <DeliveryDetails />
-          <TotalDetails />
-        </>
+        <TotalDeleveryDate
+          setHasAddress={setHasAddress}
+          setStep={setStep}
+          setBacktoFinal={setBacktoFinal}
+        />
       )}
-
-      <Footer />
     </>
   );
 };

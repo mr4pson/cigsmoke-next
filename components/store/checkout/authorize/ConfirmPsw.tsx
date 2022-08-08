@@ -12,7 +12,8 @@ import {
   FormWrapper,
   ConfidentialityWrapper,
 } from './common';
-import { AuthTooltip, handleSignUp } from './helpers';
+import { handleSignUp } from './helpers';
+import { InputsTooltip } from '../helpers';
 import PswShow from '../../../../assets/pswshow.svg';
 import PswHide from '../../../../assets/pswhide.svg';
 import { paginateTo } from '../constant';
@@ -61,7 +62,7 @@ const ConfirmPsw = (props: any) => {
               <span>Пароль</span>
               <span className="required">*</span>
             </b>
-            <AuthTooltip
+            <InputsTooltip
               key="psw-tip"
               title={
                 <React.Fragment>
@@ -76,7 +77,7 @@ const ConfirmPsw = (props: any) => {
               }
             >
               <span className="tool-tip">?</span>
-            </AuthTooltip>
+            </InputsTooltip>
             <span>{isCap ? 'Капслок включен' : ''}</span>
           </label>
           <AuthInput
@@ -137,7 +138,7 @@ const ConfirmPsw = (props: any) => {
               <span>Повторите пароль</span>
               <span className="required">*</span>
             </b>
-            <AuthTooltip
+            <InputsTooltip
               key="psw-tip"
               title={
                 <React.Fragment>
@@ -149,7 +150,7 @@ const ConfirmPsw = (props: any) => {
               }
             >
               <span className="tool-tip">?</span>
-            </AuthTooltip>
+            </InputsTooltip>
             <span style={{ color: color.hover, fontSize: '0.6rem' }}>
               {repeatPsw !== psw ? 'пароль не подходит' : ''}
             </span>

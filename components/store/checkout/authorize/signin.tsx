@@ -13,7 +13,8 @@ import {
   FormWrapper,
   ConfidentialityWrapper,
 } from './common';
-import { handleBack, AuthTooltip, handleSignIn } from './helpers';
+import { handleBack, handleSignIn } from './helpers';
+import { InputsTooltip } from '../helpers';
 import PswShow from '../../../../assets/pswshow.svg';
 import PswHide from '../../../../assets/pswhide.svg';
 import Link from 'next/link';
@@ -70,7 +71,7 @@ const SignIn = (props: any) => {
               <span>Логин</span>
               <span className="required">*</span>
             </b>
-            <AuthTooltip
+            <InputsTooltip
               key="email-tip"
               title={
                 <React.Fragment>
@@ -100,7 +101,7 @@ const SignIn = (props: any) => {
               >
                 ?
               </span>
-            </AuthTooltip>
+            </InputsTooltip>
             <span style={{ color: color.hover }}>
               {serverErr == 400 ? 'Неверный эл. адрес' : ''}
             </span>
@@ -135,7 +136,7 @@ const SignIn = (props: any) => {
               <span>Пароль</span>
               <span className="required">*</span>
             </b>
-            <AuthTooltip
+            <InputsTooltip
               key="psw-tip"
               title={
                 <React.Fragment>
@@ -145,7 +146,7 @@ const SignIn = (props: any) => {
               }
             >
               <span className="tool-tip">?</span>
-            </AuthTooltip>
+            </InputsTooltip>
             <span style={{ color: color.hover }}>
               {serverErr == 401 ? 'Неверный пароль' : ''}
             </span>

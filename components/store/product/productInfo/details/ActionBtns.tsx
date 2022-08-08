@@ -11,6 +11,7 @@ import { OrderProduct, Product } from 'swagger/services';
 import ItemCounter from 'ui-kit/ItemCounter';
 import SwitchBtn from './SwitchBtn';
 import React from 'react';
+import Link from 'next/link';
 
 type Props = {
   orderProduct?: OrderProduct;
@@ -77,12 +78,40 @@ const ActionBtns: React.FC<Props> = ({
         />
       </ActionBtnsWrapper>
       {!!orderProduct && (
-        <ItemCounter
-          qty={orderProduct?.qty!}
-          product={orderProduct?.product!}
-          onCountChange={onCountChange}
-        />
+        <CounterAndGotoCartWrapper
+          animate={isInCart ? 'animate' : 'exit'}
+          variants={variants.fadeInSlideIn}
+        >
+          <ItemCounter
+            qty={orderProduct?.qty!}
+            product={orderProduct?.product!}
+            onCountChange={onCountChange}
+          />
+
+          <Link href="/cart">
+            <a>
+              <ActionBtn
+                whileHover="hover"
+                whileTap="tap"
+                variants={variants.boxShadow}
+              >
+                <span>Перейти в корзине</span>
+              </ActionBtn>
+            </a>
+          </Link>
+        </CounterAndGotoCartWrapper>
       )}
+      <Link href="/checkout">
+        <a style={{ justifySelf: 'flex-end' }}>
+          <ActionBtn
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.boxShadow}
+          >
+            Купить в один клик
+          </ActionBtn>
+        </a>
+      </Link>
     </UserSelectWrapper>
   );
 };
@@ -94,6 +123,30 @@ const ActionBtnsWrapper = styled(motion.div)`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+`;
+
+const CounterAndGotoCartWrapper = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  a {
+    width: 170px;
+    justify-self: flex-end;
+  }
+`;
+
+const ActionBtn = styled(motion.button)`
+  width: 100%;
+  height: 45px;
+  background: ${color.btnPrimary};
+  color: ${color.textPrimary};
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 `;
 
 export default ActionBtns;

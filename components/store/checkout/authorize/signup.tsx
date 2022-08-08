@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import isEmail from 'validator/lib/isEmail'; // docs: https://www.npmjs.com/package/validator
 import isEmpty from 'validator/lib/isEmpty';
 import color from '../../lib/ui.colors';
@@ -12,13 +12,12 @@ import {
   AuthInputsWrapper,
   FormWrapper,
 } from './common';
-import { AuthTooltip } from './helpers';
+import { InputsTooltip } from '../helpers';
 import { paginateTo } from '../constant';
 import ConfirmPsw from './ConfirmPsw';
 
 const SignUp = (props: any) => {
-  const { direction, authType, paginate, setLoading, serverErr, setServerErr } =
-    props;
+  const { direction, authType, paginate, serverErr, setServerErr } = props;
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [lastName, setlastName] = useState('');
@@ -45,7 +44,7 @@ const SignUp = (props: any) => {
                   <span>Имя</span>
                   <span className="required">*</span>
                 </b>
-                <AuthTooltip
+                <InputsTooltip
                   key="name-tip"
                   title={
                     <React.Fragment>
@@ -55,7 +54,7 @@ const SignUp = (props: any) => {
                   }
                 >
                   <span className="tool-tip">?</span>
-                </AuthTooltip>
+                </InputsTooltip>
               </label>
               <AuthInput
                 whileHover="hover"
@@ -89,7 +88,7 @@ const SignUp = (props: any) => {
                   <span>Фамилия</span>
                   <span className="required">*</span>
                 </b>
-                <AuthTooltip
+                <InputsTooltip
                   key="lastName-tip"
                   title={
                     <React.Fragment>
@@ -99,7 +98,7 @@ const SignUp = (props: any) => {
                   }
                 >
                   <span className="tool-tip">?</span>
-                </AuthTooltip>
+                </InputsTooltip>
               </label>
               <AuthInput
                 whileHover="hover"
@@ -138,7 +137,7 @@ const SignUp = (props: any) => {
                 <span>Эл. адрес</span>
                 <span className="required">*</span>
               </b>
-              <AuthTooltip
+              <InputsTooltip
                 key="email-tip"
                 title={
                   <React.Fragment>
@@ -151,7 +150,7 @@ const SignUp = (props: any) => {
                 }
               >
                 <span className="tool-tip">?</span>
-              </AuthTooltip>
+              </InputsTooltip>
               <span style={{ color: color.hover }}>
                 {serverErr == 409 ? 'Уже зарегистрирован' : ''}
               </span>

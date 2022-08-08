@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import { styled } from '@mui/material/styles';
-import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-import color from 'components/store/lib/ui.colors';
 import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
 import { paginateTo } from '../constant';
@@ -38,27 +35,6 @@ const UsePagination = () => {
 
   return [direction, authType, paginate];
 };
-
-const AuthTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: color.textPrimary,
-    color: color.btnPrimary,
-    maxWidth: 200,
-    fontSize: theme.typography.pxToRem(14),
-    fontFamily: 'intro',
-    boxShadow: `0px 2px 6px ${color.boxShadowBtn}`,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    gap: '10px',
-    borderRadius: '15px',
-    padding: '15px',
-    userSelect: 'none',
-  },
-}));
 
 const handleBack = (paginate, emailErr, pswErr, serverErr) => {
   paginate(paginateTo.back, 'selection');
@@ -153,4 +129,4 @@ const handleSignUp = ({
   }
 };
 
-export { UsePagination, handleBack, AuthTooltip, handleSignIn, handleSignUp };
+export { UsePagination, handleBack, handleSignIn, handleSignUp };
