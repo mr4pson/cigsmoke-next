@@ -1,0 +1,9 @@
+.analyticsHeader {
+    display: flex;
+    flex-wrap: wrap;
+    &__title {
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 2rem;
+    }
+}

@@ -16,11 +16,11 @@ const columns: ColumnsType<Category> = [
     render: (_, record) => {
       return (
         <Image
-          className={styles.image}
           src={`/api/images/${record?.image}`}
+          className={styles.image}
           onError={({ currentTarget }) => {
             currentTarget.onerror = null;
-            currentTarget.src = '/assets/images/no_photo.png';
+            currentTarget.src = '/assets/images/img_error.png';
           }}
         />
       );

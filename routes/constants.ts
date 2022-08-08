@@ -23,6 +23,11 @@ export enum Page {
   ADMIN_EDIT_TAG,
   ADMIN_REVIEWS,
   ADMIN_CHECKOUTS,
+  ADMIN_ANALYTICS_CATEGORIES,
+  ADMIN_ANALYTICS_BRANDS,
+  ADMIN_ANALYTICS_PRODUCTS,
+  ADMIN_ANALYTICS_USERS,
+  ADMIN_ANALYTICS_DYNAMIC,
 }
 
 export const paths = {
@@ -48,6 +53,9 @@ export const paths = {
   [Page.ADMIN_EDIT_TAG]: '/admin/tags/[id]',
   [Page.ADMIN_REVIEWS]: '/admin/reviews',
   [Page.ADMIN_CHECKOUTS]: '/admin/checkouts',
+  [Page.ADMIN_ANALYTICS_CATEGORIES]: '/admin/analytics/categories',
+  [Page.ADMIN_ANALYTICS_BRANDS]: '/admin/analytics/brands',
+  [Page.ADMIN_ANALYTICS_PRODUCTS]: '/admin/analytics/products',
+  [Page.ADMIN_ANALYTICS_USERS]: '/admin/analytics/users',
+  [Page.ADMIN_ANALYTICS_DYNAMIC]: '/admin/analytics/dynamic',
 };
-
-//

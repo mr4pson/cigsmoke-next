@@ -35,6 +35,10 @@ export const columns: ColumnsType<Product> = [
                       <Image
                         className={styles.productsTable__contentStyle}
                         src={`/api/images/${image.trim()}`}
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null;
+                          currentTarget.src = '/assets/images/img_error.png';
+                        }}
                       />
                     </div>
                   );

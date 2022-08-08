@@ -1,3 +1,4 @@
+import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData, DynamicUsersData } from 'common/interfaces/data-analytics.interfaces';
 import {
   Basket,
   Brand,
@@ -124,6 +125,17 @@ type TCheckoutState = {
   saveLoading: boolean;
 };
 
+type TAnalyticsState = {
+  analyticsData: DynamicData[] | 
+  AnalyticsCategory[] | 
+  AnalyticsBrand[] | 
+  AnalyticsProduct[] | 
+  AnalyticsUser[],
+  usersData: DynamicUsersData | {},
+  loading: boolean,
+}
+
+
 type TProductInfoState = {
   product?: Product;
   loading: boolean;
@@ -146,4 +158,5 @@ export type {
   TCatalogState,
   TCheckoutState,
   TProductInfoState,
+  TAnalyticsState
 };

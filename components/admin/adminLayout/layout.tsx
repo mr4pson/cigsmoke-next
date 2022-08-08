@@ -1,12 +1,14 @@
 import { Breadcrumb, Button, Layout, Menu } from 'antd';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { User } from 'swagger/services';
 import { items } from './constants';
 import {
   currentPath,
   getSelectedKeys,
+  handleGetSecondHref,
   handleLogout,
   handleSelect,
 } from './helpers';
@@ -24,9 +26,12 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
   const [collapsed, setCollapsed] = useState(true);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   console.log(router.pathname.substring(1).split('/'));
-  // }, [router]);
+  useEffect(() => {
+    // console.log(router);
+    // console.log(router.pathname.substring(1).split('/'));
+  }, [router]);
+
+  const backRef: string = handleGetSecondHref(router);
 
   return (
     <>
@@ -60,9 +65,19 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
           </Header>
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Администрирование</Breadcrumb.Item>
-              <Breadcrumb.Item>{currentPath(router, 1)}</Breadcrumb.Item>
-              <Breadcrumb.Item>{currentPath(router, 2)}</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link href="/admin">
+                  <a>Администрирование</a>
+                </Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link href={backRef}>
+                  <a>{currentPath(router, 1)}</a>
+                </Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <a>{currentPath(router, 2)}</a>
+              </Breadcrumb.Item>
             </Breadcrumb>
             <div className={styles['site-layout__content']}>{children}</div>
           </Content>

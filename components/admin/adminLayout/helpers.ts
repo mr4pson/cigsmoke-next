@@ -54,3 +54,14 @@ export const handleLogout = (router: NextRouter, dispatch: AppDispatch) => async
   await dispatch(signout());
   navigateTo(router, Page.ADMIN_LOGIN)();
 }
+
+export const handleGetSecondHref = (router: NextRouter): string => {
+    const refArr = router.pathname.split('/');
+    const lastElement = refArr[refArr.length - 2]
+    if (refArr.length >= 4 && lastElement !== "analytics") {
+      refArr.splice(3);
+      return refArr.join('/');
+    } else {
+      return router.pathname;
+    }
+}
