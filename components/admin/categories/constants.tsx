@@ -15,7 +15,14 @@ const columns: ColumnsType<Category> = [
     dataIndex: 'image',
     render: (_, record) => {
       return (
-        <Image src={`/api/images/${record?.image}`} className={styles.image} />
+        <Image
+          className={styles.image}
+          src={`/api/images/${record?.image}`}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = '/assets/images/no_photo.png';
+          }}
+        />
       );
     },
   },

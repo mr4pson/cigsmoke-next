@@ -1,81 +1,41 @@
-import { getQueryParams } from 'common/helpers/manageQueryParams.helper';
 import FilterBar from 'components/store/catalog/FilterBar';
-import { convertQueryParams } from 'components/store/catalog/helpers';
+import {
+  onLocationChange,
+  setPriceRange,
+} from 'components/store/catalog/helpers';
 import variants from 'components/store/lib/variants';
 import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  fetchBrands,
-  fetchParentCategories,
-  fetchColors,
-  fetchPriceRange,
-  fetchProducts,
-  fetchSubCategories,
-} from 'redux/slicers/store/catalogSlicer';
-import { TCatalogState, TFilters } from 'redux/types';
+import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
+import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
 import ProductGrid from 'ui-kit/products/productGrid';
 
 const CatalogPage = () => {
-  const router = useRouter();
-  const [curCategories, setCurCategories] = useState(router.query.categories);
+  const [curLocation, setCurLocation] = useState('');
   const { products, categories, subCategories, brands, colors, priceRange } =
     useAppSelector<TCatalogState>((state) => state.catalog);
   const dispatch = useAppDispatch();
 
-  const setPriceRange = () => {
-    const queryParams = getQueryParams();
-    const { categories, subCategories } = convertQueryParams(queryParams);
-    const payload = {
-      parent: categories ? categories[0] : undefined,
-      categories: subCategories,
-    };
-
-    dispatch(fetchPriceRange(payload));
-  };
-
-  const onLocationChange = () => {
-    const queryParams = getQueryParams();
-    const { minPrice, maxPrice, name } = queryParams;
-    const { categories, subCategories, brands, colors } =
-      convertQueryParams(queryParams);
-    const payload = {
-      brands,
-      colors,
-      name,
-      parent: categories ? categories[0] : undefined,
-      categories: subCategories,
-      minPrice: minPrice ? Number(minPrice) : undefined,
-      maxPrice: maxPrice ? Number(maxPrice) : undefined,
-    };
-
-    dispatch(fetchProducts(payload));
-
-    if (JSON.stringify(categories) !== JSON.stringify(curCategories)) {
-      setCurCategories(categories);
-      setPriceRange();
-      if (categories) {
-        dispatch(fetchSubCategories(categories[0]));
-      }
-    }
-  };
+  const handleLocationChange = onLocationChange(
+    curLocation,
+    dispatch,
+    setCurLocation,
+  );
 
   useEffect(() => {
-    window.addEventListener('locationChange', onLocationChange);
-    setPriceRange();
+    window.addEventListener('locationChange', handleLocationChange);
+    setPriceRange(dispatch);
     (async () => {
       await dispatch(fetchParentCategories());
-      await dispatch(fetchBrands());
-      await dispatch(fetchColors());
-      onLocationChange();
+      await handleLocationChange();
     })();
 
     return () => {
-      window.removeEventListener('locationChange', onLocationChange);
+      window.removeEventListener('locationChange', handleLocationChange);
     };
   }, []);
 

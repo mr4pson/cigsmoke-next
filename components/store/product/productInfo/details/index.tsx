@@ -86,7 +86,7 @@ const Details: React.FC<Props> = ({
             exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
             variants={variants.fadInSlideUp}
           >
-            <Rating value={5} size="small" readOnly />
+            <Rating value={product?.rating?.avg} size="small" readOnly />
 
             <span
               onClick={() => {
@@ -94,7 +94,7 @@ const Details: React.FC<Props> = ({
                 reviewRef.current.scrollIntoView();
               }}
             >
-              <span>148 Отзывы</span>
+              <span>{product?.reviews?.length ?? 0} Отзывов</span>
             </span>
           </ConvoWrappers>
           <ConvoWrappers
@@ -146,7 +146,10 @@ const Details: React.FC<Props> = ({
         onWishBtnClick={handleWishBtnClick(product, dispatch, wishlist)}
         onCountChange={onCountChange}
       />
-      <DropDowns description={product?.desc} />
+      <DropDowns
+        parameterProducts={product?.parameterProducts}
+        description={product?.desc}
+      />
     </DetailsContainer>
   );
 };

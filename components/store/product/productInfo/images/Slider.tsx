@@ -65,6 +65,10 @@ const Slider: React.FC<Props> = ({
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={1}
           onDragEnd={handleDragEnd(page, SWIPE_CONFIDENCE_THRESHOLD, setPage)}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = '/assets/images/no_photo.png';
+          }}
         />
       </AnimatePresence>
     </SliderWrapper>

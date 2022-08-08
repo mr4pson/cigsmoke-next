@@ -30,6 +30,7 @@ const ManageProduct = () => {
 
   const colors = useAppSelector((state) => state.colors.colors);
   const categories = useAppSelector((state) => state.categories.categories);
+  const filteredCategories = categories.filter((category) => !!category.parent);
   const brands = useAppSelector((state) => state.brands.brands);
   const tags = useAppSelector((state) => state.tags.tags);
 
@@ -60,7 +61,7 @@ const ManageProduct = () => {
     <ManageProductForm
       tags={tags}
       brands={brands}
-      categories={categories}
+      categories={filteredCategories}
       colors={colors}
       title={title}
       editMode={true}

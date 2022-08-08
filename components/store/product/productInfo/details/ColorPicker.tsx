@@ -50,8 +50,11 @@ const ColorPicker: React.FC<Props> = ({
       >
         <ColorWrapper>
           <span>Цвета:</span>
-          {colors.map((color) => (
-            <ColorItem backgroundColor={color.code!} />
+          {colors.map((color, index) => (
+            <ColorItem
+              key={`color-item-${index}`}
+              backgroundColor={color.code!}
+            />
           ))}
         </ColorWrapper>
       </ColorPickerNameWrapper>
@@ -59,7 +62,7 @@ const ColorPicker: React.FC<Props> = ({
         {images.map((image, index) => {
           return (
             <ImageTooltip
-              key={index}
+              key={`image-item-${index}`}
               title={
                 <React.Fragment>
                   <img

@@ -55,7 +55,8 @@ export const createCategory = createAsyncThunk<
           image: payload.image,
           url: payload.url,
           parentId: payload.parent,
-        }
+          parameters: payload.parameters,
+        },
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -72,12 +73,14 @@ export const editCategory = createAsyncThunk<
   async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
     try {
       return await CategoryService.updateCategory({
-        categoryId: payload.id as string, body: {
+        categoryId: payload.id as string,
+        body: {
           name: payload.name,
           url: payload.url,
           image: payload.image,
           parentId: payload.parent,
-        }
+          parameters: payload.parameters,
+        },
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -122,37 +125,28 @@ const categoriesSlicer = createSlice({
     builder
       //fetchCategories
       .addCase(fetchCategories.pending, handlePending)
-      .addCase(
-        fetchCategories.fulfilled,
-        (state, action) => {
-          state.categories = action.payload.rows;
-          // console.log(state.categories);
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
+      .addCase(fetchCategories.fulfilled, (state, action) => {
+        state.categories = action.payload.rows;
+        // console.log(state.categories);
+        state.loading = false;
+        console.log('fulfilled');
+      })
       .addCase(fetchCategories.rejected, handleError)
       //fetchCategory
       .addCase(fetchCategory.pending, handlePending)
-      .addCase(
-        fetchCategory.fulfilled,
-        (state, action) => {
-          state.category = action.payload;
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
+      .addCase(fetchCategory.fulfilled, (state, action) => {
+        state.category = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
       .addCase(fetchCategory.rejected, handleError)
       //createCategory
       .addCase(createCategory.pending, handleChangePending)
-      .addCase(
-        createCategory.fulfilled,
-        (state) => {
-          state.saveLoading = false;
-          openSuccessNotification('Категория успешно создана');
-          console.log('fulfilled');
-        },
-      )
+      .addCase(createCategory.fulfilled, (state) => {
+        state.saveLoading = false;
+        openSuccessNotification('Категория успешно создана');
+        console.log('fulfilled');
+      })
       .addCase(createCategory.rejected, handleChangeError)
       //editCategory
       .addCase(editCategory.pending, handleChangePending)

@@ -55,7 +55,7 @@ const FilterBar: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    const filters = convertQueryParams(getQueryParams());
+    const filters = convertQueryParams(getQueryParams(window.location.search));
     setFiltersConfig(
       getFiltersConfig({
         categories,

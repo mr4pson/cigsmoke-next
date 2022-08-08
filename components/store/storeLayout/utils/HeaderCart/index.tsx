@@ -5,14 +5,18 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styled from 'styled-components';
-import { Basket, Product } from 'swagger/services';
+import { Basket } from 'swagger/services';
 import CartSVG from '../../../../../assets/cart.svg';
 import { Btns } from '../../common';
 import CartItem from './CartItem';
 import { useDetectClickOutside } from 'react-detect-click-outside';
-import { handleCartBtnClick, handleClickOutside } from './helpers';
+import {
+  handleCartBtnClick,
+  handleClickOutside,
+  handleItemCountChange,
+  handleItemRemove,
+} from './helpers';
 import { PopupDisplay } from './constants';
-import { updateCart } from 'redux/slicers/store/cartSlicer';
 
 const HeaderCart = () => {
   const dispatch = useAppDispatch();
@@ -23,33 +27,6 @@ const HeaderCart = () => {
   const ref = useDetectClickOutside({
     onTriggered: handleClickOutside(isOpen, setIsOpen, setDisplay),
   });
-
-  const handleItemRemove = (product: Product) => {
-    dispatch(
-      updateCart({
-        orderProducts: cart?.orderProducts
-          ?.filter((orderProduct) => orderProduct.product?.id != product.id)
-          .map((orderProduct) => ({
-            productId: orderProduct.product?.id?.toString(),
-            qty: orderProduct.qty,
-          })),
-      }),
-    );
-  };
-
-  const handleItemCountChange = (counter: number, product: Product) => {
-    dispatch(
-      updateCart({
-        orderProducts: cart?.orderProducts
-          ?.filter((orderProduct) => orderProduct.product?.id != product.id)
-          ?.concat({ product: { id: product.id }, qty: counter })
-          .map((orderProduct) => ({
-            productId: orderProduct.product?.id,
-            qty: orderProduct.qty,
-          })),
-      }),
-    );
-  };
 
   return (
     <>
@@ -78,8 +55,8 @@ const HeaderCart = () => {
                   <CartItem
                     key={`cart-item-${index}`}
                     item={item}
-                    onRemove={handleItemRemove}
-                    onCountChange={handleItemCountChange}
+                    onRemove={handleItemRemove(dispatch, cart)}
+                    onCountChange={handleItemCountChange(dispatch, cart)}
                   />
                 );
               })}

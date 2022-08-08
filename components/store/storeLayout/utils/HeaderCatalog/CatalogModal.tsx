@@ -1,12 +1,24 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import axios from 'axios';
 import Arrow from '../../../../../assets/arrow.svg';
+import { useDetectClickOutside } from 'react-detect-click-outside';
+import { PopupDisplay } from '../HeaderCart/constants';
+import { handleClickOutside } from '../HeaderCart/helpers';
+import { TGlobalState } from 'redux/types';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { CategoryInTree } from 'swagger/services';
+import { fetchBrands } from 'redux/slicers/store/globalSlicer';
+import {
+  handleBrandClick,
+  handleCategoryHover,
+  handleSubCategoryHover,
+} from './helpers';
 
 interface props {
   font_size?: string;
@@ -14,76 +26,58 @@ interface props {
   padding?: string;
   bg_color?: string;
 }
-const fake_data = [
-  { icon: 'hookah', catName: 'Кальяны' },
-  { icon: 'glass', catName: 'Стеклянные курительные трубки' },
-  { icon: 'vape', catName: 'Электронные сигареты' },
-  { icon: 'liquad', catName: 'Солевая жидкость' },
-  { icon: 'holder', catName: 'Пепельницы' },
-  { icon: 'cigar', catName: 'Табак' },
-];
-const CatalogModal = (props: any) => {
-  const [data, setData] = useState([]);
-  const [sub_menu, set_sub_menu] = useState('electronics');
-  const [sub_data, set_sub_data] = useState([]);
+
+type Props = {
+  display: PopupDisplay;
+  isOpened: boolean;
+  setIsOpened: Dispatch<SetStateAction<boolean>>;
+  setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
+};
+const CatalogModal: React.FC<Props> = ({
+  display,
+  isOpened,
+  setIsOpened,
+  setDisplay,
+}) => {
+  const dispatch = useAppDispatch();
+  const [curCategory, setCurCategory] = useState<CategoryInTree>();
+  const [curSubCategory, setCurSubCategory] = useState<CategoryInTree>();
+  const { categories, brands } = useAppSelector<TGlobalState>(
+    (state) => state.global,
+  );
 
   useEffect(() => {
-    let trimed = sub_menu.trim();
-    axios
-      .get(`https://fakestoreapi.com/products/category/${trimed}`)
-      .then((res) => {
-        set_sub_data(res.data);
-      });
-  }, [sub_menu]);
+    dispatch(fetchBrands({ parent: curCategory?.url }));
+  }, [curCategory]);
 
-  useEffect(() => {
-    axios
-      .get('https://fakestoreapi.com/products/categories')
-      .then((res) => setData(res.data));
-    axios
-      .get('https://fakestoreapi.com/products/category/jewelery')
-      .then((res) => {
-        set_sub_data(res.data);
-      });
-    const body: any = document.getElementById('__next');
-    body.addEventListener('click', (event: any) => {
-      const category_wrapper: any = document.getElementById('category-wrapper');
-      const category_btn: any = document.getElementById('category-btn');
-      if (
-        event.target !== category_wrapper &&
-        !category_wrapper.contains(event.target) &&
-        event.target !== category_btn &&
-        !category_btn.contains(event.target)
-      ) {
-        props.setOpen(false);
-        setTimeout(() => props.setDisplay('none'), 150);
-      }
-    });
+  const ref = useDetectClickOutside({
+    onTriggered: handleClickOutside(isOpened, setIsOpened, setDisplay),
+  });
 
-    return () => {
-      body.removeEventListener('click', () => console.log('removed'));
-    };
-  }, []);
   return (
-    <Wrapper
+    <PopupWrapper
       id="category-wrapper"
-      style={{ display: props.display }}
-      animate={props.isOpen ? 'open' : 'close'}
+      ref={ref}
+      style={{ display: display }}
+      animate={isOpened ? 'open' : 'close'}
       variants={variants.fadeInReveal}
     >
-      <Wrapper_grid>
-        <Wrapper_menu padding="0" bg_color={color.bgProduct}>
-          {data.map((item, index) => {
+      <WrapperGrid>
+        <WrapperMenu padding="0" bg_color={color.bgProduct}>
+          {categories.map((category, index) => {
             return (
-              <Link key={index} href="/">
+              <Link key={index} href={`/catalog?categories=${category.url}`}>
                 <a>
                   <AnimatePresence>
-                    <Row_flex
-                      onHoverStart={() => set_sub_menu(item)}
+                    <RowFlex
+                      onHoverStart={handleCategoryHover(
+                        category,
+                        setCurCategory,
+                      )}
                       key={index}
                       custom={index * 0.2}
                       initial={false}
-                      animate={props.isOpen ? 'animate' : 'exit'}
+                      animate={isOpened ? 'animate' : 'exit'}
                       variants={variants.fadInSlideUp}
                       font_size="1rem"
                       font_wight="600"
@@ -95,32 +89,40 @@ const CatalogModal = (props: any) => {
                       whileTap={{ scale: 1 }}
                     >
                       <Image
-                        src={`/static/temp/${fake_data[index].icon}.svg`}
+                        src={`/api/images/${category.image}`}
                         width="20"
                         height="20"
                       />
-                      <span id="main-category">{item}</span>
+                      <span id="main-category">{category.name}</span>
                       <span>
                         <Arrow />
                       </span>
-                    </Row_flex>
+                    </RowFlex>
                   </AnimatePresence>
                 </a>
               </Link>
             );
           })}
-        </Wrapper_menu>
-        <Wrapper_menu padding="20px 0" bg_color={color.textPrimary}>
-          {sub_data.map((item: any, index) => {
+        </WrapperMenu>
+        <WrapperMenu padding="20px 0" bg_color={color.textPrimary}>
+          {curCategory?.children!.map((subCategory, index) => {
             return (
-              <Link key={index} href="/">
+              <Link
+                key={index}
+                href={`/catalog?categories=${curCategory.url}&subCategories=${subCategory.url}`}
+              >
                 <a>
                   <AnimatePresence>
-                    <Row_flex
+                    <RowFlex
+                      onHoverStart={handleSubCategoryHover(
+                        subCategory,
+                        dispatch,
+                        setCurSubCategory,
+                      )}
                       key={index}
                       custom={index * 0.4}
                       initial={false}
-                      animate={props.isOpen ? 'animate' : 'exit'}
+                      animate={isOpened ? 'animate' : 'exit'}
                       variants={variants.fadInSlideUp}
                       font_size="0.875rem"
                       font_wight="400"
@@ -131,46 +133,54 @@ const CatalogModal = (props: any) => {
                       }}
                       whileTap={{ scale: 1 }}
                     >
-                      <span>{item.title}</span>
-                    </Row_flex>
+                      <span>{subCategory.name}</span>
+                    </RowFlex>
                   </AnimatePresence>
                 </a>
               </Link>
             );
           })}
-        </Wrapper_menu>
-        <Wrapper_brands>
-          {sub_data.map((item: any, index) => {
+        </WrapperMenu>
+        <WrapperBrands>
+          {brands.map((brand, index) => {
             return (
-              <Link key={index} href="/">
-                <AnimatePresence>
-                  <motion.a
-                    key={index}
-                    custom={index * 0.1}
-                    initial={false}
-                    animate={props.isOpen ? 'animate' : 'exit'}
-                    variants={variants.fadInSlideUp}
-                    whileHover={{
-                      scale: 1.05,
-                      transition: { duration: 0.2 },
-                    }}
-                    whileTap={{ scale: 1 }}
-                  >
-                    <li>
-                      <img src={item.image} />
-                    </li>
-                  </motion.a>
-                </AnimatePresence>
+              <Link
+                key={index}
+                href={`/catalog?categories=${curCategory?.url}&subCategories=${curSubCategory?.url}&brands=${brand.url}`}
+              >
+                <a>
+                  <AnimatePresence>
+                    <motion.a
+                      key={index}
+                      custom={index * 0.1}
+                      initial={false}
+                      animate={isOpened ? 'animate' : 'exit'}
+                      variants={variants.fadInSlideUp}
+                      whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.2 },
+                      }}
+                      whileTap={{ scale: 1 }}
+                    >
+                      <li>
+                        <img
+                          onClick={handleBrandClick(setIsOpened, setDisplay)}
+                          src={`/api/images/${brand.image}`}
+                        />
+                      </li>
+                    </motion.a>
+                  </AnimatePresence>
+                </a>
               </Link>
             );
           })}
-        </Wrapper_brands>
-      </Wrapper_grid>
-    </Wrapper>
+        </WrapperBrands>
+      </WrapperGrid>
+    </PopupWrapper>
   );
 };
 
-const Wrapper = styled(motion.div)`
+const PopupWrapper = styled(motion.div)`
   position: absolute;
   top: 120px;
   left: 0;
@@ -185,18 +195,18 @@ const Wrapper = styled(motion.div)`
   overflow: hidden;
 `;
 
-const Wrapper_grid = styled.nav`
+const WrapperGrid = styled.nav`
   width: 100%;
   height: 100%;
   display: flex;
   display: grid;
-  grid-template-columns: repeat(2, 1fr) 3fr;
+  grid-template-columns: repeat(2, 1fr) 2fr;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 35px;
 `;
 
-const Wrapper_menu = styled.ul`
+const WrapperMenu = styled.ul`
   height: 100%;
   height: 100%;
   display: flex;
@@ -219,7 +229,7 @@ const Wrapper_menu = styled.ul`
   }
 `;
 
-const Row_flex = styled(motion.li)`
+const RowFlex = styled(motion.li)`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -244,7 +254,7 @@ const Row_flex = styled(motion.li)`
   }
 `;
 
-const Wrapper_brands = styled.ul`
+const WrapperBrands = styled.ul`
   width: 100%;
   height: 100%;
   display: grid;
@@ -258,8 +268,8 @@ const Wrapper_brands = styled.ul`
     justify-content: center;
     align-items: center;
     img {
-      width: 60px;
-      height: 60px;
+      width: 190px;
+      height: auto;
       border-radius: 15px;
     }
   }

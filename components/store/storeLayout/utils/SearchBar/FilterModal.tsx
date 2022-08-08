@@ -5,8 +5,9 @@ import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { useAppSelector } from 'redux/hooks';
+import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
-import { Category } from 'swagger/services';
+import { Category, CategoryInTree } from 'swagger/services';
 import CloseSVG from '../../../../../assets/close_black.svg';
 import { PopupDisplay } from '../HeaderCart/constants';
 import { handleClickOutside } from '../HeaderCart/helpers';
@@ -14,7 +15,7 @@ import { handleClickOutside } from '../HeaderCart/helpers';
 type Props = {
   isOpened: boolean;
   display: string;
-  setSelectedCategory: Dispatch<SetStateAction<Category | undefined>>;
+  setSelectedCategory: Dispatch<SetStateAction<CategoryInTree | undefined>>;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
   setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
 };
@@ -26,9 +27,7 @@ const FilterModal: React.FC<Props> = ({
   setIsOpened,
   setDisplay,
 }) => {
-  const categories: Category[] = useAppSelector(
-    (state) => state.global.categories,
-  );
+  const { categories } = useAppSelector<TGlobalState>((state) => state.global);
 
   const ref = useDetectClickOutside({
     onTriggered: handleClickOutside(isOpened, setIsOpened, setDisplay),
@@ -40,7 +39,7 @@ const FilterModal: React.FC<Props> = ({
     setTimeout(() => setDisplay(PopupDisplay.None), 150);
   };
 
-  const handleSelect = (category: Category) => () => {
+  const handleSelect = (category: CategoryInTree) => () => {
     setSelectedCategory(category);
     setIsOpened(false);
     setTimeout(() => setDisplay(PopupDisplay.None), 150);

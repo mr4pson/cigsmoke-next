@@ -40,7 +40,9 @@ const Images: React.FC<Props> = ({
           <ArrowGray />
         </span>
         {!!product?.category && (
-          <Link href={`/catalog?subCategories=${product?.category?.url}`}>
+          <Link
+            href={`/catalog?categories=${product?.category?.parent?.url}&subCategories=${product?.category?.url}`}
+          >
             <a>{product?.category?.name}</a>
           </Link>
         )}
