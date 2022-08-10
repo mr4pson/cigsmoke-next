@@ -30,6 +30,7 @@ const ConfirmPsw = (props: any) => {
     setStep,
     isCap,
     setCap,
+    setAuthorized,
   } = props;
   const [psw, setPsw] = useState('');
   const [repeatPsw, setRepeatPsw] = useState('');
@@ -45,6 +46,7 @@ const ConfirmPsw = (props: any) => {
     setLoading,
     setServerErr,
     setStep,
+    setAuthorized,
   };
   return (
     <Content
