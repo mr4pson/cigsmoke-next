@@ -13,7 +13,6 @@ import FormItem from '../generalComponents/FormItem';
 const { Option } = Select;
 
 type Props = {
-  tags: Tag[];
   tag?: Tag;
   title: string;
   isLoading: boolean;
@@ -23,7 +22,6 @@ type Props = {
 
 const ManageTagForm = ({
   title,
-  tags,
   tag,
   isLoading,
   isSaveLoading,

@@ -1,3 +1,4 @@
+import { basicRequestParams } from 'common/constants';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import ManageProductForm from 'components/admin/products/ManageProductsForm';
 import { useEffect } from 'react';
@@ -26,11 +27,10 @@ const CreateProduct = () => {
   const tags = useAppSelector((state) => state.tags.tags);
 
   useEffect(() => {
-    dispatch(fetchProducts());
-    dispatch(fetchColors());
-    dispatch(fetchCategories());
-    dispatch(fetchBrands());
-    dispatch(fetchTags());
+    dispatch(fetchColors(basicRequestParams));
+    dispatch(fetchCategories(basicRequestParams));
+    dispatch(fetchBrands(basicRequestParams));
+    dispatch(fetchTags(basicRequestParams));
 
     return () => {
       dispatch(clearColors());

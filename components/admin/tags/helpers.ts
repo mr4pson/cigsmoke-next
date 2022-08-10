@@ -33,10 +33,13 @@ export const handleFormSubmit = (router: NextRouter, dispatch: AppDispatch) => a
   }
 };
 
-export const handleDeleteTag = (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
+export const handleDeleteTag = (id: string, dispatch: AppDispatch, setVisible: any, offset: number) => async () => {
   const isSaved: any = await dispatch(deleteTag(id));
   if (!isSaved.error) {
-    dispatch(fetchTags());
+    dispatch(fetchTags({
+                offset: String(offset),
+                limit: '20',
+              }));
     setVisible(prev => !prev);
   }
 };

@@ -50,13 +50,6 @@ type TBrandState = {
   saveLoading: boolean;
 };
 
-type TParameterState = {
-  parameters: Parameter[];
-  chosenParameter: Parameter | null;
-  loading: boolean;
-  saveLoading: boolean;
-};
-
 type TProductState = {
   products: Product[];
   chosenProduct: Product | null;
@@ -149,6 +142,23 @@ type TProductInfoState = {
   loading: boolean;
 };
 
+interface FetchPayload {
+  limit: string;
+  offset: string;
+}
+
+interface RequestResponse {
+  data:
+    | Category[]
+    | Brand[]
+    | Checkout[]
+    | Color[]
+    | Product[]
+    | Review[]
+    | Tag[];
+  length: number;
+}
+
 type THomePageState = {
   reviews: Review[];
   brands: Brand[];
@@ -160,7 +170,6 @@ export type {
   TAuthState,
   TColorState,
   TBrandState,
-  TParameterState,
   TProductState,
   TImageState,
   PayloadCreateImage,
@@ -173,5 +182,7 @@ export type {
   TCheckoutState,
   TProductInfoState,
   TAnalyticsState,
+  FetchPayload,
+  RequestResponse,
   THomePageState,
 };

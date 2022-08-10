@@ -1,3 +1,4 @@
+import { basicRequestParams } from 'common/constants';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import ManageCategoryForm from 'components/admin/categories/ManageCategoryForm';
 import { useEffect } from 'react';
@@ -14,7 +15,7 @@ const CreateCategory = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategories(basicRequestParams));
 
     return () => {
       dispatch(clearImageList());

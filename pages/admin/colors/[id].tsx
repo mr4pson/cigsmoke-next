@@ -24,21 +24,13 @@ const ManageColor = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchColors());
-
-    return () => {
-      dispatch(clearColors());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
     if (router.query.id) {
       dispatch(fetchChosenColor(router.query.id as string));
     }
-    
+
     return () => {
-      dispatch(clearChosenColor())
-    }
+      dispatch(clearChosenColor());
+    };
   }, [dispatch, router.query]);
 
   return (

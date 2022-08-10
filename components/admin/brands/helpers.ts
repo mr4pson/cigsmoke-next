@@ -12,10 +12,16 @@ import { TableProps } from 'antd';
 import { DataType } from 'common/interfaces/data-type.interface';
 
 export const handleDeleteBrand =
-  (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
+  (id: string, dispatch: AppDispatch, setVisible: any, offset: number) =>
+  async () => {
     const isSaved: any = await dispatch(deleteBrand(id));
     if (!isSaved.error) {
-      dispatch(fetchBrands());
+      dispatch(
+        fetchBrands({
+          offset: String(offset),
+          limit: '20',
+        }),
+      );
       setVisible((prev) => !prev);
     }
   };
@@ -27,7 +33,6 @@ export const handleFormSubmitBrands =
         editBrand({
           ...form,
           image: image[0].url.split('/api/images/')[1],
-          showOnMain: JSON.parse(form.showOnMain),
           id: router.query.id,
         }),
       );

@@ -7,19 +7,22 @@ import {
   handleChangeError,
 } from '../../common/helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { TCheckoutState } from 'redux/types';
+import { FetchPayload, RequestResponse, TCheckoutState } from 'redux/types';
 import { Checkout, CheckoutService } from 'swagger/services';
+import { handlePaginationDataFormatter } from 'redux/helpers';
 
 export const fetchCheckouts = createAsyncThunk<
-  Checkout[],
-  undefined,
+  RequestResponse,
+  FetchPayload,
   { rejectValue: string }
 >(
   'checkouts/fetchCheckouts',
-  async function (_, { rejectWithValue }): Promise<any> {
+  async function (payload: FetchPayload, { rejectWithValue }): Promise<any> {
     try {
-      const resp = await CheckoutService.getCheckouts() as unknown as { rows: Checkout[] };
-      return resp.rows
+      return await CheckoutService.getCheckouts({
+        limit: payload?.limit,
+        offset: payload?.offset
+      });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -64,7 +67,7 @@ const checkoutsSlicer = createSlice({
       .addCase(
         fetchCheckouts.fulfilled,
         (state, action) => {
-          state.checkouts = action.payload;
+          state.checkouts = handlePaginationDataFormatter(action);
           state.loading = false;
           console.log('fulfilled');
         },

@@ -7,19 +7,22 @@ import {
   handleChangeError,
 } from '../../common/helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { TReviewState } from 'redux/types';
+import { FetchPayload, RequestResponse, TReviewState } from 'redux/types';
 import { Review, ReviewService } from 'swagger/services';
+import { handlePaginationDataFormatter } from 'redux/helpers';
 
 export const fetchReviews = createAsyncThunk<
-  Review[],
-  undefined,
+  RequestResponse,
+  FetchPayload,
   { rejectValue: string }
 >(
   'reviews/fetchReviews',
-  async function (_, { rejectWithValue }): Promise<any> {
+  async function (payload: FetchPayload, { rejectWithValue }): Promise<any> {
     try {
-      const resp = await ReviewService.getReviews() as unknown as {rows: Review[]};
-      return resp.rows
+      return await ReviewService.getReviews({
+        limit: payload?.limit,
+        offset: payload?.offset
+      });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -64,7 +67,7 @@ const reviewsSlicer = createSlice({
       .addCase(
         fetchReviews.fulfilled,
         (state, action) => {
-          state.reviews = action.payload;
+          state.reviews = handlePaginationDataFormatter(action);
           state.loading = false;
           console.log('fulfilled');
         },

@@ -8,18 +8,22 @@ import {
 } from '../../common/helpers';
 import { PayloadCategory } from 'common/interfaces/payload-category.interface';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { TCategoryState } from 'redux/types';
+import { FetchPayload, RequestResponse, TCategoryState } from 'redux/types';
 import { Category, CategoryService } from 'swagger/services';
+import { handlePaginationDataFormatter } from 'redux/helpers';
 
 export const fetchCategories = createAsyncThunk<
-  { rows: Category[] },
-  undefined,
+  RequestResponse,
+  FetchPayload,
   { rejectValue: string }
 >(
   'categories/fetchCategories',
-  async function (_, { rejectWithValue }): Promise<any> {
+  async function (payload: FetchPayload, { rejectWithValue }): Promise<any> {
     try {
-      return await CategoryService.getCategories();
+      return await CategoryService.getCategories({
+        limit: payload?.limit,
+        offset: payload?.offset
+      });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -115,6 +119,7 @@ const categoriesSlicer = createSlice({
   initialState,
   reducers: {
     clearCategories(state) {
+      console.log('Categories cleared!')
       state.categories = [];
     },
     clearCategory(state) {
@@ -126,8 +131,7 @@ const categoriesSlicer = createSlice({
       //fetchCategories
       .addCase(fetchCategories.pending, handlePending)
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.categories = action.payload.rows;
-        // console.log(state.categories);
+        state.categories = handlePaginationDataFormatter(action);
         state.loading = false;
         console.log('fulfilled');
       })
@@ -152,7 +156,7 @@ const categoriesSlicer = createSlice({
       .addCase(editCategory.pending, handleChangePending)
       .addCase(editCategory.fulfilled, (state, action) => {
         let category = state.categories.find(
-          (category) => category.id === action.payload.id,
+          (category) => category!.id === action.payload.id,
         );
         category = {
           ...category,
@@ -167,7 +171,7 @@ const categoriesSlicer = createSlice({
       .addCase(deleteCategory.pending, handleChangePending)
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.categories = state.categories.filter(
-          (item) => item.id !== action.payload,
+          (item) => item!.id !== action.payload,
         );
         state.saveLoading = false;
         openSuccessNotification('Категория успешно удалена');
