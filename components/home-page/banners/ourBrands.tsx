@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchBrands } from 'redux/slicers/brandsSlicer';
+import { fetchBrands } from 'redux/slicers/store/homePageSlicer';
 import { THomePageState } from 'redux/types';
 import styled from 'styled-components';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';

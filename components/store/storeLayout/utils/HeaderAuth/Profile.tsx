@@ -131,7 +131,7 @@ const AuthDevider = styled.div`
   gap: 15px;
 `;
 
-const AuthBtns = styled(motion.button)`
+const AuthBtns = styled(motion.button)<any>`
   width: ${(p: StyleProps) => p.width}%;
   height: 40px;
   background: ${color.btnPrimary};

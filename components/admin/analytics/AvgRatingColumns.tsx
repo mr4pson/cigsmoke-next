@@ -6,10 +6,10 @@ interface Props {
   data: {
     type: string | null;
     value: number | null;
-  };
+  }[];
 }
 
-const AvgRatingColumns = ({ data = { type: null, value: null } }: Props) => {
+const AvgRatingColumns = ({ data = [{ type: null, value: null }] }: Props) => {
   const config = {
     data,
     xField: 'type',
@@ -38,7 +38,7 @@ const AvgRatingColumns = ({ data = { type: null, value: null } }: Props) => {
         alias: 'Средняя оценка пользователей',
       },
     },
-  };
+  } as any;
   return <Column className={styles.chart} {...config} />;
 };
 

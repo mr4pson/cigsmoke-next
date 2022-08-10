@@ -12,8 +12,8 @@ const NewUsers = () => {
   );
   const isLoaded = useAppSelector((state) => state.analytics.loading);
 
-  const handleDateFormatter = (date: string): string => {
-    const dateArr: string[] = date?.split('T')[0].split('-');
+  const handleDateFormatter = (date: string | undefined): string => {
+    const dateArr: string[] = date!?.split('T')[0].split('-');
     const newDateArr: string[] = [];
     for (let i = dateArr?.length - 1; i >= 0; i--) {
       newDateArr.push(dateArr[i]);
@@ -42,7 +42,7 @@ const NewUsers = () => {
       createdAt: handleDateFormatter(createdAt),
       updatedAt: handleDateFormatter(updatedAt),
     }),
-  ) as unknown as DataType[];
+  ) as unknown as readonly object[];
 
   return (
     <>
