@@ -13,6 +13,9 @@ type Props = {
 };
 
 const ReviewItem: React.FC<Props> = ({ index, review }) => {
+  const images = review.product?.images
+    ? review.product?.images!.split(', ')
+    : [];
   return (
     <ItemContainer
       initial="init"
@@ -46,7 +49,11 @@ const ReviewItem: React.FC<Props> = ({ index, review }) => {
             whileTap="tap"
             custom={1.2}
             variants={variants.grow}
-            src={JSON.parse(review.product?.images!)[0]}
+            src={`/api/images/${images[0]}`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = '/assets/images/img_error.png';
+            }}
           />
         </a>
       </Link>

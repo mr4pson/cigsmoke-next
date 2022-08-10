@@ -1,4 +1,11 @@
-import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData, DynamicUsersData } from 'common/interfaces/data-analytics.interfaces';
+import {
+  AnalyticsBrand,
+  AnalyticsCategory,
+  AnalyticsProduct,
+  AnalyticsUser,
+  DynamicData,
+  DynamicUsersData,
+} from 'common/interfaces/data-analytics.interfaces';
 import {
   Basket,
   Brand,
@@ -17,7 +24,7 @@ import {
 } from 'swagger/services';
 
 type TCategoryState = {
-  categories: Category[] ;
+  categories: Category[];
   category: Category | null;
   loading: boolean;
   saveLoading: boolean;
@@ -25,6 +32,7 @@ type TCategoryState = {
 
 type TAuthState = {
   user: User | null;
+  serverErr?: number;
   loading: boolean;
 };
 
@@ -41,7 +49,6 @@ type TBrandState = {
   loading: boolean;
   saveLoading: boolean;
 };
-
 
 type TProductState = {
   products: Product[];
@@ -120,15 +127,15 @@ type TCheckoutState = {
 };
 
 type TAnalyticsState = {
-  analyticsData: DynamicData[] | 
-  AnalyticsCategory[] | 
-  AnalyticsBrand[] | 
-  AnalyticsProduct[] | 
-  AnalyticsUser[],
-  usersData: DynamicUsersData | {},
-  loading: boolean,
-}
-
+  analyticsData:
+    | DynamicData[]
+    | AnalyticsCategory[]
+    | AnalyticsBrand[]
+    | AnalyticsProduct[]
+    | AnalyticsUser[];
+  usersData: DynamicUsersData | {};
+  loading: boolean;
+};
 
 type TProductInfoState = {
   product?: Product;
@@ -136,14 +143,27 @@ type TProductInfoState = {
 };
 
 interface FetchPayload {
-  limit: string,
-  offset: string
+  limit: string;
+  offset: string;
 }
 
 interface RequestResponse {
-  data: Category[] | Brand[] | Checkout[] | Color[] | Product[] | Review[] | Tag[]
-  length: number
+  data:
+    | Category[]
+    | Brand[]
+    | Checkout[]
+    | Color[]
+    | Product[]
+    | Review[]
+    | Tag[];
+  length: number;
 }
+
+type THomePageState = {
+  reviews: Review[];
+  brands: Brand[];
+  loading: boolean;
+};
 
 export type {
   TCategoryState,
@@ -163,5 +183,6 @@ export type {
   TProductInfoState,
   TAnalyticsState,
   FetchPayload,
-  RequestResponse
+  RequestResponse,
+  THomePageState,
 };

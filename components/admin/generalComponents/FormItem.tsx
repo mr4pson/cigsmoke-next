@@ -5,11 +5,17 @@ import _ from 'lodash';
 interface Props {
   children: any;
   option: string;
+  valuePropName?: string;
 }
 
-const FormItem = ({ children, option }: Props) => {
+const FormItem = ({ children, option, valuePropName }: Props) => {
   return (
-    <Form.Item label={InputField[_.capitalize(option)]} name={option} required>
+    <Form.Item
+      valuePropName={valuePropName}
+      label={InputField[_.capitalize(option)]}
+      name={option}
+      required
+    >
       {children}
     </Form.Item>
   );
