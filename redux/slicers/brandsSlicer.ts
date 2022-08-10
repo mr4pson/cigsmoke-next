@@ -17,17 +17,16 @@ export const fetchBrands = createAsyncThunk<
   Brand[],
   undefined,
   { rejectValue: string }
->(
-  'brands/fetchBrands',
-  async function (_, { rejectWithValue }): Promise<any> {
-    try {
-      const response = await BrandService.getBrands() as unknown as { rows: Brand[] };
-      return response.rows;
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
+>('brands/fetchBrands', async function (_, { rejectWithValue }): Promise<any> {
+  try {
+    const response = (await BrandService.getBrands()) as unknown as {
+      rows: Brand[];
+    };
+    return response.rows;
+  } catch (error: any) {
+    return rejectWithValue(getErrorMassage(error.response.status));
+  }
+});
 
 export const fetchChosenBrand = createAsyncThunk<
   Brand,
@@ -57,7 +56,7 @@ export const createBrand = createAsyncThunk<
           name: payload.name,
           url: payload.url,
           image: payload.image,
-        }
+        },
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -74,11 +73,13 @@ export const editBrand = createAsyncThunk<
   async function (payload: PayloadBrand, { rejectWithValue }): Promise<any> {
     try {
       return await BrandService.updateBrand({
-        brandId: payload.id as string, body: {
+        brandId: payload.id as string,
+        body: {
           name: payload.name,
           url: payload.url,
           image: payload.image,
-        }
+          showOnMain: payload.showOnMain,
+        },
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -90,16 +91,13 @@ export const deleteBrand = createAsyncThunk<
   string,
   string,
   { rejectValue: string }
->(
-  'brands/deleteBrand',
-  async function (id, { rejectWithValue }): Promise<any> {
-    try {
-      return await BrandService.deleteBrand({ brandId: id });
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
+>('brands/deleteBrand', async function (id, { rejectWithValue }): Promise<any> {
+  try {
+    return await BrandService.deleteBrand({ brandId: id });
+  } catch (error: any) {
+    return rejectWithValue(getErrorMassage(error.response.status));
+  }
+});
 
 const initialState: TBrandState = {
   brands: [],
@@ -123,36 +121,27 @@ const brandsSlicer = createSlice({
     builder
       //fetchBrands
       .addCase(fetchBrands.pending, handlePending)
-      .addCase(
-        fetchBrands.fulfilled,
-        (state, action) => {
-          state.brands = action.payload;
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
+      .addCase(fetchBrands.fulfilled, (state, action) => {
+        state.brands = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
       .addCase(fetchBrands.rejected, handleError)
       //fetchBrand
       .addCase(fetchChosenBrand.pending, handlePending)
-      .addCase(
-        fetchChosenBrand.fulfilled,
-        (state, action) => {
-          state.chosenBrand = action.payload;
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
+      .addCase(fetchChosenBrand.fulfilled, (state, action) => {
+        state.chosenBrand = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
       .addCase(fetchChosenBrand.rejected, handleError)
       //createBrand
       .addCase(createBrand.pending, handleChangePending)
-      .addCase(
-        createBrand.fulfilled,
-        (state) => {
-          state.saveLoading = false;
-          openSuccessNotification('Бренд успешно создан');
-          console.log('fulfilled');
-        },
-      )
+      .addCase(createBrand.fulfilled, (state) => {
+        state.saveLoading = false;
+        openSuccessNotification('Бренд успешно создан');
+        console.log('fulfilled');
+      })
       .addCase(createBrand.rejected, handleChangeError)
       //editBrand
       .addCase(editBrand.pending, handleChangePending)

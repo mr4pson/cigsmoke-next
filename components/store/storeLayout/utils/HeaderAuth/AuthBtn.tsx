@@ -1,48 +1,63 @@
 import { Btns } from '../../common';
 import Image from 'next/image';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import variants from 'components/store/lib/variants';
 import { PathCircle } from '../paths';
+import { paginateTo } from 'components/store/checkout/constant';
+import { PopupDisplay } from '../HeaderCart/constants';
+import { User } from 'swagger/services';
 
-const AuthBtn = (props: any) => {
+type Props = {
+  user: User | null;
+  isSignedIn: boolean;
+  setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
+  setIsOpened: Dispatch<SetStateAction<boolean>>;
+  paginate: any;
+};
+const AuthBtn: React.FC<Props> = ({
+  user,
+  isSignedIn,
+  setDisplay,
+  setIsOpened,
+  paginate,
+}) => {
   const [isAnimate, setAnimate] = useState(false);
+
+  const handleBtnClick = (e) => {
+    e.stopPropagation();
+    setIsOpened((prev) => !prev);
+    setDisplay((prev) =>
+      prev === PopupDisplay.None ? PopupDisplay.Flex : PopupDisplay.None,
+    );
+    paginate(paginateTo.back, 'selection');
+  };
 
   return (
     <>
-      {props.isSignedIn ? (
+      {isSignedIn ? (
         <Btns
-          onClick={() => {
-            props.setForm([
-              !props.isForm,
-              props.formDisplay == 'none' ? 'flex' : 'none',
-            ]);
-            props.setformType('step-1');
-          }}
+          onClick={handleBtnClick}
           key="auth-profile"
           initial="init"
-          animate={props.isSignedIn ? 'animate' : 'exit'}
+          animate={isSignedIn ? 'animate' : 'exit'}
           variants={variants.fadeInSlideIn}
         >
           <span style={{ borderRadius: '50%' }}>
             <Image src="/static/temp/gamer.png" width={25} height={25} />
           </span>
 
-          <span>Username</span>
+          <span>{user?.firstName}</span>
         </Btns>
       ) : (
         <Btns
-          onClick={() => {
-            props.setForm([
-              !props.isForm,
-              props.formDisplay == 'none' ? 'flex' : 'none',
-            ]);
-            props.setformType('step-1');
+          onClick={(e) => {
+            handleBtnClick(e);
             setAnimate(!isAnimate);
             setTimeout(() => setAnimate(false), 200);
           }}
           key="auth"
           initial="init"
-          animate={!props.isSignedIn ? 'animate' : 'exit'}
+          animate={!isSignedIn ? 'animate' : 'exit'}
           variants={variants.fadeInSlideIn}
         >
           <svg width="30" height="26" viewBox="0 0 30 26" fill="none">

@@ -1,4 +1,11 @@
-import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData, DynamicUsersData } from 'common/interfaces/data-analytics.interfaces';
+import {
+  AnalyticsBrand,
+  AnalyticsCategory,
+  AnalyticsProduct,
+  AnalyticsUser,
+  DynamicData,
+  DynamicUsersData,
+} from 'common/interfaces/data-analytics.interfaces';
 import {
   Basket,
   Brand,
@@ -25,6 +32,7 @@ type TCategoryState = {
 
 type TAuthState = {
   user: User | null;
+  serverErr?: number;
   loading: boolean;
 };
 
@@ -126,18 +134,24 @@ type TCheckoutState = {
 };
 
 type TAnalyticsState = {
-  analyticsData: DynamicData[] | 
-  AnalyticsCategory[] | 
-  AnalyticsBrand[] | 
-  AnalyticsProduct[] | 
-  AnalyticsUser[],
-  usersData: DynamicUsersData | {},
-  loading: boolean,
-}
-
+  analyticsData:
+    | DynamicData[]
+    | AnalyticsCategory[]
+    | AnalyticsBrand[]
+    | AnalyticsProduct[]
+    | AnalyticsUser[];
+  usersData: DynamicUsersData | {};
+  loading: boolean;
+};
 
 type TProductInfoState = {
   product?: Product;
+  loading: boolean;
+};
+
+type THomePageState = {
+  reviews: Review[];
+  brands: Brand[];
   loading: boolean;
 };
 
@@ -158,5 +172,6 @@ export type {
   TCatalogState,
   TCheckoutState,
   TProductInfoState,
-  TAnalyticsState
+  TAnalyticsState,
+  THomePageState,
 };
