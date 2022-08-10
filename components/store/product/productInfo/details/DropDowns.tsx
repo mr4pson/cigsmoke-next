@@ -60,7 +60,7 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
         </span>
         <DeleveryInfoHeader>
           <DeleveryBox />
-          <h3>ВАРИАНТЫ ДОСТАВКИ CIGSMOKE:</h3>
+          <h3>ВАРИАНТЫ ДОСТАВКИ WULUXE:</h3>
         </DeleveryInfoHeader>
         <DeleveryInfoContaiener>
           <DeleveryInfoItems borderbottom="1px solid" borderright="1px solid">

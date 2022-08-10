@@ -181,6 +181,12 @@ const FormWrapper = styled.div`
     jusitfy-content: flex-start;
     align-items: center;
     gap: 10px;
+    span {
+      color: ${color.ok};
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
     &:hover {
       color: ${color.hover};
     }

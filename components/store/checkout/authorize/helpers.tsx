@@ -22,6 +22,7 @@ type signUp = {
   setLoading: any;
   setServerErr: any;
   setStep: any;
+  setAuthorized: any;
 };
 
 const UsePagination = () => {
@@ -92,6 +93,7 @@ const handleSignUp = ({
   setLoading,
   setServerErr,
   setStep,
+  setAuthorized,
 }: signUp) => {
   if (isEmail(email)) {
     setLoading(true);
@@ -115,12 +117,14 @@ const handleSignUp = ({
         if (response.status === 201) {
           setLoading(false);
           setStep(1);
+          setAuthorized(true);
           console.log(response.data);
         }
       })
       .catch((error) => {
         if (error.response) {
           setLoading(false);
+          setAuthorized(false);
           setServerErr(error.response.status);
           paginate(paginateTo.back, 'signup');
           console.log(error.response.data.message);
