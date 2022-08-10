@@ -1,5 +1,4 @@
-import { Row, Spin } from 'antd';
-import Col from 'antd/es/grid/col';
+import { Col, Row, Spin } from 'antd';
 import AmountDonut from 'components/admin/analytics/AmountDonut';
 import AvgRatingColumns from 'components/admin/analytics/AvgRatingColumns';
 import ColContainer from 'components/admin/analytics/ColContainer';

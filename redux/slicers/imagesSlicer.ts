@@ -3,7 +3,11 @@ import { axiosInstance } from 'common/axios.instance';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { PayloadCreateImage, TImageState } from 'redux/types';
 
-import { getErrorMassage, handleError, handlePending } from '../../common/helpers';
+import {
+  getErrorMassage,
+  handleError,
+  handlePending,
+} from '../../common/helpers';
 
 export const createImage = createAsyncThunk<
   string,
@@ -11,12 +15,19 @@ export const createImage = createAsyncThunk<
   { rejectValue: string }
 >(
   'images/createImage',
-  async function (payload: PayloadCreateImage, { rejectWithValue }): Promise<any> {
+  async function (
+    payload: PayloadCreateImage,
+    { rejectWithValue },
+  ): Promise<any> {
     try {
       const formData = new FormData();
-      formData.append("files", payload.file as any);
-      const resp = await axiosInstance.post('/images', formData, payload.config);
-      return resp.data[0]
+      formData.append('files', payload.file as any);
+      const resp = await axiosInstance.post(
+        '/images',
+        formData,
+        payload.config,
+      );
+      return resp.data[0];
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -36,30 +47,32 @@ const imageSlicer = createSlice({
       state.imageList = [...state.imageList, action.payload];
     },
     removeImageFromList(state, action) {
-      state.imageList = state.imageList.filter(item => item.name !== action.payload);
+      state.imageList = state.imageList.filter(
+        (item: any) => item.name !== action.payload,
+      );
     },
     clearImageList(state) {
-      state.imageList = initialState.imageList
-    }
+      state.imageList = initialState.imageList;
+    },
   },
   extraReducers: (builder) => {
     builder
       //createImage
       .addCase(createImage.pending, handlePending)
-      .addCase(
-        createImage.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          const file = state.imageList.find(item => item.uid === action.meta.arg.file.uid) as any
-          file.url = `/api/images/${action.payload}`
-          openSuccessNotification('Изображение успешно загружено');
-          console.log('fulfilled');
-        },
-      )
-      .addCase(createImage.rejected, handleError)
+      .addCase(createImage.fulfilled, (state, action) => {
+        state.loading = false;
+        const file = state.imageList.find(
+          (item: any) => item.uid === action.meta.arg.file.uid,
+        ) as any;
+        file.url = `/api/images/${action.payload}`;
+        openSuccessNotification('Изображение успешно загружено');
+        console.log('fulfilled');
+      })
+      .addCase(createImage.rejected, handleError);
   },
 });
 
-export const { setDefaultImageList, removeImageFromList, clearImageList } = imageSlicer.actions;
+export const { setDefaultImageList, removeImageFromList, clearImageList } =
+  imageSlicer.actions;
 
 export default imageSlicer.reducer;

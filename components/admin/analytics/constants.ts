@@ -1,17 +1,17 @@
-import { ColumnsType } from "antd/lib/table/interface";
-import { DynamicUsersData } from "common/interfaces/data-analytics.interfaces";
-import React from "react";
-import { User } from "swagger/services";
+import { ColumnsType } from 'antd/lib/table/interface';
+import { DynamicUsersData } from 'common/interfaces/data-analytics.interfaces';
+import React from 'react';
+import { User } from 'swagger/services';
 
 interface DataType extends User {
   key: React.Key;
 }
 
 export const columns: ColumnsType<User> = [
-    {
+  {
     title: 'Id',
     dataIndex: 'id',
-    width: '10%'
+    width: '10%',
   },
   {
     title: 'Имя и фамилия',
@@ -19,7 +19,7 @@ export const columns: ColumnsType<User> = [
     sorter: {
       compare: (a, b) => a.email!.localeCompare(b.email!),
     },
-    width: '30%'
+    width: '30%',
   },
   {
     title: 'Email',
@@ -27,7 +27,7 @@ export const columns: ColumnsType<User> = [
     sorter: {
       compare: (a, b) => a.email!.localeCompare(b.email!),
     },
-    width: '20%'
+    width: '20%',
   },
   {
     title: 'Роль',
@@ -43,7 +43,8 @@ export const columns: ColumnsType<User> = [
       },
     ],
     filterMode: 'tree',
-    onFilter: (value: string, record) => (record?.role as string).startsWith(value),
+    onFilter: (value: string | number | boolean, record) =>
+      (record?.role as string).startsWith(value.toString()),
     filterSearch: true,
     width: '10%',
   },
@@ -60,24 +61,25 @@ export const columns: ColumnsType<User> = [
         value: 'Не верифицирован',
       },
     ],
-    onFilter: (value: string, record) => (record?.isVerified as string).startsWith(value),
+    onFilter: (value: string | number | boolean, record) =>
+      new String(record?.isVerified!).startsWith(value.toString()),
     filterSearch: true,
     width: '10%',
   },
-    {
+  {
     title: 'Создан',
     dataIndex: 'createdAt',
     sorter: {
       compare: (a, b) => a.email!.localeCompare(b.email!),
     },
-    width: '10%'
+    width: '10%',
   },
-    {
+  {
     title: 'Последнее обновление',
     dataIndex: 'updatedAt',
     sorter: {
       compare: (a, b) => a.email!.localeCompare(b.email!),
     },
-    width: '10%'
+    width: '10%',
   },
 ];

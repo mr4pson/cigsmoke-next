@@ -1,5 +1,5 @@
 import CartFooter from 'components/store/cart/CartFooter';
-import CartItem from 'components/store/cart/CartItem';
+import CartItem from 'components/store/cart/cartItem';
 import variants from 'components/store/lib/variants';
 import {
   Container,

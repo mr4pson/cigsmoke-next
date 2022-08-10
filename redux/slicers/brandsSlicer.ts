@@ -14,17 +14,17 @@ import {
 } from '../../common/helpers';
 
 export const fetchBrands = createAsyncThunk<
-  RequestResponse,
+  Brand[],
   FetchPayload,
   { rejectValue: string }
 >(
   'brands/fetchBrands',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const response = (await BrandService.getBrands({
+      const response = await BrandService.getBrands({
         limit: payload?.limit,
         offset: payload?.offset,
-      })) as unknown as { rows: Brand[] };
+      });
       return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
