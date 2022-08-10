@@ -7,20 +7,23 @@ import {
   handleChangeError,
 } from '../../common/helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { TColorState } from 'redux/types';
+import { FetchPayload, RequestResponse, TColorState } from 'redux/types';
 import { Color, ColorService } from 'swagger/services';
 import { PayloadColor } from 'common/interfaces/payload-color.interface';
+import { handlePaginationDataFormatter } from 'redux/helpers';
 
 export const fetchColors = createAsyncThunk<
-  Color[],
-  undefined,
+  RequestResponse,
+  FetchPayload,
   { rejectValue: string }
 >(
   'colors/fetchColors',
-  async function (_, { rejectWithValue }): Promise<any> {
+  async function (payload: FetchPayload, { rejectWithValue }): Promise<any> {
     try {
-      const response = await ColorService.getColors() as unknown as { rows: Color[] };
-      return response.rows;
+      return await ColorService.getColors({
+        limit: payload?.limit,
+        offset: payload?.offset
+      });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -124,7 +127,7 @@ const colorsSlicer = createSlice({
       .addCase(
         fetchColors.fulfilled,
         (state, action) => {
-          state.colors = action.payload;
+          state.colors = handlePaginationDataFormatter(action);
           state.loading = false;
           console.log('fulfilled');
         },

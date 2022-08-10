@@ -13,9 +13,7 @@ const EditTag = () => {
   const title = 'Редактирование тегов';
   const router = useRouter();
   const tags = useAppSelector((state) => state.tags.tags);
-  const filteredTags = tags.filter(
-    (tag) => tag.id !== Number(router.query.id),
-  );
+  const filteredTags = tags.filter((tag) => tag.id !== Number(router.query.id));
   const tag = useAppSelector((state) => state.tags.tag);
   const isLoading = useAppSelector((state) => state.tags.loading);
   const isSaveLoading = useAppSelector((state) => state.tags.saveLoading);
@@ -23,26 +21,15 @@ const EditTag = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchTags());
-
-    return () => {
-      dispatch(clearTag());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
     if (router.query.id) {
       dispatch(fetchTag(router.query.id as string));
     }
-
-    
   }, [dispatch, router.query]);
 
   return (
     <ManageTagForm
       title={title}
       editMode={true}
-      tags={filteredTags}
       tag={tag}
       isLoading={isLoading}
       isSaveLoading={isSaveLoading}

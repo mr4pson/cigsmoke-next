@@ -1,9 +1,10 @@
 import { Spin, Table } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
+import { AppContext } from 'common/context/AppContext';
 import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import { columns } from 'components/admin/reviews/constants';
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import {
@@ -13,6 +14,9 @@ import {
 import styles from './index.module.scss';
 
 const ReviewsPage = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { offset, setOffset } = useContext(AppContext);
+
   const dispatch = useAppDispatch();
   const reviews = useAppSelector((state) => state.reviews.reviews);
   const isLoading = useAppSelector((state) => state.reviews.loading);
@@ -29,9 +33,15 @@ const ReviewsPage = () => {
   ) as unknown as DataType[];
 
   useEffect(() => {
-    dispatch(fetchReviews());
+    dispatch(
+      fetchReviews({
+        offset: String(offset),
+        limit: '20',
+      }),
+    );
     return () => {
       dispatch(clearReviews());
+      setOffset(0);
     };
   }, []);
 
@@ -45,10 +55,25 @@ const ReviewsPage = () => {
       ) : (
         <>
           <Table
+            pagination={{
+              pageSize: 20,
+              current: currentPage,
+            }}
             columns={
               columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
             }
             dataSource={dataSource}
+            onChange={(event) => {
+              const newOffset = ((event.current as number) - 1) * 20;
+              setOffset(newOffset);
+              dispatch(
+                fetchReviews({
+                  offset: String(newOffset),
+                  limit: '20',
+                }),
+              );
+              setCurrentPage(event.current as number);
+            }}
           />
         </>
       )}

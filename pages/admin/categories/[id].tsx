@@ -1,7 +1,9 @@
+import { basicRequestParams } from 'common/constants';
+import { AppContext } from 'common/context/AppContext';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import ManageCategoryForm from 'components/admin/categories/ManageCategoryForm';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearImageList } from 'redux/slicers/imagesSlicer';
 import {
@@ -20,11 +22,12 @@ const EditCategory = () => {
   const category = useAppSelector((state) => state.categories.category);
   const isLoading = useAppSelector((state) => state.categories.loading);
   const isSaveLoading = useAppSelector((state) => state.categories.saveLoading);
+  const { offset, setOffset } = useContext(AppContext);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchCategories(basicRequestParams));
 
     return () => {
       dispatch(clearCategory());

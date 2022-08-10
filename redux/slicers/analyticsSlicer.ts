@@ -88,6 +88,7 @@ const analyticsSlicer = createSlice({
   reducers: {
     clearAnalytics(state) {
       state.analyticsData = []
+      state.usersData = {}
     },
   },
   extraReducers: (builder) => {

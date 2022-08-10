@@ -7,22 +7,23 @@ import {
   handleChangeError,
 } from '../../common/helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { TProductState } from 'redux/types';
+import { FetchPayload, RequestResponse, TProductState } from 'redux/types';
 import { Product, ProductService } from 'swagger/services';
 import { PayloadProduct } from 'common/interfaces/payload-product.interface';
+import { handlePaginationDataFormatter } from 'redux/helpers';
 
 export const fetchProducts = createAsyncThunk<
-  Product[],
-  undefined,
+  RequestResponse,
+  FetchPayload,
   { rejectValue: string }
 >(
   'products/fetchProducts',
-  async function (_, { rejectWithValue }): Promise<any> {
+  async function (payload: FetchPayload, { rejectWithValue }): Promise<any> {
     try {
-      const response = (await ProductService.getProducts()) as unknown as {
-        rows: Product[];
-      };
-      return response.rows;
+      return await ProductService.getProducts({
+        limit: payload?.limit,
+        offset: payload?.offset
+      });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -141,7 +142,7 @@ const productsSlicer = createSlice({
       //fetchProducts
       .addCase(fetchProducts.pending, handlePending)
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.products = handlePaginationDataFormatter(action);
         state.loading = false;
         console.log('fulfilled');
       })

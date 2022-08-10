@@ -1,12 +1,13 @@
 import { Button, Spin, Table } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
+import { AppContext } from 'common/context/AppContext';
 import { navigateTo } from 'common/helpers';
 import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import { columns } from 'components/admin/tags/constants';
 import { handleTableChange } from 'components/admin/tags/helpers';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Page } from 'routes/constants';
 
@@ -14,6 +15,9 @@ import { clearTags, fetchTags } from '../../../redux/slicers/tagsSlicer';
 import styles from './index.module.scss';
 
 const TagsPage = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { offset, setOffset } = useContext(AppContext);
+
   const dispatch = useAppDispatch();
   const tags = useAppSelector((state) => state.tags.tags);
   const isLoading = useAppSelector((state) => state.tags.loading);
@@ -27,10 +31,16 @@ const TagsPage = () => {
   })) as unknown as DataType[];
 
   useEffect(() => {
-    dispatch(fetchTags());
+    dispatch(
+      fetchTags({
+        offset: String(offset),
+        limit: '20',
+      }),
+    );
 
     return () => {
       dispatch(clearTags());
+      setOffset(0);
     };
   }, []);
 
@@ -50,11 +60,25 @@ const TagsPage = () => {
         <Spin className="spinner" size="large" />
       ) : (
         <Table
+          pagination={{
+            pageSize: 20,
+            current: currentPage,
+          }}
           columns={
             columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
           }
           dataSource={dataSource}
-          onChange={handleTableChange}
+          onChange={(event) => {
+            const newOffset = ((event.current as number) - 1) * 20;
+            setOffset(newOffset);
+            dispatch(
+              fetchTags({
+                offset: String(newOffset),
+                limit: '20',
+              }),
+            );
+            setCurrentPage(event.current as number);
+          }}
         />
       )}
     </>

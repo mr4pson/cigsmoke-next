@@ -1,10 +1,11 @@
-import { navigateTo } from "common/helpers";
-import { NextRouter } from "next/router";
-import { signout } from "redux/slicers/authSlicer";
-import { AppDispatch } from "redux/store";
-import { Page, paths } from "routes/constants";
-import { pathWords } from "./constants";
-import { TMenuItem } from "./types";
+import { navigateTo } from 'common/helpers';
+import { NextRouter } from 'next/router';
+import { signout } from 'redux/slicers/authSlicer';
+import { AppDispatch } from 'redux/store';
+import { Page, paths } from 'routes/constants';
+
+import { pathWords } from './constants';
+import { TMenuItem } from './types';
 
 const getPathname = (router: NextRouter, pathIndex: number): string => {
   const arr = router.route.substring(1).split('/')

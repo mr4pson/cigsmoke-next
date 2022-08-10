@@ -1,3 +1,4 @@
+import { basicRequestParams } from 'common/constants';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import ManageProductForm from 'components/admin/products/ManageProductsForm';
 import { useRouter } from 'next/router';
@@ -11,7 +12,6 @@ import {
 import { clearColors, fetchColors } from 'redux/slicers/colorsSlicer';
 import { clearImageList } from 'redux/slicers/imagesSlicer';
 import { clearTags, fetchTags } from 'redux/slicers/tagsSlicer';
-
 import {
   clearChosenProduct,
   fetchChosenProduct,
@@ -41,10 +41,10 @@ const ManageProduct = () => {
       dispatch(fetchChosenProduct(router.query.id as string));
     }
 
-    dispatch(fetchColors());
-    dispatch(fetchCategories());
-    dispatch(fetchBrands());
-    dispatch(fetchTags());
+    dispatch(fetchColors(basicRequestParams));
+    dispatch(fetchCategories(basicRequestParams));
+    dispatch(fetchBrands(basicRequestParams));
+    dispatch(fetchTags(basicRequestParams));
 
     return () => {
       dispatch(clearChosenProduct());

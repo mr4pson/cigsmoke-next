@@ -1,12 +1,12 @@
 import { Button, Spin, Table } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
+import { AppContext } from 'common/context/AppContext';
 import { navigateTo } from 'common/helpers';
 import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import { columns } from 'components/admin/categories/constants';
-import { handleTableChange } from 'components/admin/categories/helpers';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Page } from 'routes/constants';
 
@@ -17,29 +17,40 @@ import {
 import styles from './index.module.scss';
 
 const CategoriesPage = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { offset, setOffset } = useContext(AppContext);
+
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.categories.categories);
   const isLoading = useAppSelector((state) => state.categories.loading);
   const router = useRouter();
 
   const dataSource = categories?.map(
-    ({ id, name, createdAt, updatedAt, url, image, parent, ...rest }) => ({
-      key: id,
-      id,
-      name,
-      image,
-      createdAt,
-      updatedAt,
-      url,
-      parent,
-    }),
+    ({ id, name, image, createdAt, updatedAt, url, parent }) => {
+      return {
+        key: id,
+        id,
+        name,
+        image,
+        createdAt,
+        updatedAt,
+        url,
+        parent,
+      };
+    },
   ) as unknown as DataType[];
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(
+      fetchCategories({
+        offset: String(offset),
+        limit: '20',
+      }),
+    );
 
     return () => {
       dispatch(clearCategories());
+      setOffset(0);
     };
   }, []);
 
@@ -59,11 +70,25 @@ const CategoriesPage = () => {
         <Spin className="spinner" size="large" />
       ) : (
         <Table
+          pagination={{
+            pageSize: 20,
+            current: currentPage,
+          }}
           columns={
             columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
           }
           dataSource={dataSource}
-          onChange={handleTableChange}
+          onChange={(event) => {
+            const newOffset = ((event.current as number) - 1) * 20;
+            setOffset(newOffset);
+            dispatch(
+              fetchCategories({
+                offset: String(newOffset),
+                limit: '20',
+              }),
+            );
+            setCurrentPage(event.current as number);
+          }}
         />
       )}
     </>
