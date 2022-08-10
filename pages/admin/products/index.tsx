@@ -1,22 +1,25 @@
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  fetchProducts,
-  clearProducts,
-} from '../../../redux/slicers/productsSlicer';
-import { useEffect } from 'react';
-import styles from './index.module.scss';
-import { Spin, Table } from 'antd';
-import { Button } from 'antd';
-import { useRouter } from 'next/router';
-import { Page } from 'routes/constants';
-import { navigateTo } from 'common/helpers';
-import AdminLayout from 'components/admin/adminLayout/layout';
-import { DataType } from 'common/interfaces/data-type.interface';
-import { columns } from 'components/admin/products/constants';
+import { Button, Spin, Table } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
-import { handleTableChange } from 'components/admin/products/helpers';
+import { AppContext } from 'common/context/AppContext';
+import { navigateTo } from 'common/helpers';
+import { DataType } from 'common/interfaces/data-type.interface';
+import AdminLayout from 'components/admin/adminLayout/layout';
+import { columns } from 'components/admin/products/constants';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { Page } from 'routes/constants';
+
+import {
+  clearProducts,
+  fetchProducts,
+} from '../../../redux/slicers/productsSlicer';
+import styles from './index.module.scss';
 
 const ProductsPage = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { offset, setOffset } = useContext(AppContext);
+
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products.products);
   const isLoading = useAppSelector((state) => state.products.loading);
@@ -53,10 +56,16 @@ const ProductsPage = () => {
   ) as unknown as DataType[];
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(
+      fetchProducts({
+        offset: String(offset),
+        limit: '20',
+      }),
+    );
 
     return () => {
       dispatch(clearProducts());
+      setOffset(0);
     };
   }, []);
 
@@ -76,11 +85,25 @@ const ProductsPage = () => {
         <Spin className="spinner" size="large" />
       ) : (
         <Table
+          pagination={{
+            pageSize: 20,
+            current: currentPage,
+          }}
           columns={
             columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
           }
           dataSource={dataSource}
-          onChange={handleTableChange}
+          onChange={(event) => {
+            const newOffset = ((event.current as number) - 1) * 20;
+            setOffset(newOffset);
+            dispatch(
+              fetchProducts({
+                offset: String(newOffset),
+                limit: '20',
+              }),
+            );
+            setCurrentPage(event.current as number);
+          }}
         />
       )}
     </>

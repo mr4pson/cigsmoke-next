@@ -17,7 +17,7 @@ import {
 } from 'swagger/services';
 
 type TCategoryState = {
-  categories: Category[];
+  categories: Category[] ;
   category: Category | null;
   loading: boolean;
   saveLoading: boolean;
@@ -42,12 +42,6 @@ type TBrandState = {
   saveLoading: boolean;
 };
 
-type TParameterState = {
-  parameters: Parameter[];
-  chosenParameter: Parameter | null;
-  loading: boolean;
-  saveLoading: boolean;
-};
 
 type TProductState = {
   products: Product[];
@@ -141,12 +135,21 @@ type TProductInfoState = {
   loading: boolean;
 };
 
+interface FetchPayload {
+  limit: string,
+  offset: string
+}
+
+interface RequestResponse {
+  data: Category[] | Brand[] | Checkout[] | Color[] | Product[] | Review[] | Tag[]
+  length: number
+}
+
 export type {
   TCategoryState,
   TAuthState,
   TColorState,
   TBrandState,
-  TParameterState,
   TProductState,
   TImageState,
   PayloadCreateImage,
@@ -158,5 +161,7 @@ export type {
   TCatalogState,
   TCheckoutState,
   TProductInfoState,
-  TAnalyticsState
+  TAnalyticsState,
+  FetchPayload,
+  RequestResponse
 };

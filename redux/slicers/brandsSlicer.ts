@@ -1,28 +1,24 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  getErrorMassage,
-  handleChangePending,
-  handlePending,
-  handleError,
-  handleChangeError,
-} from '../../common/helpers';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { TBrandState } from 'redux/types';
-import { Brand, BrandService } from 'swagger/services';
 import { PayloadBrand } from 'common/interfaces/payload-brand.interface';
-import { useAppDispatch } from 'redux/hooks';
-import { setDefaultImageList } from './imagesSlicer';
+import { handlePaginationDataFormatter } from 'redux/helpers';
+import { FetchPayload, RequestResponse, TBrandState } from 'redux/types';
+import { Brand, BrandService } from 'swagger/services';
+
+import { getErrorMassage, handleChangeError, handleChangePending, handleError, handlePending } from '../../common/helpers';
 
 export const fetchBrands = createAsyncThunk<
-  Brand[],
-  undefined,
+  RequestResponse,
+  FetchPayload,
   { rejectValue: string }
 >(
   'brands/fetchBrands',
-  async function (_, { rejectWithValue }): Promise<any> {
+  async function (payload: FetchPayload, { rejectWithValue }): Promise<any> {
     try {
-      const response = await BrandService.getBrands() as unknown as { rows: Brand[] };
-      return response.rows;
+      return await BrandService.getBrands({
+        limit: payload?.limit,
+        offset: payload?.offset
+      });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -126,7 +122,7 @@ const brandsSlicer = createSlice({
       .addCase(
         fetchBrands.fulfilled,
         (state, action) => {
-          state.brands = action.payload;
+          state.brands = handlePaginationDataFormatter(action);
           state.loading = false;
           console.log('fulfilled');
         },

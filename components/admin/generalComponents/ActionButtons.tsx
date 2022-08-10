@@ -1,7 +1,8 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Modal, Tooltip } from 'antd';
+import { AppContext } from 'common/context/AppContext';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styles from './index.module.scss';
 
@@ -24,6 +25,8 @@ const ActionButtons: React.FC<Props> = ({
   const router = useRouter();
   const isLoading = useAppSelector((state) => state[option].loading);
   const dispatch = useAppDispatch();
+
+  const { offset, setOffset } = useContext(AppContext);
 
   const showOrDontModal = () => {
     setVisible(!visible);
@@ -56,7 +59,7 @@ const ActionButtons: React.FC<Props> = ({
       <Modal
         title="Подтвердите действие."
         visible={visible}
-        onOk={handleDelete(id, dispatch, setVisible)}
+        onOk={handleDelete(id, dispatch, setVisible, offset)}
         confirmLoading={isLoading}
         onCancel={showOrDontModal}
       >

@@ -15,10 +15,13 @@ import { Dispatch, SetStateAction } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
 const handleDeleteProduct =
-  (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
+  (id: string, dispatch: AppDispatch, setVisible: any, offset: number) => async () => {
     const isSaved: any = await dispatch(deleteProduct(id));
     if (!isSaved.error) {
-      dispatch(fetchProducts());
+      dispatch(fetchProducts({
+        offset: String(offset),
+        limit: '20'
+      }));
       setVisible((prev) => !prev);
     }
   };

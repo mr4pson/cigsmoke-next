@@ -18,6 +18,7 @@ import {
 } from 'redux/slicers/store/globalSlicer';
 
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
+import { ContextProvider } from 'common/context/AppContext';
 
 export type ComponentWithPageLayout = AppProps & {
   Component: AppProps['Component'] & {
@@ -64,15 +65,17 @@ function App({ Component, pageProps }: ComponentWithPageLayout) {
 
   return (
     <>
-      {Component.PageLayout ? (
-        <Component.PageLayout>
-          <AnimatePresence exitBeforeEnter>
-            <Component {...pageProps} key={router.asPath} />
-          </AnimatePresence>
-        </Component.PageLayout>
-      ) : (
-        <Component {...pageProps} />
-      )}
+      <ContextProvider>
+        {Component.PageLayout ? (
+          <Component.PageLayout>
+            <AnimatePresence exitBeforeEnter>
+              <Component {...pageProps} key={router.asPath} />
+            </AnimatePresence>
+          </Component.PageLayout>
+        ) : (
+          <Component {...pageProps} />
+        )}
+      </ContextProvider>
     </>
   );
   // return router.pathname !== paths[Page.LOGIN] &&

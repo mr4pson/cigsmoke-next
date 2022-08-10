@@ -8,19 +8,22 @@ import {
 } from '../../common/helpers';
 import { PayloadTag } from 'common/interfaces/payload-tags.interface';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { TTagState } from 'redux/types';
+import { FetchPayload, RequestResponse, TTagState } from 'redux/types';
 import { Tag, TagService } from 'swagger/services';
+import { handlePaginationDataFormatter } from 'redux/helpers';
 
 export const fetchTags = createAsyncThunk<
-  Tag[],
-  undefined,
+  RequestResponse,
+  FetchPayload,
   { rejectValue: string }
 >(
   'tags/fetchTags',
-  async function (_, { rejectWithValue }): Promise<any> {
+  async function (payload: FetchPayload, { rejectWithValue }): Promise<any> {
     try {
-      const response = await TagService.getTags() as unknown as { rows: Tag[] };
-      return response.rows;
+      return await TagService.getTags({
+        limit: payload?.limit,
+        offset: payload?.offset
+      });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -122,7 +125,7 @@ const tagsSlicer = createSlice({
       .addCase(
         fetchTags.fulfilled,
         (state, action) => {
-          state.tags = action.payload;
+          state.tags = handlePaginationDataFormatter(action);
           state.loading = false;
           console.log('fulfilled');
         },

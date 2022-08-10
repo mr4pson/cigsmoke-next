@@ -1,8 +1,7 @@
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { useEffect } from 'react';
-import { fetchBrands } from 'redux/slicers/brandsSlicer';
-import ManageBrandForm from 'components/admin/brands/ManageBrandsForm';
 import AdminLayout from 'components/admin/adminLayout/layout';
+import ManageBrandForm from 'components/admin/brands/ManageBrandsForm';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { clearImageList } from 'redux/slicers/imagesSlicer';
 
 const CreateBrand = () => {
@@ -13,8 +12,6 @@ const CreateBrand = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchBrands());
-
     return () => {
       dispatch(clearImageList());
     };

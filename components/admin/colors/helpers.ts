@@ -11,10 +11,13 @@ import { Page, paths } from "routes/constants";
 import { TableProps } from "antd";
 import { DataType } from "common/interfaces/data-type.interface";
 
-export const handleDeleteColor = (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
+export const handleDeleteColor = (id: string, dispatch: AppDispatch, setVisible: any, offset: number) => async () => {
   const isSaved: any = await dispatch(deleteColor(id));
   if (!isSaved.error) {
-    dispatch(fetchColors());
+    dispatch(fetchColors({
+                offset: String(offset),
+                limit: '20',
+              }));
     setVisible(prev => !prev);
   }
 };

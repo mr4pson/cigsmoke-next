@@ -1,28 +1,12 @@
-import { TableProps } from 'antd';
 import { navigateTo } from 'common/helpers';
-import { DataType } from 'common/interfaces/data-type.interface';
+import cloneDeep from 'lodash/cloneDeep';
 import { NextRouter } from 'next/router';
 import { Dispatch } from 'react';
 import { SetStateAction } from 'react';
-import {
-  createCategory,
-  deleteCategory,
-  editCategory,
-  fetchCategories,
-} from 'redux/slicers/categoriesSlicer';
+import { createCategory, deleteCategory, editCategory, fetchCategories } from 'redux/slicers/categoriesSlicer';
 import { AppDispatch } from 'redux/store';
 import { Page, paths } from 'routes/constants';
 import { Parameter } from 'swagger/services';
-import cloneDeep from 'lodash/cloneDeep';
-
-const handleTableChange: TableProps<DataType>['onChange'] = (
-  pagination,
-  filters,
-  sorter,
-  extra,
-) => {
-  console.log('params', pagination, filters, sorter, extra);
-};
 
 const handleFormSubmit =
   (
@@ -35,7 +19,7 @@ const handleFormSubmit =
     if (router.query.id) {
       const payload = {
         ...form,
-        image: image[0] ? image[0].url.split('/api/images/')[1] : undefined,
+        image: image[0] ? image[0]?.url?.split('/api/images/')[1] : undefined,
         id: router.query.id,
         parameters,
       };
@@ -52,7 +36,7 @@ const handleFormSubmit =
     const isSaved: any = await dispatch(
       createCategory({
         ...form,
-        image: image[0] ? image[0].url.split('/api/images/')[1] : undefined,
+        image: image[0] ? image[0]?.url?.split('/api/images/')[1] : undefined,
         parameters,
       }),
     );
@@ -63,10 +47,13 @@ const handleFormSubmit =
   };
 
 const handleDeleteCategory =
-  (id: string, dispatch: AppDispatch, setVisible: any) => async () => {
+  (id: string, dispatch: AppDispatch, setVisible: any, offset: number) => async () => {
     const isSaved: any = await dispatch(deleteCategory(id));
     if (!isSaved.error) {
-      dispatch(fetchCategories());
+      dispatch(fetchCategories({
+        offset: String(offset),
+        limit: '20'
+      }));
       setVisible((prev) => !prev);
     }
   };
@@ -118,7 +105,6 @@ const handleChangeParent =
   };
 
 export {
-  handleTableChange,
   handleFormSubmit,
   handleDeleteCategory,
   handleRedirectCategory,

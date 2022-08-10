@@ -10,7 +10,6 @@ import authReducer from './slicers/authSlicer';
 import categoriesReducer from './slicers/categoriesSlicer';
 import colorsReducer from './slicers/colorsSlicer'
 import brandsReducer from "./slicers/brandsSlicer"
-import parametersReducer from "./slicers/parametersSlicer"
 import productsReducer from './slicers/productsSlicer';
 import imagesReducer from './slicers/imagesSlicer';
 import tagsReducer from "./slicers/tagsSlicer"
@@ -27,7 +26,6 @@ const combinedReducer = combineReducers({
   auth: authReducer,
   colors: colorsReducer,
   brands: brandsReducer,
-  parameters: parametersReducer,
   products: productsReducer,
   images: imagesReducer,
   tags: tagsReducer,
