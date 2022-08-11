@@ -7,20 +7,17 @@ const columns: ColumnsType<Tag> = [
   {
     title: 'Id',
     dataIndex: 'id',
+    width: '15%',
   },
   {
     title: 'Имя',
     dataIndex: 'name',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
+    width: '35%',
   },
   {
     title: 'Url',
     dataIndex: 'url',
-    sorter: {
-      compare: (a, b) => a.url!.localeCompare(b.url!),
-    },
+    width: '35%',
   },
   {
     title: 'Действия',
@@ -35,6 +32,7 @@ const columns: ColumnsType<Tag> = [
         />
       );
     },
+    width: '15%',
   },
 ];
 

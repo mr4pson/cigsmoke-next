@@ -45,7 +45,7 @@ const ProductsPage = () => {
       name,
       price,
       desc,
-      available,
+      available: available ? 'Да' : 'Нет',
       colors,
       category,
       images: (images as string)?.split(','),
@@ -85,6 +85,10 @@ const ProductsPage = () => {
         <Spin className="spinner" size="large" />
       ) : (
         <Table
+          scroll={{
+            x: 1366,
+            y: 768,
+          }}
           pagination={{
             pageSize: 20,
             current: currentPage,

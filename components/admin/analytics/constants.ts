@@ -1,5 +1,4 @@
 import { ColumnsType } from 'antd/lib/table/interface';
-import { DynamicUsersData } from 'common/interfaces/data-analytics.interfaces';
 import React from 'react';
 import { User } from 'swagger/services';
 
@@ -16,17 +15,11 @@ export const columns: ColumnsType<User> = [
   {
     title: 'Имя и фамилия',
     dataIndex: 'name',
-    sorter: {
-      compare: (a, b) => a.email!.localeCompare(b.email!),
-    },
     width: '30%',
   },
   {
     title: 'Email',
     dataIndex: 'email',
-    sorter: {
-      compare: (a, b) => a.email!.localeCompare(b.email!),
-    },
     width: '20%',
   },
   {
@@ -69,17 +62,11 @@ export const columns: ColumnsType<User> = [
   {
     title: 'Создан',
     dataIndex: 'createdAt',
-    sorter: {
-      compare: (a, b) => a.email!.localeCompare(b.email!),
-    },
     width: '10%',
   },
   {
     title: 'Последнее обновление',
     dataIndex: 'updatedAt',
-    sorter: {
-      compare: (a, b) => a.email!.localeCompare(b.email!),
-    },
     width: '10%',
   },
 ];

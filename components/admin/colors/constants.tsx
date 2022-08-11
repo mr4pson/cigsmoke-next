@@ -15,24 +15,22 @@ export const columns: ColumnsType<Color> = [
   {
     title: 'Id',
     dataIndex: 'id',
+    width: '10%',
   },
   {
     title: 'Имя',
     dataIndex: 'name',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
+    width: '25%',
   },
   {
     title: 'Url',
     dataIndex: 'url',
-    sorter: {
-      compare: (a, b) => a.url!.localeCompare(b.url!),
-    },
+    width: '30%',
   },
   {
     title: 'Код',
     dataIndex: 'code',
+    width: '15%',
   },
   {
     title: 'Цвет',
@@ -41,6 +39,7 @@ export const columns: ColumnsType<Color> = [
         <div style={{ ...colorBoxStyle, backgroundColor: record.code }}></div>
       );
     },
+    width: '10%',
   },
   {
     title: 'Действия',
@@ -55,5 +54,6 @@ export const columns: ColumnsType<Color> = [
         />
       );
     },
+    width: '10%',
   },
 ];

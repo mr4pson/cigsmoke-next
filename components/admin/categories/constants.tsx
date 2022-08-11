@@ -9,6 +9,7 @@ const columns: ColumnsType<Category> = [
   {
     title: 'Id',
     dataIndex: 'id',
+    width: '5%',
   },
   {
     title: 'Изображение',
@@ -25,42 +26,33 @@ const columns: ColumnsType<Category> = [
         />
       );
     },
+    width: '10%',
   },
   {
     title: 'Имя',
     dataIndex: 'name',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
+    width: '15%',
   },
   {
     title: 'Дата создания',
     dataIndex: 'createdAt',
-    sorter: {
-      compare: (a, b) => a.createdAt!.localeCompare(b.createdAt!),
-    },
+    width: '15%',
   },
   {
     title: 'Дата изменения',
     dataIndex: 'updatedAt',
-    sorter: {
-      compare: (a, b) => a.updatedAt!.localeCompare(b.updatedAt!),
-    },
+    width: '15%',
   },
   {
     title: 'Url',
     dataIndex: 'url',
-    sorter: {
-      compare: (a, b) => a.url!.localeCompare(b.url!),
-    },
+    width: '15%',
   },
   {
     title: 'Родитель',
     dataIndex: 'parent',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
     render: (parent) => <div>{parent?.name}</div>,
+    width: '14%',
   },
   {
     title: 'Действия',
@@ -75,6 +67,7 @@ const columns: ColumnsType<Category> = [
         />
       );
     },
+    width: '11%',
   },
 ];
 

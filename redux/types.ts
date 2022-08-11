@@ -1,15 +1,4 @@
-<<<<<<< HEAD
 import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData } from 'common/interfaces/data-analytics.interfaces';
-=======
-import {
-  AnalyticsBrand,
-  AnalyticsCategory,
-  AnalyticsProduct,
-  AnalyticsUser,
-  DynamicData,
-  DynamicUsersData,
-} from 'common/interfaces/data-analytics.interfaces';
->>>>>>> master
 import {
   Basket,
   Brand,
@@ -130,7 +119,6 @@ type TCheckoutState = {
 };
 
 type TAnalyticsState = {
-<<<<<<< HEAD
   analyticsData: DynamicData[] | 
   AnalyticsCategory[] | 
   AnalyticsBrand[] | 
@@ -140,17 +128,6 @@ type TAnalyticsState = {
   loading: boolean,
 }
 
-=======
-  analyticsData:
-    | DynamicData[]
-    | AnalyticsCategory[]
-    | AnalyticsBrand[]
-    | AnalyticsProduct[]
-    | AnalyticsUser[];
-  usersData: DynamicUsersData | {};
-  loading: boolean;
-};
->>>>>>> master
 
 type TProductInfoState = {
   product?: Product;
@@ -163,20 +140,8 @@ interface FetchPayload {
 }
 
 interface RequestResponse {
-<<<<<<< HEAD
   data: Category[] | Brand[] | Checkout[] | Color[] | Product[] | Review[] | Tag[] | User[]
   length: number
-=======
-  data:
-    | Category[]
-    | Brand[]
-    | Checkout[]
-    | Color[]
-    | Product[]
-    | Review[]
-    | Tag[];
-  length: number;
->>>>>>> master
 }
 
 type THomePageState = {

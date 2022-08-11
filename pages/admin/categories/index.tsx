@@ -2,6 +2,7 @@ import { Button, Spin, Table } from 'antd';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
 import { AppContext } from 'common/context/AppContext';
 import { navigateTo } from 'common/helpers';
+import { handleDateFormatter } from 'common/helpers/handleDateFormatter';
 import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
 import { columns } from 'components/admin/categories/constants';
@@ -32,8 +33,8 @@ const CategoriesPage = () => {
         id,
         name,
         image,
-        createdAt,
-        updatedAt,
+        createdAt: handleDateFormatter(createdAt),
+        updatedAt: handleDateFormatter(updatedAt),
         url,
         parent,
       };
@@ -70,6 +71,10 @@ const CategoriesPage = () => {
         <Spin className="spinner" size="large" />
       ) : (
         <Table
+          scroll={{
+            x: 1366,
+            y: 768,
+          }}
           pagination={{
             pageSize: 20,
             current: currentPage,
