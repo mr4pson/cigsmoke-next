@@ -7,10 +7,10 @@ interface Props {
   data: {
     type: string | null;
     value: number | null;
-  };
+  }[];
 }
 
-const AmountDonut = ({ data = { type: null, value: null } }: Props) => {
+const AmountDonut = ({ data = [{ type: null, value: null }] }: Props) => {
   function renderStatistic(containerWidth, text, style) {
     const { width: textWidth, height: textHeight } = measureTextWidth(
       text,

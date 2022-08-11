@@ -1,4 +1,3 @@
-import { Spin } from 'antd';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
@@ -8,17 +7,15 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { changeSearchQuery } from 'redux/slicers/store/globalSlicer';
 import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
-import { Category, CategoryInTree } from 'swagger/services';
+import { CategoryInTree } from 'swagger/services';
 import SearchSVG from '../../../../../assets/search.svg';
 import { PopupDisplay } from '../HeaderCart/constants';
 import { FilterBtn } from './FilterBtn';
 import FilterModal from './FilterModal';
 import { handleSearchQueryChange, handleSearchFormSubmit } from './helpers';
 import SearchItem from './SearchItem';
-import { LoadingOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
-
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+import Loading from 'ui-kit/Loading';
 
 type StyleProps = {
   padding?: string;
@@ -100,7 +97,7 @@ const SearchBar: React.FC<Props> = () => {
               !productsLoading ? (
               <div>По вашему запросу ничего не найдено.</div>
             ) : productsLoading ? (
-              <Spin indicator={antIcon} />
+              <Loading />
             ) : (
               <></>
             )}

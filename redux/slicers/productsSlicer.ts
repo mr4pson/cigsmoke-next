@@ -21,8 +21,8 @@ export const fetchProducts = createAsyncThunk<
   async function (payload: FetchPayload, { rejectWithValue }): Promise<any> {
     try {
       return await ProductService.getProducts({
-        limit: payload?.limit,
-        offset: payload?.offset
+        limit: +payload?.limit,
+        offset: payload?.offset,
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));

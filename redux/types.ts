@@ -1,4 +1,15 @@
+<<<<<<< HEAD
 import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData } from 'common/interfaces/data-analytics.interfaces';
+=======
+import {
+  AnalyticsBrand,
+  AnalyticsCategory,
+  AnalyticsProduct,
+  AnalyticsUser,
+  DynamicData,
+  DynamicUsersData,
+} from 'common/interfaces/data-analytics.interfaces';
+>>>>>>> master
 import {
   Basket,
   Brand,
@@ -16,7 +27,7 @@ import {
 } from 'swagger/services';
 
 type TCategoryState = {
-  categories: Category[] ;
+  categories: Category[];
   category: Category | null;
   loading: boolean;
   saveLoading: boolean;
@@ -24,6 +35,7 @@ type TCategoryState = {
 
 type TAuthState = {
   user: User | null;
+  serverErr?: number;
   loading: boolean;
 };
 
@@ -40,7 +52,6 @@ type TBrandState = {
   loading: boolean;
   saveLoading: boolean;
 };
-
 
 type TProductState = {
   products: Product[];
@@ -119,6 +130,7 @@ type TCheckoutState = {
 };
 
 type TAnalyticsState = {
+<<<<<<< HEAD
   analyticsData: DynamicData[] | 
   AnalyticsCategory[] | 
   AnalyticsBrand[] | 
@@ -128,6 +140,17 @@ type TAnalyticsState = {
   loading: boolean,
 }
 
+=======
+  analyticsData:
+    | DynamicData[]
+    | AnalyticsCategory[]
+    | AnalyticsBrand[]
+    | AnalyticsProduct[]
+    | AnalyticsUser[];
+  usersData: DynamicUsersData | {};
+  loading: boolean;
+};
+>>>>>>> master
 
 type TProductInfoState = {
   product?: Product;
@@ -135,14 +158,32 @@ type TProductInfoState = {
 };
 
 interface FetchPayload {
-  limit: string,
-  offset: string
+  limit: string;
+  offset: string;
 }
 
 interface RequestResponse {
+<<<<<<< HEAD
   data: Category[] | Brand[] | Checkout[] | Color[] | Product[] | Review[] | Tag[] | User[]
   length: number
+=======
+  data:
+    | Category[]
+    | Brand[]
+    | Checkout[]
+    | Color[]
+    | Product[]
+    | Review[]
+    | Tag[];
+  length: number;
+>>>>>>> master
 }
+
+type THomePageState = {
+  reviews: Review[];
+  brands: Brand[];
+  loading: boolean;
+};
 
 export type {
   TCategoryState,
@@ -162,5 +203,6 @@ export type {
   TProductInfoState,
   TAnalyticsState,
   FetchPayload,
-  RequestResponse
+  RequestResponse,
+  THomePageState,
 };

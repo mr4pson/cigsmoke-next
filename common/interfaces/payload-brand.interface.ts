@@ -1,6 +1,7 @@
 export interface PayloadBrand {
-    name: string,
-    url: string,
-    image: string,
-    id?: string | string[] | undefined,
+  name: string;
+  url: string;
+  image: string;
+  showOnMain: boolean;
+  id?: string | string[] | undefined;
 }

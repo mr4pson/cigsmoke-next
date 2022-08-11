@@ -30,6 +30,7 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
   );
   const isLoaded = useAppSelector((state) => state.analytics.loading);
 
+<<<<<<< HEAD
   useEffect(() => {
     dispatch(
       fetchAnalyticsUsers({
@@ -39,6 +40,17 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
         limit: '20',
       }),
     );
+=======
+  const handleDateFormatter = (date: string | undefined): string => {
+    const dateArr: string[] = date!?.split('T')[0].split('-');
+    const newDateArr: string[] = [];
+    for (let i = dateArr?.length - 1; i >= 0; i--) {
+      newDateArr.push(dateArr[i]);
+    }
+    const newDate = newDateArr?.join('.') + ' г.';
+    return newDate;
+  };
+>>>>>>> master
 
     return () => {
       dispatch(clearAnalytics());
@@ -66,7 +78,7 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
       createdAt: handleDateFormatter(createdAt),
       updatedAt: handleDateFormatter(updatedAt),
     }),
-  ) as unknown as DataType[];
+  ) as unknown as readonly object[];
 
   return (
     <>

@@ -7,10 +7,10 @@ interface Props {
   data: {
     type: string | null;
     value: number | null;
-  };
+  }[];
 }
 
-const QtyPie = ({ data = { type: null, value: null } }: Props) => {
+const QtyPie = ({ data = [{ type: null, value: null }] }: Props) => {
   const config = {
     appendPadding: 7,
     data,

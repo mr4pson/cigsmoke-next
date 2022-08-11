@@ -230,6 +230,40 @@ const variants = {
       rotate: -90,
     },
   },
+  progress: {
+    empty: {
+      width: '0%',
+      opacity: 0,
+    },
+    fill: {
+      width: '100%',
+      opacity: 1,
+    },
+  },
+  authorizeSlideX: {
+    enter: (direction: number) => {
+      return {
+        x: direction > 0 ? -400 : 400,
+        opacity: 0,
+      };
+    },
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+  },
+  pswConfidential: {
+    hide: (direction: number) => {
+      return {
+        y: direction > 0 ? -40 : 40,
+        opacity: 0,
+      };
+    },
+    show: {
+      y: 0,
+      opacity: 1,
+    },
+  },
 };
 
 export default variants;

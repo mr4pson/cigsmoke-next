@@ -1,16 +1,23 @@
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { paginateHandler } from 'components/store/storeLayout/helpers';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { fetchBrands } from 'redux/slicers/store/homePageSlicer';
+import { THomePageState } from 'redux/types';
 import styled from 'styled-components';
-import ArrowWhite from '../../../assets/arrow_white.svg';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
-import { paginateHandler } from 'components/store/storeLayout/helpers';
-import { getFakeImageUrls } from './helpers';
+import ArrowWhite from '../../../assets/arrow_white.svg';
 
 const OurBrands = () => {
-  const imageUrls = getFakeImageUrls();
+  const dispatch = useAppDispatch();
+  const { brands } = useAppSelector<THomePageState>((state) => state.homePage);
+
+  useEffect(() => {
+    dispatch(fetchBrands());
+  }, []);
 
   const [
     setRefType,
@@ -48,8 +55,8 @@ const OurBrands = () => {
           animate="animate"
           variants={variants.sliderX}
         >
-          {imageUrls.map((item, index) => (
-            <Link key={index} href={`/catalog/id`}>
+          {brands.map((item, index) => (
+            <Link key={index} href={`/catalog?brands=${item.url}`}>
               <a>
                 <BrandsItem
                   key={index}
@@ -57,7 +64,7 @@ const OurBrands = () => {
                   initial="init"
                   whileInView="animate"
                   exit="exit"
-                  src={`/static/${item}`}
+                  src={`/api/images/${item.image}`}
                   variants={variants.fadInSlideUp}
                 />
               </a>

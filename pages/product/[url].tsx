@@ -50,11 +50,11 @@ const ProductInfoPage = () => {
           cart={cart}
           wishlist={wishlist}
         />
-        <Recomendation />
-        {/* <ReveiwsAndQuastions 
-        reviewRef={reviewBtnRef}
-        questionRef={questionBtnRef}
-         /> */}
+        {/* <Recomendation />
+        <ReveiwsAndQuastions
+          reviewRef={reviewBtnRef}
+          questionRef={questionBtnRef}
+        /> */}
       </>
     )
   );

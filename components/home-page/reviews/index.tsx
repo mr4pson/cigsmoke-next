@@ -7,15 +7,18 @@ import {
 } from 'components/store/storeLayout/common';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import { Review } from 'swagger/services';
 import Arrow from '../../../assets/arrow.svg';
-import { REVIEWS } from './constants';
 import ReviewItem from './reviewItem';
 import { paginateHandler } from 'components/store/storeLayout/helpers';
+import { fetchReviews } from 'redux/slicers/store/homePageSlicer';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { THomePageState } from 'redux/types';
 
 const Reviews = () => {
+  const dispatch = useAppDispatch();
+  const { reviews } = useAppSelector<THomePageState>((state) => state.homePage);
   const [
     setRefType,
     widthOrHeightRef,
@@ -25,11 +28,10 @@ const Reviews = () => {
     setSlideAmount,
   ] = paginateHandler();
 
-  // const [reviews, setReviews] = useState<Review[]>([]);
-  // widthRef is not updating when reviews lenght is 0 need to use react suspenses
   useEffect(() => {
-    // setReviews(REVIEWS);
+    // widthRef is not updating when reviews lenght is 0 need to use react suspenses
     setRefType('width');
+    dispatch(fetchReviews());
     setSlideAmount(150);
   }, []);
 
@@ -65,7 +67,7 @@ const Reviews = () => {
               animate="animate"
               variants={variants.sliderX}
             >
-              {REVIEWS.map((review, index) => (
+              {reviews.map((review, index) => (
                 <ReviewItem
                   key={`review-item-${index}`}
                   index={index}

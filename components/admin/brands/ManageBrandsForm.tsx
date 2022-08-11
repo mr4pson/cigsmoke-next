@@ -1,5 +1,14 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Select, Spin } from 'antd';
+import {
+  Button,
+  Checkbox,
+  Form,
+  Input,
+  Radio,
+  Select,
+  Spin,
+  Switch,
+} from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -40,6 +49,7 @@ const ManageBrandForm = ({
     name: brand?.name,
     url: brand?.url,
     image: brand?.image,
+    showOnMainPage: brand?.showOnMain,
   };
 
   const imageList = useAppSelector((state) => state.images.imageList);
@@ -81,6 +91,20 @@ const ManageBrandForm = ({
             option={ManageBrandFields.Url}
             children={
               <Input required={true} placeholder="Введите URL бренда" />
+            }
+          />
+          <FormItem
+            option={ManageBrandFields.ShowOnMain}
+            children={
+              <>
+                <label style={{ marginBottom: '10px', display: 'block' }}>
+                  Показать на главной странице
+                </label>
+                <Radio.Group>
+                  <Radio value={true}>Да</Radio>
+                  <Radio value={false}>Нет</Radio>
+                </Radio.Group>
+              </>
             }
           />
           <FormItem

@@ -15,6 +15,7 @@ type styleProps = {
   borderbottom?: string;
   border?: string;
   width?: string;
+  justifycontent?: string;
 };
 
 export type { styleProps };

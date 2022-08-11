@@ -26,7 +26,7 @@ const CartItem: React.FC<Props> = ({
   onSelect,
 }) => {
   const { name, price, images } = item.product!;
-  const imageList = images ? JSON.parse(images) : [];
+  const imageList = images ? images.split(', ') : [];
 
   const handleRemoveClick = (product: Product) => () => {
     onRemove(product);
@@ -49,7 +49,11 @@ const CartItem: React.FC<Props> = ({
           whileTap="tap"
           custom={1.05}
           variants={variants.grow}
-          src={imageList[0]}
+          src={`/api/images/${imageList[0]}`}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = '/assets/images/img_error.png';
+          }}
         />
       </ImageWrapper>
       <ItemDetails>

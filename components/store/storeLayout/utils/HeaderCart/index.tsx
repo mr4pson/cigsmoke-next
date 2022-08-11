@@ -17,12 +17,13 @@ import {
   handleItemRemove,
 } from './helpers';
 import { PopupDisplay } from './constants';
+import { TCartState } from 'redux/types';
 
 const HeaderCart = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [display, setDisplay] = useState(PopupDisplay.None);
-  const cart: Basket | null = useAppSelector((state) => state.cart.cart);
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
 
   const ref = useDetectClickOutside({
     onTriggered: handleClickOutside(isOpen, setIsOpen, setDisplay),

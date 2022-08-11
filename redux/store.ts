@@ -3,23 +3,24 @@ import {
   AnyAction,
   combineReducers,
   configureStore,
-  ThunkAction
+  ThunkAction,
 } from '@reduxjs/toolkit';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import authReducer from './slicers/authSlicer';
 import categoriesReducer from './slicers/categoriesSlicer';
-import colorsReducer from './slicers/colorsSlicer'
-import brandsReducer from "./slicers/brandsSlicer"
+import colorsReducer from './slicers/colorsSlicer';
+import brandsReducer from './slicers/brandsSlicer';
 import productsReducer from './slicers/productsSlicer';
 import imagesReducer from './slicers/imagesSlicer';
-import tagsReducer from "./slicers/tagsSlicer"
-import reviewsReducer from "./slicers/reviewsSlicer"
+import tagsReducer from './slicers/tagsSlicer';
+import reviewsReducer from './slicers/reviewsSlicer';
 import globalSlicer from './slicers/store/globalSlicer';
-import checkoutsReducer from "./slicers/checkoutsSlicer"
+import checkoutsReducer from './slicers/checkoutsSlicer';
 import cartSlicer from './slicers/store/cartSlicer';
 import catalogSlicer from './slicers/store/catalogSlicer';
 import analyticsReducer from './slicers/analyticsSlicer';
 import productInfoSlicer from './slicers/store/productInfoSlicer';
+import homePageSlicer from './slicers/store/homePageSlicer';
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
@@ -37,9 +38,13 @@ const combinedReducer = combineReducers({
   cart: cartSlicer,
   catalog: catalogSlicer,
   productInfo: productInfoSlicer,
+  homePage: homePageSlicer,
 });
 
-const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) => {
+const reducer = (
+  state: ReturnType<typeof combinedReducer>,
+  action: AnyAction,
+) => {
   if (action.type === HYDRATE) {
     const nextState = {
       ...state, // use previous state
@@ -54,9 +59,10 @@ const reducer = (state: ReturnType<typeof combinedReducer>, action: AnyAction) =
 export const makeStore = () =>
   configureStore({
     reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-      serializableCheck: false
-    }),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
   } as any);
 
 type Store = ReturnType<typeof makeStore>;
