@@ -1,28 +1,52 @@
 import { DataType } from '@antv/l7-core';
 import { Spin, Table } from 'antd';
-import { DynamicUsersData } from 'common/interfaces/data-analytics.interfaces';
-import { useAppSelector } from 'redux/hooks';
+import { AppContext } from 'common/context/AppContext';
+import { handleDateFormatter } from 'common/helpers/handleDateFormatter';
+import { useContext, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  clearAnalytics,
+  fetchAnalyticsUsers,
+} from 'redux/slicers/analyticsSlicer';
+import { User } from 'swagger/services';
 
 import { columns } from './constants';
 import styles from './index.module.scss';
 
-const NewUsers = () => {
-  const usersData = useAppSelector<DynamicUsersData>(
-    (state) => state.analytics.usersData,
+interface Props {
+  dateTo;
+  dateFrom;
+  currentPage;
+  setCurrentPage;
+}
+
+const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
+  const { offset, setOffset } = useContext(AppContext);
+
+  const dispatch = useAppDispatch();
+
+  const usersData = useAppSelector<User[]>(
+    (state) => state.analytics.analyticsData,
   );
   const isLoaded = useAppSelector((state) => state.analytics.loading);
 
-  const handleDateFormatter = (date: string): string => {
-    const dateArr: string[] = date?.split('T')[0].split('-');
-    const newDateArr: string[] = [];
-    for (let i = dateArr?.length - 1; i >= 0; i--) {
-      newDateArr.push(dateArr[i]);
-    }
-    const newDate = newDateArr?.join('.') + ' г.';
-    return newDate;
-  };
+  useEffect(() => {
+    dispatch(
+      fetchAnalyticsUsers({
+        createdFrom: dateFrom,
+        createdTo: dateTo,
+        offset: String(offset),
+        limit: '20',
+      }),
+    );
 
-  const dataSourse = usersData?.data?.map(
+    return () => {
+      dispatch(clearAnalytics());
+      setOffset(0);
+    };
+  }, []);
+
+  const dataSourse = usersData?.map(
     ({
       id,
       isVerified,
@@ -53,9 +77,25 @@ const NewUsers = () => {
           <div>
             <Table
               columns={columns}
-              dataSource={dataSourse}
-              pagination={{ pageSize: 10 }}
+              dataSource={dataSourse as User[]}
+              pagination={{
+                pageSize: 20,
+                current: currentPage,
+              }}
               scroll={{ y: 500 }}
+              onChange={(event) => {
+                const newOffset = ((event.current as number) - 1) * 20;
+                setOffset(newOffset);
+                dispatch(
+                  fetchAnalyticsUsers({
+                    createdFrom: dateFrom,
+                    createdTo: dateTo,
+                    offset: String(newOffset),
+                    limit: '20',
+                  }),
+                );
+                setCurrentPage(event.current as number);
+              }}
             />
           </div>
         </>

@@ -6,9 +6,9 @@ import {
   AnalyticsProduct,
   AnalyticsUser,
   DynamicData,
-  DynamicUsersData,
 } from 'common/interfaces/data-analytics.interfaces';
-import { TAnalyticsState } from 'redux/types';
+import { handlePaginationDataFormatter } from 'redux/helpers';
+import { FetchPayload, RequestResponse, TAnalyticsState } from 'redux/types';
 import { AnalyticsService, User } from 'swagger/services';
 
 import { getErrorMassage, handleError, handlePending, openErrorNotification } from '../../common/helpers';
@@ -18,6 +18,8 @@ interface AnalyticsStaticPayload {
     createdFrom?: string,
     createdTo?: string
 }
+
+type UsersPayload = AnalyticsStaticPayload & FetchPayload
 
 interface AnalyticsDynamicPayload {
     from: string;
@@ -61,14 +63,14 @@ export const fetchDynamicAnalytics = createAsyncThunk<
 );
 
 export const fetchAnalyticsUsers = createAsyncThunk<
-  DynamicUsersData,
-  AnalyticsStaticPayload,
+  RequestResponse,
+  UsersPayload,
   { rejectValue: string }
 >(
   'analytics/fetchAnalyticsUsers',
-  async function (payload: AnalyticsStaticPayload, { rejectWithValue }): Promise<any> {
+  async function (payload: UsersPayload, { rejectWithValue }): Promise<any> {
     try {
-      const resp = await axiosInstance.get(`/analytics/users?createdFrom=${payload.createdFrom}&createdTo=${payload.createdTo}`)
+      const resp = await axiosInstance.get(`/users?createdFrom=${payload.createdFrom}&createdTo=${payload.createdTo}T23:59:59.999Z&offset=${payload.offset}&limit=${payload.limit}`)
       return resp.data
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -78,7 +80,6 @@ export const fetchAnalyticsUsers = createAsyncThunk<
 
 const initialState: TAnalyticsState = {
   analyticsData: [],
-  usersData: {},
   loading: false,
 };
 
@@ -88,7 +89,6 @@ const analyticsSlicer = createSlice({
   reducers: {
     clearAnalytics(state) {
       state.analyticsData = []
-      state.usersData = {}
     },
   },
   extraReducers: (builder) => {
@@ -120,8 +120,7 @@ const analyticsSlicer = createSlice({
       .addCase(
         fetchAnalyticsUsers.fulfilled,
         (state, action) => {
-          state.usersData = action.payload;
-          console.log(state.usersData)
+          state.analyticsData = handlePaginationDataFormatter(action);;
           state.loading = false;
           console.log('fulfilled');
         },

@@ -16,9 +16,9 @@ const DynamicTab = ({
   isDateChanged,
   dateTo,
   dateFrom,
+  currentPage,
+  setCurrentPage,
 }) => {
-  const dispatch = useAppDispatch();
-
   const handleTabChange = (event) => {
     switch (event) {
       case '2':
@@ -37,12 +37,6 @@ const DynamicTab = ({
         break;
       case '3':
         setStep('');
-        dispatch(
-          fetchAnalyticsUsers({
-            createdFrom: dateFrom,
-            createdTo: dateTo,
-          }),
-        );
     }
   };
 
@@ -60,7 +54,12 @@ const DynamicTab = ({
       </TabPane>
       <TabPane tab="Новые пользователи за выбранный период" key="3">
         <TabPaneWrapper>
-          <NewUsers />
+          <NewUsers
+            dateTo={dateTo}
+            dateFrom={dateFrom}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
         </TabPaneWrapper>
       </TabPane>
     </Tabs>

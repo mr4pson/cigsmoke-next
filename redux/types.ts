@@ -1,4 +1,4 @@
-import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData, DynamicUsersData } from 'common/interfaces/data-analytics.interfaces';
+import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData } from 'common/interfaces/data-analytics.interfaces';
 import {
   Basket,
   Brand,
@@ -7,7 +7,6 @@ import {
   Checkout,
   Color,
   Image,
-  Parameter,
   PriceRange,
   Product,
   Review,
@@ -124,8 +123,8 @@ type TAnalyticsState = {
   AnalyticsCategory[] | 
   AnalyticsBrand[] | 
   AnalyticsProduct[] | 
-  AnalyticsUser[],
-  usersData: DynamicUsersData | {},
+  AnalyticsUser[] |
+  User[],
   loading: boolean,
 }
 
@@ -141,7 +140,7 @@ interface FetchPayload {
 }
 
 interface RequestResponse {
-  data: Category[] | Brand[] | Checkout[] | Color[] | Product[] | Review[] | Tag[]
+  data: Category[] | Brand[] | Checkout[] | Color[] | Product[] | Review[] | Tag[] | User[]
   length: number
 }
 
