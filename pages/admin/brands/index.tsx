@@ -64,6 +64,10 @@ const Brands = () => {
         <Spin className="spinner" size="large" />
       ) : (
         <Table
+          scroll={{
+            x: 1366,
+            y: 768,
+          }}
           pagination={{
             pageSize: 20,
             current: currentPage,

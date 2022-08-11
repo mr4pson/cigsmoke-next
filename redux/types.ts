@@ -1,11 +1,4 @@
-import {
-  AnalyticsBrand,
-  AnalyticsCategory,
-  AnalyticsProduct,
-  AnalyticsUser,
-  DynamicData,
-  DynamicUsersData,
-} from 'common/interfaces/data-analytics.interfaces';
+import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData } from 'common/interfaces/data-analytics.interfaces';
 import {
   Basket,
   Brand,
@@ -14,7 +7,6 @@ import {
   Checkout,
   Color,
   Image,
-  Parameter,
   PriceRange,
   Product,
   Review,
@@ -127,15 +119,15 @@ type TCheckoutState = {
 };
 
 type TAnalyticsState = {
-  analyticsData:
-    | DynamicData[]
-    | AnalyticsCategory[]
-    | AnalyticsBrand[]
-    | AnalyticsProduct[]
-    | AnalyticsUser[];
-  usersData: DynamicUsersData | {};
-  loading: boolean;
-};
+  analyticsData: DynamicData[] | 
+  AnalyticsCategory[] | 
+  AnalyticsBrand[] | 
+  AnalyticsProduct[] | 
+  AnalyticsUser[] |
+  User[],
+  loading: boolean,
+}
+
 
 type TProductInfoState = {
   product?: Product;
@@ -148,15 +140,8 @@ interface FetchPayload {
 }
 
 interface RequestResponse {
-  data:
-    | Category[]
-    | Brand[]
-    | Checkout[]
-    | Color[]
-    | Product[]
-    | Review[]
-    | Tag[];
-  length: number;
+  data: Category[] | Brand[] | Checkout[] | Color[] | Product[] | Review[] | Tag[] | User[]
+  length: number
 }
 
 type THomePageState = {

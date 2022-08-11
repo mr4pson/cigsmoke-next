@@ -1,5 +1,6 @@
 import { Col, DatePicker, Row, Space } from 'antd';
-import { useEffect, useState } from 'react';
+import { AppContext } from 'common/context/AppContext';
+import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearAnalytics,
@@ -21,6 +22,7 @@ const DynamicLayout = () => {
   const [dateTo, setDateTo] = useState<string>(handleGetDate(step, false));
   const [dateFrom, setDateFrom] = useState<string>(handleGetDate(step, true));
   const [isDateChanged, setIsDateChanged] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const dispatch = useAppDispatch();
 
@@ -44,8 +46,11 @@ const DynamicLayout = () => {
         fetchAnalyticsUsers({
           createdFrom: dateFrom,
           createdTo: dateTo,
+          offset: '0',
+          limit: '20',
         }),
       );
+      setCurrentPage(1);
     }
   }, [dateTo, dateFrom]);
 
@@ -97,6 +102,8 @@ const DynamicLayout = () => {
             isDateChanged={isDateChanged}
             dateFrom={dateFrom}
             dateTo={dateTo}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
           />
         </Col>
       </Row>

@@ -28,7 +28,3 @@ export interface DynamicData {
     date: string,
     amount: number
 }
-
-export interface DynamicUsersData {
-    data?: User[], qty?: number
-}
