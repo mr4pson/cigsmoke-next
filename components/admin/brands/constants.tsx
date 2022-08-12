@@ -45,7 +45,6 @@ export const columns: ColumnsType<Brand> = [
     title: 'На главной странице',
     dataIndex: 'showOnMain',
     render: (_, record) => {
-      console.log(record);
       return <span>{record.showOnMain ? 'Да' : 'Нет'}</span>;
     },
   },
