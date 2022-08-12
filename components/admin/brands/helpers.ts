@@ -13,18 +13,18 @@ import { DataType } from 'common/interfaces/data-type.interface';
 
 export const handleDeleteBrand =
   (id: string, dispatch: AppDispatch, setVisible: any, offset: number) =>
-  async () => {
-    const isSaved: any = await dispatch(deleteBrand(id));
-    if (!isSaved.error) {
-      dispatch(
-        fetchBrands({
-          offset: String(offset),
-          limit: '20',
-        }),
-      );
-      setVisible((prev) => !prev);
-    }
-  };
+    async () => {
+      const isSaved: any = await dispatch(deleteBrand(id));
+      if (!isSaved.error) {
+        dispatch(
+          fetchBrands({
+            offset: String(offset),
+            limit: '20',
+          }),
+        );
+        setVisible((prev) => !prev);
+      }
+    };
 
 export const handleFormSubmitBrands =
   (router: NextRouter, dispatch: AppDispatch, image: any) => async (form) => {
