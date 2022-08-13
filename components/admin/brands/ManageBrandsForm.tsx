@@ -1,27 +1,20 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  Radio,
-  Select,
-  Spin,
-  Switch,
-} from 'antd';
+import { Button, Form, Input, Select, Spin, Switch } from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { setDefaultImageList } from 'redux/slicers/imagesSlicer';
+import {
+  clearImageList,
+  setDefaultImageList,
+} from 'redux/slicers/imagesSlicer';
 import { Page } from 'routes/constants';
 import { Brand } from 'swagger/services';
 
+import FormItem from '../generalComponents/FormItem';
+import ImageUpload from '../generalComponents/ImageUpload';
 import styles from './brands.module.scss';
 import { handleFormSubmitBrands } from './helpers';
-import ImageUpload from '../generalComponents/ImageUpload';
 import { ManageBrandFields } from './ManageBrandsFields.enum';
-import FormItem from '../generalComponents/FormItem';
 
 const { Option } = Select;
 
@@ -49,7 +42,7 @@ const ManageBrandForm = ({
     name: brand?.name,
     url: brand?.url,
     image: brand?.image,
-    showOnMainPage: brand?.showOnMain,
+    showOnMain: brand?.showOnMain,
   };
 
   const imageList = useAppSelector((state) => state.images.imageList);
@@ -64,6 +57,10 @@ const ManageBrandForm = ({
       );
     }
   }, [brand]);
+
+  useEffect(() => {
+    dispatch(clearImageList());
+  }, []);
 
   return (
     <>
@@ -93,20 +90,15 @@ const ManageBrandForm = ({
               <Input required={true} placeholder="Введите URL бренда" />
             }
           />
-          <FormItem
-            option={ManageBrandFields.ShowOnMain}
-            children={
-              <>
-                <label style={{ marginBottom: '10px', display: 'block' }}>
-                  Показать на главной странице
-                </label>
-                <Radio.Group>
-                  <Radio value={true}>Да</Radio>
-                  <Radio value={false}>Нет</Radio>
-                </Radio.Group>
-              </>
-            }
-          />
+          <label style={{ marginBottom: '10px', display: 'block' }}>
+            Показать на главной странице
+          </label>
+          <Form.Item
+            name={ManageBrandFields.ShowOnMain}
+            valuePropName="checked"
+          >
+            <Switch />
+          </Form.Item>
           <FormItem
             option={ManageBrandFields.Image}
             children={<ImageUpload fileList={imageList} />}

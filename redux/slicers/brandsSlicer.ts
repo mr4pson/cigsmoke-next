@@ -60,6 +60,7 @@ export const createBrand = createAsyncThunk<
           name: payload.name,
           url: payload.url,
           image: payload.image,
+          showOnMain: payload.showOnMain,
         },
       });
     } catch (error: any) {

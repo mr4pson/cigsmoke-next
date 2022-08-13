@@ -68,16 +68,18 @@ const HeaderCart = () => {
                   whileHover="hover"
                   whileTap="tap"
                   variants={variants.boxShadow}
+                  onClick={handleClickOutside(isOpen, setIsOpen, setDisplay)}
                 >
                   Перейти в корзину
                 </ActionBtns>
               </Link>
-              <Link href="/">
+              <Link href="/checkout">
                 <a>
                   <ActionBtns
                     whileHover="hover"
                     whileTap="tap"
                     variants={variants.boxShadow}
+                    onClick={handleClickOutside(isOpen, setIsOpen, setDisplay)}
                   >
                     Перейти к оформлению
                   </ActionBtns>
