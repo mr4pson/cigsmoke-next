@@ -63,8 +63,8 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
       name: `${firstName} ${lastName}`,
       email,
       role: role === 'Admin' ? 'Администратор' : 'Пользователь',
-      createdAt: handleDateFormatter(createdAt),
-      updatedAt: handleDateFormatter(updatedAt),
+      createdAt: handleDateFormatter(createdAt!),
+      updatedAt: handleDateFormatter(updatedAt!),
     }),
   ) as unknown as readonly object[];
 
@@ -82,7 +82,10 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
                 pageSize: 20,
                 current: currentPage,
               }}
-              scroll={{ y: 500 }}
+              scroll={{
+                x: 1366,
+                y: 768,
+              }}
               onChange={(event) => {
                 const newOffset = ((event.current as number) - 1) * 20;
                 setOffset(newOffset);

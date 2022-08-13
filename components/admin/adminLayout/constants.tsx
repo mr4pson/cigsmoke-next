@@ -9,6 +9,7 @@ import {
   ReconciliationOutlined,
   LineChartOutlined,
   MinusOutlined,
+  FundProjectionScreenOutlined,
 } from '@ant-design/icons';
 import { Page, paths } from 'routes/constants';
 
@@ -23,6 +24,11 @@ export const items: TMenuItem[] = [
   getItem('Теги', paths[Page.ADMIN_TAGS], <TagsOutlined />),
   getItem('Отзывы', paths[Page.ADMIN_REVIEWS], <CommentOutlined />),
   getItem('Заказы', paths[Page.ADMIN_CHECKOUTS], <ReconciliationOutlined />),
+  getItem(
+    'Баннеры',
+    paths[Page.ADMIN_BANNERS],
+    <FundProjectionScreenOutlined />,
+  ),
   getItem('Аналитика', '', <LineChartOutlined />, [
     getItem(
       'Категории',
@@ -68,4 +74,7 @@ export const pathWords: PathWords = {
   'analytics/products': 'Продукты',
   'analytics/users': 'Пользователи',
   'analytics/dynamic': 'Динамика',
+  banners: 'Баннеры',
+  'banners/create-banner': 'Создание баннера',
+  'banners/[id]': 'Редактирование баннера',
 };
