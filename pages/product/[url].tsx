@@ -9,6 +9,8 @@ import { fetchProduct } from 'redux/slicers/store/productInfoSlicer';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TProductInfoState } from 'redux/types';
 import { Basket, Wishlist } from 'swagger/services';
+import Loading from 'ui-kit/Loading';
+import styled from 'styled-components';
 
 const ProductInfoPage = () => {
   const dispatch = useAppDispatch();
@@ -50,14 +52,25 @@ const ProductInfoPage = () => {
           cart={cart}
           wishlist={wishlist}
         />
-        {/* <Recomendation />
-        <ReveiwsAndQuastions
+        <Recomendation />
+        {/* <ReveiwsAndQuastions
           reviewRef={reviewBtnRef}
           questionRef={questionBtnRef}
         /> */}
-      </>
-    )
+    </>
+  ) : (
+    <LoadingWrapper>
+      <Loading />
+    </LoadingWrapper>
   );
 };
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+`;
+
 ProductInfoPage.PageLayout = StoreLayout;
 export default ProductInfoPage;

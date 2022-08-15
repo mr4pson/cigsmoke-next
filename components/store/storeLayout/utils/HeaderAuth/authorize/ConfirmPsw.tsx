@@ -1,6 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 import {
   Content,
@@ -11,51 +10,30 @@ import {
   FormWrapper,
   ConfidentialityWrapper,
 } from './common';
-import { handleBack, handleSignIn } from './helpers';
-import PswShow from '../../../../../assets/pswshow.svg';
-import PswHide from '../../../../../assets/pswhide.svg';
-import Link from 'next/link';
+import { handleSignUp } from './helpers';
+import PswShow from '../../../../../../assets/pswshow.svg';
+import PswHide from '../../../../../../assets/pswhide.svg';
 import variants from 'components/store/lib/variants';
-import color from 'components/store/lib/ui.colors';
 import { InputsTooltip } from 'components/store/checkout/helpers';
+import color from 'components/store/lib/ui.colors';
+import { paginateTo } from 'components/store/checkout/constant';
 import { useAppDispatch } from 'redux/hooks';
-import { PopupDisplay } from '../HeaderCart/constants';
-
-// TODO SET THE NOT VERIFIED USERS STATUS TO FORBIDDEN
-//  if (!user.isVerified) {
-//    resp
-//      .status(HttpStatus.FORBIDDEN)
-//      .json({ message: 'Account is not not verified' });
-//    return;
-//  }
-
-type Props = {
-  direction: number;
-  authType: string;
-  paginate: any;
-  serverErr: number | undefined;
-  isCap: boolean;
-  setCap: Dispatch<SetStateAction<boolean>>;
-  setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
-  setIsOpened: Dispatch<SetStateAction<boolean>>;
-};
-const SignIn: React.FC<Props> = ({
+const ConfirmPsw = ({
   direction,
   authType,
   paginate,
-  serverErr,
+  firstName,
+  lastName,
+  email,
   isCap,
   setCap,
-  setDisplay,
-  setIsOpened,
 }) => {
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailErr, setEmailErr] = useState(false);
-  const [pswErr, setPswErr] = useState(false);
+  const [repeatPsw, setRepeatPsw] = useState('');
   const [confidentiality, setConfidentiality] = useState('password');
   const [secret, setSecret] = useState(0);
+  const [[pswInput, repeatPswInput], setInputsErr] = useState([false, false]);
 
   return (
     <Content
@@ -63,77 +41,12 @@ const SignIn: React.FC<Props> = ({
       dragConstraints={{ left: 0, right: 0 }}
       custom={direction}
       variants={variants.authorizeSlideX}
-      animate={authType == 'signin' ? 'center' : 'enter'}
+      animate={authType == 'password' ? 'center' : 'enter'}
     >
       <FormWrapper>
-        <h4>Введите свой логин и пароль, чтобы войти</h4>
+        <h4>Введите свой Логен и Пароль, чтобы войти</h4>
         <AuthInputsWrapper>
-          <label htmlFor="signin-mail">
-            <b>
-              <span>Логин</span>
-              <span className="required">*</span>
-            </b>
-            <InputsTooltip
-              key="email-tip"
-              title={
-                <React.Fragment>
-                  <span>Это поле обязательно к заполнению</span>
-                  <span
-                    style={{
-                      color: serverErr == 403 ? color.hover : color.btnPrimary,
-                    }}
-                  >
-                    Эл. адрес должна быть подтверждена для входа
-                  </span>
-                  <span>
-                    {serverErr == 403
-                      ? 'Проверьте свой почтовый ящик на наличие письма с подтверждением'
-                      : ''}
-                  </span>
-                </React.Fragment>
-              }
-            >
-              <span
-                style={{
-                  borderColor:
-                    serverErr == 403 ? color.hover : color.btnPrimary,
-                  color: serverErr == 403 ? color.hover : color.btnPrimary,
-                }}
-                className="tool-tip"
-              >
-                ?
-              </span>
-            </InputsTooltip>
-            <span style={{ color: color.hover }}>
-              {serverErr == 400 ? 'Неверный эл. адрес' : ''}
-            </span>
-            <span style={{ color: color.hover }}>
-              {serverErr == 403 ? 'не подтверждено' : ''}
-            </span>
-          </label>
-          <AuthInput
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            placeholder={emailErr ? 'Логин не может быть пустым' : 'Логин'}
-            type="email"
-            id="signin-mail"
-            value={email}
-            style={{
-              border: `solid 1px ${
-                emailErr || serverErr == 403 || serverErr == 400
-                  ? color.hover
-                  : color.btnPrimary
-              }`,
-            }}
-            onChange={(e) => {
-              setEmail(e.target.value.toLowerCase());
-              setEmailErr(isEmail(e.target.value) ? false : true);
-            }}
-          />
-        </AuthInputsWrapper>
-        <AuthInputsWrapper>
-          <label htmlFor="signin-psw">
+          <label htmlFor="signup-psw">
             <b>
               <span>Пароль</span>
               <span className="required">*</span>
@@ -143,35 +56,116 @@ const SignIn: React.FC<Props> = ({
               title={
                 <React.Fragment>
                   <span>Это поле обязательно к заполнению</span>
-                  <span>Эл. адрес должна быть подтверждена для входа</span>
+                  <span>
+                    Используйте буквенно-цифровые английские символы для пароля
+                  </span>
+                  <span style={{ color: color.hover }}>
+                    минимальное допустимое количество символов восемь
+                  </span>
                 </React.Fragment>
               }
             >
               <span className="tool-tip">?</span>
             </InputsTooltip>
-            <span style={{ color: color.hover }}>
-              {serverErr == 401 ? 'Неверный пароль' : ''}
+            <span>{isCap ? 'Капслок включен' : ''}</span>
+          </label>
+          <AuthInput
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.boxShadow}
+            placeholder={
+              isEmpty(password) && pswInput
+                ? 'Пароль не может быть пустым'
+                : 'Пароль'
+            }
+            type={confidentiality}
+            id="signup-psw"
+            value={password}
+            style={{
+              border: `solid 1px ${
+                isEmpty(password) && pswInput ? color.hover : color.btnPrimary
+              }`,
+            }}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setInputsErr([true, repeatPswInput ? true : false]);
+            }}
+            onKeyUp={(e) =>
+              setCap(e.getModifierState('CapsLock') ? true : false)
+            }
+          />
+          <ConfidentialityWrapper>
+            <span className="content-confidentiality">
+              <motion.span
+                custom={secret}
+                animate={confidentiality == 'password' ? 'show' : 'hide'}
+                variants={variants.pswConfidential}
+                onClick={() => {
+                  setSecret(1);
+                  setConfidentiality('text');
+                }}
+              >
+                <PswHide />
+              </motion.span>
+              <motion.span
+                custom={secret}
+                animate={confidentiality == 'text' ? 'show' : 'hide'}
+                variants={variants.pswConfidential}
+                onClick={() => {
+                  setSecret(-1);
+                  setConfidentiality('password');
+                }}
+              >
+                <PswShow />
+              </motion.span>
             </span>
-            <span>
-              {isCap && serverErr == undefined ? 'Капслок включен' : ''}
+          </ConfidentialityWrapper>
+        </AuthInputsWrapper>
+        <AuthInputsWrapper>
+          <label htmlFor="signup-psw-repeat">
+            <b>
+              <span>Повторите пароль</span>
+              <span className="required">*</span>
+            </b>
+            <InputsTooltip
+              key="psw-tip"
+              title={
+                <React.Fragment>
+                  <span>Это поле обязательно к заполнению</span>
+                  <span style={{ color: color.hover }}>
+                    повторите тот же пароль сверху
+                  </span>
+                </React.Fragment>
+              }
+            >
+              <span className="tool-tip">?</span>
+            </InputsTooltip>
+            <span style={{ color: color.hover, fontSize: '0.6rem' }}>
+              {repeatPsw !== password ? 'пароль не подходит' : ''}
             </span>
           </label>
           <AuthInput
             whileHover="hover"
             whileTap="tap"
             variants={variants.boxShadow}
-            placeholder={pswErr ? 'Пароль не может быть пустым' : 'Пароль'}
+            placeholder={
+              isEmpty(repeatPsw) && repeatPswInput
+                ? 'Пароль не может быть пустым'
+                : 'Повторите пароль'
+            }
             type={confidentiality}
-            id="signin-psw"
-            value={password}
+            id="signup-psw-repeat"
+            value={repeatPsw}
             style={{
               border: `solid 1px ${
-                pswErr || serverErr == 401 ? color.hover : color.btnPrimary
+                isEmpty(repeatPsw) && repeatPswInput
+                  ? color.hover
+                  : color.btnPrimary
               }`,
             }}
             onChange={(e) => {
-              setPassword(e.target.value);
-              setPswErr(isEmpty(e.target.value) ? true : false);
+              setRepeatPsw(e.target.value);
+              setInputsErr([pswInput ? true : false, true]);
             }}
             onKeyUp={(e) =>
               setCap(e.getModifierState('CapsLock') ? true : false)
@@ -205,9 +199,6 @@ const SignIn: React.FC<Props> = ({
           </ConfidentialityWrapper>
         </AuthInputsWrapper>
       </FormWrapper>
-      <Link href="/acount/pswreset">
-        <a>забыл пароль?</a>
-      </Link>
       <BtnsWrapper>
         <AuthBtns
           initial="init"
@@ -217,24 +208,27 @@ const SignIn: React.FC<Props> = ({
           whileTap={{ boxShadow: `0px 0px 0px 0px ${color.boxShadowBtn}` }}
           variants={variants.fadInSlideUp}
           bgcolor={
-            isEmpty(email) || isEmpty(password) || !isEmail(email)
+            isEmpty(password) || isEmpty(repeatPsw) || repeatPsw !== password
               ? color.textSecondary
               : color.btnPrimary
           }
           disabled={
-            isEmpty(email) || isEmpty(password) || !isEmail(email)
+            isEmpty(password) || isEmpty(repeatPsw) || repeatPsw !== password
               ? true
               : false
           }
-          onClick={handleSignIn({
-            dispatch,
-            email,
-            password,
-            setDisplay,
-            setIsOpened,
-          })}
+          onClick={() =>
+            handleSignUp({
+              dispatch,
+              firstName,
+              lastName,
+              email,
+              password,
+              paginate,
+            })
+          }
         >
-          Войти
+          регистрироваться
         </AuthBtns>
         <AuthBtns
           initial="init"
@@ -244,7 +238,10 @@ const SignIn: React.FC<Props> = ({
           whileTap={{ boxShadow: `0px 0px 0px 0px ${color.boxShadowBtn}` }}
           variants={variants.fadInSlideUp}
           bgcolor={color.textTertiary}
-          onClick={() => handleBack(paginate, setEmailErr, setPswErr, dispatch)}
+          onClick={() => {
+            paginate(paginateTo.back, 'signup');
+            setInputsErr([false, false]);
+          }}
         >
           Назад
         </AuthBtns>
@@ -253,4 +250,4 @@ const SignIn: React.FC<Props> = ({
   );
 };
 
-export default SignIn;
+export default ConfirmPsw;

@@ -3,8 +3,13 @@ import { motion } from 'framer-motion';
 import color from '../../lib/ui.colors';
 import variants from '../../lib/variants';
 import { Wrapper } from './common';
+import { getFormatedDate } from './helpers';
+import { TCartState } from 'redux/types';
+import { useAppSelector } from 'redux/hooks';
 
 const ProductDetails = () => {
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
+
   return (
     <Wrapper style={{ gap: '20px' }}>
       <ProudctHeaderWrapper
@@ -14,19 +19,40 @@ const ProductDetails = () => {
         viewport={{ once: true }}
         variants={variants.fadInSlideUp}
       >
-        <h3>Доставка курьером 10 августа</h3>
-        <span>Склад Тренды 2022 (Московская обл.) • 1 товар • 300 гр</span>
+        <h3>Доставка курьером {getFormatedDate(new Date())}</h3>
+        <span>
+          Склад Тренды 2022 (Московская обл.) • {cart?.orderProducts?.length}{' '}
+          товар(ов) • 300 гр
+        </span>
       </ProudctHeaderWrapper>
-      <ProductImageWrapper
+      <ProductWrapper
         custom={0.2}
         initial="init"
         whileInView="animate"
         viewport={{ once: true }}
         variants={variants.fadInSlideUp}
       >
-        <img src="https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg" />
-        <span>{`300`}₽</span>
-      </ProductImageWrapper>
+        {cart?.orderProducts?.map((orderProduct) => {
+          const images = orderProduct.product?.images?.split(', ')!;
+          return (
+            <Product>
+              <ProductImageWrapper>
+                <ProductImage
+                  src={`/api/images/${images ? images[0] : ''}`}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null;
+                    currentTarget.src = '/assets/images/img_error.png';
+                  }}
+                />
+              </ProductImageWrapper>
+              <div>
+                {orderProduct.product?.name}{' '}
+                <b>— {orderProduct.product?.price} ₽</b>
+              </div>
+            </Product>
+          );
+        })}
+      </ProductWrapper>
     </Wrapper>
   );
 };
@@ -38,6 +64,7 @@ const ProudctHeaderWrapper = styled(motion.div)`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 5px;
+
   h3 {
     font-size: 1.2rem;
     font-weight: 800;
@@ -47,21 +74,35 @@ const ProudctHeaderWrapper = styled(motion.div)`
   }
 `;
 
-const ProductImageWrapper = styled(motion.div)`
+const ProductWrapper = styled(motion.div)`
+  display: flex;
+  gap: 10px;
+`;
+
+const Product = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
   padding: 10px;
-  img {
-    width: 100px;
-  }
-  span {
-    color: ${color.textSecondary};
+  width: 150px;
+
+  div {
+    text-align: center;
   }
 `;
 
+const ProductImageWrapper = styled.div`
+  display: flex;
+  height: 100%;
+  align-items: center;
+`;
+
+const ProductImage = styled.img`
+  width: 100%;
+  height: fit-content;
+`;
 // TODO: featurs will be adde for picking the date of delivery
 
 export default ProductDetails;

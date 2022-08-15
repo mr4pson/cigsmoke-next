@@ -9,10 +9,33 @@ import Avatar from '../../../../assets/avatar.svg';
 import ArrowGray from '../../../../assets/arrowGray.svg';
 import Comment from '../../../../assets/comment.svg';
 import UserCommment from './UserComment';
+import { useAppSelector } from 'redux/hooks';
+import { TStoreCheckoutState } from 'redux/types';
 const UserDetails = (props: any) => {
-  const { setStep, setHasAddress, setBacktoFinal } = props;
+  const {
+    setStep,
+    setHasAddress,
+    setBacktoFinal,
+    leaveNearDoor,
+    setLeaveNearDoor,
+  } = props;
+  const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
+    (state) => state.storeCheckout,
+  );
+
   const [isOpen, setIsOpen] = useState(false);
   const leaveOnDoorRef = useRef<any>(null);
+
+  const handleNavBack = () => {
+    setStep(1);
+    setHasAddress(false);
+    setBacktoFinal(true);
+  };
+
+  const handleLeaveNearDoorChange = (e) => {
+    setLeaveNearDoor((prev) => !prev);
+  };
+
   return (
     <>
       <Wrapper
@@ -20,18 +43,14 @@ const UserDetails = (props: any) => {
         initial="init"
         animate="animate"
         variants={variants.fadInSlideUp}
-        onClick={() => {
-          setStep(1);
-          setHasAddress(false);
-          setBacktoFinal(true);
-        }}
+        onClick={handleNavBack}
       >
         <span>
           <Delivery />
         </span>
         <div className="address-wrapper">
           <h3>Курьером по адресу</h3>
-          <span>МО, г. Люберцы, Октябрьский проспект 181</span>
+          <span>{`${deliveryInfo?.address!}`}</span>
         </div>
         <span>
           <ArrowGray />
@@ -42,18 +61,14 @@ const UserDetails = (props: any) => {
         initial="init"
         animate="animate"
         variants={variants.fadInSlideUp}
-        onClick={() => {
-          setStep(1);
-          setHasAddress(false);
-          setBacktoFinal(true);
-        }}
+        onClick={handleNavBack}
       >
         <span>
           <Avatar />
         </span>
         <div className="user-comment-wrapper">
-          <span>Mohammadi Rishad</span>
-          <span>+7999999999</span>
+          <span>{deliveryInfo?.fullName}</span>
+          <span>{deliveryInfo?.phone}</span>
         </div>
         <span>
           <ArrowGray />
@@ -91,6 +106,8 @@ const UserDetails = (props: any) => {
             type="checkbox"
             id="scales"
             name="scales"
+            value={leaveNearDoor}
+            onChange={handleLeaveNearDoorChange}
           />
         </span>
         <div className="user-comment-wrapper">

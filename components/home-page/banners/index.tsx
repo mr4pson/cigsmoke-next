@@ -4,12 +4,28 @@ import {
   Content,
   Wrapper,
 } from 'components/store/storeLayout/common';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { fetchBanner, fetchBrands } from 'redux/slicers/store/homePageSlicer';
+import { THomePageState } from 'redux/types';
 import styled from 'styled-components';
+import Loading from 'ui-kit/Loading';
 import ImageBanner from './ImageBanner';
 import LatestProductsBanner from './latestProductsBanner';
 import OurBrands from './ourBrands';
 
 const Banners = () => {
+  const dispatch = useAppDispatch();
+  const { banner } = useAppSelector<THomePageState>((state) => state.homePage);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      await Promise.all([dispatch(fetchBanner()), dispatch(fetchBrands())]);
+      setLoading(false);
+    })();
+  }, []);
+
   return (
     <Container
       variants={variants.fadInOut}
@@ -28,11 +44,17 @@ const Banners = () => {
           align_items="center"
           gap="35px"
         >
-          <Grid>
-            <ImageBanner />
-            <LatestProductsBanner />
-          </Grid>
-          <OurBrands />
+          {!loading ? (
+            <>
+              <Grid>
+                <ImageBanner slides={banner?.slides} />
+                <LatestProductsBanner advertisement={banner?.advertisement} />
+              </Grid>
+              <OurBrands />
+            </>
+          ) : (
+            <Loading />
+          )}
         </Content>
       </Wrapper>
     </Container>

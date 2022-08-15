@@ -2,6 +2,8 @@ import TextField from '@mui/material/TextField';
 import { InputsTooltip } from '../helpers';
 import React from 'react';
 import { DetailsRowWrapper, DetailsColumnWrapper } from './common';
+import InputMask from 'react-input-mask';
+import styled from 'styled-components';
 
 const ReciverData = (props: any) => {
   const { fullName, setFullname, phone, setPhone } = props;
@@ -56,20 +58,39 @@ const ReciverData = (props: any) => {
               <span className="tool-tip">?</span>
             </InputsTooltip>
           </label>
-          <TextField
-            id="address-reciver-phone"
-            fullWidth
-            label="Телефон"
-            multiline
-            rows={1}
+          <InputMask
+            mask="+7 (999) 999 99 99"
             value={phone}
-            defaultValue=""
+            disabled={false}
+            maskChar=" "
             onChange={(e) => setPhone(e.target.value)}
-          />
+            style={{ padding: '16.5px 14px' }}
+          >
+            {() => (
+              <PhoneField>
+                <TextField
+                  id="address-reciver-phone"
+                  fullWidth
+                  label="Телефон"
+                  rows={1}
+                  defaultValue=""
+                />
+              </PhoneField>
+            )}
+          </InputMask>
         </DetailsColumnWrapper>
       </DetailsRowWrapper>
     </>
   );
 };
+
+const PhoneField = styled.div`
+  display: flex;
+  width: 100%;
+
+  .MuiOutlinedInput-root {
+    padding: 11.5px 0;
+  }
+`;
 
 export default ReciverData;

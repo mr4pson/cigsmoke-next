@@ -36,6 +36,10 @@ const getFilters = ({
         pushQueryParams([
           { name: 'categories', value: categories },
           { name: 'subCategories', value: [] },
+          { name: 'brands', value: [] },
+          { name: 'colors', value: [] },
+          { name: 'minPrice', value: null },
+          { name: 'maxPrice', value: null },
         ]);
       },
     },
@@ -46,7 +50,13 @@ const getFilters = ({
       onChange: (selectedOption: FilterOption | undefined) => {
         const subCategories = [selectedOption?.url!];
 
-        pushQueryParams([{ name: 'subCategories', value: subCategories }]);
+        pushQueryParams([
+          { name: 'subCategories', value: subCategories },
+          { name: 'brands', value: [] },
+          { name: 'colors', value: [] },
+          { name: 'minPrice', value: null },
+          { name: 'maxPrice', value: null },
+        ]);
       },
     },
     {

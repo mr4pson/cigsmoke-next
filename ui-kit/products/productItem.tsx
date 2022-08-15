@@ -55,16 +55,20 @@ const ProductItem: React.FC<Props> = ({
               >
                 {formatNumber(product.price)}₽
               </span>
-              <span
-                style={{
-                  textDecoration: 'line-through',
-                  textDecorationColor: color.hover,
-                  textDecorationThickness: '1.5px',
-                  color: '#A4A4A4',
-                }}
-              >
-                {formatNumber(product.oldPrice)}₽
-              </span>
+              {product.oldPrice ? (
+                <span
+                  style={{
+                    textDecoration: 'line-through',
+                    textDecorationColor: color.hover,
+                    textDecorationThickness: '1.5px',
+                    color: '#A4A4A4',
+                  }}
+                >
+                  {formatNumber(product.oldPrice)}₽
+                </span>
+              ) : (
+                <></>
+              )}
             </PriceWrapper>
           </a>
         </Link>

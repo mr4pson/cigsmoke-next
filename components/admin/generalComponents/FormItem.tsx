@@ -1,6 +1,6 @@
 import { Form } from 'antd';
 import { InputField } from '../../../common/enums/inputField.enum';
-import _ from 'lodash';
+import { capitalizeFirstLetter } from 'common/helpers/capitalizeFirstLetter.helper';
 
 interface Props {
   children: any;
@@ -13,7 +13,7 @@ const FormItem = ({ children, option, valuePropName, initialValue }: Props) => {
   return (
     <Form.Item
       valuePropName={valuePropName}
-      label={InputField[_.capitalize(option)]}
+      label={InputField[capitalizeFirstLetter(option)]}
       name={option}
       initialValue={initialValue}
       fieldKey={option}
