@@ -70,10 +70,6 @@ const CatalogModal: React.FC<Props> = ({
                 <a>
                   <AnimatePresence>
                     <RowFlex
-                      onHoverStart={handleCategoryHover(
-                        category,
-                        setCurCategory,
-                      )}
                       key={index}
                       custom={index * 0.2}
                       initial={false}
@@ -87,6 +83,15 @@ const CatalogModal: React.FC<Props> = ({
                         transition: { duration: 0.2 },
                       }}
                       whileTap={{ scale: 1 }}
+                      onClick={handleClickOutside(
+                        isOpened,
+                        setIsOpened,
+                        setDisplay,
+                      )}
+                      onHoverStart={handleCategoryHover(
+                        category,
+                        setCurCategory,
+                      )}
                     >
                       <Image
                         src={`/api/images/${category.image}`}
@@ -114,11 +119,6 @@ const CatalogModal: React.FC<Props> = ({
                 <a>
                   <AnimatePresence>
                     <RowFlex
-                      onHoverStart={handleSubCategoryHover(
-                        subCategory,
-                        dispatch,
-                        setCurSubCategory,
-                      )}
                       key={index}
                       custom={index * 0.4}
                       initial={false}
@@ -132,6 +132,16 @@ const CatalogModal: React.FC<Props> = ({
                         transition: { duration: 0.2 },
                       }}
                       whileTap={{ scale: 1 }}
+                      onClick={handleClickOutside(
+                        isOpened,
+                        setIsOpened,
+                        setDisplay,
+                      )}
+                      onHoverStart={handleSubCategoryHover(
+                        subCategory,
+                        dispatch,
+                        setCurSubCategory,
+                      )}
                     >
                       <span>{subCategory.name}</span>
                     </RowFlex>

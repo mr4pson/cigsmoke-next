@@ -4,20 +4,14 @@ import { paginateHandler } from 'components/store/storeLayout/helpers';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchBrands } from 'redux/slicers/store/homePageSlicer';
+import { useAppSelector } from 'redux/hooks';
 import { THomePageState } from 'redux/types';
 import styled from 'styled-components';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import ArrowWhite from '../../../assets/arrow_white.svg';
 
 const OurBrands = () => {
-  const dispatch = useAppDispatch();
   const { brands } = useAppSelector<THomePageState>((state) => state.homePage);
-
-  useEffect(() => {
-    dispatch(fetchBrands());
-  }, []);
 
   const [
     setRefType,

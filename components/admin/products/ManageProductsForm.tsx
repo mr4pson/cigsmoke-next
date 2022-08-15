@@ -127,6 +127,13 @@ const ManageProductForm = ({
               <Input required={true} placeholder="Введите стоимость продукта" />
             }
           />
+          {/* ----------------------OLD PRICE---------------------- */}
+          <FormItem
+            option={ManageProductFields.OldPrice}
+            children={
+              <Input placeholder="Введите устаревшую стоимость продукта" />
+            }
+          />
           {/* ----------------------ULR---------------------- */}
           <FormItem
             option={ManageProductFields.Url}

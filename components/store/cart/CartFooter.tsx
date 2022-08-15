@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { Basket } from 'swagger/services';
 import { getTotalDiscount, getTotalPrice, getTotalQuantity } from './helpers';
@@ -28,7 +29,9 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
         </CartDiscount>
       </CartCol>
       <CartCol>
-        <CheckoutBtn>Перейти к оформлению</CheckoutBtn>
+        <Link href={'/checkout'}>
+          <CheckoutBtn>Перейти к оформлению</CheckoutBtn>
+        </Link>
       </CartCol>
     </Wrapper>
   );
@@ -81,6 +84,7 @@ const CheckoutBtn = styled.button`
   font-size: 18px;
   padding: 12px 81px;
   border-radius: 8px;
+  cursor: pointer;
 `;
 
 export default CartFooter;

@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getErrorMassage, handleError, handlePending } from 'common/helpers';
-import { THomePageState } from 'redux/types';
+import { Banner, THomePageState } from 'redux/types';
 import {
+  AdvertisementService,
   BrandResponse,
   BrandService,
   ReviewResponse,
   ReviewService,
+  SlideService,
 } from 'swagger/services';
 
 export const fetchReviews = createAsyncThunk<
@@ -48,9 +50,33 @@ export const fetchBrands = createAsyncThunk<
   },
 );
 
+export const fetchBanner = createAsyncThunk<
+  Banner,
+  undefined,
+  { rejectValue: string }
+>(
+  'homePage/fetchBanner',
+  async function (_, { rejectWithValue }): Promise<any> {
+    try {
+      const [advertisement, slides] = await Promise.all([
+        AdvertisementService.getAdvertisements(),
+        SlideService.getSlides(),
+      ]);
+
+      return {
+        advertisement: advertisement[0],
+        slides,
+      };
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 const initialState: THomePageState = {
   reviews: [],
   brands: [],
+  banner: undefined,
   loading: false,
 };
 
@@ -75,7 +101,15 @@ const homePageSlicer = createSlice({
         state.loading = false;
         console.log('fulfilled');
       })
-      .addCase(fetchBrands.rejected, handleError);
+      .addCase(fetchBrands.rejected, handleError)
+      //fetchBrands
+      .addCase(fetchBanner.pending, handlePending)
+      .addCase(fetchBanner.fulfilled, (state, action) => {
+        state.banner = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
+      .addCase(fetchBanner.rejected, handleError);
   },
 });
 

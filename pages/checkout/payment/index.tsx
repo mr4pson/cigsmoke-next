@@ -11,6 +11,11 @@ import {
   Content,
   Wrapper,
 } from 'components/store/storeLayout/common';
+import { TAuthState, TCartState } from 'redux/types';
+import { useAppSelector } from 'redux/hooks';
+import { getTotalPrice } from 'components/store/checkout/totalDeliveryDate/helpers';
+import { formatNumber } from 'common/helpers/number.helper';
+import InputMask from 'react-input-mask';
 
 const handleUiInput = (e, setCardNumber) => {
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
@@ -36,12 +41,31 @@ const handleUiInput = (e, setCardNumber) => {
 };
 
 const Product = () => {
-  const reRoute = useRouter();
-  const [isAuthorized, setAuthorized] = useState(true);
-  const [cardNumber, setCardNumber]: [any, any] = useState('');
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
+  const router = useRouter();
+  const [cardNumber, setCardNumber] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
+
   useEffect(() => {
-    !isAuthorized ? reRoute.push('/') : '';
+    !user ? router.push('/') : '';
   }, []);
+
+  const handleFormSubmit = () => {
+    const payload = {
+      cardNumber,
+      cvv,
+      month,
+      year,
+    };
+
+    console.log(payload);
+  };
+
+  const checkIfEnabled = () =>
+    !isEmpty(cardNumber) && !isEmpty(cvv) && !isEmpty(month) && !isEmpty(year);
 
   return (
     <Container
@@ -56,83 +80,114 @@ const Product = () => {
           align_items="center"
           gap="20px"
         >
-          <Header>
-            <h1>Оплата банковской картой</h1>
-            <div className="total-payment">
-              <span>Итого с учётом доставки и НДС</span>
-              <h1>{`4000`}</h1>
-            </div>
-          </Header>
-          <CardWrapper>
-            <motion.div
-              custom={0.1}
-              initial="init"
-              animate="animate"
-              variants={variants.fadInSlideUp}
-              className="card-front"
-            >
-              <div className="card-imgs">
-                <img src="/static/cards/mir.png" alt="" />
-                <img src="/static/cards/visa.svg" alt="" />
-                <img src="/static/cards/mastercard.svg" alt="" />
-                <img src="/static/cards/mastercard2.svg" alt="" />
-                <img src="/static/cards/american.png" alt="" />
-                <img src="/static/cards/unionpay.png" alt="" />
+          <CardForm>
+            <Header>
+              <h1>Оплата банковской картой</h1>
+              <div className="total-payment">
+                <span>Итого с учётом доставки и НДС</span>
+                <h1>{formatNumber(getTotalPrice(cart))} ₽</h1>
               </div>
-              <div className="card-input-wrapper">
-                <span>Номер карты</span>
-                <motion.input
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.boxShadow}
-                  type="text"
-                  value={cardNumber}
-                  placeholder="xxxx-xxxx-xxxx-xxxx"
-                  onChange={(e: any) => handleUiInput(e, setCardNumber)}
-                />
-              </div>
-              <div>
-                <span className="card-date-lable">Действует до</span>
-                <div className="card-date-input-wrapper">
-                  <input placeholder="ММ" type="text" />
-
-                  <input placeholder="ГГ" type="text" />
+            </Header>
+            <CardWrapper>
+              <motion.div
+                custom={0.1}
+                initial="init"
+                animate="animate"
+                variants={variants.fadInSlideUp}
+                className="card-front"
+              >
+                <div className="card-imgs">
+                  <img src="/static/cards/mir.png" alt="" />
+                  <img src="/static/cards/visa.svg" alt="" />
+                  <img src="/static/cards/mastercard.svg" alt="" />
+                  <img src="/static/cards/mastercard2.svg" alt="" />
+                  <img src="/static/cards/american.png" alt="" />
+                  <img src="/static/cards/unionpay.png" alt="" />
                 </div>
-              </div>
-            </motion.div>
-            <motion.div
-              custom={0.2}
-              initial="init"
-              animate="animate"
-              variants={variants.fadInSlideUp}
-              className="card-back"
+                <div className="card-input-wrapper">
+                  <span>Номер карты</span>
+                  <motion.div
+                    whileHover="hover"
+                    whileTap="tap"
+                    variants={variants.boxShadow}
+                  >
+                    <InputMask
+                      type="text"
+                      mask="9999 9999 9999 9999"
+                      placeholder="xxxx-xxxx-xxxx-xxxx"
+                      value={cardNumber}
+                      maskChar=" "
+                      onChange={(e: any) => handleUiInput(e, setCardNumber)}
+                      required
+                    />
+                  </motion.div>
+                </div>
+                <div>
+                  <span className="card-date-lable">Действует до</span>
+                  <div className="card-date-input-wrapper">
+                    <InputMask
+                      mask="99"
+                      placeholder="MM"
+                      value={month}
+                      maskChar=" "
+                      onChange={(e) => setMonth(e.target.value)}
+                      required
+                    />
+
+                    <InputMask
+                      mask="99"
+                      placeholder="ГГ"
+                      value={year}
+                      maskChar=" "
+                      onChange={(e) => setYear(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              </motion.div>
+              <motion.div
+                custom={0.2}
+                initial="init"
+                animate="animate"
+                variants={variants.fadInSlideUp}
+                className="card-back"
+              >
+                <div className="card-back-strip"></div>
+                <div className="secret-code-Wrapper">
+                  <b>
+                    <span>CCV/CVC</span>
+                  </b>
+                  <InputMask
+                    mask="999"
+                    placeholder="000"
+                    value={cvv}
+                    maskChar=" "
+                    onChange={(e) => setCvv(e.target.value)}
+                    required
+                  />
+                </div>
+              </motion.div>
+            </CardWrapper>
+            <SaveCardWrapper>
+              <input type="checkbox" />
+              <span>Запомнить карту. Это безопасно. </span>
+            </SaveCardWrapper>
+            <PayBtn
+              type="submit"
+              whileHover="hover"
+              whileTap="tap"
+              variants={variants.boxShadow}
+              style={{
+                backgroundColor: !checkIfEnabled()
+                  ? color.textSecondary
+                  : color.btnPrimary,
+              }}
+              disabled={!checkIfEnabled()}
+              onClick={handleFormSubmit}
             >
-              <div className="card-back-strip"></div>
-              <div className="secret-code-Wrapper">
-                <b>
-                  <span>CCV/CVC</span>
-                </b>
-                <input placeholder="000" type="text" />
-              </div>
-            </motion.div>
-          </CardWrapper>
-          <SaveCardWrapper>
-            <input type="checkbox" />
-            <span>Запомнить карту. Это безопасно. </span>
-          </SaveCardWrapper>
-          <PayBtn
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            style={{
-              backgroundColor: isEmpty(cardNumber)
-                ? color.textSecondary
-                : color.btnPrimary,
-            }}
-            disabled={isEmpty(cardNumber) ? true : false}
-          >
-            Оплатить {`15 000`} ₽
-          </PayBtn>
+              Оплатить {formatNumber(getTotalPrice(cart))} ₽
+            </PayBtn>
+          </CardForm>
         </Content>
       </Wrapper>
     </Container>
@@ -155,6 +210,15 @@ const Header = styled(motion.div)`
       color: ${color.textSecondary};
     }
   }
+`;
+
+const CardForm = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
 `;
 
 const CardWrapper = styled.div`

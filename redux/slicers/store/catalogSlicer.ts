@@ -131,7 +131,17 @@ const initialState: TCatalogState = {
 const cartSlicer = createSlice({
   name: 'catalog',
   initialState,
-  reducers: {},
+  reducers: {
+    clearSubCategories(state) {
+      state.subCategories = initialState.subCategories;
+    },
+    clearBrands(state) {
+      state.brands = initialState.brands;
+    },
+    clearColors(state) {
+      state.colors = initialState.colors;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //fetchCategories
@@ -185,6 +195,7 @@ const cartSlicer = createSlice({
   },
 });
 
-export const {} = cartSlicer.actions;
+export const { clearSubCategories, clearBrands, clearColors } =
+  cartSlicer.actions;
 
 export default cartSlicer.reducer;

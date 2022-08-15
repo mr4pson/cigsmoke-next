@@ -51,20 +51,14 @@ export const createProduct = createAsyncThunk<
   { rejectValue: string }
 >(
   'products/createProduct',
-  async function (payload: PayloadProduct, { rejectWithValue }): Promise<any> {
+  async function (
+    { id, ...payload }: PayloadProduct,
+    { rejectWithValue },
+  ): Promise<any> {
     try {
       return await ProductService.createProduct({
         body: {
-          name: payload.name,
-          price: payload.price,
-          available: payload.available,
-          colors: payload.colors,
-          category: payload.category,
-          brand: payload.brand,
-          url: payload.url,
-          desc: payload.desc,
-          tags: payload.tags,
-          parameterProducts: payload.parameterProducts,
+          ...payload,
           images: payload.images,
         },
       });
@@ -80,21 +74,15 @@ export const editProduct = createAsyncThunk<
   { rejectValue: string }
 >(
   'products/editProduct',
-  async function (payload: PayloadProduct, { rejectWithValue }): Promise<any> {
+  async function (
+    { id, ...payload }: PayloadProduct,
+    { rejectWithValue },
+  ): Promise<any> {
     try {
       return await ProductService.updateProduct({
-        productId: payload.id as string,
+        productId: id!,
         body: {
-          name: payload.name,
-          price: payload.price,
-          available: payload.available,
-          colors: payload.colors,
-          category: payload.category,
-          brand: payload.brand,
-          url: payload.url,
-          desc: payload.desc,
-          tags: payload.tags,
-          parameterProducts: payload.parameterProducts,
+          ...payload,
           images: payload.images,
         },
       });

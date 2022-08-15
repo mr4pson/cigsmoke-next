@@ -71,6 +71,13 @@ export const columns: ColumnsType<Product> = [
     },
   },
   {
+    title: 'Старая Цена',
+    dataIndex: 'oldPrice',
+    sorter: {
+      compare: (a, b) => (a.price as number) - (b.price as number),
+    },
+  },
+  {
     title: 'Описание',
     dataIndex: 'desc',
   },

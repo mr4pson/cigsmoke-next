@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import CardsSVG from '../../../../../assets/creditCard.svg';
 import BookmarkSVG from '../../../../../assets/bookmark.svg';
 import variants from 'components/store/lib/variants';
-import { handleLogout } from './helpers';
+import { handleLogout } from './authorize/helpers';
 import { useAppDispatch } from 'redux/hooks';
 import { User } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
