@@ -1,5 +1,6 @@
 import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData } from 'common/interfaces/data-analytics.interfaces';
 import {
+  Advertisement,
   Basket,
   Brand,
   Category,
@@ -10,6 +11,7 @@ import {
   PriceRange,
   Product,
   Review,
+  Slide,
   Tag,
   User,
   Wishlist,
@@ -134,6 +136,12 @@ type TProductInfoState = {
   loading: boolean;
 };
 
+type TBannerState = {
+  data: Advertisement[] | Slide[], 
+  loading: boolean,
+  saveLoading: boolean
+}
+
 interface FetchPayload {
   limit: string;
   offset: string;
@@ -170,4 +178,5 @@ export type {
   FetchPayload,
   RequestResponse,
   THomePageState,
+  TBannerState
 };

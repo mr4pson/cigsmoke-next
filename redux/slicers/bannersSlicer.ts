@@ -6,60 +6,40 @@ import {
   handleError,
   handleChangeError,
 } from '../../common/helpers';
-import { PayloadCategory } from 'common/interfaces/payload-category.interface';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { FetchPayload, RequestResponse, TCategoryState } from 'redux/types';
-import { Category, CategoryService } from 'swagger/services';
-import { handlePaginationDataFormatter } from 'redux/helpers';
+import { FetchPayload, RequestResponse, TBannerState } from 'redux/types';
+import { Advertisement, Slide, AdvertisementService, SlideService, SlideDTO } from 'swagger/services';
+import { PayloadSlide } from 'common/interfaces/payload-slide.interface';
 
-export const fetchCategories = createAsyncThunk<
+export const fetchAdvertisement = createAsyncThunk<
   RequestResponse,
-  FetchPayload,
+  undefined,
   { rejectValue: string }
 >(
-  'categories/fetchCategories',
-  async function (payload: FetchPayload, { rejectWithValue }): Promise<any> {
+  'banners/fetchAdvertisement',
+  async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await CategoryService.getCategories({
-        limit: payload?.limit,
-        offset: payload?.offset
-      });
+      return await AdvertisementService.getAdvertisements();
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
   },
 );
 
-export const fetchCategory = createAsyncThunk<
-  Category,
-  string,
+export const updateAdvertisement = createAsyncThunk<
+  Advertisement,
+  Advertisement,
   { rejectValue: string }
 >(
-  'categories/fetchCategory',
-  async function (id, { rejectWithValue }): Promise<any> {
+  'banners/updateAdvertisement',
+  async function (payload: Advertisement, { rejectWithValue }): Promise<any> {
     try {
-      return await CategoryService.findCategoryById({ categoryId: id });
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
-
-export const createCategory = createAsyncThunk<
-  Category,
-  PayloadCategory,
-  { rejectValue: string }
->(
-  'categories/createCategory',
-  async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
-    try {
-      return await CategoryService.createCategory({
+      return await AdvertisementService.updateAdvertisement({
+        advertisementId: payload.id!,
         body: {
-          name: payload.name,
           image: payload.image,
-          url: payload.url,
-          parentId: payload.parent,
-          parameters: payload.parameters,
+          description: payload.description,
+          link: payload.link
         },
       });
     } catch (error: any) {
@@ -68,23 +48,31 @@ export const createCategory = createAsyncThunk<
   },
 );
 
-export const editCategory = createAsyncThunk<
-  Category,
-  PayloadCategory,
+export const fetchSlides = createAsyncThunk<
+  RequestResponse,
+  undefined,
   { rejectValue: string }
 >(
-  'categories/editCategory',
-  async function (payload: PayloadCategory, { rejectWithValue }): Promise<any> {
+  'banners/fetchSlides',
+  async function (_, { rejectWithValue }): Promise<any> {
     try {
-      return await CategoryService.updateCategory({
-        categoryId: payload.id as string,
-        body: {
-          name: payload.name,
-          url: payload.url,
-          image: payload.image,
-          parentId: payload.parent,
-          parameters: payload.parameters,
-        },
+      return await SlideService.getSlides();
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const updateSlides = createAsyncThunk<
+  Slide,
+  PayloadSlide,
+  { rejectValue: string }
+>(
+  'banners/updateSlides',
+  async function (payload: PayloadSlide, { rejectWithValue }): Promise<any> {
+    try {
+      return await SlideService.updateSlides({
+        body: payload.body,
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -92,95 +80,60 @@ export const editCategory = createAsyncThunk<
   },
 );
 
-export const deleteCategory = createAsyncThunk<
-  string,
-  string,
-  { rejectValue: string }
->(
-  'categories/deleteCategory',
-  async function (id, { rejectWithValue }): Promise<any> {
-    try {
-      return await CategoryService.deleteCategory({ categoryId: id });
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
-
-const initialState: TCategoryState = {
-  categories: [],
-  category: null,
+const initialState: TBannerState = {
+  data: [],
   loading: false,
   saveLoading: false,
 };
 
-const categoriesSlicer = createSlice({
-  name: 'categories',
+const bannersSlicer = createSlice({
+  name: 'banners',
   initialState,
   reducers: {
-    clearCategories(state) {
-      console.log('Categories cleared!')
-      state.categories = [];
-    },
-    clearCategory(state) {
-      state.category = null;
+    clearBanners(state) {
+      console.log('Banners cleared!')
+      state.data = [];
     },
   },
   extraReducers: (builder) => {
     builder
-      //fetchCategories
-      .addCase(fetchCategories.pending, handlePending)
-      .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.categories = handlePaginationDataFormatter(action);
+      //fetchAdvertisement
+      .addCase(fetchAdvertisement.pending, handlePending)
+      .addCase(fetchAdvertisement.fulfilled, (state, action) => {
+        state.data = action.payload as unknown as Advertisement[];
         state.loading = false;
         console.log('fulfilled');
       })
-      .addCase(fetchCategories.rejected, handleError)
-      //fetchCategory
-      .addCase(fetchCategory.pending, handlePending)
-      .addCase(fetchCategory.fulfilled, (state, action) => {
-        state.category = action.payload;
+      .addCase(fetchAdvertisement.rejected, handleError)
+      //updateAdvertisement
+      .addCase(updateAdvertisement.pending, handlePending)
+      .addCase(updateAdvertisement.fulfilled, (state, action) => {
+        state.data = action.payload as unknown as Advertisement[];
+        state.saveLoading = false;
+        openSuccessNotification('Баннер успешно обновлен');
+        console.log('fulfilled');
+      })
+      .addCase(updateAdvertisement.rejected, handleChangeError)
+      //fetchSlides
+      .addCase(fetchSlides.pending, handlePending)
+      .addCase(fetchSlides.fulfilled, (state, action) => {
+        state.data = action.payload as unknown as Slide[];
         state.loading = false;
         console.log('fulfilled');
       })
-      .addCase(fetchCategory.rejected, handleError)
-      //createCategory
-      .addCase(createCategory.pending, handleChangePending)
-      .addCase(createCategory.fulfilled, (state) => {
+      .addCase(fetchSlides.rejected, handleError)
+      //updateSlides
+      .addCase(updateSlides.pending, handlePending)
+      .addCase(updateSlides.fulfilled, (state, action) => {
+        state.data = action.payload as unknown as Slide[];
         state.saveLoading = false;
-        openSuccessNotification('Категория успешно создана');
+        openSuccessNotification('Баннер успешно обновлен');
         console.log('fulfilled');
       })
-      .addCase(createCategory.rejected, handleChangeError)
-      //editCategory
-      .addCase(editCategory.pending, handleChangePending)
-      .addCase(editCategory.fulfilled, (state, action) => {
-        let category = state.categories.find(
-          (category) => category!.id === action.payload.id,
-        );
-        category = {
-          ...category,
-          ...action.payload,
-        };
-        openSuccessNotification('Категория успешно обновлена');
-        state.saveLoading = false;
-        console.log('fulfilled');
-      })
-      .addCase(editCategory.rejected, handleChangeError)
-      //deleteCategory
-      .addCase(deleteCategory.pending, handleChangePending)
-      .addCase(deleteCategory.fulfilled, (state, action) => {
-        state.categories = state.categories.filter(
-          (item) => item!.id !== action.payload,
-        );
-        state.saveLoading = false;
-        openSuccessNotification('Категория успешно удалена');
-        console.log('fulfilled');
-      })
-      .addCase(deleteCategory.rejected, handleChangeError);
+      .addCase(updateSlides.rejected, handleChangeError)
   },
 });
 
-export const { clearCategories, clearCategory } = categoriesSlicer.actions;
+export const { clearBanners } = bannersSlicer.actions;
 
-export default categoriesSlicer.reducer;
+export default bannersSlicer.reducer;

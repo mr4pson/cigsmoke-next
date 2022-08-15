@@ -31,17 +31,7 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
   const isLoaded = useAppSelector((state) => state.analytics.loading);
 
   useEffect(() => {
-    dispatch(
-      fetchAnalyticsUsers({
-        createdFrom: dateFrom,
-        createdTo: dateTo,
-        offset: String(offset),
-        limit: '20',
-      }),
-    );
-
     return () => {
-      dispatch(clearAnalytics());
       setOffset(0);
     };
   }, []);

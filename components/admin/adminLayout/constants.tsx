@@ -75,6 +75,5 @@ export const pathWords: PathWords = {
   'analytics/users': 'Пользователи',
   'analytics/dynamic': 'Динамика',
   banners: 'Баннеры',
-  'banners/create-banner': 'Создание баннера',
-  'banners/[id]': 'Редактирование баннера',
+  'banners/update-banner': 'Обновление баннеров',
 };
