@@ -1,4 +1,4 @@
-import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, DynamicData, DynamicUsersData } from "common/interfaces/data-analytics.interfaces";
+import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, DynamicData } from "common/interfaces/data-analytics.interfaces";
 import { fetchDynamicAnalytics } from "redux/slicers/analyticsSlicer";
 
 export const handleData = (

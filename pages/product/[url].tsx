@@ -34,25 +34,26 @@ const ProductInfoPage = () => {
 
   const images = product?.images ? product?.images.split(', ') : [];
 
-  return !loading && product ? (
-    <>
-      <SEO
-        url={`cigsmoke.ru${router.asPath}`}
-        title={product?.name}
-        description={product?.desc}
-        image={`/api/images/${images[0]}`}
-        schemaType="cart"
-        keywords="the, keywords, is, saperated, by, comma"
-      />
-      <ProductInfo
-        reviewRef={reviewBtnRef}
-        questionRef={questionBtnRef}
-        product={product}
-        cart={cart}
-        wishlist={wishlist}
-      />
-      <Recomendation />
-      {/* <ReveiwsAndQuastions
+  return (
+    !loading && (
+      <>
+        <SEO
+          url={`cigsmoke.ru${router.asPath}`}
+          title={product?.name}
+          description={product?.desc}
+          image={`/api/images/${images[0]}`}
+          schemaType="cart"
+          keywords="the, keywords, is, saperated, by, comma"
+        />
+        <ProductInfo
+          reviewRef={reviewBtnRef}
+          questionRef={questionBtnRef}
+          product={product}
+          cart={cart}
+          wishlist={wishlist}
+        />
+        <Recomendation />
+        {/* <ReveiwsAndQuastions
           reviewRef={reviewBtnRef}
           questionRef={questionBtnRef}
         /> */}

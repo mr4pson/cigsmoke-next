@@ -14,13 +14,11 @@ const columns: ColumnsType<CheckoutsTableData> = [
   {
     title: 'Id',
     dataIndex: 'id',
+    width: '10%',
   },
   {
     title: 'Пользователь',
     dataIndex: 'user',
-    sorter: {
-      compare: (a, b) => a.user?.firstName!.localeCompare(b.user?.firstName!),
-    },
     render: (_, record) => {
       return (
         <p>
@@ -28,6 +26,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
         </p>
       );
     },
+    width: '25%',
   },
   {
     title: 'Корзина',
@@ -35,6 +34,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
     render: (_, record) => {
       return <p>Id: {record.basket.id}</p>;
     },
+    width: '10%',
   },
   {
     title: 'Адрес',
@@ -46,10 +46,12 @@ const columns: ColumnsType<CheckoutsTableData> = [
         </p>
       );
     },
+    width: '20%',
   },
   {
     title: 'Комментарий',
     dataIndex: 'comment',
+    width: '25%',
   },
   {
     title: 'Действия',
@@ -63,6 +65,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
         />
       );
     },
+    width: '10%',
   },
 ];
 

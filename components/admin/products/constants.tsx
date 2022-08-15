@@ -14,6 +14,7 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Id',
     dataIndex: 'id',
+    width: '5%',
   },
   {
     title: 'Изображения',
@@ -55,20 +56,17 @@ export const columns: ColumnsType<Product> = [
         );
       }
     },
+    width: '10%',
   },
   {
     title: 'Имя',
     dataIndex: 'name',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
+    width: '10%',
   },
   {
     title: 'Цена',
     dataIndex: 'price',
-    sorter: {
-      compare: (a, b) => (a.price as number) - (b.price as number),
-    },
+    width: '5%',
   },
   {
     title: 'Старая Цена',
@@ -80,13 +78,25 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Описание',
     dataIndex: 'desc',
+    width: '15%',
   },
   {
     title: 'Доступно',
     dataIndex: 'available',
-    render: (_, record) => {
-      return <div>{record.available?.toString()}</div>;
-    },
+    filters: [
+      {
+        text: 'Да',
+        value: 'Да',
+      },
+      {
+        text: 'Нет',
+        value: 'Нет',
+      },
+    ],
+    onFilter: (value: string | number | boolean, record) =>
+      new String(record?.available!).startsWith(value.toString()),
+    filterSearch: true,
+    width: '7.5%',
   },
   {
     title: 'Цвета',
@@ -109,12 +119,10 @@ export const columns: ColumnsType<Product> = [
         </ul>
       );
     },
+    width: '7.5%',
   },
   {
     title: 'Категория',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
     render: (_, record) => {
       return (
         <TableLink
@@ -124,12 +132,10 @@ export const columns: ColumnsType<Product> = [
         />
       );
     },
+    width: '7.5%',
   },
   {
     title: 'Бренд',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
     render: (_, record) => {
       return (
         <TableLink
@@ -139,13 +145,11 @@ export const columns: ColumnsType<Product> = [
         />
       );
     },
+    width: '7.5%',
   },
   {
     title: 'URL',
     dataIndex: 'url',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
   },
   {
     title: 'Теги',
@@ -165,6 +169,7 @@ export const columns: ColumnsType<Product> = [
         </ul>
       );
     },
+    width: '7.5%',
   },
   {
     title: 'Действия',
@@ -179,5 +184,6 @@ export const columns: ColumnsType<Product> = [
         />
       );
     },
+    width: '10%',
   },
 ];

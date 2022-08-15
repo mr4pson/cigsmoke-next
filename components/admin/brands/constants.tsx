@@ -9,6 +9,7 @@ export const columns: ColumnsType<Brand> = [
   {
     title: 'Id',
     dataIndex: 'id',
+    width: '10%',
   },
   {
     title: 'Изображение',
@@ -29,17 +30,17 @@ export const columns: ColumnsType<Brand> = [
         <img src={'/assets/images/no_photo.png'} className={styles.image} />
       );
     },
+    width: '15%',
   },
   {
     title: 'Имя',
     dataIndex: 'name',
-    sorter: {
-      compare: (a, b) => a.name!.localeCompare(b.name!),
-    },
+    width: '20%',
   },
   {
     title: 'URL',
     dataIndex: 'url',
+    width: '25%',
   },
   {
     title: 'На главной странице',
@@ -47,6 +48,7 @@ export const columns: ColumnsType<Brand> = [
     render: (_, record) => {
       return <span>{record.showOnMain ? 'Да' : 'Нет'}</span>;
     },
+    width: '15%',
   },
   {
     title: 'Действия',
@@ -61,5 +63,6 @@ export const columns: ColumnsType<Brand> = [
         />
       );
     },
+    width: '15%',
   },
 ];

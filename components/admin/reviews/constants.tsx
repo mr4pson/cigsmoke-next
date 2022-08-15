@@ -15,31 +15,27 @@ const columns: ColumnsType<ReviewsData> = [
   {
     title: 'Id',
     dataIndex: 'id',
+    width: '10%',
   },
   {
     title: 'Рейтинг',
     dataIndex: 'rating',
-    sorter: {
-      compare: (a, b) => (a?.rating as number) - (b?.rating as number),
-    },
+    width: '10%',
   },
   {
     title: 'Комментарий',
     dataIndex: 'text',
+    width: '30%',
   },
   {
     title: 'Продукт',
     dataIndex: 'product',
-    sorter: {
-      compare: (a, b) => a?.product!.localeCompare(b?.product!),
-    },
+    width: '25%',
   },
   {
     title: 'Почта пользователя',
     dataIndex: 'email',
-    sorter: {
-      compare: (a, b) => a?.email!.localeCompare(b?.email!),
-    },
+    width: '15%',
   },
   {
     title: 'Действия',
@@ -53,6 +49,7 @@ const columns: ColumnsType<ReviewsData> = [
         />
       );
     },
+    width: '10%',
   },
 ];
 

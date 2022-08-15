@@ -9,7 +9,7 @@ import SearchBar from './utils/SearchBar/SearchBar';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import Pointer from '../../../assets/pointer.svg';
-import LogoSVG from '../../../assets/logo.svg';
+import LogoSVG from '../../../assets/wuluxe.svg';
 import Order from '../../../assets/order.svg';
 import WishList from '../../../assets/wishlist.svg';
 import HeaderCatalog from './utils/HeaderCatalog/index';
@@ -58,7 +58,12 @@ const Header = () => {
                 </LocationBtn>
                 <Link href="/">
                   <a>
-                    <LogoSVG />
+                    <img
+                      style={{ width: '150px', height: '35px' }}
+                      src="/wuluxe.svg"
+                      alt="wuluxe logo"
+                    />
+                    {/* <LogoSVG /> */}
                   </a>
                 </Link>
               </LogoWrapper>
