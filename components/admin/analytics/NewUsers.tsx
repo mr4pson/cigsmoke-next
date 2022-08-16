@@ -63,8 +63,8 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
       name: `${firstName} ${lastName}`,
       email,
       role: role === 'Admin' ? 'Администратор' : 'Пользователь',
-      createdAt: handleDateFormatter(createdAt),
-      updatedAt: handleDateFormatter(updatedAt),
+      createdAt: handleDateFormatter(createdAt!),
+      updatedAt: handleDateFormatter(updatedAt!),
     }),
   ) as unknown as readonly object[];
 
