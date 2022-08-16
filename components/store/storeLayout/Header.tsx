@@ -59,7 +59,11 @@ const Header = () => {
                 <Link href="/">
                   <a>
                     <img
-                      style={{ width: '150px', height: '35px' }}
+                      style={{
+                        marginTop: '-24px',
+                        width: '150px',
+                        height: '35px',
+                      }}
                       src="/wuluxe.svg"
                       alt="wuluxe logo"
                     />
@@ -99,7 +103,7 @@ const LogoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  gap: 15px;
+  gap: 29px;
   justify-self: flex-start;
 `;
 

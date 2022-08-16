@@ -43,15 +43,22 @@ const Container = styled(motion.div)`
   top: ${(p: props) => p.top};
   z-index: ${(p: props) => p.z_index};
   background-color: ${(p: props) => p.bg_color};
+  padding-left: 15px;
+  padding-right: 15px;
 `;
 const Wrapper = styled.div`
   width: 100%;
-  max-width: 90%;
+  // max-width: 90%;
+  max-width: 1230px;
   display: flex;
   flex-direction: row;
-  // justify-content: space-evenly;
+
   @media ${devices.laptopM} {
-    max-width: 1230px;
+    max-width: 990px;
+  }
+
+  @media ${devices.laptopS} {
+    max-width: 990px;
   }
 `;
 

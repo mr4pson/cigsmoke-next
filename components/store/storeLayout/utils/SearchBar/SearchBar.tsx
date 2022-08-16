@@ -16,6 +16,7 @@ import { handleSearchQueryChange, handleSearchFormSubmit } from './helpers';
 import SearchItem from './SearchItem';
 import { useRouter } from 'next/router';
 import Loading from 'ui-kit/Loading';
+import { devices } from 'components/store/lib/Devices';
 
 type StyleProps = {
   padding?: string;
@@ -122,7 +123,7 @@ const SearchBar: React.FC<Props> = () => {
 };
 
 const SearchForm = styled.form`
-  width: 525px;
+  // width: 525px;
   height: 45px;
   position: relative;
   align-self: flex-end;
@@ -139,6 +140,14 @@ const SearchField = styled(motion.input)`
   justify-content: space-evenly;
   padding: ${(p: StyleProps) => p.padding};
   z-index: 1;
+
+  @media ${devices.laptopM} {
+    max-width: 325px;
+  }
+
+  @media ${devices.laptopS} {
+    max-width: 325px;
+  }
 `;
 
 const SearchBtn = styled(motion.button)`
@@ -175,6 +184,14 @@ const Wrapper = styled.div<StyleProps>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
+  @media ${devices.laptopM} {
+    max-width: 341px;
+  }
+
+  @media ${devices.laptopS} {
+    max-width: 341px;
+  }
 `;
 
 const Content = styled.ul`
