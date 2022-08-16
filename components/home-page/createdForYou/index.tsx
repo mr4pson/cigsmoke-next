@@ -61,8 +61,11 @@ const Section = () => {
                 gridTemplateAreas: "'item item item subscribe'",
                 justify_content: 'space-between',
                 alignItems: 'center',
-                gap: '20px',
+                rowGap: '30px',
+                columnGap: '35px',
                 padding: '50px 20px',
+                laptopColumnGap: '70px!important',
+                laptopGridTemplateAreas: `'item item subscribe' !important`,
               }}
               products={products}
             >

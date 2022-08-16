@@ -69,6 +69,8 @@ const CatalogPage = () => {
               gridStyle={{
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 columnGap: '53px',
+                laptopColumnGap: '138px!important',
+                laptopGridTemplateColumns: 'repeat(2, 1fr) !important',
               }}
               products={products}
               emptyProductsTitle={'По вашему запросу ничего не найдено.'}
