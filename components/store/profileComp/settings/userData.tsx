@@ -1,0 +1,327 @@
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import isEmpty from 'validator/lib/isEmpty';
+import color from 'components/store/lib/ui.colors';
+import variants from 'components/store/lib/variants';
+import { PopupContainer } from '../common';
+import { InputsTooltip } from './helpers';
+import CloseSVG from '../../../../assets/close_black.svg';
+
+const UserData = (props: any) => {
+  const { isOpen, setOpen } = props;
+  const [firstName, setFirstName] = useState('Rishad');
+  const [lastName, setLastName] = useState('Mohammadi');
+  const [phoneNumber, setPhoneNumber] = useState('+7999999999');
+  const [address, setAddress] = useState('some adress');
+  const [
+    [firstNameInput, lastNameInput, phoneNumberInput, addressInput],
+    setInputsErr,
+  ] = useState([false, false, false, false]);
+  const [success, setSuccess] = useState(false);
+  return (
+    <PopupContainer style={{ display: isOpen ? 'flex' : 'none' }}>
+      <UserDataContainer
+        custom={0}
+        initial="init"
+        whileInView="animate"
+        variants={variants.fadeOutSlideOut}
+      >
+        <span onClick={() => setOpen(false)} className="close-btn">
+          <CloseSVG />
+        </span>
+        <h2>личные данные</h2>
+        <InputsDvider>
+          <InputsWrapper>
+            <label htmlFor="user-firstname">
+              <b>
+                <span>Имя</span>
+                <span className="required">*</span>
+              </b>
+              <InputsTooltip
+                key="firstname-tip"
+                title={
+                  <React.Fragment>
+                    <span>Это поле обязательно к заполнению</span>
+                  </React.Fragment>
+                }
+              >
+                <span className="tool-tip">?</span>
+              </InputsTooltip>
+            </label>
+            <AuthInput
+              whileHover="hover"
+              whileTap="tap"
+              variants={variants.boxShadow}
+              placeholder={firstNameInput ? 'не может быть пустым' : 'Имя'}
+              type="text"
+              id="user-firstname"
+              value={firstName}
+              style={{
+                border: `solid 1px ${
+                  isEmpty(firstName) && firstNameInput
+                    ? color.hover
+                    : color.btnPrimary
+                }`,
+              }}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+                setInputsErr([
+                  true,
+                  lastNameInput ? true : false,
+                  phoneNumberInput ? true : false,
+                  addressInput ? true : false,
+                ]);
+              }}
+            />
+          </InputsWrapper>
+          <InputsWrapper>
+            <label htmlFor="user-familyname">
+              <b>
+                <span>Фамилия</span>
+                <span className="required">*</span>
+              </b>
+              <InputsTooltip
+                key="lastname-tip"
+                title={
+                  <React.Fragment>
+                    <span>Это поле обязательно к заполнению</span>
+                  </React.Fragment>
+                }
+              >
+                <span className="tool-tip">?</span>
+              </InputsTooltip>
+            </label>
+            <AuthInput
+              whileHover="hover"
+              whileTap="tap"
+              variants={variants.boxShadow}
+              placeholder={firstNameInput ? 'не может быть пустым' : 'Фамилия'}
+              type="text"
+              id="user-familyname"
+              value={lastName}
+              style={{
+                border: `solid 1px ${
+                  isEmpty(lastName) && lastNameInput
+                    ? color.hover
+                    : color.btnPrimary
+                }`,
+              }}
+              onChange={(e) => {
+                setLastName(e.target.value);
+                setInputsErr([
+                  firstNameInput ? true : false,
+                  true,
+                  phoneNumberInput ? true : false,
+                  addressInput ? true : false,
+                ]);
+              }}
+            />
+          </InputsWrapper>
+        </InputsDvider>
+        <InputsWrapper>
+          <label htmlFor="user-phonenumber">
+            <b>
+              <span>Телефон</span>
+              <span className="required">*</span>
+            </b>
+            <InputsTooltip
+              key="phonenumber-tip"
+              title={
+                <React.Fragment>
+                  <span>Это поле обязательно к заполнению</span>
+                </React.Fragment>
+              }
+            >
+              <span className="tool-tip">?</span>
+            </InputsTooltip>
+          </label>
+          <AuthInput
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.boxShadow}
+            placeholder={phoneNumberInput ? 'не может быть пустым' : 'Телефон'}
+            type="text"
+            id="user-phonenumber"
+            value={phoneNumber}
+            style={{
+              border: `solid 1px ${
+                isEmpty(phoneNumber) && phoneNumberInput
+                  ? color.hover
+                  : color.btnPrimary
+              }`,
+            }}
+            onChange={(e) => {
+              setPhoneNumber(e.target.value);
+              setInputsErr([
+                firstNameInput ? true : false,
+                lastNameInput ? true : false,
+                true,
+                addressInput ? true : false,
+              ]);
+            }}
+          />
+        </InputsWrapper>
+        <InputsWrapper>
+          <label htmlFor="user-address">
+            <b>
+              <span>Адресс</span>
+              <span className="required">*</span>
+            </b>
+            <InputsTooltip
+              key="address-tip"
+              title={
+                <React.Fragment>
+                  <span>Это поле обязательно к заполнению</span>
+                </React.Fragment>
+              }
+            >
+              <span className="tool-tip">?</span>
+            </InputsTooltip>
+          </label>
+          <AuthInput
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.boxShadow}
+            placeholder={addressInput ? 'не может быть пустым' : 'Адресс'}
+            type="text"
+            id="user-address"
+            value={address}
+            style={{
+              border: `solid 1px ${
+                isEmpty(address) && addressInput
+                  ? color.hover
+                  : color.btnPrimary
+              }`,
+            }}
+            onChange={(e) => {
+              setAddress(e.target.value);
+              setInputsErr([
+                firstNameInput ? true : false,
+                lastNameInput ? true : false,
+                phoneNumberInput ? true : false,
+                true,
+              ]);
+            }}
+          />
+        </InputsWrapper>
+        <SaveBtn
+          style={{
+            backgroundColor:
+              isEmpty(firstName) ||
+              isEmpty(lastName) ||
+              isEmpty(phoneNumber) ||
+              isEmpty(address)
+                ? color.textSecondary
+                : color.btnPrimary,
+          }}
+          disabled={
+            isEmpty(firstName) ||
+            isEmpty(lastName) ||
+            isEmpty(phoneNumber) ||
+            isEmpty(address)
+              ? true
+              : false
+          }
+          onClick={(e) => {
+            e.preventDefault();
+            setSuccess(true);
+            setTimeout(() => {
+              setSuccess(false);
+            }, 800);
+          }}
+        >
+          Сохранить изменения
+        </SaveBtn>
+        <span className="success">{success ? 'Изменения сохранены' : ''}</span>
+      </UserDataContainer>
+    </PopupContainer>
+  );
+};
+
+const UserDataContainer = styled(motion.form)`
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: ${color.textPrimary};
+  box-shadow: 0px 2px 6px ${color.boxShadow};
+  border-radius: 20px;
+  gap: 20px;
+  position: relative;
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
+  .success {
+    color: ${color.ok};
+  }
+`;
+
+const InputsDvider = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+`;
+
+const InputsWrapper = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  label {
+    width: 96%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    span {
+      font-family: 'intro';
+    }
+    .tool-tip {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1px solid;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      cursor: help;
+    }
+    .required {
+      color: ${color.hover};
+    }
+  }
+`;
+
+const AuthInput = styled(motion.input)`
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  padding: 0 10px;
+  font-size: 1rem;
+  font-weight: 700;
+`;
+
+const SaveBtn = styled.button`
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  background-color: ${color.btnPrimary};
+  color: ${color.textPrimary};
+  cursor: pointer;
+`;
+
+export default UserData;
