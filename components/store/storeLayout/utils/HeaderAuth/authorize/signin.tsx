@@ -203,7 +203,7 @@ const SignIn: React.FC<Props> = ({
           </ConfidentialityWrapper>
         </AuthInputsWrapper>
       </FormWrapper>
-      <Link href="/acount/pswreset">
+      <Link href="/profile/pswreset">
         <a>забыл пароль?</a>
       </Link>
       <BtnsWrapper>
