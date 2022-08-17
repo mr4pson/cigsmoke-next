@@ -21,8 +21,7 @@ const Header = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <AnimatePresence>
-        <Container // this container should always be the first child of animatedPresence in order to transition
-          // between pages work
+        <Container
           variants={variants.fadInOut}
           key="header"
           initial="start"
@@ -76,18 +75,26 @@ const Header = () => {
               <RelativeContainer id="auth-container">
                 <AuthComp />
               </RelativeContainer>
-              <Btns>
-                <span>
-                  <Order />
-                </span>
-                <span> Заказы</span>
-              </Btns>
-              <Btns>
-                <span>
-                  <WishList />
-                </span>
-                <span>Избранное</span>
-              </Btns>
+              <Link href="/orders">
+                <a style={{ alignSelf: 'flex-end' }}>
+                  <Btns>
+                    <span>
+                      <Order />
+                    </span>
+                    <span> Заказы</span>
+                  </Btns>
+                </a>
+              </Link>
+              <Link href="/wishlist">
+                <a style={{ alignSelf: 'flex-end' }}>
+                  <Btns>
+                    <span>
+                      <WishList />
+                    </span>
+                    <span>Избранное</span>
+                  </Btns>
+                </a>
+              </Link>
               <RelativeContainer>
                 <HeaderCart />
               </RelativeContainer>
