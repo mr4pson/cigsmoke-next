@@ -35,7 +35,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
           <AnimatePresence initial={false} custom={direction}>
             <Slider
               key={page}
-              src={slides ? `/api/images/${slides[imageIndex].image}` : ''}
+              src={slides ? `/api/images/${slides[imageIndex]?.image}` : ''}
               custom={direction}
               variants={variants.slider}
               initial="enter"
