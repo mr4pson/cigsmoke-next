@@ -5,9 +5,9 @@ import { paginateTo } from 'components/store/checkout/constant';
 import { AppDispatch } from 'redux/store';
 import {
   clearServerErr,
-  signin,
   signout,
   signup,
+  userSignin,
 } from 'redux/slicers/authSlicer';
 import { PopupDisplay } from '../../HeaderCart/constants';
 
@@ -53,7 +53,7 @@ const handleSignIn =
         password,
       };
 
-      const resp: any = await dispatch(signin(payload));
+      const resp: any = await dispatch(userSignin(payload));
 
       if (!resp.error) {
         if (onAfterAuthorized) {

@@ -20,7 +20,7 @@ export const signin = createAsyncThunk<
       body: payload,
     });
 
-    if (resp.user.role !== Role.User) {
+    if (resp.user.role !== Role.Admin) {
       return rejectWithValue(getErrorMassage(HttpStatus.FORBIDDEN));
     }
 
