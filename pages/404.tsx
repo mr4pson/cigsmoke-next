@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+import StoreLayout from 'components/store/storeLayout/layouts';
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import {
@@ -5,26 +7,25 @@ import {
   Wrapper,
   Content,
 } from 'components/store/storeLayout/common';
-import StoreLayout from 'components/store/storeLayout/layouts';
 import Head from 'next/head';
-import ResetPsw from 'components/store/profileComp/resetpsw';
+import NotFoundSvg from 'components/store/404';
 
-const PswReset = () => {
+const NotFound = (): JSX.Element => {
   return (
     <>
       <Head>
-        <title>Сброс пароля | Wuluxe</title>
+        <title>Страница не найдена | Wuluxe</title>
       </Head>
       <Container
         variants={variants.fadInOut}
-        key="order-page"
+        key="profile-page"
         initial="start"
         animate="middle"
         exit="end"
         flex_direction="column"
         justify_content="center"
         align_items="center"
-        padding="50px"
+        padding="50px 0"
         bg_color={color.textPrimary}
       >
         <Wrapper>
@@ -33,8 +34,9 @@ const PswReset = () => {
             justify_content="flex-start"
             align_items="center"
             gap="30px"
+            style={{ userSelect: 'none' }}
           >
-            <ResetPsw />
+            <NotFoundSvg />
           </Content>
         </Wrapper>
       </Container>
@@ -42,6 +44,9 @@ const PswReset = () => {
   );
 };
 
-PswReset.PageLayout = StoreLayout;
+const NotFoundWrapper = styled.span`
+  width: 90%;
+`;
 
-export default PswReset;
+NotFound.PageLayout = StoreLayout;
+export default NotFound;

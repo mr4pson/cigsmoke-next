@@ -6,10 +6,11 @@ import {
   Content,
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import Head from 'next/head';
-import ResetPsw from 'components/store/profileComp/resetpsw';
 
-const PswReset = () => {
+import Head from 'next/head';
+import ConfirmResetPsw from 'components/store/profileComp/confirmResetPsw';
+
+const ConfirmPswReset = () => {
   return (
     <>
       <Head>
@@ -34,7 +35,7 @@ const PswReset = () => {
             align_items="center"
             gap="30px"
           >
-            <ResetPsw />
+            <ConfirmResetPsw />
           </Content>
         </Wrapper>
       </Container>
@@ -42,6 +43,6 @@ const PswReset = () => {
   );
 };
 
-PswReset.PageLayout = StoreLayout;
+ConfirmPswReset.PageLayout = StoreLayout;
 
-export default PswReset;
+export default ConfirmPswReset;

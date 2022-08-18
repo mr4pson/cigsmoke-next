@@ -14,12 +14,24 @@ const ResetPsw = () => {
   const [serverResponse, setServerResponse] = useState(undefined);
   const [email, setEmail] = useState('');
   const [inputErr, setInputErr] = useState(false);
+  const [counter, setCoutner] = useState(30);
+  const [counterStart, setCounterStart] = useState(false);
   const router = useRouter();
   useEffect(() => {
     if (localStorage.getItem('accessToken')) {
       router.push('/');
     }
   }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      if (counter == 0) {
+        setCoutner(30);
+        setCounterStart(false);
+        return;
+      }
+      if (counterStart) setCoutner(counter - 1);
+    }, 1000);
+  }, [counter, counterStart]);
   return (
     <>
       <Title>Сброс пароля</Title>
@@ -51,7 +63,7 @@ const ResetPsw = () => {
           ? 'проверьте папку со спамом, если вы не видите письма от нас'
           : ''}
         {serverResponse == 200
-          ? `Мы отправим вам электронное письмо с подтверждением на ${email}, нажмите на ссылку внутри письма, чтобы изменить свой пароль`
+          ? `Мы отправили вам электронное письмо с подтверждением на ${email}, нажмите на ссылку внутри письма, чтобы изменить свой пароль`
           : ''}
       </ServerSuccessResponse>
       <InputWrapper>
@@ -86,16 +98,21 @@ const ResetPsw = () => {
           onClick={(e) => {
             e.preventDefault();
             handleResetClick(email, setServerResponse);
+            setCounterStart(true);
           }}
           style={{
             backgroundColor:
-              isEmpty(email) || !isEmail(email)
+              isEmpty(email) || !isEmail(email) || counterStart
                 ? color.textSecondary
                 : color.btnPrimary,
           }}
-          disabled={isEmpty(email) || !isEmail(email) ? true : false}
+          disabled={
+            isEmpty(email) || !isEmail(email) || counterStart ? true : false
+          }
         >
-          Отправь мне ссылку
+          {counterStart
+            ? `Вы пытаетесь снова после ${counter}`
+            : 'Отправь мне ссылку'}
         </motion.button>
       </InputWrapper>
     </>
@@ -147,6 +164,7 @@ const InputWrapper = styled.form`
     border-radius: 15px;
     background-color: ${color.btnPrimary};
     color: ${color.textPrimary};
+    font-family: 'intro';
   }
 `;
 export default ResetPsw;
