@@ -7,7 +7,9 @@ import {
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import Head from 'next/head';
+import ResetPsw from 'components/store/profileComp/resetpsw';
 
 const PswReset = () => {
   return (
@@ -31,21 +33,16 @@ const PswReset = () => {
           <Content
             flex_direction="column"
             justify_content="flex-start"
+            align_items="center"
             gap="30px"
-          ></Content>
+          >
+            <ResetPsw />
+          </Content>
         </Wrapper>
       </Container>
     </>
   );
 };
-
-const NoOreder = styled.div`
-  width: 100vw;
-  height: 70vh;
-  h2 {
-    font-family: 'intro';
-  }
-`;
 
 PswReset.PageLayout = StoreLayout;
 
