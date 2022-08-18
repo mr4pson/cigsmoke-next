@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import isEmpty from 'validator/lib/isEmpty';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { InputsTooltip } from 'components/store/checkout/helpers';
 import PswShow from '../../../../assets/pswshow.svg';
 import PswHide from '../../../../assets/pswhide.svg';
