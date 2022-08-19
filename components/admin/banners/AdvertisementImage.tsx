@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styles from './index.module.scss';
 
 const AdvertisementImage = () => {
-  const advertisement = useAppSelector((state) => state.banners.data);
+  const advertisement = useAppSelector((state) => state.banners.advertisement);
 
   return (
     <>

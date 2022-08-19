@@ -3,7 +3,11 @@ import TextArea from 'antd/lib/input/TextArea';
 import { navigateTo } from 'common/helpers';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  clearImageList,
+  setDefaultImageList,
+} from 'redux/slicers/imagesSlicer';
 import { Page } from 'routes/constants';
 import { Advertisement, Image } from 'swagger/services';
 
@@ -16,19 +20,37 @@ import { ManageAdvertisementFields } from './manageAdvertisementFields';
 interface Props {
   isLoading: boolean;
   isSaveLoading: boolean;
-  initialValues: Advertisement;
-  imageList: Image[];
 }
 
-const AdvertisementForm = ({
-  isLoading,
-  isSaveLoading,
-  initialValues,
-  imageList,
-}: Props) => {
+const AdvertisementForm = ({ isLoading, isSaveLoading }: Props) => {
   const [form] = Form.useForm();
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  const advertisement: Advertisement = useAppSelector<Advertisement[]>(
+    (state) => state.banners.advertisement,
+  )[0];
+
+  const imageList = useAppSelector<Image[]>((state) => state.images.imageList);
+
+  const initialValues: Advertisement = {
+    description: advertisement?.description,
+    link: advertisement?.link,
+  };
+
+  useEffect(() => {
+    if (advertisement) {
+      dispatch(
+        setDefaultImageList({
+          name: advertisement?.image,
+          url: `/api/images/${advertisement?.image}`,
+        }),
+      );
+    }
+    return () => {
+      dispatch(clearImageList());
+    };
+  }, [isLoading]);
 
   return (
     <>
@@ -41,13 +63,13 @@ const AdvertisementForm = ({
             form={form}
             initialValues={initialValues}
             requiredMark={true}
-            className={styles.updateAdvertisementForm}
+            className={styles.updateBannerForm}
             onFinish={handleFormSubmitBanner(
               router,
               dispatch,
               imageList,
-              Number.parseInt(initialValues?.id!),
               'advertisement',
+              Number.parseInt(advertisement?.id!),
             )}
           >
             <FormItem

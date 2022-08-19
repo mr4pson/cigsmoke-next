@@ -29,7 +29,7 @@ interface Props {
 }
 
 const SlidesTab = ({ isLoading }: Props) => {
-  const slides = useAppSelector((state) => state.banners.data);
+  const slides = useAppSelector((state) => state.banners.slides);
 
   return (
     <>

@@ -137,7 +137,8 @@ type TProductInfoState = {
 };
 
 type TBannerState = {
-  data: Advertisement[] | Slide[], 
+  advertisement: Advertisement[],
+  slides: Slide[], 
   loading: boolean,
   saveLoading: boolean
 }

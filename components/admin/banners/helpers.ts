@@ -8,8 +8,9 @@ export const handleFormSubmitBanner =
   (router: NextRouter, 
     dispatch: AppDispatch, 
     image: any, 
-    id: number, 
-    bannerIs: string) => async (form) => {
+    bannerIs: string,
+    id?: number
+    ) => async (form) => {
         console.log(form)
         switch(bannerIs) {
             case 'advertisement':

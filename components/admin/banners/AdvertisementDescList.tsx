@@ -4,7 +4,9 @@ import { useAppSelector } from 'redux/hooks';
 import { Advertisement } from 'swagger/services';
 
 const AdvertisementDescList = () => {
-  const data = useAppSelector<Advertisement[]>((state) => state.banners.data);
+  const data = useAppSelector<Advertisement[]>(
+    (state) => state.banners.advertisement,
+  );
 
   const formattedData = [
     {

@@ -1,29 +1,47 @@
 import { Tabs } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  clearBanners,
+  fetchAdvertisement,
+  fetchSlides,
+} from 'redux/slicers/bannersSlicer';
 import {
   clearImageList,
   setDefaultImageList,
 } from 'redux/slicers/imagesSlicer';
-import { Advertisement } from 'swagger/services';
+import { Advertisement, Slide } from 'swagger/services';
 import AdvertisementForm from './AdvertisementForm';
 import SlidesForm from './SlidesForm';
 
 const { TabPane } = Tabs;
 
-interface Props {
-  setCurrentTab;
-  initialValues;
-  imageList;
-}
-
-const BannersFormLayout = ({
-  setCurrentTab,
-  initialValues,
-  imageList,
-}: Props) => {
+const BannersFormLayout = () => {
   const isSaveLoading = useAppSelector((state) => state.banners.saveLoading);
   const isLoading = useAppSelector((state) => state.banners.loading);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAdvertisement());
+    return () => {
+      dispatch(clearBanners());
+    };
+  }, []);
+
+  const handleChangeTab = (e) => {
+    console.log(e);
+    switch (e) {
+      case '1':
+        dispatch(clearImageList());
+        dispatch(fetchAdvertisement());
+        break;
+      case '2':
+        dispatch(clearImageList());
+        dispatch(fetchSlides());
+        break;
+    }
+  };
 
   return (
     <>
@@ -31,24 +49,17 @@ const BannersFormLayout = ({
         <Tabs
           defaultActiveKey="1"
           onChange={(e) => {
-            setCurrentTab(e);
+            handleChangeTab(e);
           }}
         >
           <TabPane tab="Реклама" key="1">
             <AdvertisementForm
               isSaveLoading={isSaveLoading}
               isLoading={isLoading}
-              initialValues={initialValues}
-              imageList={imageList}
             />
           </TabPane>
           <TabPane tab="Баннеры" key="2">
-            <SlidesForm
-              isSaveLoading={isSaveLoading}
-              isLoading={isLoading}
-              initialValues={initialValues}
-              imageList={imageList}
-            />
+            {/* <SlidesForm isSaveLoading={isSaveLoading} isLoading={isLoading} /> */}
           </TabPane>
         </Tabs>
       </div>

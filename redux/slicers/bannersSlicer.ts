@@ -81,7 +81,8 @@ export const updateSlides = createAsyncThunk<
 );
 
 const initialState: TBannerState = {
-  data: [],
+  advertisement: [],
+  slides: [],
   loading: false,
   saveLoading: false,
 };
@@ -91,8 +92,9 @@ const bannersSlicer = createSlice({
   initialState,
   reducers: {
     clearBanners(state) {
+      state.advertisement = [];
+      state.slides = [];
       console.log('Banners cleared!')
-      state.data = [];
     },
   },
   extraReducers: (builder) => {
@@ -100,7 +102,7 @@ const bannersSlicer = createSlice({
       //fetchAdvertisement
       .addCase(fetchAdvertisement.pending, handlePending)
       .addCase(fetchAdvertisement.fulfilled, (state, action) => {
-        state.data = action.payload as unknown as Advertisement[];
+        state.advertisement = action.payload as unknown as Advertisement[];
         state.loading = false;
         console.log('fulfilled');
       })
@@ -108,7 +110,7 @@ const bannersSlicer = createSlice({
       //updateAdvertisement
       .addCase(updateAdvertisement.pending, handlePending)
       .addCase(updateAdvertisement.fulfilled, (state, action) => {
-        state.data = action.payload as unknown as Advertisement[];
+        state.advertisement = action.payload as unknown as Advertisement[];
         state.saveLoading = false;
         openSuccessNotification('Баннер успешно обновлен');
         console.log('fulfilled');
@@ -117,7 +119,7 @@ const bannersSlicer = createSlice({
       //fetchSlides
       .addCase(fetchSlides.pending, handlePending)
       .addCase(fetchSlides.fulfilled, (state, action) => {
-        state.data = action.payload as unknown as Slide[];
+        state.slides = action.payload as unknown as Slide[];
         state.loading = false;
         console.log('fulfilled');
       })
@@ -125,7 +127,7 @@ const bannersSlicer = createSlice({
       //updateSlides
       .addCase(updateSlides.pending, handlePending)
       .addCase(updateSlides.fulfilled, (state, action) => {
-        state.data = action.payload as unknown as Slide[];
+        state.slides = action.payload as unknown as Slide[];
         state.saveLoading = false;
         openSuccessNotification('Баннер успешно обновлен');
         console.log('fulfilled');
