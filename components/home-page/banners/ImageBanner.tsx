@@ -30,12 +30,16 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
       exit={{ y: -80, opacity: 0, transition: { delay: 0.2 } }}
       variants={variants.fadInSlideUp}
     >
-      <Link href={slides ? slides[imageIndex]?.link! : ''}>
+      <Link
+        href={
+          slides && slides[imageIndex]?.link ? slides[imageIndex]?.link! : ''
+        }
+      >
         <a>
           <AnimatePresence initial={false} custom={direction}>
             <Slider
               key={page}
-              src={slides ? `/api/images/${slides[imageIndex].image}` : ''}
+              src={slides ? `/api/images/${slides[imageIndex]?.image}` : ''}
               custom={direction}
               variants={variants.slider}
               initial="enter"
