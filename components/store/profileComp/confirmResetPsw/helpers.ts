@@ -23,7 +23,8 @@ const handleResetClick = async (
   await axios(options)
     .then((response) => {
       setServerResponse(response.status);
-      setTimeout(() => router.push('/'), 2000);
+      localStorage.setItem('accessToken', response.data.accessToken);
+      setTimeout(() => router.push('/profile'), 2000);
       console.log(response.data);
     })
     .catch((error) => {

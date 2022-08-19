@@ -9,8 +9,7 @@ import { handleResetClick } from './helpers';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-const ResetPsw = () => {
-  // TODO: add json response to not verified users in reset password route
+const EmailResetPsw = () => {
   const [serverResponse, setServerResponse] = useState(undefined);
   const [email, setEmail] = useState('');
   const [inputErr, setInputErr] = useState(false);
@@ -38,7 +37,7 @@ const ResetPsw = () => {
       <span
         style={{
           color: color.hover,
-          width: '50%',
+          width: '400px',
           textAlign: 'center',
           fontSize: '1rem',
         }}
@@ -111,7 +110,7 @@ const ResetPsw = () => {
           }
         >
           {counterStart
-            ? `Вы пытаетесь снова после ${counter}`
+            ? `Повторите попытку после: ${counter}`
             : 'Отправь мне ссылку'}
         </motion.button>
       </InputWrapper>
@@ -127,13 +126,13 @@ const Title = styled.h2`
 const ServerErrResponses = styled.span`
   color: ${color.hover};
   font-size: 1.2rem;
-  width: 50%;
+  width: 400px;
   text-align: center;
 `;
 const ServerSuccessResponse = styled.span`
   color: ${color.ok};
   font-size: 1.2rem;
-  width: 50%;
+  width: 400px;
   text-align: center;
   a {
     color: ${color.ok};
@@ -167,4 +166,4 @@ const InputWrapper = styled.form`
     font-family: 'intro';
   }
 `;
-export default ResetPsw;
+export default EmailResetPsw;

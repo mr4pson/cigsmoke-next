@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const handleVerification = async (router: any, setServerResponse) => {
-  const token = router.asPath.slice(29, router.asPath.length);
-
+  const regEx = /[^\/]+$/; // get everything after last /
+  const token = router.asPath.match(regEx);
   const options = {
     url: `http://localhost:4001/auth/authorize/${token}`,
     method: 'GET',
@@ -14,11 +14,14 @@ const handleVerification = async (router: any, setServerResponse) => {
 
   await axios(options)
     .then((response) => {
-      setTimeout(() => router.push('/profile'), 2000);
+      router.push('/profile');
       console.log(response.data);
     })
     .catch((error) => {
       setServerResponse(error.response.status);
+      setTimeout(() => {
+        router.push('/profile');
+      }, 3000);
     });
 };
 
