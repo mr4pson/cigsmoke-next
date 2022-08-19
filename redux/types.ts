@@ -153,10 +153,38 @@ interface RequestResponse {
   length: number
 }
 
+interface Banner {
+  advertisement: Advertisement;
+  slides: Slide[];
+}
+
 type THomePageState = {
   reviews: Review[];
   brands: Brand[];
+  banner: Banner | undefined;
   loading: boolean;
+};
+
+type TDeliveryInfo = {
+  address: string;
+  fullName: string;
+  phone: string;
+  floor: string;
+  door: string;
+  roomOrOffice: string;
+  postCode: string;
+  rignBell: string;
+};
+
+type TOrderInfo = {
+  comment: string;
+  leaveNearDoor: boolean;
+};
+
+type TStoreCheckoutState = {
+  loading: boolean;
+  deliveryInfo: TDeliveryInfo | null;
+  orderInfo: TOrderInfo | null;
 };
 
 export type {
@@ -179,5 +207,12 @@ export type {
   FetchPayload,
   RequestResponse,
   THomePageState,
+<<<<<<< HEAD
   TBannerState
+=======
+  Banner,
+  TStoreCheckoutState,
+  TDeliveryInfo,
+  TOrderInfo,
+>>>>>>> master
 };

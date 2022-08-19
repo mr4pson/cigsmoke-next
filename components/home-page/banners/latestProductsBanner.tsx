@@ -3,8 +3,12 @@ import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { Advertisement } from 'swagger/services';
 
-export const LatestProductsBanner = () => {
+type Props = {
+  advertisement: Advertisement | undefined;
+};
+export const LatestProductsBanner: React.FC<Props> = ({ advertisement }) => {
   return (
     <FlexBoxColumn>
       <DiscountWrapper
@@ -14,7 +18,7 @@ export const LatestProductsBanner = () => {
         animate="animate"
         variants={variants.fadeIn}
       >
-        <Link href="/catalog">
+        <Link href={advertisement?.link ?? ''}>
           <a>
             <DiscountImg
               key="latest-home-discount-img"
@@ -22,7 +26,7 @@ export const LatestProductsBanner = () => {
               initial="init"
               animate="animate"
               exit={{ y: -80, opacity: 0, transition: { delay: 0.05 } }}
-              src="/static/pm40.webp"
+              src={`/api/images/${advertisement?.image}`}
               variants={variants.fadInSlideUp}
               whileHover={{
                 scale: 1.1,
@@ -51,9 +55,9 @@ export const LatestProductsBanner = () => {
           exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
           variants={variants.fadInSlideUp}
         >
-          Только в этом сезонe действует скидка на Vaperesso Luxe
+          {advertisement?.description}
         </motion.p>
-        <Link href="/catalog">
+        <Link href={advertisement?.link ?? ''}>
           <motion.a
             whileHover="hover"
             whileTap="tap"

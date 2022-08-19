@@ -9,6 +9,8 @@ import { fetchProduct } from 'redux/slicers/store/productInfoSlicer';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TProductInfoState } from 'redux/types';
 import { Basket, Wishlist } from 'swagger/services';
+import Loading from 'ui-kit/Loading';
+import styled from 'styled-components';
 
 const ProductInfoPage = () => {
   const dispatch = useAppDispatch();
@@ -32,32 +34,42 @@ const ProductInfoPage = () => {
 
   const images = product?.images ? product?.images.split(', ') : [];
 
-  return (
-    !loading && (
-      <>
-        <SEO
-          url={`cigsmoke.ru${router.asPath}`}
-          title={product?.name}
-          description={product?.desc}
-          image={`/api/images/${images[0]}`}
-          schemaType="cart"
-          keywords="the, keywords, is, saperated, by, comma"
-        />
-        <ProductInfo
-          reviewRef={reviewBtnRef}
-          questionRef={questionBtnRef}
-          product={product}
-          cart={cart}
-          wishlist={wishlist}
-        />
-        {/* <Recomendation />
-        <ReveiwsAndQuastions
+  return !loading && product ? (
+    <>
+      <SEO
+        url={`cigsmoke.ru${router.asPath}`}
+        title={product?.name}
+        description={product?.desc}
+        image={`/api/images/${images[0]}`}
+        schemaType="cart"
+        keywords="the, keywords, is, saperated, by, comma"
+      />
+      <ProductInfo
+        reviewRef={reviewBtnRef}
+        questionRef={questionBtnRef}
+        product={product}
+        cart={cart}
+        wishlist={wishlist}
+      />
+      <Recomendation />
+      {/* <ReveiwsAndQuastions
           reviewRef={reviewBtnRef}
           questionRef={questionBtnRef}
         /> */}
-      </>
-    )
+    </>
+  ) : (
+    <LoadingWrapper>
+      <Loading />
+    </LoadingWrapper>
   );
 };
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+`;
+
 ProductInfoPage.PageLayout = StoreLayout;
 export default ProductInfoPage;

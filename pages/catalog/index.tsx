@@ -15,18 +15,14 @@ import styled from 'styled-components';
 import ProductGrid from 'ui-kit/products/productGrid';
 
 const CatalogPage = () => {
-  const [curLocation, setCurLocation] = useState('');
   const { products, categories, subCategories, brands, colors, priceRange } =
     useAppSelector<TCatalogState>((state) => state.catalog);
   const dispatch = useAppDispatch();
 
-  const handleLocationChange = onLocationChange(
-    curLocation,
-    dispatch,
-    setCurLocation,
-  );
+  const handleLocationChange = onLocationChange(dispatch);
 
   useEffect(() => {
+    localStorage.removeItem('location');
     window.addEventListener('locationChange', handleLocationChange);
     setPriceRange(dispatch);
     (async () => {
@@ -73,6 +69,8 @@ const CatalogPage = () => {
               gridStyle={{
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 columnGap: '53px',
+                laptopColumnGap: '138px!important',
+                laptopGridTemplateColumns: 'repeat(2, 1fr) !important',
               }}
               products={products}
               emptyProductsTitle={'По вашему запросу ничего не найдено.'}

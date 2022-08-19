@@ -12,14 +12,14 @@ import {
   ConfidentialityWrapper,
 } from './common';
 import { handleBack, handleSignIn } from './helpers';
-import PswShow from '../../../../../assets/pswshow.svg';
-import PswHide from '../../../../../assets/pswhide.svg';
+import PswShow from '../../../../../../assets/pswshow.svg';
+import PswHide from '../../../../../../assets/pswhide.svg';
 import Link from 'next/link';
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import { InputsTooltip } from 'components/store/checkout/helpers';
 import { useAppDispatch } from 'redux/hooks';
-import { PopupDisplay } from '../HeaderCart/constants';
+import { PopupDisplay } from '../../HeaderCart/constants';
 
 // TODO SET THE NOT VERIFIED USERS STATUS TO FORBIDDEN
 //  if (!user.isVerified) {
@@ -36,8 +36,7 @@ type Props = {
   serverErr: number | undefined;
   isCap: boolean;
   setCap: Dispatch<SetStateAction<boolean>>;
-  setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
-  setIsOpened: Dispatch<SetStateAction<boolean>>;
+  onAfterAuthorized?: () => void;
 };
 const SignIn: React.FC<Props> = ({
   direction,
@@ -46,8 +45,7 @@ const SignIn: React.FC<Props> = ({
   serverErr,
   isCap,
   setCap,
-  setDisplay,
-  setIsOpened,
+  onAfterAuthorized,
 }) => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
@@ -205,7 +203,7 @@ const SignIn: React.FC<Props> = ({
           </ConfidentialityWrapper>
         </AuthInputsWrapper>
       </FormWrapper>
-      <Link href="/acount/pswreset">
+      <Link href="/profile/pswreset">
         <a>забыл пароль?</a>
       </Link>
       <BtnsWrapper>
@@ -227,11 +225,10 @@ const SignIn: React.FC<Props> = ({
               : false
           }
           onClick={handleSignIn({
-            dispatch,
             email,
             password,
-            setDisplay,
-            setIsOpened,
+            dispatch,
+            onAfterAuthorized,
           })}
         >
           Войти

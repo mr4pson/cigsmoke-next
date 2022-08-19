@@ -3040,13 +3040,6 @@
             "type": "string"
           },
           {
-            "name": "paymentId",
-            "in": "query",
-            "description": "Filtering checkouts by paymentId",
-            "required": false,
-            "type": "string"
-          },
-          {
             "name": "basketId",
             "in": "query",
             "description": "Filtering checkouts by basketId",
@@ -5020,19 +5013,25 @@
         "userId": {
           "type": "string"
         },
-        "firstName": {
+        "receiverName": {
           "type": "string"
         },
-        "lastName": {
+        "receiverPhone": {
           "type": "string"
         },
         "address": {
           "type": "string"
         },
-        "city": {
+        "roomOrOffice": {
           "type": "string"
         },
-        "country": {
+        "door": {
+          "type": "string"
+        },
+        "floor": {
+          "type": "string"
+        },
+        "rignBell": {
           "type": "string"
         },
         "zipCode": {
@@ -5055,11 +5054,9 @@
     },
     "AddressDTO": {
       "required": [
-        "firstName",
-        "lastName",
+        "receiverName",
+        "receiverPhone",
         "address",
-        "city",
-        "country",
         "zipCode"
       ],
       "properties": {
@@ -5067,19 +5064,25 @@
           "type": "string",
           "readOnly": true
         },
-        "firstName": {
+        "receiverName": {
           "type": "string"
         },
-        "lastName": {
+        "receiverPhone": {
           "type": "string"
         },
         "address": {
           "type": "string"
         },
-        "city": {
+        "roomOrOffice": {
           "type": "string"
         },
-        "country": {
+        "door": {
+          "type": "string"
+        },
+        "floor": {
+          "type": "string"
+        },
+        "rignBell": {
           "type": "string"
         },
         "zipCode": {
@@ -5193,13 +5196,12 @@
           "type": "string",
           "readOnly": true
         },
+        "paymentId": {
+          "type": "string"
+        },
         "address": {
           "type": "object",
           "$ref": "#/definitions/AddressWithoutJoins"
-        },
-        "payment": {
-          "type": "object",
-          "$ref": "#/definitions/PaymentCard"
         },
         "basket": {
           "type": "object",
@@ -5207,6 +5209,9 @@
         },
         "comment": {
           "type": "string"
+        },
+        "leaveNearDoor": {
+          "type": "boolean"
         }
       }
     },
@@ -5229,18 +5234,23 @@
           "type": "string",
           "readOnly": true
         },
+        "paymentId": {
+          "type": "string"
+        },
         "userId": {
           "type": "string"
         },
         "comment": {
           "type": "string"
+        },
+        "leaveNearDoor": {
+          "type": "boolean"
         }
       }
     },
     "CheckoutDTO": {
       "required": [
         "address",
-        "payment",
         "basket"
       ],
       "properties": {
@@ -5248,13 +5258,13 @@
           "type": "string",
           "readOnly": true
         },
+        "paymentId": {
+          "type": "string",
+          "description": "Payment ID"
+        },
         "address": {
           "type": "string",
           "description": "Address ID"
-        },
-        "payment": {
-          "type": "string",
-          "description": "Payment ID"
         },
         "basket": {
           "type": "string",
@@ -5262,6 +5272,9 @@
         },
         "comment": {
           "type": "string"
+        },
+        "leaveNearDoor": {
+          "type": "boolean"
         }
       }
     },
@@ -5319,36 +5332,6 @@
         "qty": {
           "type": "integer",
           "minimum": 1
-        }
-      }
-    },
-    "PaymentCard": {
-      "required": [
-        "userId",
-        "cardNumber",
-        "expirationMonth",
-        "expirationYear",
-        "cardholder"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "readOnly": true
-        },
-        "userId": {
-          "type": "string"
-        },
-        "cardNumber": {
-          "type": "string"
-        },
-        "expirationMonth": {
-          "type": "integer"
-        },
-        "expirationYear": {
-          "type": "integer"
-        },
-        "cardholder": {
-          "type": "string"
         }
       }
     },

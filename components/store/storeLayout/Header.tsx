@@ -21,8 +21,7 @@ const Header = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <AnimatePresence>
-        <Container // this container should always be the first child of animatedPresence in order to transition
-          // between pages work
+        <Container
           variants={variants.fadInOut}
           key="header"
           initial="start"
@@ -59,7 +58,11 @@ const Header = () => {
                 <Link href="/">
                   <a>
                     <img
-                      style={{ width: '150px', height: '35px' }}
+                      style={{
+                        marginTop: '-24px',
+                        width: '150px',
+                        height: '35px',
+                      }}
                       src="/wuluxe.svg"
                       alt="wuluxe logo"
                     />
@@ -72,18 +75,26 @@ const Header = () => {
               <RelativeContainer id="auth-container">
                 <AuthComp />
               </RelativeContainer>
-              <Btns>
-                <span>
-                  <Order />
-                </span>
-                <span> Заказы</span>
-              </Btns>
-              <Btns>
-                <span>
-                  <WishList />
-                </span>
-                <span>Избранное</span>
-              </Btns>
+              <Link href="/orders">
+                <a style={{ alignSelf: 'flex-end' }}>
+                  <Btns>
+                    <span>
+                      <Order />
+                    </span>
+                    <span> Заказы</span>
+                  </Btns>
+                </a>
+              </Link>
+              <Link href="/wishlist">
+                <a style={{ alignSelf: 'flex-end' }}>
+                  <Btns>
+                    <span>
+                      <WishList />
+                    </span>
+                    <span>Избранное</span>
+                  </Btns>
+                </a>
+              </Link>
               <RelativeContainer>
                 <HeaderCart />
               </RelativeContainer>
@@ -99,7 +110,7 @@ const LogoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  gap: 15px;
+  gap: 29px;
   justify-self: flex-start;
 `;
 

@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import color from '../../lib/ui.colors';
-import variants from '../../lib/variants';
+import color from 'components/store/lib/ui.colors';
+import variants from 'components/store/lib/variants';
 import SignIn from './signin';
 import SignUp from './signup';
 import { UsePagination } from './helpers';
 import { Content, AuthBtns, Loading } from './common';
-import { paginateTo } from '../constant';
+import { paginateTo } from './constant';
 import { useState } from 'react';
 
 const Authorize = (props: any) => {
@@ -88,7 +88,7 @@ const Authorize = (props: any) => {
 };
 
 const Contianer = styled(motion.div)`
-  width: 100vw;
+  width: 100%;
   height: 70vh;
   display: flex;
   flex-direction: row;

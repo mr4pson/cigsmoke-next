@@ -6,30 +6,48 @@ import color from '../../lib/ui.colors';
 import variants from '../../lib/variants';
 import isEmpty from 'validator/lib/isEmpty';
 import Link from 'next/link';
-import Discount from '../../../../assets/discount.svg';
+import DiscountSVG from '../../../../assets/discount.svg';
 import ArrowRight from '../../../../assets/arrow_right.svg';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { TCartState } from 'redux/types';
+import { getDiscount, getOldPrice, getTotalPrice } from './helpers';
+import { formatNumber } from 'common/helpers/number.helper';
+import { NextRouter, useRouter } from 'next/router';
+import { setOrderInfo } from 'redux/slicers/store/checkoutSlicer';
 
-const TotalDetails = () => {
+const TotalDetails = ({ comment, leaveNearDoor }) => {
+  const dispatch = useAppDispatch();
   const [discount, setDiscount] = useState('');
+  const router = useRouter();
   const [success, setSuccess] = useState(false);
   const [promoMessage, setPromoMessage] = useState('');
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
+
+  const handlePayClick = (router: NextRouter) => () => {
+    const payload = {
+      comment,
+      leaveNearDoor,
+    };
+
+    dispatch(setOrderInfo(payload));
+    router.push('/checkout/payment');
+  };
   return (
     <Container>
       <h3 className="total-header">Ваша сумма</h3>
       <Wrapper>
         <Content>
           <ItemColumn>
-            <Link href="/checkout/payment">
-              <a>
-                <motion.button
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.boxShadow}
-                >
-                  Оплатить онлайн
-                </motion.button>
-              </a>
-            </Link>
+            <a>
+              <motion.button
+                whileHover="hover"
+                whileTap="tap"
+                variants={variants.boxShadow}
+                onClick={handlePayClick(router)}
+              >
+                Оплатить онлайн
+              </motion.button>
+            </a>
             <span>
               Нажимая на кнопку, вы соглашаетесь с{' '}
               <Link href="/privacy">
@@ -45,38 +63,40 @@ const TotalDetails = () => {
             <ItemRow>
               <h3>Ваш заказ</h3>
               <span className="product-wheight">
-                {`1`} товар • {`400`} гр
+                {cart?.orderProducts?.length} товар(ов) • {`400`} гр
               </span>
             </ItemRow>
             <ItemRow>
               <span>Товары</span>
               <b>
-                <span>{`10 000`} ₽</span>
+                <span>{formatNumber(getOldPrice(cart))} ₽</span>
               </b>
             </ItemRow>
             <ItemRow>
               <span>Скидка</span>
               <b>
-                <span style={{ color: color.hover }}>{`- 7 00`} ₽</span>
+                <span style={{ color: color.hover }}>
+                  {`- ${formatNumber(getDiscount(cart))}`} ₽
+                </span>
               </b>
             </ItemRow>
             <ItemRow>
               <span>Стоимость доставки</span>
               <b>
-                <span>{`100`} ₽</span>
+                <span>{`300`} ₽</span>
               </b>
             </ItemRow>
           </ItemRowWrapper>
           <ItemRow>
             <h3 className="total">Итого</h3>
-            <h3 className="total">{`3 899`} ₽</h3>
+            <h3 className="total">{formatNumber(getTotalPrice(cart))} ₽</h3>
           </ItemRow>
         </Content>
       </Wrapper>
       <Wrapper>
         <ItemRow>
           <span className="disount-svg">
-            <Discount />
+            <DiscountSVG />
           </span>
           <TextField
             fullWidth

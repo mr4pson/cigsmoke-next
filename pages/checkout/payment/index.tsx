@@ -11,37 +11,61 @@ import {
   Content,
   Wrapper,
 } from 'components/store/storeLayout/common';
-
-const handleUiInput = (e, setCardNumber) => {
-  if (e.nativeEvent.inputType === 'deleteContentBackward') {
-    setCardNumber(e.target.value);
-    return;
-  }
-  if (e.target.value.length > 21) return;
-
-  switch (e.target.value.length) {
-    case 4:
-      setCardNumber(`${e.target.value.slice(0, 4)} `);
-      break;
-    case 9:
-      setCardNumber(`${e.target.value.slice(0, 9)} `);
-      break;
-    case 14:
-      setCardNumber(`${e.target.value.slice(0, 14)} `);
-      break;
-    default:
-      setCardNumber(e.target.value);
-      break;
-  }
-};
+import { TAuthState, TCartState, TStoreCheckoutState } from 'redux/types';
+import { useAppSelector } from 'redux/hooks';
+import { getTotalPrice } from 'components/store/checkout/totalDeliveryDate/helpers';
+import { formatNumber } from 'common/helpers/number.helper';
+import InputMask from 'react-input-mask';
+import axios from 'axios';
 
 const Product = () => {
-  const reRoute = useRouter();
-  const [isAuthorized, setAuthorized] = useState(true);
-  const [cardNumber, setCardNumber]: [any, any] = useState('');
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
+  const router = useRouter();
+  const { deliveryInfo, orderInfo } = useAppSelector<TStoreCheckoutState>(
+    (state) => state.storeCheckout,
+  );
+
+  // useEffect(() => {
+  //   !user ? router.push('/') : '';
+  // }, []);
+
   useEffect(() => {
-    !isAuthorized ? reRoute.push('/') : '';
-  }, []);
+    (async () => {
+      const response = await axios.post('/api/payments', {
+        value: `${getTotalPrice(cart)}.0`,
+      });
+
+      if (deliveryInfo) {
+        localStorage.setItem('deliveryInfo', JSON.stringify(deliveryInfo));
+        localStorage.setItem('orderInfo', JSON.stringify(orderInfo));
+
+        const checkoutWidget = new (window as any).YooMoneyCheckoutWidget({
+          confirmation_token: response.data.confirmation.confirmation_token,
+          return_url: `${window.location.origin}/after-payment?paymentId=${response.data.id}&value=${response.data.amount.value}`,
+
+          //При необходимости можно изменить цвета виджета, подробные настройки см. в документации
+          //customization: {
+          //Настройка цветовой схемы, минимум один параметр, значения цветов в HEX
+          //colors: {
+          //Цвет акцентных элементов: кнопка Заплатить, выбранные переключатели, опции и текстовые поля
+          //control_primary: '#00BF96', //Значение цвета в HEX
+
+          //Цвет платежной формы и ее элементов
+          //background: '#F2F3F5' //Значение цвета в HEX
+          //}
+          //},
+          error_callback: function (error) {
+            debugger;
+            console.log(error);
+          },
+        });
+
+        //Отображение платежной формы в контейнере
+        checkoutWidget.render('payment-form');
+      }
+    })();
+  }, [deliveryInfo]);
 
   return (
     <Container
@@ -55,240 +79,24 @@ const Product = () => {
           justify_content="flex-start"
           align_items="center"
           gap="20px"
+          style={{ minHeight: 'calc(70vh + 124px)' }}
         >
-          <Header>
-            <h1>Оплата банковской картой</h1>
-            <div className="total-payment">
-              <span>Итого с учётом доставки и НДС</span>
-              <h1>{`4000`}</h1>
-            </div>
-          </Header>
-          <CardWrapper>
-            <motion.div
-              custom={0.1}
-              initial="init"
-              animate="animate"
-              variants={variants.fadInSlideUp}
-              className="card-front"
-            >
-              <div className="card-imgs">
-                <img src="/static/cards/mir.png" alt="" />
-                <img src="/static/cards/visa.svg" alt="" />
-                <img src="/static/cards/mastercard.svg" alt="" />
-                <img src="/static/cards/mastercard2.svg" alt="" />
-                <img src="/static/cards/american.png" alt="" />
-                <img src="/static/cards/unionpay.png" alt="" />
-              </div>
-              <div className="card-input-wrapper">
-                <span>Номер карты</span>
-                <motion.input
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.boxShadow}
-                  type="text"
-                  value={cardNumber}
-                  placeholder="xxxx-xxxx-xxxx-xxxx"
-                  onChange={(e: any) => handleUiInput(e, setCardNumber)}
-                />
-              </div>
-              <div>
-                <span className="card-date-lable">Действует до</span>
-                <div className="card-date-input-wrapper">
-                  <input placeholder="ММ" type="text" />
-
-                  <input placeholder="ГГ" type="text" />
-                </div>
-              </div>
-            </motion.div>
-            <motion.div
-              custom={0.2}
-              initial="init"
-              animate="animate"
-              variants={variants.fadInSlideUp}
-              className="card-back"
-            >
-              <div className="card-back-strip"></div>
-              <div className="secret-code-Wrapper">
-                <b>
-                  <span>CCV/CVC</span>
-                </b>
-                <input placeholder="000" type="text" />
-              </div>
-            </motion.div>
-          </CardWrapper>
-          <SaveCardWrapper>
-            <input type="checkbox" />
-            <span>Запомнить карту. Это безопасно. </span>
-          </SaveCardWrapper>
-          <PayBtn
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            style={{
-              backgroundColor: isEmpty(cardNumber)
-                ? color.textSecondary
-                : color.btnPrimary,
-            }}
-            disabled={isEmpty(cardNumber) ? true : false}
-          >
-            Оплатить {`15 000`} ₽
-          </PayBtn>
+          <CardForm>
+            <div id="payment-form"></div>
+          </CardForm>
         </Content>
       </Wrapper>
     </Container>
   );
 };
 
-const Header = styled(motion.div)`
-  width: 50%;
+const CardForm = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
-  gap: 10px;
-  h1 {
-    font-size: 2rem;
-    font-weight: 900;
-  }
-  .total-payment {
-    span {
-      color: ${color.textSecondary};
-    }
-  }
-`;
-
-const CardWrapper = styled.div`
-  width: 600px;
-  height: 250px;
-  display: flex;
-  flex-direction: row;
-  justify-contetn: center;
   align-items: center;
-  .card-front {
-    width: 400px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 20px;
-    box-shadow: 0px 2px 6px ${color.boxShadowBtn};
-    background-color: ${color.textPrimary};
-    padding: 30px;
-    border-radius: 15px;
-    z-index: 4;
-    .card-imgs {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 12px;
-      img {
-        width: 45px;
-      }
-    }
-    .card-input-wrapper {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
-      gap: 10px;
-      span {
-        color: ${color.textSecondary};
-      }
-      input {
-        width: 100%;
-        height: 40px;
-        padding: 0 10px;
-        border-radius: 5px;
-        font-size: 1.4rem;
-      }
-    }
-    .card-date-lable {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      color: ${color.textSecondary};
-    }
-    .card-date-input-wrapper {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 20px;
-      input {
-        width: 50px;
-        height: 40px;
-        padding: 0 5px;
-        border-radius: 5px;
-        font-size: 1.4rem;
-        text-align: center;
-      }
-    }
-  }
-  .card-back {
-    width: 200px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    background-color: ${color.bgProduct};
-    box-shadow: 0px 2px 6px ${color.boxShadowBtn};
-    margin-left: -20px;
-    border-radius: 15px;
-    gap: 10px;
-    .secret-code-Wrapper {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 5px;
-      input {
-        width: 50px;
-        height: 40px;
-        padding: 0 5px;
-        border-radius: 5px;
-        font-size: 1.4rem;
-        text-align: center;
-      }
-    }
-    .card-back-strip {
-      width: 100%;
-      height: 60px;
-      background-color: ${color.textTertiary};
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin-top: 40px;
-    }
-  }
-`;
-
-const SaveCardWrapper = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-`;
-
-const PayBtn = styled(motion.button)`
-  width: 50%;
-  height: 60px;
-  text-align: center;
-  border-radius: 10px;
-  color: ${color.textPrimary};
-  font-family: 'intro';
-  font-size: 1.3rem;
+  gap: 20px;
 `;
 
 Product.PageLayout = StoreLayout;

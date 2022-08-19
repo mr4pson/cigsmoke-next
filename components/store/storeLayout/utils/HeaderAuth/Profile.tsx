@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import CardsSVG from '../../../../../assets/creditCard.svg';
 import BookmarkSVG from '../../../../../assets/bookmark.svg';
 import variants from 'components/store/lib/variants';
-import { handleLogout } from './helpers';
+import { handleLogout } from './authorize/helpers';
 import { useAppDispatch } from 'redux/hooks';
 import { User } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
@@ -44,7 +44,7 @@ const Profile: React.FC<Props> = ({
     >
       <ProfileWrapper>
         <AuthDevider style={{ justifyContent: 'flex-start' }}>
-          <Link href="/lk">
+          <Link href="/profile">
             <a>
               <motion.img src="/static/temp/gamer.png" />
             </a>
@@ -52,7 +52,7 @@ const Profile: React.FC<Props> = ({
           <ProfileDataWrapper>
             <h3>{`${user?.firstName} ${user?.lastName}`}</h3>
             <span>{user?.email}</span>
-            <Link href="/user-data">
+            <Link href="/profile">
               <a>
                 <b>Личные данные</b>
               </a>
@@ -61,7 +61,7 @@ const Profile: React.FC<Props> = ({
         </AuthDevider>
       </ProfileWrapper>
 
-      <Link href="/cards">
+      <Link href="/profile#user-cards">
         <motion.a
           whileHover="hover"
           whileTap="tap"

@@ -23,6 +23,8 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet"
           ></link>
+          <script src="https://yookassa.ru/checkout-widget/v1/checkout-widget.js"></script>
+          {/* <script src="https://static.yoomoney.ru/checkout-js/v1/checkout.js"></script> */}
         </Head>
         <body>
           {/* <div

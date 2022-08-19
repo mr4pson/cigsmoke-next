@@ -32,14 +32,14 @@ const Footer = (): JSX.Element => {
                 <Sections_header>Персональная информация</Sections_header>
                 <Sections_content>
                   <Sections_item>
-                    <Link href="/categories">
+                    <Link href="/catalog">
                       <a>
                         <span>Категории</span>
                       </a>
                     </Link>
                   </Sections_item>
                   <Sections_item>
-                    <Link href="/acount">
+                    <Link href="/profile">
                       <a>
                         <span>Личный кабинет</span>
                       </a>

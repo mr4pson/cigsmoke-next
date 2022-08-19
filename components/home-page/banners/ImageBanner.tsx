@@ -7,15 +7,19 @@ import styled from 'styled-components';
 import Arrow from '../../../assets/arrow.svg';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import { handleDragEnd } from '../helpers';
-import { IMAGES, SWIPE_CONFIDENCE_THRESHOLD } from './constants';
+import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
 import Link from 'next/link';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
+import { Slide } from 'swagger/services';
 
-const ImageBanner = () => {
+type Props = {
+  slides: Slide[] | undefined;
+};
+const ImageBanner: React.FC<Props> = ({ slides }) => {
   // const [[page, direction], setPage] = useState([0, 0]);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
 
-  const imageIndex = wrap(0, IMAGES.length, page);
+  const imageIndex = wrap(0, Number(slides?.length), page);
 
   return (
     <SliderWrapper
@@ -26,12 +30,16 @@ const ImageBanner = () => {
       exit={{ y: -80, opacity: 0, transition: { delay: 0.2 } }}
       variants={variants.fadInSlideUp}
     >
-      <Link href={`/catalog/${page}`}>
+      <Link
+        href={
+          slides && slides[imageIndex]?.link ? slides[imageIndex]?.link! : ''
+        }
+      >
         <a>
           <AnimatePresence initial={false} custom={direction}>
             <Slider
               key={page}
-              src={IMAGES[imageIndex]}
+              src={slides ? `/api/images/${slides[imageIndex]?.image}` : ''}
               custom={direction}
               variants={variants.slider}
               initial="enter"

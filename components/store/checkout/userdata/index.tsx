@@ -4,16 +4,23 @@ import isEmpty from 'validator/lib/isEmpty';
 import color from '../../lib/ui.colors';
 import variants from '../../lib/variants';
 import MapContainer from './MapContainer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styleProps } from 'components/store/lib/types';
 import { geoLocatClick } from './helpers';
 import AutoFill from './Autofill';
 import Locate from '../../../../assets/geolocate.svg';
 import AddressDetails from './AddressDetails';
 import ReciverData from './ReciverData';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setDeliveryInfo } from 'redux/slicers/store/checkoutSlicer';
+import { TStoreCheckoutState } from 'redux/types';
 
-const UserData = (props: any) => {
-  const { setStep, backToFinal, setHasAddress } = props;
+const UserData = ({ setStep, backToFinal, setHasAddress }) => {
+  const dispatch = useAppDispatch();
+  const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
+    (state) => state.storeCheckout,
+  );
+
   const [address, setAddress] = useState('');
   const [viewport, setViewPort]: [any, any] = useState({
     latitude: 55.755825,
@@ -25,8 +32,40 @@ const UserData = (props: any) => {
   const [door, setDoor] = useState('');
   const [floor, setFloor] = useState('');
   const [rignBell, setRingBell] = useState('');
-  const [fullName, setFullname] = useState('Rishad Mohammadi');
+  const [fullName, setFullname] = useState('');
   const [phone, setPhone] = useState('+7');
+
+  const handleClickBack = () => {
+    setStep(2);
+    setHasAddress(true);
+  };
+
+  const handleClickSave = () => {
+    const payload = {
+      address,
+      fullName,
+      phone,
+      floor,
+      door,
+      roomOrOffice,
+      postCode,
+      rignBell,
+    };
+    dispatch(setDeliveryInfo(payload));
+    setStep(2);
+    setHasAddress(true);
+  };
+
+  useEffect(() => {
+    setPostCode(deliveryInfo?.postCode ?? '');
+    setRoomOrOffice(deliveryInfo?.roomOrOffice ?? '');
+    setDoor(deliveryInfo?.door ?? '');
+    setFloor(deliveryInfo?.floor ?? '');
+    setRingBell(deliveryInfo?.rignBell ?? '');
+    setFullname(deliveryInfo?.fullName ?? '');
+    setPhone(deliveryInfo?.phone ?? '');
+    setAddress(deliveryInfo?.address ?? '');
+  }, [deliveryInfo]);
 
   return (
     <Container>
@@ -47,10 +86,7 @@ const UserData = (props: any) => {
             whileTap="tap"
             variants={variants.boxShadow}
             bgcolor={color.btnPrimary}
-            onClick={() => {
-              setStep(2);
-              setHasAddress(true);
-            }}
+            onClick={handleClickBack}
           >
             Назад
           </ActionBtns>
@@ -112,10 +148,7 @@ const UserData = (props: any) => {
                 ? true
                 : false
             }
-            onClick={() => {
-              setStep(2);
-              setHasAddress(true);
-            }}
+            onClick={handleClickSave}
           >
             Сохранить и продолжить
           </ActionBtns>

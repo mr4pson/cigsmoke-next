@@ -1,6 +1,8 @@
 import { getQueryParams } from 'common/helpers/manageQueryParams.helper';
-import { Dispatch, SetStateAction } from 'react';
 import {
+  clearBrands,
+  clearColors,
+  clearSubCategories,
   fetchBrands,
   fetchColors,
   fetchPriceRange,
@@ -96,52 +98,55 @@ const setPriceRange = (dispatch: AppDispatch) => {
   dispatch(fetchPriceRange(payload));
 };
 
-const onLocationChange =
-  (
-    curLocation: string,
-    dispatch: AppDispatch,
-    setCurLocation: Dispatch<SetStateAction<string>>,
-  ) =>
-  async () => {
-    const queryParams = getQueryParams(window.location.search);
-    const { minPrice, maxPrice, name } = queryParams;
-    const { categories, subCategories, brands, colors } =
-      convertQueryParams(queryParams);
-    const payload = {
-      brands,
-      colors,
-      name,
-      parent: categories ? categories[0] : undefined,
-      categories: subCategories,
-      minPrice: minPrice ? Number(minPrice) : undefined,
-      maxPrice: maxPrice ? Number(maxPrice) : undefined,
-    };
-
-    dispatch(fetchProducts(payload));
-    setCurLocation(window.location.search);
-
-    const rawPrevQueryParams = getQueryParams(curLocation);
-    const prevQueryParams = convertQueryParams(rawPrevQueryParams);
-
-    if (
-      JSON.stringify(prevQueryParams.categories) !== JSON.stringify(categories)
-    ) {
-      await dispatch(fetchSubCategories(categories![0]));
-      await dispatch(fetchBrands({ parent: categories![0] }));
-      await dispatch(fetchColors({ parent: categories![0] }));
-      setPriceRange(dispatch);
-    }
-
-    if (
-      JSON.stringify(prevQueryParams.subCategories) !==
-      JSON.stringify(subCategories)
-    ) {
-      if (subCategories) {
-        await dispatch(fetchBrands({ category: subCategories[0] }));
-        await dispatch(fetchColors({ category: subCategories[0] }));
-      }
-    }
+const onLocationChange = (dispatch: AppDispatch) => async () => {
+  const queryParams = getQueryParams(window.location.search);
+  const { minPrice, maxPrice, name } = queryParams;
+  const { categories, subCategories, brands, colors } =
+    convertQueryParams(queryParams);
+  const payload = {
+    brands,
+    colors,
+    name,
+    parent: categories ? categories[0] : undefined,
+    categories: subCategories,
+    minPrice: minPrice ? Number(minPrice) : undefined,
+    maxPrice: maxPrice ? Number(maxPrice) : undefined,
   };
+
+  dispatch(fetchProducts(payload));
+  const curLocation = localStorage.getItem('location')!;
+  localStorage.setItem('location', window.location.search);
+
+  const rawPrevQueryParams = getQueryParams(curLocation);
+  const prevQueryParams = convertQueryParams(rawPrevQueryParams);
+
+  if (
+    JSON.stringify(prevQueryParams.categories) !== JSON.stringify(categories)
+  ) {
+    const category = categories ? categories[0] : '';
+
+    if (category) {
+      await dispatch(fetchSubCategories(category));
+      await dispatch(fetchBrands({ parent: category }));
+      await dispatch(fetchColors({ parent: category }));
+    } else {
+      await dispatch(clearSubCategories());
+      await dispatch(clearBrands());
+      await dispatch(clearColors());
+    }
+    setPriceRange(dispatch);
+  }
+
+  if (
+    JSON.stringify(prevQueryParams.subCategories) !==
+    JSON.stringify(subCategories)
+  ) {
+    if (subCategories) {
+      await dispatch(fetchBrands({ category: subCategories[0] }));
+      await dispatch(fetchColors({ category: subCategories[0] }));
+    }
+  }
+};
 
 export {
   convertQueryParams,

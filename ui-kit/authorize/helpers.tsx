@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
-import { paginateTo } from '../constant';
+import { paginateTo } from './constant';
 import axios from 'axios';
 
 type signIn = {
@@ -74,6 +74,9 @@ const handleSignIn = ({
           setServerErr(undefined);
           setLoading(false);
           setAuthorized(true);
+          localStorage.setItem('accessToken', response.data.accessToken);
+          localStorage.setItem('refreshToke', response.data.accessToken);
+          localStorage.setItem('userId', response.data.user.id);
           console.log(response.data);
         }
       })

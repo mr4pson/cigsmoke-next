@@ -11,8 +11,8 @@ import {
   ConfidentialityWrapper,
 } from './common';
 import { handleSignUp } from './helpers';
-import PswShow from '../../../../../assets/pswshow.svg';
-import PswHide from '../../../../../assets/pswhide.svg';
+import PswShow from '../../../../../../assets/pswshow.svg';
+import PswHide from '../../../../../../assets/pswhide.svg';
 import variants from 'components/store/lib/variants';
 import { InputsTooltip } from 'components/store/checkout/helpers';
 import color from 'components/store/lib/ui.colors';

@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import isEmail from 'validator/lib/isEmail'; // docs: https://www.npmjs.com/package/validator
 import isEmpty from 'validator/lib/isEmpty';
-import color from '../../lib/ui.colors';
-import variants from '../../lib/variants';
+import color from 'components/store/lib/ui.colors';
+import variants from 'components/store/lib/variants';
 import {
   Content,
   AuthBtns,
@@ -12,8 +12,8 @@ import {
   AuthInputsWrapper,
   FormWrapper,
 } from './common';
-import { InputsTooltip } from '../helpers';
-import { paginateTo } from '../constant';
+import { InputsTooltip } from 'components/store/checkout/helpers';
+import { paginateTo } from './constant';
 import ConfirmPsw from './ConfirmPsw';
 
 const SignUp = (props: any) => {

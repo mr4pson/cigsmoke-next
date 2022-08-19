@@ -6,6 +6,8 @@ import DeliveryDetails from './DeliveryDetails';
 import TotalDetails from './TotalDetails';
 const TotalDeliveryDate = (props: any) => {
   const [comment, setComment] = useState('');
+  const [leaveNearDoor, setLeaveNearDoor] = useState(false);
+
   return (
     <Container>
       <div className="back-to-cart">
@@ -15,8 +17,14 @@ const TotalDeliveryDate = (props: any) => {
         <h1>Оформление заказа</h1>
       </div>
       <Wrapper>
-        <DeliveryDetails comment={comment} setComment={setComment} {...props} />
-        <TotalDetails />
+        <DeliveryDetails
+          comment={comment}
+          leaveNearDoor={leaveNearDoor}
+          setComment={setComment}
+          setLeaveNearDoor={setLeaveNearDoor}
+          {...props}
+        />
+        <TotalDetails comment={comment} leaveNearDoor={leaveNearDoor} />
       </Wrapper>
     </Container>
   );
