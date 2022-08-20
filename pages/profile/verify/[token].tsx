@@ -7,34 +7,33 @@ import {
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import Head from 'next/head';
-import EmailResetPsw from 'components/store/profileComp/emailresetpsw';
+import VerifyAcountByToken from 'components/store/profileComp/verifyaccount';
 
-const PswReset = () => {
+const VerifyAcount = () => {
   return (
     <>
       <Head>
-        <title>Сброс пароля | Wuluxe</title>
+        <title>Личные кабинет | Wuluxe</title>
       </Head>
       <Container
         variants={variants.fadInOut}
-        key="order-page"
+        key="profile-page"
         initial="start"
         animate="middle"
         exit="end"
         flex_direction="column"
         justify_content="center"
         align_items="center"
-        padding="50px"
+        padding="50px 0"
         bg_color={color.textPrimary}
       >
         <Wrapper>
           <Content
             flex_direction="column"
             justify_content="flex-start"
-            align_items="center"
             gap="30px"
           >
-            <EmailResetPsw />
+            <VerifyAcountByToken />
           </Content>
         </Wrapper>
       </Container>
@@ -42,6 +41,6 @@ const PswReset = () => {
   );
 };
 
-PswReset.PageLayout = StoreLayout;
+VerifyAcount.PageLayout = StoreLayout;
 
-export default PswReset;
+export default VerifyAcount;

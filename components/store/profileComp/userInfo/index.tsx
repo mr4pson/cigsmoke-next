@@ -55,7 +55,7 @@ const UserInfo = (props: any) => {
           }
         />
         <h2>Мои карты</h2>
-        <Cards />
+        {/* <Cards /> */}
       </Wrapper>
     </Container>
   );

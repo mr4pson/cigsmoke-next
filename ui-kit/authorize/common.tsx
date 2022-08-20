@@ -48,7 +48,7 @@ const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align--items: center;
+  align-items: center;
   gap: 15px;
   h4 {
     font-size: 1rem;

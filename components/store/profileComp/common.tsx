@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { devices } from '../lib/Devices';
 
 const Container = styled.div`
   width: 100%;
@@ -22,12 +23,15 @@ const PopupContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 100px;
   background-color: #ffffff66;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 25;
+  @media ${devices.laptopM} {
+    padding-top: 50px;
+  }
 `;
 
 export { Container, Header, PopupContainer };

@@ -1,15 +1,11 @@
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import color from 'components/store/lib/ui.colors';
-import variants from 'components/store/lib/variants';
 import UserInfo from './UserInfo';
 import Nav from './Nav';
-import { useState } from 'react';
 
 const SideBar = (props: any) => {
   return (
     <ContainerSideBar>
-      <UserInfo />
+      <UserInfo {...props} />
       <Nav {...props} />
     </ContainerSideBar>
   );

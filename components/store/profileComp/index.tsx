@@ -15,8 +15,9 @@ const ProfileComp = (props: any) => {
   const [step, setStep] = useState(0);
   const [serverErr, setServerErr] = useState(undefined);
   const [isLoading, setLoading] = useState(true);
+  const [isVerified, setIsverified] = useState(undefined);
   useEffect(() => {
-    handleFirstLoad(setAuthorized, setServerErr, setLoading);
+    handleFirstLoad(setAuthorized, setServerErr, setLoading, setIsverified);
   }, []);
 
   const userInfoRef = useRef(null);
@@ -37,6 +38,7 @@ const ProfileComp = (props: any) => {
                 reveiwsRef={reveiwsRef}
                 changePswRef={changePswRef}
                 settingsRef={settingsRef}
+                isVerified={isVerified}
                 {...props}
               />
               <Wrapper>

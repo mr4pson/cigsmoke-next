@@ -77,4 +77,18 @@ const outsideClickListner = (
   };
 };
 
-export { paginateHandler, UseImagePaginat, outsideClickListner };
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
+const handleDragEnd =
+  (paginateTo: any, swipeConfidenceThreshold: number) =>
+  (e, { offset, velocity }) => {
+    const swipe = swipePower(offset.x, velocity.x);
+    if (swipe < -swipeConfidenceThreshold) {
+      paginateTo(1);
+    } else if (swipe > swipeConfidenceThreshold) {
+      paginateTo(-1);
+    }
+  };
+
+export { paginateHandler, UseImagePaginat, outsideClickListner, handleDragEnd };

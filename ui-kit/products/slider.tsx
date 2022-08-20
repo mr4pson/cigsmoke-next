@@ -10,12 +10,12 @@ import Arrow from '../../assets/arrow.svg';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import HeartEmpty from '../../assets/heart_empty.svg';
 import HeartFull from '../../assets/heart_full.svg';
-import { SWIPE_CONFIDENCE_THRESHOLD } from '../../components/home-page/bestsellers/constants';
+import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
+import { handleWishBtnClick } from '../../components/home-page/helpers';
 import {
+  UseImagePaginat,
   handleDragEnd,
-  handleWishBtnClick,
-} from '../../components/home-page/helpers';
-import { UseImagePaginat } from 'components/store/storeLayout/helpers';
+} from 'components/store/storeLayout/helpers';
 
 type Props = {
   url?: string;
@@ -32,7 +32,6 @@ const Slider: React.FC<Props> = ({
   isInWishlist,
   onWishBtnClick,
 }) => {
-  // const [[page, direction], setPage] = useState([0, 0]);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
   const imageIndex = wrap(0, images.length, page);
   const [isWish, setWish] = useState(isInWishlist);
@@ -40,51 +39,42 @@ const Slider: React.FC<Props> = ({
   return (
     <>
       <ImageSliderWrapper>
-        <AnimatePresence initial={false} custom={direction}>
-          <ImageSlider
-            key="slider-image-home-page"
-            custom={direction}
-            variants={variants.sliderProduct}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              y: {
-                type: 'spring',
-                stiffness: 300,
-                damping: 30,
-              },
-              opacity: { duration: 0.4 },
-            }}
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={1}
-            onDragEnd={handleDragEnd(page, SWIPE_CONFIDENCE_THRESHOLD, setPage)}
-          >
-            <Link href={`/product/${url}`}>
-              <a>
-                <motion.div
-                  key={`slider-image`}
-                  whileHover="hover"
-                  whileTap="tap"
-                  custom={1.2}
-                  variants={variants.grow}
-                  transition={{ ease: 'easeInOut' }}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundSize: 'contain',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundImage: images[imageIndex]
-                      ? `url(/api/images/${images[imageIndex]})`
-                      : 'url(/assets/images/no_photo.png)',
-                  }}
-                />
-              </a>
-            </Link>
-          </ImageSlider>
-        </AnimatePresence>
+        <Link href={`/product/${url}`}>
+          <a>
+            <AnimatePresence initial={false} custom={direction}>
+              <ImageSlider
+                key={`slider-image${imageIndex}`}
+                custom={direction}
+                variants={variants.sliderProduct}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  y: {
+                    type: 'spring',
+                    stiffness: 300,
+                    damping: 30,
+                  },
+                  opacity: { duration: 0.4 },
+                }}
+                drag="y"
+                dragConstraints={{ top: 0, bottom: 0 }}
+                dragElastic={1}
+                onDragEnd={handleDragEnd(
+                  paginateImage,
+                  SWIPE_CONFIDENCE_THRESHOLD,
+                )}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 1 }}
+                src={
+                  images[imageIndex]
+                    ? `/api/images/${images[imageIndex]}`
+                    : '/assets/images/no_photo.png'
+                }
+              />
+            </AnimatePresence>
+          </a>
+        </Link>
 
         <ArrowBtns
           key={isWish ? 'heart-full-home-page' : 'heart-empty-home-page'}
@@ -147,25 +137,23 @@ const ImageSliderWrapper = styled(motion.div)`
   box-shadow: 0px 2px 6px ${color.boxShadow};
   position: relative;
   overflow: hidden;
+  a {
+    width: 100%;
+    height: 100%;
+  }
 `;
-const ImageSlider = styled(motion.div)`
+
+const ImageSlider = styled(motion.img)`
   width: 100%;
   height: 100%;
   padding: 70px;
   position: absolute;
+  object-fit: contain;
   left: 0;
   top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  a {
-    width: 100%;
-    height: 100%;
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
 `;
 
 export default Slider;
