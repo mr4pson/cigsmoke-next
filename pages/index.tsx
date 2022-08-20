@@ -10,7 +10,7 @@ const IndexPage = (): JSX.Element => {
     <>
       <SEO
         url="/"
-        title="Home"
+        title="Главный"
         description="test decription"
         image="image/path"
         schemaType="cart"

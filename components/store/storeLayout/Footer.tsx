@@ -161,33 +161,6 @@ const Footer = (): JSX.Element => {
   );
 };
 
-// const Container = styled(motion.div)`
-//   width: 100%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-evenly;
-//   padding: 20px 0;
-//   background-color: #f5f1f1;
-//   align-items: center;
-// `;
-
-// const Wrapper = styled.div`
-//   width: 100%;
-//   max-width: 90%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-evenly;
-// `;
-
-// const Content = styled.div`
-//   width: 100%;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: space-between;
-//   gap: 25px;
-// `;
-
 const Grid = styled.div`
   width: 100%;
   display: grid;
