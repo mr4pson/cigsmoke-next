@@ -31,17 +31,7 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
   const isLoaded = useAppSelector((state) => state.analytics.loading);
 
   useEffect(() => {
-    dispatch(
-      fetchAnalyticsUsers({
-        createdFrom: dateFrom,
-        createdTo: dateTo,
-        offset: String(offset),
-        limit: '20',
-      }),
-    );
-
     return () => {
-      dispatch(clearAnalytics());
       setOffset(0);
     };
   }, []);
@@ -82,7 +72,10 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
                 pageSize: 20,
                 current: currentPage,
               }}
-              scroll={{ y: 500 }}
+              scroll={{
+                x: 1366,
+                y: 768,
+              }}
               onChange={(event) => {
                 const newOffset = ((event.current as number) - 1) * 20;
                 setOffset(newOffset);

@@ -1,4 +1,6 @@
 import { Tabs } from 'antd';
+import { AppContext } from 'common/context/AppContext';
+import { useContext } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { fetchAnalyticsUsers } from 'redux/slicers/analyticsSlicer';
 import { handleGetDate } from './helpers';
@@ -19,6 +21,10 @@ const DynamicTab = ({
   currentPage,
   setCurrentPage,
 }) => {
+  const { offset, setOffset } = useContext(AppContext);
+
+  const dispatch = useAppDispatch();
+
   const handleTabChange = (event) => {
     switch (event) {
       case '2':
@@ -37,6 +43,14 @@ const DynamicTab = ({
         break;
       case '3':
         setStep('');
+        dispatch(
+          fetchAnalyticsUsers({
+            createdFrom: dateFrom,
+            createdTo: dateTo,
+            offset: String(offset),
+            limit: '20',
+          }),
+        );
     }
   };
 
