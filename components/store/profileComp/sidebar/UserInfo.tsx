@@ -6,7 +6,7 @@ import { handleConfirmationEmail, handleSignout } from './helpers';
 import { useState, useEffect } from 'react';
 
 const UserInfo = (props: any) => {
-  const { isVerified, setAuthorized } = props;
+  const { isVerified, setAuthorized, setStep } = props;
   const [serverResponse, setServerResponse] = useState(undefined);
   const [counter, setCoutner] = useState(30);
   const [iteration, setItration] = useState(0);
@@ -84,7 +84,7 @@ const UserInfo = (props: any) => {
       ) : (
         ''
       )}
-      <SignoutBtn onClick={() => handleSignout(setAuthorized)}>
+      <SignoutBtn onClick={() => handleSignout(setAuthorized, setStep)}>
         выход
       </SignoutBtn>
     </Wrapper>

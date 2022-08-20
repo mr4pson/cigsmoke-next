@@ -1,16 +1,14 @@
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { useDetectClickOutside } from 'react-detect-click-outside';
+import { useState, useCallback, useEffect } from 'react';
+import { outsideClickListner } from 'components/store/storeLayout/helpers';
 import { useAppSelector } from 'redux/hooks';
 import { TAuthState } from 'redux/types';
 import styled from 'styled-components';
-import { PopupDisplay } from '../HeaderCart/constants';
-import { handleClickOutside } from '../HeaderCart/helpers';
+import { PopupDisplay } from '../../constants';
 import AuthBtn from './AuthBtn';
 import Authorization from './authorize';
-
 import { UsePagination } from './authorize/helpers';
 import { handleAfterAuthorized } from './helpers';
 import { Profile } from './Profile';
@@ -19,13 +17,27 @@ const Authorize = () => {
   const [direction, authType, paginate] = UsePagination();
   const [isOpened, setIsOpened] = useState(false);
   const [display, setDisplay] = useState(PopupDisplay.None);
-  const { user } = useAppSelector<TAuthState>((state) => state.auth);
+  const [menuRef, setMenuRef] = useState(null);
+  const [btnRef, setBtnRef] = useState(null);
+  const [listening, setListening] = useState(false);
+  const menuNode = useCallback((node: any) => {
+    setMenuRef(node);
+  }, []);
+  const btnNode = useCallback((node: any) => {
+    setBtnRef(node);
+  }, []);
 
-  const ref = useDetectClickOutside({
-    onTriggered: () => {
-      handleClickOutside(isOpened, setIsOpened, setDisplay)();
-    },
-  });
+  useEffect(
+    outsideClickListner(
+      listening,
+      setListening,
+      menuRef,
+      btnRef,
+      setIsOpened,
+      setDisplay,
+    ),
+  );
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   return (
     <>
@@ -35,10 +47,10 @@ const Authorize = () => {
         setIsOpened={setIsOpened}
         setDisplay={setDisplay}
         paginate={paginate}
-        // avatar={} Todo pass the profile avatar
+        btnNode={btnNode}
       />
       <PopupWrapper
-        ref={ref}
+        ref={menuNode}
         style={{ display }}
         animate={isOpened ? 'open' : 'close'}
         variants={variants.fadeInReveal}

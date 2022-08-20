@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import Arrow from '../../../../../assets/arrow.svg';
-import { PopupDisplay } from '../HeaderCart/constants';
+import { PopupDisplay } from '../../constants';
 import { handleMenuState } from '../../helpers';
 import { TGlobalState } from 'redux/types';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -50,14 +50,9 @@ const CatalogModal: React.FC<Props> = ({
     dispatch(fetchBrands({ parent: curCategory?.url }));
   }, [curCategory]);
 
-  // const ref = useDetectClickOutside({
-  //   onTriggered: handleClickOutside(isOpened, setIsOpened, setDisplay),
-  // });
-
   return (
     <PopupWrapper
       id="category-wrapper"
-      // ref={ref}
       ref={menuNode}
       style={{ display: display }}
       animate={isOpened ? 'open' : 'close'}

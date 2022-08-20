@@ -3,7 +3,7 @@ import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { PopupDisplay } from '../HeaderCart/constants';
+import { PopupDisplay } from '../../constants';
 import { Path } from '../paths';
 import { handleMenuState } from '../../helpers';
 

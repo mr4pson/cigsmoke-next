@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useAppSelector } from 'redux/hooks';
 import { TAuthState } from 'redux/types';
 import styled from 'styled-components';
-import { PopupDisplay } from '../../HeaderCart/constants';
+import { PopupDisplay } from '../../../constants';
 import { AuthBtns, Content, Loading } from './common';
 import SignIn from './signin';
 import SignUp from './signup';

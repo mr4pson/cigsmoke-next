@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { PopupDisplay } from '../HeaderCart/constants';
+import { PopupDisplay } from '../../constants';
 import CatalogBtn from './CatalogBtn';
 import CatalogModal from './CatalogModal';
 import { outsideClickListner } from 'components/store/storeLayout/helpers';

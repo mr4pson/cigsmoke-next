@@ -27,8 +27,9 @@ const handleConfirmationEmail = async (setServerResponse) => {
     });
 };
 
-const handleSignout = (setAuthorized) => {
+const handleSignout = (setAuthorized, setStep) => {
   setAuthorized(false);
+  setStep(0);
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
 };

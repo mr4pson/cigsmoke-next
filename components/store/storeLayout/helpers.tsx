@@ -66,6 +66,7 @@ const outsideClickListner = (
     if (!menuRef || !btnRef) return;
 
     setListening(true);
+
     [`click`, `touchstart`].forEach((type) => {
       document.addEventListener(`click`, (evt) => {
         const node = evt.target;

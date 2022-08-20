@@ -5,8 +5,8 @@ import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { Category, CategoryInTree } from 'swagger/services';
 import Filter from '../../../../../assets/filter.svg';
-import { PopupDisplay } from '../HeaderCart/constants';
-import { handleCartBtnClick } from '../HeaderCart/helpers';
+import { PopupDisplay } from '../../constants';
+import { handleMenuState } from '../../helpers';
 import { Path } from '../paths';
 
 type Props = {
@@ -14,6 +14,7 @@ type Props = {
   setSelectedCategory: Dispatch<SetStateAction<CategoryInTree | undefined>>;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
   setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
+  btnNode: any;
 };
 
 const FilterBtn: React.FC<Props> = ({
@@ -21,6 +22,7 @@ const FilterBtn: React.FC<Props> = ({
   setSelectedCategory,
   setIsOpened,
   setDisplay,
+  btnNode,
 }) => {
   const handleResetSelected = () => {
     setSelectedCategory(undefined);
@@ -66,13 +68,17 @@ const FilterBtn: React.FC<Props> = ({
         </FilterSelected>
       ) : (
         <Button
+          ref={btnNode}
           id="filter-btn"
           key="filter-icon"
           initial="init"
           animate="animate"
           exit="exit"
           variants={variants.fadeOutSlideOut}
-          onClick={handleCartBtnClick(setIsOpened, setDisplay)}
+          onClick={(e) => {
+            e.preventDefault();
+            handleMenuState(setIsOpened, setDisplay)();
+          }}
         >
           <span>
             <Filter />
