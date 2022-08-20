@@ -5,10 +5,11 @@ import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { PopupDisplay } from '../HeaderCart/constants';
 import { Path } from '../paths';
-import { handleCatalogBtnClick } from './helpers';
+import { handleMenuState } from '../../helpers';
 
 type Props = {
   isOpened: boolean;
+  btnNode: any;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
   setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
 };
@@ -17,11 +18,13 @@ const CategoryBtn: React.FC<Props> = ({
   isOpened,
   setIsOpened,
   setDisplay,
+  btnNode,
 }) => {
   return (
     <BtnSvg
       id="category-btn"
-      onClick={handleCatalogBtnClick(setIsOpened, setDisplay)}
+      ref={btnNode}
+      onClick={handleMenuState(setIsOpened, setDisplay)}
       whileHover="hover"
       whileTap="tap"
       variants={variants.boxShadow}

@@ -39,6 +39,7 @@ const ProfileComp = (props: any) => {
                 changePswRef={changePswRef}
                 settingsRef={settingsRef}
                 isVerified={isVerified}
+                setAuthorized={setAuthorized}
                 {...props}
               />
               <Wrapper>

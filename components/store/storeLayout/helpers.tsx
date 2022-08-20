@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-
+import { useState, useRef, useEffect, Dispatch, SetStateAction } from 'react';
+import { PopupDisplay } from './constants';
 const paginateHandler = () => {
   const widthOrHeightRef = useRef<any>();
 
@@ -58,8 +58,8 @@ const outsideClickListner = (
   setListening: any,
   menuRef: any,
   btnRef: any,
-  setIsOpen: any,
-  setDisplay: any,
+  setIsOpened: Dispatch<SetStateAction<boolean>>,
+  setDisplay: Dispatch<SetStateAction<PopupDisplay>>,
 ) => {
   return () => {
     if (listening) return;
@@ -70,12 +70,26 @@ const outsideClickListner = (
       document.addEventListener(`click`, (evt) => {
         const node = evt.target;
         if (menuRef.contains(node) || btnRef.contains(node)) return;
-        setIsOpen(false);
-        setTimeout(() => setDisplay('none'), 150);
+        setIsOpened(false);
+        setTimeout(() => setDisplay(PopupDisplay.None), 150);
       });
     });
   };
 };
+
+const handleMenuState =
+  (
+    setIsOpened: Dispatch<SetStateAction<boolean>>,
+    setDisplay: Dispatch<SetStateAction<PopupDisplay>>,
+  ) =>
+  () => {
+    setIsOpened((prev) => !prev);
+    setTimeout(() => {
+      setDisplay((prev) =>
+        prev == PopupDisplay.None ? PopupDisplay.Flex : PopupDisplay.None,
+      );
+    }, 150);
+  };
 
 const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
@@ -91,4 +105,10 @@ const handleDragEnd =
     }
   };
 
-export { paginateHandler, UseImagePaginat, outsideClickListner, handleDragEnd };
+export {
+  paginateHandler,
+  UseImagePaginat,
+  outsideClickListner,
+  handleDragEnd,
+  handleMenuState,
+};

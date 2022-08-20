@@ -9,7 +9,7 @@ import axios from 'axios';
 import Arrow from '../../../../../assets/arrow.svg';
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import { PopupDisplay } from '../HeaderCart/constants';
-import { handleClickOutside } from '../HeaderCart/helpers';
+import { handleMenuState } from '../../helpers';
 import { TGlobalState } from 'redux/types';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { CategoryInTree } from 'swagger/services';
@@ -19,7 +19,7 @@ import {
   handleCategoryHover,
   handleSubCategoryHover,
 } from './helpers';
-
+// TODO: remove this package :react-detect-click-outside
 interface props {
   font_size?: string;
   font_wight?: string;
@@ -30,6 +30,7 @@ interface props {
 type Props = {
   display: PopupDisplay;
   isOpened: boolean;
+  menuNode: any;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
   setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
 };
@@ -38,6 +39,7 @@ const CatalogModal: React.FC<Props> = ({
   isOpened,
   setIsOpened,
   setDisplay,
+  menuNode,
 }) => {
   const dispatch = useAppDispatch();
   const [curCategory, setCurCategory] = useState<CategoryInTree>();
@@ -50,14 +52,15 @@ const CatalogModal: React.FC<Props> = ({
     dispatch(fetchBrands({ parent: curCategory?.url }));
   }, [curCategory]);
 
-  const ref = useDetectClickOutside({
-    onTriggered: handleClickOutside(isOpened, setIsOpened, setDisplay),
-  });
+  // const ref = useDetectClickOutside({
+  //   onTriggered: handleClickOutside(isOpened, setIsOpened, setDisplay),
+  // });
 
   return (
     <PopupWrapper
       id="category-wrapper"
-      ref={ref}
+      // ref={ref}
+      ref={menuNode}
       style={{ display: display }}
       animate={isOpened ? 'open' : 'close'}
       variants={variants.fadeInReveal}
@@ -83,11 +86,7 @@ const CatalogModal: React.FC<Props> = ({
                         transition: { duration: 0.2 },
                       }}
                       whileTap={{ scale: 1 }}
-                      onClick={handleClickOutside(
-                        isOpened,
-                        setIsOpened,
-                        setDisplay,
-                      )}
+                      onClick={handleMenuState(setIsOpened, setDisplay)}
                       onHoverStart={handleCategoryHover(
                         category,
                         setCurCategory,
@@ -132,11 +131,7 @@ const CatalogModal: React.FC<Props> = ({
                         transition: { duration: 0.2 },
                       }}
                       whileTap={{ scale: 1 }}
-                      onClick={handleClickOutside(
-                        isOpened,
-                        setIsOpened,
-                        setDisplay,
-                      )}
+                      onClick={handleMenuState(setIsOpened, setDisplay)}
                       onHoverStart={handleSubCategoryHover(
                         subCategory,
                         dispatch,

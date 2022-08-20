@@ -75,8 +75,7 @@ const handleSignIn = ({
           setLoading(false);
           setAuthorized(true);
           localStorage.setItem('accessToken', response.data.accessToken);
-          localStorage.setItem('refreshToke', response.data.accessToken);
-          localStorage.setItem('userId', response.data.user.id);
+          localStorage.setItem('refreshToken', response.data.accessToken);
           console.log(response.data);
         }
       })

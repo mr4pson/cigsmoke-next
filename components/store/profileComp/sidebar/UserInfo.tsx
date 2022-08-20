@@ -2,15 +2,16 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { handleConfirmationEmail } from './helpers';
+import { handleConfirmationEmail, handleSignout } from './helpers';
 import { useState, useEffect } from 'react';
 
 const UserInfo = (props: any) => {
-  const { isVerified } = props;
+  const { isVerified, setAuthorized } = props;
   const [serverResponse, setServerResponse] = useState(undefined);
   const [counter, setCoutner] = useState(30);
   const [iteration, setItration] = useState(0);
   const [counterStart, setCounterStart] = useState(false);
+
   useEffect(() => {
     setTimeout(() => {
       if (counter == 0) {
@@ -83,6 +84,9 @@ const UserInfo = (props: any) => {
       ) : (
         ''
       )}
+      <SignoutBtn onClick={() => handleSignout(setAuthorized)}>
+        выход
+      </SignoutBtn>
     </Wrapper>
   );
 };
@@ -114,6 +118,14 @@ const SendMailBtn = styled(motion.button)`
   border-radius: 10px;
   color: ${color.textPrimary};
   background-color: ${color.ok};
+  font-family: 'intro';
+`;
+const SignoutBtn = styled(motion.button)`
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  color: ${color.textPrimary};
+  background-color: ${color.btnPrimary};
   font-family: 'intro';
 `;
 const Ok = styled(motion.span)`
