@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
 import { createImage, removeImageFromList, setDefaultImageList } from 'redux/slicers/imagesSlicer';
 
-export function useUploadImage():
+export function useUploadImage(slideNum: number | undefined):
  any {
 
   const [progress, setProgress] = useState(0);
@@ -25,11 +25,18 @@ export function useUploadImage():
     };
 
     try {
-      await dispatch(setDefaultImageList(file))
+      
+      if(slideNum) {
+        await dispatch(setDefaultImageList({file, slideNum}))
+      } else {
+        await dispatch(setDefaultImageList(file))
+      }
+
       await dispatch(createImage({
         config,
         file
       }))
+      
       onSuccess("Ok");
     } catch(error: any) {
       onError({ error });
@@ -38,7 +45,7 @@ export function useUploadImage():
   }
 
   const handleRemoveImage = (options) => {
-    console.log(options)
+    // console.log(options)
     dispatch(removeImageFromList(options.name))
   }
 

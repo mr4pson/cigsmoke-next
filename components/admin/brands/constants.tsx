@@ -4,6 +4,7 @@ import ActionButtons from '../generalComponents/ActionButtons';
 import { handleDeleteBrand, handleRedirectBrands } from './helpers';
 import styles from './brands.module.scss';
 import { Image } from 'antd';
+import { imageFallback } from 'common/constants';
 
 export const columns: ColumnsType<Brand> = [
   {
@@ -19,10 +20,7 @@ export const columns: ColumnsType<Brand> = [
           <Image
             src={`/api/images/${record?.image}`}
             className={styles.image}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = '/assets/images/img_error.png';
-            }}
+            fallback={imageFallback}
           />
         );
       }

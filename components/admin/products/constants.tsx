@@ -1,5 +1,6 @@
 import { Carousel, Image } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
+import { imageFallback } from 'common/constants';
 import { Color, Product, Tag } from 'swagger/services';
 import { handleRedirectBrands } from '../brands/helpers';
 import { handleRedirectCategory } from '../categories/helpers';
@@ -36,10 +37,7 @@ export const columns: ColumnsType<Product> = [
                       <Image
                         className={styles.productsTable__contentStyle}
                         src={`/api/images/${image.trim()}`}
-                        onError={({ currentTarget }) => {
-                          currentTarget.onerror = null;
-                          currentTarget.src = '/assets/images/img_error.png';
-                        }}
+                        fallback={imageFallback}
                       />
                     </div>
                   );

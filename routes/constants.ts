@@ -25,6 +25,8 @@ export enum Page {
   ADMIN_ANALYTICS_PRODUCTS,
   ADMIN_ANALYTICS_USERS,
   ADMIN_ANALYTICS_DYNAMIC,
+  ADMIN_BANNERS,
+  ADMIN_UPDATE_BANNERS,
 }
 
 export const paths = {
@@ -52,4 +54,6 @@ export const paths = {
   [Page.ADMIN_ANALYTICS_PRODUCTS]: '/admin/analytics/products',
   [Page.ADMIN_ANALYTICS_USERS]: '/admin/analytics/users',
   [Page.ADMIN_ANALYTICS_DYNAMIC]: '/admin/analytics/dynamic',
+  [Page.ADMIN_BANNERS]: '/admin/banners',
+  [Page.ADMIN_UPDATE_BANNERS]: '/admin/banners/update-banner',
 };
