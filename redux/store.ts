@@ -21,11 +21,8 @@ import catalogSlicer from './slicers/store/catalogSlicer';
 import analyticsReducer from './slicers/analyticsSlicer';
 import productInfoSlicer from './slicers/store/productInfoSlicer';
 import homePageSlicer from './slicers/store/homePageSlicer';
-<<<<<<< HEAD
-import bannersReducer from './slicers/bannersSlicer'
-=======
+import bannersReducer from './slicers/bannersSlicer';
 import storeCheckoutSlicer from './slicers/store/checkoutSlicer';
->>>>>>> master
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,

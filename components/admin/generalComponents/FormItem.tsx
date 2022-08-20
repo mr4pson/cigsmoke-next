@@ -4,7 +4,7 @@ import { capitalizeFirstLetter } from 'common/helpers/capitalizeFirstLetter.help
 
 interface Props {
   children: any;
-  option: string;
+  option: string | undefined;
   valuePropName?: string;
   initialValue?: any;
 }

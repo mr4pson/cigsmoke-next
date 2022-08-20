@@ -34,10 +34,12 @@ const BannersFormLayout = () => {
     switch (e) {
       case '1':
         dispatch(clearImageList());
+        dispatch(clearBanners());
         dispatch(fetchAdvertisement());
         break;
       case '2':
         dispatch(clearImageList());
+        dispatch(clearBanners());
         dispatch(fetchSlides());
         break;
     }
@@ -59,7 +61,7 @@ const BannersFormLayout = () => {
             />
           </TabPane>
           <TabPane tab="Баннеры" key="2">
-            {/* <SlidesForm isSaveLoading={isSaveLoading} isLoading={isLoading} /> */}
+            <SlidesForm isSaveLoading={isSaveLoading} isLoading={isLoading} />
           </TabPane>
         </Tabs>
       </div>

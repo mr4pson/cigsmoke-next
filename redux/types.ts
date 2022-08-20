@@ -51,14 +51,20 @@ type TProductState = {
   saveLoading: boolean;
 };
 
+interface SlideImage {
+  name?: string,
+  uid?: number
+}
+
 type TImageState = {
-  imageList: Image[];
+  imageList: (Image | SlideImage)[];
   loading: boolean;
 };
 
 interface PayloadCreateImage {
   config: {};
   file: any;
+  slideNum?: number
 }
 
 interface TTagState {
@@ -207,12 +213,9 @@ export type {
   FetchPayload,
   RequestResponse,
   THomePageState,
-<<<<<<< HEAD
-  TBannerState
-=======
+  TBannerState,
   Banner,
   TStoreCheckoutState,
   TDeliveryInfo,
   TOrderInfo,
->>>>>>> master
 };

@@ -9,7 +9,6 @@ import {
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { FetchPayload, RequestResponse, TBannerState } from 'redux/types';
 import { Advertisement, Slide, AdvertisementService, SlideService, SlideDTO } from 'swagger/services';
-import { PayloadSlide } from 'common/interfaces/payload-slide.interface';
 
 export const fetchAdvertisement = createAsyncThunk<
   RequestResponse,
@@ -65,14 +64,14 @@ export const fetchSlides = createAsyncThunk<
 
 export const updateSlides = createAsyncThunk<
   Slide,
-  PayloadSlide,
+  SlideDTO[],
   { rejectValue: string }
 >(
   'banners/updateSlides',
-  async function (payload: PayloadSlide, { rejectWithValue }): Promise<any> {
+  async function (payload: SlideDTO[], { rejectWithValue }): Promise<any> {
     try {
       return await SlideService.updateSlides({
-        body: payload.body,
+        body: payload,
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
