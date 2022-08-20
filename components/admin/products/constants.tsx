@@ -1,6 +1,8 @@
 import { Carousel, Image } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { imageFallback } from 'common/constants';
+import { useAppDispatch } from 'redux/hooks';
+import { fetchProducts } from 'redux/slicers/productsSlicer';
 import { Color, Product, Tag } from 'swagger/services';
 import { handleRedirectBrands } from '../brands/helpers';
 import { handleRedirectCategory } from '../categories/helpers';
@@ -15,7 +17,7 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Id',
     dataIndex: 'id',
-    width: '5%',
+    width: '3.5%',
   },
   {
     title: 'Изображения',
@@ -59,19 +61,17 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Имя',
     dataIndex: 'name',
-    width: '10%',
+    width: '7.5%',
   },
   {
     title: 'Цена',
     dataIndex: 'price',
-    width: '5%',
+    width: '6.5%',
   },
   {
     title: 'Старая Цена',
     dataIndex: 'oldPrice',
-    sorter: {
-      compare: (a, b) => (a.price as number) - (b.price as number),
-    },
+    width: '6.5%',
   },
   {
     title: 'Описание',
@@ -81,19 +81,6 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Доступно',
     dataIndex: 'available',
-    filters: [
-      {
-        text: 'Да',
-        value: 'Да',
-      },
-      {
-        text: 'Нет',
-        value: 'Нет',
-      },
-    ],
-    onFilter: (value: string | number | boolean, record) =>
-      new String(record?.available!).startsWith(value.toString()),
-    filterSearch: true,
     width: '7.5%',
   },
   {
@@ -182,6 +169,6 @@ export const columns: ColumnsType<Product> = [
         />
       );
     },
-    width: '10%',
+    width: '7.5%',
   },
 ];

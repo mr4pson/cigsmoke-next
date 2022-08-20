@@ -152,6 +152,7 @@ type TBannerState = {
 interface FetchPayload {
   limit: string;
   offset: string;
+  available?: boolean
 }
 
 interface RequestResponse {
