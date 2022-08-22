@@ -1,11 +1,8 @@
-import React from 'react';
-import { Line } from '@ant-design/plots';
-import styles from './index.module.scss';
-import { useAppSelector } from 'redux/hooks';
-import { TAnalyticsState } from 'redux/types';
 import { LineConfig } from '@ant-design/charts';
-import { handleDataFormatter } from './helpers';
-import { DynamicData } from 'common/interfaces/data-analytics.interfaces';
+import { Line } from '@ant-design/plots';
+import React from 'react';
+
+import styles from './index.module.scss';
 
 const DynamicPlotPoint = ({ data }) => {
   const config = {
