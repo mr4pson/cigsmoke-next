@@ -24,16 +24,11 @@ const UserDetails = (props: any) => {
   );
 
   const [isOpen, setIsOpen] = useState(false);
-  const leaveOnDoorRef = useRef<any>(null);
 
   const handleNavBack = () => {
     setStep(1);
     setHasAddress(false);
     setBacktoFinal(true);
-  };
-
-  const handleLeaveNearDoorChange = (e) => {
-    setLeaveNearDoor((prev) => !prev);
   };
 
   return (
@@ -96,23 +91,15 @@ const UserDetails = (props: any) => {
         initial="init"
         animate="animate"
         variants={variants.fadInSlideUp}
-        onClick={() => {
-          leaveOnDoorRef.current.click();
-        }}
       >
-        <span>
+        <label className="leave-on-door-wrapper" htmlFor="leave-on-door">
           <input
-            ref={leaveOnDoorRef}
             type="checkbox"
-            id="scales"
-            name="scales"
-            value={leaveNearDoor}
-            onChange={handleLeaveNearDoorChange}
+            id="leave-on-door"
+            title="Оставить на двери?"
           />
-        </span>
-        <div className="user-comment-wrapper">
           <span>Оставить у двери</span>
-        </div>
+        </label>
         <span>
           <DeliveryTooltip
             key="address-room-tip"
@@ -140,7 +127,7 @@ const UserDetails = (props: any) => {
     </>
   );
 };
-// Комментарий курьеру
+
 const Wrapper = styled(motion.div)`
   width: 100%;
   display: flex;
@@ -156,6 +143,18 @@ const Wrapper = styled(motion.div)`
     flex-direction: row;
     justify-content: cetner;
     align-items: center;
+  }
+  .leave-on-door-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    cursor: pointer;
+    input {
+      cursor: pointer;
+    }
   }
   .address-wrapper {
     width: 100%;

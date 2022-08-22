@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import color from '../lib/ui.colors';
 import variants from '../lib/variants';
 import { Wrapper } from './common';
-import Logo from '../../../assets/logo.svg';
+import LogoSVG from '../../../assets/wuluxe.svg';
 import Return from '../../../assets/return.svg';
 import Delivery from '../../../assets/delivery.svg';
 import Progress from './Progress';
@@ -24,7 +24,7 @@ const Header = (props: any) => {
         <Link href="/">
           <a>
             <span>
-              <Logo />
+              <LogoSVG style={{ width: '125px' }} />
             </span>
           </a>
         </Link>

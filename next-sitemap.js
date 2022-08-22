@@ -21,6 +21,30 @@
 //         userAgent: '*',
 //         disallow: '/checkout/*',
 //       },
+//       {
+//         userAgent: '*',
+//         disallow: '/cart',
+//       },
+//       {
+//         userAgent: '*',
+//         disallow: '/cart/*',
+//       },
+//       {
+//         userAgent: '*',
+//         disallow: '/profile',
+//       },
+//       {
+//         userAgent: '*',
+//         disallow: '/profile/*',
+//       },
+//       {
+//         userAgent: '*',
+//         disallow: '/orders',
+//       },
+//       {
+//         userAgent: '*',
+//         disallow: '/orders/*',
+//       },
 
 //       {
 //         userAgent: '*',
@@ -32,5 +56,16 @@
 //       `${siteUrl}/server-sitemap.xml`,
 //     ],
 //   },
-//   exclude: ['/admin', '/admin/*', '/checkout', '/checkout/*'],
+//   exclude: [
+//     '/admin',
+//     '/admin/*',
+//     '/checkout',
+//     '/checkout/*',
+//     '/cart',
+//     '/cart/*',
+//     '/profile',
+//     '/profile/*',
+//     '/orders',
+//     '/orders/*',
+//   ],
 // };

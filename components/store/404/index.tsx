@@ -3,17 +3,14 @@ import { motion } from 'framer-motion';
 import color from '../lib/ui.colors';
 import variants from '../lib/variants';
 import { Path, PathCircle } from './helpers';
-import SvgNotFound from '../../../assets/404_cat.svg';
 import { useState } from 'react';
 import Link from 'next/link';
 
 const NotFoundSvg = () => {
   const [animate, setAnimate] = useState(false);
   return (
-    <>
-      <svg
-        width="1000"
-        height="800"
+    <Container>
+      <SVG
         viewBox="0 0 2207 1321"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -200,10 +197,8 @@ const NotFoundSvg = () => {
           r="12.66"
           fill="#fff"
         />
-      </svg>
-      <h1 style={{ fontFamily: 'intro', fontSize: '2rem' }}>
-        Страница, которую вы ищете, не найдена
-      </h1>
+      </SVG>
+      <h1>Страница, которую вы ищете, не найдена</h1>
       <h2>
         <Link href="/">
           <a style={{ color: color.ok }}>
@@ -211,8 +206,27 @@ const NotFoundSvg = () => {
           </a>
         </Link>
       </h2>
-    </>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  gap: 30px;
+  h1 {
+    font-family: 'intro';
+    font-size: 2rem;
+  }
+`;
+
+const SVG = styled.svg`
+  width: 90%;
+  height: 100%;
+`;
 
 export default NotFoundSvg;
