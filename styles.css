@@ -114,3 +114,7 @@ h6 {
 .ant-carousel .slick-list .slick-slide>div>div {
   text-align: center;
 }
+
+a {
+  color: #000;
+}
