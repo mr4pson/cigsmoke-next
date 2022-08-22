@@ -5,11 +5,12 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { outsideClickListner } from 'components/store/storeLayout/helpers';
 import Arrow from '../../../../assets/arrow_white.svg';
+import { PopupDisplay } from 'components/store/storeLayout/constants';
 
 const Filters = (props: any) => {
   // _______________ menu hooks _______________
   const [isOpen, setOpen] = useState(false);
-  const [display, setDisplay] = useState('none');
+  const [display, setDisplay] = useState(PopupDisplay.None);
   const [menuRef, setMenuRef] = useState(null);
   const [btnRef, setBtnRef] = useState(null);
   const [listening, setListening] = useState(false);
@@ -34,7 +35,9 @@ const Filters = (props: any) => {
   const closeHandler = () => {
     setOpen(!isOpen);
     setTimeout(() => {
-      setDisplay(display == 'none' ? 'flex' : 'none');
+      setDisplay(
+        display == PopupDisplay.None ? PopupDisplay.Flex : PopupDisplay.None,
+      );
     }, 100);
   };
   return (
