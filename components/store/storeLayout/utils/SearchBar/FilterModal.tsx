@@ -94,7 +94,7 @@ const PopupWrapper = styled.div`
   flex-directio: row;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 100;
 `;
 
 const Content = styled(motion.div)`

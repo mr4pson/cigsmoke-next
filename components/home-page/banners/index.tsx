@@ -1,3 +1,4 @@
+import { devices } from 'components/store/lib/Devices';
 import variants from 'components/store/lib/variants';
 import {
   Container,
@@ -35,7 +36,7 @@ const Banners = () => {
       exit="end"
       flex_direction="row"
       justify_content="space-evenly"
-      padding="42px 0 0 20px"
+      padding="15px 0 0 20px"
     >
       <Wrapper>
         <Content
@@ -68,6 +69,19 @@ const Grid = styled.div`
   justify-content: space-between;
   place-items: flex-start;
   gap: 40px;
+  padding-top: 120px;
+
+  @media ${devices.laptopS} {
+    display: block;
+    padding-top: 130px;
+  }
+
+  @media ${devices.mobileL} {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 150px;
+  }
 `;
 
 export default Banners;

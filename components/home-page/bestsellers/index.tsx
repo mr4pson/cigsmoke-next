@@ -14,12 +14,15 @@ import ProductGrid from 'ui-kit/products/productGrid';
 
 const Bestsellers = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const products = (await ProductService.getProducts({
         limit: 8,
       })) as unknown as { rows: Product[] };
+      setLoading(false);
       setProducts(products.rows);
     })();
   }, []);
@@ -63,7 +66,7 @@ const Bestsellers = () => {
             </Link>
           </Header>
 
-          <ProductGrid products={products} />
+          <ProductGrid products={products} loading={loading} />
         </Content>
       </Wrapper>
     </Container>

@@ -12,6 +12,7 @@ import ItemCounter from 'ui-kit/ItemCounter';
 import SwitchBtn from './SwitchBtn';
 import React from 'react';
 import Link from 'next/link';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   orderProduct?: OrderProduct;
@@ -89,15 +90,15 @@ const ActionBtns: React.FC<Props> = ({
           />
 
           <Link href="/cart">
-            <a>
+            <GoToCartLink laptopSWidth={'150px!important'}>
               <ActionBtn
                 whileHover="hover"
                 whileTap="tap"
                 variants={variants.boxShadow}
               >
-                <span>Перейти в корзине</span>
+                <span>Перейти в корзину</span>
               </ActionBtn>
-            </a>
+            </GoToCartLink>
           </Link>
         </CounterAndGotoCartWrapper>
       )}
@@ -137,7 +138,7 @@ const CounterAndGotoCartWrapper = styled(motion.div)`
   }
 `;
 
-const ActionBtn = styled(motion.button)`
+const ActionBtn = styled(motion.button)<any>`
   width: 100%;
   height: 45px;
   background: ${color.btnPrimary};
@@ -147,6 +148,12 @@ const ActionBtn = styled(motion.button)`
   cursor: pointer;
   position: relative;
   overflow: hidden;
+`;
+
+const GoToCartLink = styled.a<any>`
+  @media ${devices.laptopS} {
+    width: ${(props) => props.laptopSWidth ?? '100%'};
+  }
 `;
 
 export default ActionBtns;

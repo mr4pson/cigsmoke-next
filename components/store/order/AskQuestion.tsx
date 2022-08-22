@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Share from '../../../assets/shareWhite.svg';
+import { devices } from 'components/store/lib/Devices';
 
 const AskQuastion = () => {
   const [input, setInput] = useState('');
@@ -105,6 +106,16 @@ const AskQuestionContainer = styled(motion.div)`
         display: flex;
       }
     }
+  }
+
+  @media ${devices.laptopS} {
+    width: 100%;
+    position: relative;
+  }
+
+  @media ${devices.mobileL} {
+    width: 100%;
+    position: relative;
   }
 `;
 

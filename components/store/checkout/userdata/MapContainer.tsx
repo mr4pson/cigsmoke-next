@@ -4,6 +4,7 @@ import Map, { Marker, GeolocateControl, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { coordToAddress } from './helpers';
 import { MAPBOX_TOKEN } from './constant';
+import { devices } from 'components/store/lib/Devices';
 
 const MapContainer = (props: any) => {
   const { viewport, setViewPort, setAddress, setPostCode } = props;
@@ -58,6 +59,10 @@ const MapContianer = styled.div`
   align-items: flex-end;
   box-shadow: 0px 2px 6px ${color.boxShadowBtn};
   border-radius: 20px;
+
+  @media ${devices.mobileL} {
+    display: none;
+  }
 `;
 
 export default MapContainer;

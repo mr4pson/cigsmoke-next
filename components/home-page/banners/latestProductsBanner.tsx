@@ -1,3 +1,4 @@
+import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
@@ -89,6 +90,10 @@ const FlexBoxColumn = styled.div`
   align-items: center;
   background-color: white;
   z-index: 9;
+
+  @media ${devices.laptopS} {
+    display: none;
+  }
 `;
 
 const DiscountWrapper = styled(motion.div)`

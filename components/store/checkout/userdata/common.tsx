@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import color from 'components/store/lib/ui.colors';
 import { styleProps } from 'components/store/lib/types';
+import { devices } from 'components/store/lib/Devices';
 
 const DetailsRowWrapper = styled.div`
   width: 100%;
@@ -41,6 +42,16 @@ const DetailsColumnWrapper = styled.div`
     }
     .required {
       color: ${color.hover};
+    }
+
+    @media ${devices.mobileL} {
+      font-size: 13px;
+      width: 100%;
+      padding-right: 0;
+
+      &.MuiInputLabel-root {
+        font-size: 14px;
+      }
     }
   }
 `;

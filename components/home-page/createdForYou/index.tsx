@@ -15,12 +15,15 @@ import Subscription from './subscription';
 
 const Section = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const products = (await ProductService.getProducts({
         limit: 8,
       })) as unknown as { rows: Product[] };
+      setLoading(false);
       setProducts(products.rows);
     })();
   }, []);
@@ -66,8 +69,11 @@ const Section = () => {
                 padding: '50px 20px',
                 laptopColumnGap: '70px!important',
                 laptopGridTemplateAreas: `'item item subscribe' !important`,
+                laptopSColumnGap: '14px!important',
+                laptopSGridTemplateAreas: `'item item subscribe'!important`,
               }}
               products={products}
+              loading={loading}
             >
               <Subscription />
             </ProductGrid>

@@ -11,6 +11,7 @@ import Images from './images';
 import Details from './details';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { Basket, Product, Wishlist } from 'swagger/services';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   product?: Product;
@@ -86,6 +87,18 @@ const Grid = styled.div`
   grid-template-columns: 2fr 1fr;
   column-gap: 50px;
   user-select: none;
+  padding-top: 90px;
+
+  @media ${devices.laptopS} {
+    column-gap: 30px;
+    padding-top: 100px;
+  }
+
+  @media ${devices.mobileL} {
+    padding-top: 120px;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export default ProductInfo;

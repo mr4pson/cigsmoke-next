@@ -5,6 +5,7 @@ import Image from 'next/image';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import { Container, Wrapper, Content } from './common';
+import { devices } from '../lib/Devices';
 
 const Footer = (): JSX.Element => {
   return (
@@ -167,6 +168,11 @@ const Grid = styled.div`
   grid-template-columns: repeat(4, 1fr);
   justify-content: space-between;
   align-items: flex-start;
+
+  @media ${devices.mobileL} {
+    gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const Sections_wrapper = styled.div`

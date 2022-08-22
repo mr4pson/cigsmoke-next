@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import color from 'components/store/lib/ui.colors';
 import DeliveryDetails from './DeliveryDetails';
 import TotalDetails from './TotalDetails';
+import { devices } from 'components/store/lib/Devices';
 const TotalDeliveryDate = (props: any) => {
   const [comment, setComment] = useState('');
   const [leaveNearDoor, setLeaveNearDoor] = useState(false);
@@ -57,6 +58,10 @@ const Wrapper = styled.div`
   align-items: flex-start;
   padding: 20px 0;
   gap: 30px;
+
+  @media ${devices.mobileL} {
+    flex-direction: column;
+  }
 `;
 
 export default TotalDeliveryDate;

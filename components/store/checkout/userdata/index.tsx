@@ -14,6 +14,7 @@ import ReciverData from './ReciverData';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setDeliveryInfo } from 'redux/slicers/store/checkoutSlicer';
 import { TStoreCheckoutState } from 'redux/types';
+import { devices } from 'components/store/lib/Devices';
 
 const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   const dispatch = useAppDispatch();
@@ -182,6 +183,14 @@ const FormContainer = styled(motion.div)`
   z-index: 10;
   overflow-y: scroll;
   user-select: none;
+
+  @media ${devices.mobileL} {
+    padding: 15px;
+    position: relative;
+    overflow-y: unset;
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const ActionBtns = styled(motion.button)`
