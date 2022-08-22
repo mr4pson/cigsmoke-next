@@ -6,6 +6,7 @@ import color from 'components/store/lib/ui.colors';
 import ArrowGray from '../../../../../assets/arrowGray.svg';
 import { Product } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   product?: Product;
@@ -81,6 +82,11 @@ const ImagesContainer = styled.div`
   gap: 60px;
   position: sticky;
   top: 0;
+
+  @media ${devices.mobileL} {
+    position: relative;
+    margin-bottom: 160px;
+  }
 `;
 
 const NavWrapper = styled.div`

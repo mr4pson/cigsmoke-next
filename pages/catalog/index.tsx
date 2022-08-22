@@ -3,6 +3,7 @@ import {
   onLocationChange,
   setPriceRange,
 } from 'components/store/catalog/helpers';
+import { devices } from 'components/store/lib/Devices';
 import variants from 'components/store/lib/variants';
 import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
@@ -15,8 +16,15 @@ import styled from 'styled-components';
 import ProductGrid from 'ui-kit/products/productGrid';
 
 const CatalogPage = () => {
-  const { products, categories, subCategories, brands, colors, priceRange } =
-    useAppSelector<TCatalogState>((state) => state.catalog);
+  const {
+    products,
+    categories,
+    subCategories,
+    brands,
+    colors,
+    priceRange,
+    loading,
+  } = useAppSelector<TCatalogState>((state) => state.catalog);
   const dispatch = useAppDispatch();
 
   const handleLocationChange = onLocationChange(dispatch);
@@ -46,7 +54,7 @@ const CatalogPage = () => {
       justify_content="center"
       style={{ backgroundColor: '#F6F6F6', padding: '35px 0 50px' }}
     >
-      <Wrapper>
+      <Wrapper style={{ paddingTop: '110px' }}>
         <FilterBar
           categories={categories}
           subCategories={subCategories}
@@ -71,8 +79,11 @@ const CatalogPage = () => {
                 columnGap: '53px',
                 laptopColumnGap: '138px!important',
                 laptopGridTemplateColumns: 'repeat(2, 1fr) !important',
+                laptopSColumnGap: '28px!important',
+                laptopSGridTemplateColumns: 'repeat(2, 1fr) !important',
               }}
               products={products}
+              loading={loading}
               emptyProductsTitle={'По вашему запросу ничего не найдено.'}
             />
           </Products>
@@ -87,6 +98,11 @@ CatalogPage.PageLayout = StoreLayout;
 const Content = styled.div`
   width: 100%;
   margin-left: 41px;
+
+  @media ${devices.mobileL} {
+    margin-left: 0;
+    padding: 10px 15px;
+  }
 `;
 
 const CategoryTitle = styled(motion.h1)`
@@ -99,6 +115,10 @@ const Products = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px 68px;
+
+  @media ${devices.mobileL} {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export default CatalogPage;

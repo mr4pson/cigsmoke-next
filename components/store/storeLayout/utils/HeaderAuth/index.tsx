@@ -48,6 +48,7 @@ const Authorize = () => {
         setDisplay={setDisplay}
         paginate={paginate}
         btnNode={btnNode}
+        // avatar={} Todo pass the profile avatar
       />
       <PopupWrapper
         ref={menuNode}

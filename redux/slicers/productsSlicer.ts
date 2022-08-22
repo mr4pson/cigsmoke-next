@@ -23,6 +23,7 @@ export const fetchProducts = createAsyncThunk<
       return await ProductService.getProducts({
         limit: +payload?.limit,
         offset: payload?.offset,
+        available: payload?.available
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));

@@ -1,3 +1,4 @@
+import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
@@ -62,6 +63,12 @@ const Content = styled(motion.div)`
   gap: 10px;
   span {
     white-space: nowrap;
+  }
+
+  @media ${devices.laptopS} {
+    span {
+      display: none;
+    }
   }
 `;
 

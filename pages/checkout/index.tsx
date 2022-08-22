@@ -33,7 +33,7 @@ const Checkout = () => {
         exit="exit"
         variants={variants.fadInOut}
       >
-        <Wrapper>
+        <Wrapper gap={'20px'}>
           <Content
             flex_direction="column"
             justify_content="space-between"

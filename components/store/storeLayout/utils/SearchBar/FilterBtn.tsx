@@ -1,3 +1,4 @@
+import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -104,6 +105,7 @@ const FilterSelected = styled(motion.button)`
   align-items: center;
   color: ${color.textPrimary};
   background: ${(props) => props.color || 'transparent'};
+  z-index: 200;
 `;
 
 const Button = styled(motion.button)`
@@ -111,9 +113,13 @@ const Button = styled(motion.button)`
   position: absolute;
   top: 13px;
   left: 5px;
-  z-index: 1;
+  z-index: 200;
   height: 22px;
   width: 35px;
+
+  @media ${devices.mobileL} {
+    top: 11px;
+  }
 `;
 
 export { FilterBtn };

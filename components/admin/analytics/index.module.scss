@@ -63,20 +63,28 @@
             @extend %title
         }
         &__dynamicChart { 
-            max-width: 77.5%;
         }
         &__list {
-            min-width: 20%;
-            height: 400px;
-            position: absolute;
-            top: 130px;
-            right: 30px;
             overflow-block: scroll;
         }
         &__rangePicker {
-            margin-left: auto;
-            margin-right: 0;
-            float: right;
+            @media screen and (min-width: 677px) {
+                margin-left: 3px;
+            }
+            @media screen and (min-width: 768px) {
+                position: absolute;
+                right: 0px;
+                margin-right: 16px;
+            }
+            @media screen and (min-width: 992px) {
+                margin-right: 24px;
+            }
+            @media screen and (min-width: 1200px) {
+                margin-right: 32px;
+            }
+            @media screen and (min-width: 1600px) {
+                margin-right: 40px;
+            }
         }
         &__spinner {
             display: block;

@@ -5,14 +5,29 @@ import {
   Wrapper,
   Content,
 } from 'components/store/storeLayout/common';
-import WishlistComp from 'components/store/wishlistComp';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Head from 'next/head';
+import ProductGrid from 'ui-kit/products/productGrid';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { fetchWishlistProducts } from 'redux/slicers/store/wishlistSlicer';
+import { TWishlistState } from 'redux/types';
+import Loading from 'ui-kit/Loading';
 
 const Wishlist = () => {
-  const [hasWishlist, setWishlist] = useState(true);
+  const dispatch = useAppDispatch();
+
+  const { products, loading }: TWishlistState = useAppSelector(
+    (state) => state.wishlist,
+  );
+
+  useEffect(() => {
+    const wishlistId = localStorage.getItem('wishlistId') ?? '';
+
+    dispatch(fetchWishlistProducts(wishlistId));
+  }, [dispatch]);
+
   return (
     <>
       <Head>
@@ -30,14 +45,19 @@ const Wishlist = () => {
         padding="50px"
         bg_color={color.textPrimary}
       >
-        <Wrapper>
+        <Wrapper style={{ paddingTop: '90px' }}>
           <Content
             flex_direction="column"
             justify_content="flex-start"
             gap="30px"
           >
-            {hasWishlist ? (
-              <WishlistComp />
+            <Header>
+              <h2>Избранное</h2>
+            </Header>
+            {products.length && !loading ? (
+              <ProductGrid products={products} />
+            ) : loading ? (
+              <Loading />
             ) : (
               <NoWishlist>
                 <h2>У вас еще нет списка желаний 😃</h2>
@@ -55,6 +75,18 @@ const NoWishlist = styled.div`
   height: 70vh;
   h2 {
     font-family: 'intro';
+  }
+`;
+
+const Header = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  h2 {
+    font-family: 'intro';
+    font-size: 2rem;
   }
 `;
 

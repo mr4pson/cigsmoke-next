@@ -1,5 +1,6 @@
 import CartFooter from 'components/store/cart/CartFooter';
 import CartItem from 'components/store/cart/cartItem';
+import { devices } from 'components/store/lib/Devices';
 import variants from 'components/store/lib/variants';
 import {
   Container,
@@ -89,11 +90,11 @@ const CatalogPage = () => {
       exit="end"
       flex_direction="column"
       justify_content="center"
-      style={{ backgroundColor: '#F6F6F6', padding: '35px 0 50px' }}
+      style={{ backgroundColor: '#F6F6F6', padding: '35px 15px 50px' }}
     >
       <Wrapper>
         <Content
-          style={{ minHeight: 'calc(90vh + 124px)' }}
+          style={{ minHeight: 'calc(90vh + 124px)', paddingTop: '110px' }}
           flex_direction="column"
         >
           <PageTitle>Корзина</PageTitle>
@@ -140,6 +141,10 @@ CatalogPage.PageLayout = StoreLayout;
 
 const PageTitle = styled.h3`
   font-size: 28px;
+
+  @media ${devices.mobileL} {
+    padding-top: 15px;
+  }
 `;
 
 const CartBody = styled.div`

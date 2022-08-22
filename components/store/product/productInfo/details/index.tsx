@@ -20,6 +20,7 @@ import {
 } from 'ui-kit/products/helpers';
 import { useAppDispatch } from 'redux/hooks';
 import { updateCart } from 'redux/slicers/store/cartSlicer';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   images: string[];
@@ -165,6 +166,10 @@ const DetailsContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 60px;
+
+  @media ${devices.laptopS} {
+    width: 304px;
+  }
 `;
 
 const ConvoContainer = styled.div`
@@ -174,6 +179,10 @@ const ConvoContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 20px;
+
+  @media ${devices.laptopS} {
+    display: block;
+  }
 `;
 
 const ConvoWrappers = styled(motion.div)`

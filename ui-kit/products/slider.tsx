@@ -12,10 +12,12 @@ import HeartEmpty from '../../assets/heart_empty.svg';
 import HeartFull from '../../assets/heart_full.svg';
 import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
 import { handleWishBtnClick } from '../../components/home-page/helpers';
+
 import {
   UseImagePaginat,
   handleDragEnd,
 } from 'components/store/storeLayout/helpers';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   url?: string;
@@ -60,10 +62,7 @@ const Slider: React.FC<Props> = ({
                 drag="y"
                 dragConstraints={{ top: 0, bottom: 0 }}
                 dragElastic={1}
-                onDragEnd={handleDragEnd(
-                  paginateImage,
-                  SWIPE_CONFIDENCE_THRESHOLD,
-                )}
+                onDragEnd={handleDragEnd(page, SWIPE_CONFIDENCE_THRESHOLD)}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 1 }}
                 src={
@@ -137,9 +136,18 @@ const ImageSliderWrapper = styled(motion.div)`
   box-shadow: 0px 2px 6px ${color.boxShadow};
   position: relative;
   overflow: hidden;
+
   a {
     width: 100%;
     height: 100%;
+  }
+
+  @media ${devices.laptopS} {
+    width: 220px;
+  }
+
+  @media ${devices.mobileL} {
+    width: 100%;
   }
 `;
 

@@ -13,6 +13,7 @@ import {
   handleDragEnd,
 } from 'components/store/storeLayout/helpers';
 import { Slide } from 'swagger/services';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   slides: Slide[] | undefined;
@@ -105,6 +106,15 @@ const SliderWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media ${devices.mobileL} {
+    height: auto;
+
+    a {
+      width: 100%;
+      height: 53vw;
+    }
+  }
 `;
 
 const Slider = styled(motion.img)`
@@ -114,6 +124,10 @@ const Slider = styled(motion.img)`
   position: absolute;
   left: 0;
   top: 0;
+
+  @media ${devices.mobileL} {
+    height: auto;
+  }
 `;
 
 export default memo(ImageBanner);

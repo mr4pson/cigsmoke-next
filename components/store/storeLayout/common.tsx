@@ -12,6 +12,7 @@ type props = {
   bg_color?: string;
   align_items?: string;
   gap?: string;
+  box_shadow?: string;
 };
 
 const Btns = styled(motion.button)`
@@ -23,6 +24,7 @@ const Btns = styled(motion.button)`
   gap: 2px;
   user-select: none;
   cursor: pointer;
+  width: 52px;
   span {
     font-size: 14px;
     line-height: 1;
@@ -43,22 +45,23 @@ const Container = styled(motion.div)`
   top: ${(p: props) => p.top};
   z-index: ${(p: props) => p.z_index};
   background-color: ${(p: props) => p.bg_color};
+  box-shadow: ${(p: props) => p.box_shadow};
   padding-left: 15px;
   padding-right: 15px;
 `;
 const Wrapper = styled.div`
   width: 100%;
-  // max-width: 90%;
   max-width: 1230px;
   display: flex;
   flex-direction: row;
+  gap: ${(p: props) => p.gap};
 
   @media ${devices.laptopM} {
     max-width: 990px;
   }
 
   @media ${devices.laptopS} {
-    max-width: 990px;
+    max-width: 728px;
   }
 `;
 
