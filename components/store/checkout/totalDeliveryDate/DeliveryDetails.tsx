@@ -3,6 +3,7 @@ import ProductDetails from './ProductDetails';
 import UserDetails from './UserDetails';
 import color from 'components/store/lib/ui.colors';
 import { Wrapper } from './common';
+import { devices } from 'components/store/lib/Devices';
 
 const DeliveryDetails = (props: any) => {
   return (
@@ -31,6 +32,10 @@ const Container = styled.div`
     align-items: center;
     font-family: 'intro';
     color: ${color.textSecondary};
+  }
+
+  @media ${devices.laptopS} {
+    width: 60%;
   }
 `;
 

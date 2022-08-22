@@ -1,4 +1,5 @@
 import { formatNumber } from 'common/helpers/number.helper';
+import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
@@ -81,6 +82,14 @@ const ProductItem: React.FC<Props> = ({
 const ItemContainer = styled(motion.li)`
   width: 270px;
   height: 465px;
+
+  @media ${devices.laptopS} {
+    width: 220px;
+  }
+
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
 `;
 
 const ItemWrapper = styled.div`

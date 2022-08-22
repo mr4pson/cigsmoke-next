@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Basket } from 'swagger/services';
+import { devices } from '../lib/Devices';
 import { getTotalDiscount, getTotalPrice, getTotalQuantity } from './helpers';
 
 type Props = {
@@ -12,11 +13,15 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
     <Wrapper>
       <CartCol>
         <CartTitle>Ваша корзина</CartTitle>
-        <ProductInfo>
-          {getTotalQuantity(cart?.orderProducts!)} товар /
-        </ProductInfo>
-        <ProductInfo>{cart?.orderProducts!.length} вида товаров /</ProductInfo>
-        <ProductInfo>14, 288 кг общий вес</ProductInfo>
+        <CartColBody>
+          <ProductInfo>
+            {getTotalQuantity(cart?.orderProducts!)} товар /
+          </ProductInfo>
+          <ProductInfo>
+            {cart?.orderProducts!.length} вида товаров /
+          </ProductInfo>
+          <ProductInfo>14, 288 кг общий вес</ProductInfo>
+        </CartColBody>
       </CartCol>
       <CartCol>
         <CartTitle>Общая сумма</CartTitle>
@@ -44,7 +49,16 @@ const Wrapper = styled.div`
   border-radius: 15px;
   justify-content: space-between;
   align-items: center;
-  margintop: 20px;
+  margin-top: 20px;
+
+  @media ${devices.laptopS} {
+    display: block;
+  }
+
+  @media ${devices.mobileL} {
+    display: block;
+    padding: 15px;
+  }
 `;
 
 const CartTitle = styled.div`
@@ -52,12 +66,31 @@ const CartTitle = styled.div`
   font-weight: 500;
 `;
 
+const CartColBody = styled.span`
+  @media ${devices.laptopS} {
+    display: flex;
+    gap: 5px;
+  }
+`;
+
 const CartTotalPrice = styled.h3`
   font-size: 14px;
   font-weight: bold;
 `;
 
-const CartCol = styled.div``;
+const CartCol = styled.div`
+  @media ${devices.laptopS} {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  @media ${devices.mobileL} {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+`;
 
 const ProductInfo = styled.div`
   font-size: 14px;
@@ -66,6 +99,14 @@ const ProductInfo = styled.div`
 
 const CartDiscount = styled.div`
   margin-top: 10px;
+
+  @media ${devices.laptopS} {
+    margin-top: 0;
+  }
+
+  @media ${devices.mobileL} {
+    margin-top: 0;
+  }
 `;
 
 const DiscountTitle = styled.span`
@@ -85,6 +126,17 @@ const CheckoutBtn = styled.button`
   padding: 12px 81px;
   border-radius: 8px;
   cursor: pointer;
+
+  @media ${devices.laptopS} {
+    margin-top: 10px;
+  }
+
+  @media ${devices.mobileL} {
+    margin-top: 10px;
+    padding: 12px 15px;
+    width: 100%;
+    text-align: center;
+  }
 `;
 
 export default CartFooter;

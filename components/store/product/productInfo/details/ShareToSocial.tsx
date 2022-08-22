@@ -14,6 +14,7 @@ import Vk from '../../../../../assets/vk.svg';
 import Ok from '../../../../../assets/okSocial.svg';
 import Twitter from '../../../../../assets/twitter.svg';
 import { PopupDisplay } from 'components/store/storeLayout/utils/HeaderCart/constants';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   productId?: string;
@@ -180,6 +181,10 @@ const SocialParent = styled(motion.div)`
     color: ${color.yellow};
     cursor: pointer;
     }
+  }
+
+  @media ${devices.mobileL} {
+    margin-bottom: -40px;
   }
 `;
 

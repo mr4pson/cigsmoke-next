@@ -16,6 +16,7 @@ import {
   handleWishBtnClick,
 } from '../../components/home-page/helpers';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   url?: string;
@@ -147,6 +148,14 @@ const ImageSliderWrapper = styled(motion.div)`
   box-shadow: 0px 2px 6px ${color.boxShadow};
   position: relative;
   overflow: hidden;
+
+  @media ${devices.laptopS} {
+    width: 220px;
+  }
+
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
 `;
 const ImageSlider = styled(motion.div)`
   width: 100%;

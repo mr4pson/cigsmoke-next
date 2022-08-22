@@ -4,6 +4,7 @@ import color from '../lib/ui.colors';
 import variants from '../lib/variants';
 import { progressStep } from './constant';
 import { styleProps } from '../lib/types';
+import { devices } from '../lib/Devices';
 
 type props = {
   step: number;
@@ -21,7 +22,7 @@ const Progress = (props: props) => {
     >
       {progressStep.map((steps, index) => {
         return (
-          <>
+          <Step>
             <StepsNumber
               bgcolor={
                 step == index || step > index
@@ -41,19 +42,26 @@ const Progress = (props: props) => {
                 ></ProgressBar>
               </ProgressBarWrapper>
             </ProgressBarContaier>
-          </>
+          </Step>
         );
       })}
 
-      <StepsNumber
-        bgcolor={props.step == 2 ? color.btnPrimary : color.textSecondary}
-      >
-        3
-      </StepsNumber>
-      <span>Оформление заказа</span>
+      <Step>
+        <StepsNumber
+          bgcolor={props.step == 2 ? color.btnPrimary : color.textSecondary}
+        >
+          3
+        </StepsNumber>
+        <span>Оформление заказа</span>
+      </Step>
     </StepsWrapper>
   );
 };
+
+const Step = styled.div`
+  display: flex;
+  gap: 20px;
+`;
 
 const StepsWrapper = styled(motion.div)`
   width: 100%;
@@ -68,11 +76,16 @@ const StepsWrapper = styled(motion.div)`
     font-family: 'intro';
     font-size: 1rem;
   }
+
+  @media ${devices.mobileL} {
+    width: 350px;
+    flex-direction: column;
+  }
 `;
 
 const StepsNumber = styled.span`
   background-color: ${(p: styleProps) => p.bgcolor};
-  width: 30px;
+  min-width: 30px;
   height: 30px;
   border-radius: 50%;
   display: flex;
@@ -91,6 +104,10 @@ const ProgressBarContaier = styled(motion.div)`
   gap: 5px;
   span {
     white-space: nowrap;
+  }
+
+  @media ${devices.laptopS} {
+    width: 174px;
   }
 `;
 

@@ -9,6 +9,7 @@ import { FilterCheckboxSize } from 'ui-kit/FilterCheckbox/types';
 import ItemCounter from 'ui-kit/ItemCounter';
 import CloseSVG from '../../../assets/close_black.svg';
 import StarSVG from '../../../assets/star.svg';
+import { devices } from '../lib/Devices';
 
 type Props = {
   item: OrderProduct;
@@ -58,7 +59,7 @@ const CartItem: React.FC<Props> = ({
       </ImageWrapper>
       <ItemDetails>
         <h4>{name}</h4>
-        <ItemDetialDivider>
+        <ItemDetailDivider>
           <h3>{price}₽</h3>
           <ItemCounter
             qty={item.qty!}
@@ -71,7 +72,7 @@ const CartItem: React.FC<Props> = ({
             product={item.product!}
             onCountChange={onCountChange}
           />
-        </ItemDetialDivider>
+        </ItemDetailDivider>
         <RateWrapper>
           {generateArrayOfNumbers(5).map((num) => (
             <StarSVG color="#FED42D" />
@@ -100,6 +101,7 @@ const Item = styled.li`
   align-items: center;
   padding: 15px;
   gap: 15px;
+  position: relative;
 
   img {
     width: 100px;
@@ -111,6 +113,11 @@ const Item = styled.li`
     align-self: flex-start;
     width: 30px;
     height: 30px;
+  }
+
+  > button {
+    position: absolute;
+    right: 3px;
   }
 `;
 
@@ -124,6 +131,11 @@ const ImageWrapper = styled.div`
   border-radius: 20px;
   cursor: pointer;
   margin-right: 30px;
+
+  @media ${devices.mobileL} {
+    margin-right: 0;
+    min-width: 140px;
+  }
 `;
 
 const ItemDetails = styled.div`
@@ -146,12 +158,17 @@ const ItemDetails = styled.div`
   }
 `;
 
-const ItemDetialDivider = styled.div`
+const ItemDetailDivider = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  @media ${devices.mobileL} {
+    flex-direction: column;
+    align-items: baseline;
+  }
 `;
 
 const RateWrapper = styled.div`

@@ -35,7 +35,6 @@ const Authorize = () => {
         setIsOpened={setIsOpened}
         setDisplay={setDisplay}
         paginate={paginate}
-        // avatar={} Todo pass the profile avatar
       />
       <PopupWrapper
         ref={ref}

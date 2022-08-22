@@ -9,12 +9,29 @@ import SearchBar from './utils/SearchBar/SearchBar';
 import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import Pointer from '../../../assets/pointer.svg';
-import LogoSVG from '../../../assets/wuluxe.svg';
 import Order from '../../../assets/order.svg';
 import WishList from '../../../assets/wishlist.svg';
 import HeaderCatalog from './utils/HeaderCatalog/index';
+import { devices } from '../lib/Devices';
+import { useEffect, useState } from 'react';
+import { PathCircle } from './utils/paths';
+import NavWrapMobile from './NavWrapMobile';
 
 const Header = () => {
+  const [boxShadow, setBoxShadow] = useState('');
+
+  useEffect(() => {
+    window.addEventListener('scroll', function () {
+      let scroll = this.scrollY;
+
+      if (scroll) {
+        setBoxShadow('0px 2px 6px #00000017');
+
+        return;
+      }
+      setBoxShadow('');
+    });
+  }, []);
   return (
     <>
       <Head>
@@ -30,16 +47,18 @@ const Header = () => {
           flex_direction="column"
           justify_content="center"
           padding="10px 0 20px 0"
-          position="sticky"
+          position="fixed"
           top="0"
           z_index="20"
           bg_color={color.textPrimary}
+          box_shadow={boxShadow}
         >
           <Wrapper>
             <Content
               flex_direction="row"
               justify_content="space-between"
               align_items="center"
+              style={{ alignItems: 'end' }}
             >
               <LogoWrapper>
                 <LocationBtn
@@ -72,35 +91,38 @@ const Header = () => {
               </LogoWrapper>
               <HeaderCatalog />
               <SearchBar />
-              <RelativeContainer id="auth-container">
-                <AuthComp />
-              </RelativeContainer>
-              <Link href="/orders">
-                <a style={{ alignSelf: 'flex-end' }}>
-                  <Btns>
-                    <span>
-                      <Order />
-                    </span>
-                    <span> Заказы</span>
-                  </Btns>
-                </a>
-              </Link>
-              <Link href="/wishlist">
-                <a style={{ alignSelf: 'flex-end' }}>
-                  <Btns>
-                    <span>
-                      <WishList />
-                    </span>
-                    <span>Избранное</span>
-                  </Btns>
-                </a>
-              </Link>
-              <RelativeContainer>
-                <HeaderCart />
-              </RelativeContainer>
+              <NavWrap>
+                <RelativeContainer id="auth-container">
+                  <AuthComp />
+                </RelativeContainer>
+                <Link href="/orders">
+                  <a style={{ alignSelf: 'flex-end' }}>
+                    <Btns>
+                      <span>
+                        <Order />
+                      </span>
+                      <span> Заказы</span>
+                    </Btns>
+                  </a>
+                </Link>
+                <Link href="/wishlist">
+                  <a style={{ alignSelf: 'flex-end' }}>
+                    <Btns>
+                      <span>
+                        <WishList />
+                      </span>
+                      <span>Избранное</span>
+                    </Btns>
+                  </a>
+                </Link>
+                <RelativeContainer>
+                  <HeaderCart />
+                </RelativeContainer>
+              </NavWrap>
             </Content>
           </Wrapper>
         </Container>
+        <NavWrapMobile />
       </AnimatePresence>
     </>
   );
@@ -112,6 +134,21 @@ const LogoWrapper = styled.div`
   justify-content: space-evenly;
   gap: 29px;
   justify-self: flex-start;
+
+  @media ${devices.laptopS} {
+    gap: 47px;
+  }
+
+  @media ${devices.mobileL} {
+    gap: 55px;
+    flex-direction: column-reverse;
+    margin-top: 15px;
+    margin-bottom: -15px;
+  }
+
+  img {
+    width: 125px !important;
+  }
 `;
 
 const LocationBtn = styled(motion.button)`
@@ -131,6 +168,16 @@ const RelativeContainer = styled.div`
   align-items: center;
   align-self: flex-end;
   position: relative;
+`;
+
+const NavWrap = styled.div`
+  display: flex;
+  width: 294px;
+  justify-content: space-between;
+
+  @media ${devices.mobileL} {
+    display: none;
+  }
 `;
 
 export default Header;

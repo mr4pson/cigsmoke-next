@@ -38,15 +38,15 @@ export const userSignin = createAsyncThunk<
   'auth/userSignin',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const repsonse = await AuthService.signin({
+      const response = await AuthService.signin({
         body: payload,
       });
 
-      if (repsonse.user.role !== Role.User) {
+      if (response.user.role !== Role.User) {
         return rejectWithValue(getErrorMassage(HttpStatus.FORBIDDEN));
       }
 
-      return repsonse;
+      return response;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }

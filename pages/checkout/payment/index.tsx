@@ -17,6 +17,7 @@ import { getTotalPrice } from 'components/store/checkout/totalDeliveryDate/helpe
 import { formatNumber } from 'common/helpers/number.helper';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
+import { devices } from 'components/store/lib/Devices';
 
 const Product = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
@@ -42,7 +43,7 @@ const Product = () => {
 
         const checkoutWidget = new (window as any).YooMoneyCheckoutWidget({
           confirmation_token: response.data.confirmation.confirmation_token,
-          return_url: `${window.location.origin}/after-payment?paymentId=${response.data.id}&value=${response.data.amount.value}`,
+          return_url: `${window.location.origin}/after-payment?paymentId=${response.data.id}`,
 
           //При необходимости можно изменить цвета виджета, подробные настройки см. в документации
           //customization: {
@@ -97,6 +98,7 @@ const CardForm = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
+  padding-top: 120px;
 `;
 
 Product.PageLayout = StoreLayout;

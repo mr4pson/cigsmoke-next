@@ -11,6 +11,7 @@ import color from '../lib/ui.colors';
 import variants from '../lib/variants';
 import Authorization from '../storeLayout/utils/HeaderAuth/authorize';
 import { UsePagination } from '../storeLayout/utils/HeaderAuth/authorize/helpers';
+import { devices } from '../lib/Devices';
 
 const CheckoutContent = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
@@ -64,6 +65,11 @@ const Contianer = styled(motion.div)`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
+  @media ${devices.mobileL} {
+    height: auto;
+    padding: 30px 0;
+  }
 `;
 
 const Wrapper = styled(motion.div)`

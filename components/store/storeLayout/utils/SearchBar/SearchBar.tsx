@@ -67,6 +67,7 @@ const SearchBar: React.FC<Props> = () => {
             setFocused,
             dispatch,
           )}
+          placeholder="Искать на wuluxe"
           type="input"
           padding={!selectedCategory ? '0 80px 0 40px' : '0 80px 0 100px'}
           value={searchQuery}
@@ -79,9 +80,9 @@ const SearchBar: React.FC<Props> = () => {
         <Wrapper
           boxShadow={searchQuery && focused ? 'rgba(0, 0, 0, 0.16)' : '#fff'}
         >
-          <Content>
+          <>
             {!!products.length && focused && !productsLoading ? (
-              <>
+              <Content>
                 {products.map((product, index: number) => {
                   return (
                     <SearchItem
@@ -91,18 +92,20 @@ const SearchBar: React.FC<Props> = () => {
                     />
                   );
                 })}
-              </>
+              </Content>
             ) : !products.length &&
               focused &&
               searchQuery &&
               !productsLoading ? (
-              <div>По вашему запросу ничего не найдено.</div>
+              <EmptyResult>По вашему запросу ничего не найдено.</EmptyResult>
             ) : productsLoading ? (
-              <Loading />
+              <Content>
+                <Loading />
+              </Content>
             ) : (
               <></>
             )}
-          </Content>
+          </>
         </Wrapper>
         <FilterBtn
           selectedCategory={selectedCategory}
@@ -123,10 +126,21 @@ const SearchBar: React.FC<Props> = () => {
 };
 
 const SearchForm = styled.form`
-  // width: 525px;
   height: 45px;
   position: relative;
   align-self: flex-end;
+
+  @media ${devices.laptopS} {
+    position: absolute;
+    top: 10px;
+    margin-left: 261px;
+  }
+
+  @media ${devices.mobileL} {
+    position: absolute;
+    top: 52px;
+    width: calc(100% - 155px);
+  }
 `;
 
 const SearchField = styled(motion.input)`
@@ -139,7 +153,7 @@ const SearchField = styled(motion.input)`
   flex-direction: row;
   justify-content: space-evenly;
   padding: ${(p: StyleProps) => p.padding};
-  z-index: 1;
+  z-index: 200;
 
   @media ${devices.laptopM} {
     max-width: 325px;
@@ -147,6 +161,11 @@ const SearchField = styled(motion.input)`
 
   @media ${devices.laptopS} {
     max-width: 325px;
+  }
+
+  @media ${devices.mobileL} {
+    width: 100%;
+    height: 40px;
   }
 `;
 
@@ -163,11 +182,15 @@ const SearchBtn = styled(motion.button)`
   justify-content: center;
   align-items: center;
   border-radius: 0px 10px 10px 0px;
-  z-index: 1;
+  z-index: 200;
 
   span {
     width: 22px;
     height: 22px;
+  }
+
+  @media ${devices.mobileL} {
+    height: 40px;
   }
 `;
 
@@ -184,6 +207,7 @@ const Wrapper = styled.div<StyleProps>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 
   @media ${devices.laptopM} {
     max-width: 341px;
@@ -191,6 +215,10 @@ const Wrapper = styled.div<StyleProps>`
 
   @media ${devices.laptopS} {
     max-width: 341px;
+  }
+
+  @media ${devices.mobileL} {
+    width: calc(100% + 16px);
   }
 `;
 
@@ -207,6 +235,10 @@ const Content = styled.ul`
       color: ${color.hover};
     }
   }
+`;
+
+const EmptyResult = styled.div`
+  padding: 10px 0;
 `;
 
 export default SearchBar;

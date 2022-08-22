@@ -1,3 +1,4 @@
+import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
@@ -21,44 +22,12 @@ const Subscription = () => {
     >
       <SubscribeWrapper>
         <SubscribeContent>
-          <h3>Есть промокод?</h3>
-          <form style={{ paddingBottom: '15px' }}>
-            <motion.input
-              whileHover="hover"
-              whileTap="tap"
-              variants={variants.boxShadow}
-              placeholder="Введите промокод"
-            />
-            <motion.button
-              whileHover="hover"
-              whileTap="tap"
-              variants={variants.boxShadow}
-              onClick={(e) => {
-                e.preventDefault();
-                setPromo(!promo);
-                setTimeout(() => setPromo(false), 1000);
-              }}
-            >
-              <span>
-                <ArrowRight />
-              </span>
-            </motion.button>
-            <motion.span
-              className="alert"
-              key="promo-messege"
-              animate={promo ? 'animate' : 'exit'}
-              variants={variants.fadeOutSlideOut}
-            >
-              Промокод активирован
-            </motion.span>
-          </form>
-          <div id="home-subscription-devider"></div>
           <h3>Подписывайся</h3>
           <span style={{ textAlign: 'center', width: '90%' }}>
             Подписывайтесь на нашу новостную рассылку
           </span>
           <form>
-            <motion.input
+            <SubscriptionInput
               whileHover="hover"
               whileTap="tap"
               variants={variants.boxShadow}
@@ -97,7 +66,16 @@ const Subscription = () => {
 const SubscribeContainer = styled(motion.li)`
   grid-area: subscribe;
   width: 270px;
-  height: 450px;
+  height: 465px;
+
+  @media ${devices.laptopS} {
+    width: 220px;
+  }
+
+  @media ${devices.mobileL} {
+    height: auto;
+    width: 100%;
+  }
 `;
 
 const SubscribeWrapper = styled.div`
@@ -163,6 +141,12 @@ const SubscribeContent = styled(motion.div)`
     width: 100%;
     border: 8px solid ${color.bgProduct};
     border-radius: 5px;
+  }
+`;
+
+const SubscriptionInput = styled(motion.input)`
+  @media ${devices.laptopS} {
+    width: 160px;
   }
 `;
 

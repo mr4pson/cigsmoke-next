@@ -1,3 +1,4 @@
+import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
@@ -74,6 +75,20 @@ const BtnSvg = styled(motion.button)`
   border-radius: 8px;
   align-items: center;
   align-self: flex-end;
+
+  @media ${devices.laptopS} {
+    top: 10px;
+    position: absolute;
+    margin-left: 599px;
+  }
+
+  @media ${devices.mobileL} {
+    position: absolute;
+    right: 15px;
+    top: 52px;
+    height: 40px;
+    width: 114px;
+  }
 `;
 
 export default CategoryBtn;

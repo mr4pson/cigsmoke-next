@@ -77,6 +77,7 @@ const ProudctHeaderWrapper = styled(motion.div)`
 const ProductWrapper = styled(motion.div)`
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 `;
 
 const Product = styled.div`

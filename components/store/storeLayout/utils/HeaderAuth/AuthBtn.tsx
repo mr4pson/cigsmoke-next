@@ -59,6 +59,7 @@ const AuthBtn: React.FC<Props> = ({
           initial="init"
           animate={!isSignedIn ? 'animate' : 'exit'}
           variants={variants.fadeInSlideIn}
+          style={{ gap: '5px' }}
         >
           <svg width="30" height="26" viewBox="0 0 30 26" fill="none">
             <PathCircle

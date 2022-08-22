@@ -14,6 +14,7 @@ import { TGlobalState } from 'redux/types';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { CategoryInTree } from 'swagger/services';
 import { fetchBrands } from 'redux/slicers/store/globalSlicer';
+import { devices } from 'components/store/lib/Devices';
 import {
   handleBrandClick,
   handleCategoryHover,
@@ -109,7 +110,7 @@ const CatalogModal: React.FC<Props> = ({
             );
           })}
         </WrapperMenu>
-        <WrapperMenu padding="20px 0" bg_color={color.textPrimary}>
+        <WrapperMenu padding="20px 10px" bg_color={color.textPrimary}>
           {curCategory?.children!.map((subCategory, index) => {
             return (
               <Link
@@ -173,9 +174,11 @@ const CatalogModal: React.FC<Props> = ({
                       whileTap={{ scale: 1 }}
                     >
                       <li>
-                        <img
+                        <BrandImage
                           onClick={handleBrandClick(setIsOpened, setDisplay)}
-                          src={`/api/images/${brand.image}`}
+                          style={{
+                            backgroundImage: `url(/api/images/${brand.image})`,
+                          }}
                         />
                       </li>
                     </motion.a>
@@ -203,22 +206,31 @@ const PopupWrapper = styled(motion.div)`
   justify-content: center;
   align-items: center;
   overflow: hidden;
+
+  @media ${devices.laptopS} {
+    height: calc(100vh - 121px);
+  }
 `;
 
 const WrapperGrid = styled.nav`
   width: 100%;
   height: 100%;
-  display: flex;
   display: grid;
   grid-template-columns: repeat(2, 1fr) 2fr;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 35px;
+
+  @media ${devices.laptopS} {
+    display: flex;
+    gap: unset;
+    flex-direction: column;
+  }
 `;
 
 const WrapperMenu = styled.ul`
   height: 100%;
-  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -236,6 +248,11 @@ const WrapperMenu = styled.ul`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+  }
+
+  @media ${devices.laptopS} {
+    overflow-y: unset;
+    overflow-x: unset;
   }
 `;
 
@@ -283,6 +300,14 @@ const WrapperBrands = styled.ul`
       border-radius: 15px;
     }
   }
+`;
+
+const BrandImage = styled.div`
+  width: 190px;
+  height: 85px;
+  border-radius: 15px;
+  background-size: cover;
+  background-position: center;
 `;
 
 export default CatalogModal;

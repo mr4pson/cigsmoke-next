@@ -14,6 +14,7 @@ import { getDiscount, getOldPrice, getTotalPrice } from './helpers';
 import { formatNumber } from 'common/helpers/number.helper';
 import { NextRouter, useRouter } from 'next/router';
 import { setOrderInfo } from 'redux/slicers/store/checkoutSlicer';
+import { devices } from 'components/store/lib/Devices';
 
 const TotalDetails = ({ comment, leaveNearDoor }) => {
   const dispatch = useAppDispatch();
@@ -155,6 +156,10 @@ const Container = styled.div`
   .total-header {
     font-family: 'intro';
     color: ${color.textSecondary};
+  }
+
+  @media ${devices.mobileL} {
+    width: 100%;
   }
 `;
 

@@ -121,10 +121,10 @@ type TCheckoutState = {
 };
 
 type TAnalyticsState = {
-  analyticsData: DynamicData[] | 
-  AnalyticsCategory[] | 
-  AnalyticsBrand[] | 
-  AnalyticsProduct[] | 
+  analyticsData: DynamicData[] |
+  AnalyticsCategory[] |
+  AnalyticsBrand[] |
+  AnalyticsProduct[] |
   AnalyticsUser[] |
   User[],
   loading: boolean,
@@ -175,9 +175,15 @@ type TOrderInfo = {
 };
 
 type TStoreCheckoutState = {
+  checkouts: Checkout[];
   loading: boolean;
   deliveryInfo: TDeliveryInfo | null;
   orderInfo: TOrderInfo | null;
+};
+
+type TWishlistState = {
+  products: Product[];
+  loading: boolean;
 };
 
 export type {
@@ -204,4 +210,5 @@ export type {
   TStoreCheckoutState,
   TDeliveryInfo,
   TOrderInfo,
+  TWishlistState,
 };
