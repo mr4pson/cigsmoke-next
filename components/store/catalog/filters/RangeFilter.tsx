@@ -116,6 +116,7 @@ const SliderWrapper = styled.div`
 
 const FieldsWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 const Suffix = styled.div`

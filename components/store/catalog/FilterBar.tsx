@@ -183,10 +183,9 @@ const FilterBarContent = styled.div<any>`
 `;
 
 const FiltersWrapper = styled.div`
-  overflow-y: auto;
-  height: 100vh;
-
   @media ${devices.mobileL} {
+    overflow-y: auto;
+    height: 100vh;
     padding: 20px;
   }
 `;
