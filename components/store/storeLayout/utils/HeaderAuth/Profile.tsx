@@ -5,11 +5,12 @@ import styled from 'styled-components';
 import CardsSVG from '../../../../../assets/creditCard.svg';
 import BookmarkSVG from '../../../../../assets/bookmark.svg';
 import variants from 'components/store/lib/variants';
+import { handleMenuState } from '../../helpers';
 import { handleLogout } from './authorize/helpers';
 import { useAppDispatch } from 'redux/hooks';
 import { User } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
-import { PopupDisplay } from '../HeaderCart/constants';
+import { PopupDisplay } from '../../constants';
 
 type StyleProps = {
   width: number;
@@ -53,7 +54,7 @@ const Profile: React.FC<Props> = ({
             <h3>{`${user?.firstName} ${user?.lastName}`}</h3>
             <span>{user?.email}</span>
             <Link href="/profile">
-              <a>
+              <a onClick={handleMenuState(setIsOpened, setDisplay)}>
                 <b>Личные данные</b>
               </a>
             </Link>

@@ -19,7 +19,7 @@ import Telegram from '../../../../../assets/telegram.svg';
 import Vk from '../../../../../assets/vk.svg';
 import Whatsapp from '../../../../../assets/whatsapp.svg';
 import Twitter from '../../../../../assets/twitter.svg';
-import { PopupDisplay } from 'components/store/storeLayout/utils/HeaderCart/constants';
+import { PopupDisplay } from 'components/store/storeLayout/constants';
 
 type Props = {
   productId?: string;

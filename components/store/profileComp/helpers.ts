@@ -4,9 +4,10 @@ const handleFirstLoad = async (
   setAuthorized,
   setServerErr,
   setLoading,
-
   setVerified,
+  setStep,
 ) => {
+  setStep(0);
   const token = localStorage.getItem('accessToken');
   if (token == 'undefined') {
     setAuthorized(false);

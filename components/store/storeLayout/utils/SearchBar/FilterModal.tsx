@@ -3,14 +3,13 @@ import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
-import { useDetectClickOutside } from 'react-detect-click-outside';
 import { useAppSelector } from 'redux/hooks';
 import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
 import { Category, CategoryInTree } from 'swagger/services';
 import CloseSVG from '../../../../../assets/close_black.svg';
-import { PopupDisplay } from '../HeaderCart/constants';
-import { handleClickOutside } from '../HeaderCart/helpers';
+import { PopupDisplay } from '../../constants';
+import { handleMenuState } from '../../helpers';
 
 type Props = {
   isOpened: boolean;
@@ -18,6 +17,7 @@ type Props = {
   setSelectedCategory: Dispatch<SetStateAction<CategoryInTree | undefined>>;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
   setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
+  menuNode: any;
 };
 
 const FilterModal: React.FC<Props> = ({
@@ -26,18 +26,9 @@ const FilterModal: React.FC<Props> = ({
   setSelectedCategory,
   setIsOpened,
   setDisplay,
+  menuNode,
 }) => {
   const { categories } = useAppSelector<TGlobalState>((state) => state.global);
-
-  const ref = useDetectClickOutside({
-    onTriggered: handleClickOutside(isOpened, setIsOpened, setDisplay),
-  });
-
-  const handleClose = (e) => {
-    e.preventDefault();
-    setIsOpened(false);
-    setTimeout(() => setDisplay(PopupDisplay.None), 150);
-  };
 
   const handleSelect = (category: CategoryInTree) => () => {
     setSelectedCategory(category);
@@ -50,7 +41,7 @@ const FilterModal: React.FC<Props> = ({
       <PopupWrapper style={{ display: display }}>
         <Content
           initial="init"
-          ref={ref}
+          ref={menuNode}
           animate={isOpened ? 'animate' : 'exit'}
           custom={0.2}
           variants={variants.fadInSlideUp}
@@ -61,7 +52,7 @@ const FilterModal: React.FC<Props> = ({
             whileTap="tap"
             whileHover="hover"
             variants={variants.grow}
-            onClick={handleClose}
+            onClick={handleMenuState(setIsOpened, setDisplay)}
           >
             <CloseSVG />
           </motion.button>

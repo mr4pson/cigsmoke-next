@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { updateCart } from 'redux/slicers/store/cartSlicer';
 import { AppDispatch } from 'redux/store';
 import { Basket, Product } from 'swagger/services';
-import { PopupDisplay } from './constants';
+import { PopupDisplay } from '../../constants';
 
 const decreaseCounter =
   (
@@ -32,21 +32,6 @@ const increaseCounter =
 
       return itemCounter;
     });
-  };
-
-const handleClickOutside =
-  (
-    isOpen: boolean,
-    setIsOpened: Dispatch<SetStateAction<boolean>>,
-    setDisplay: Dispatch<SetStateAction<PopupDisplay>>,
-  ) =>
-  () => {
-    if (isOpen) {
-      setIsOpened(false);
-      setTimeout(() => {
-        setDisplay(PopupDisplay.None);
-      }, 100);
-    }
   };
 
 const handleCartBtnClick =
@@ -104,7 +89,6 @@ export {
   decreaseCounter,
   increaseCounter,
   handleCartBtnClick,
-  handleClickOutside,
   handleItemRemove,
   handleItemCountChange,
   handleRemoveClick,
