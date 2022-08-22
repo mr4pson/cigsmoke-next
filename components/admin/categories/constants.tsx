@@ -4,6 +4,7 @@ import ActionButtons from '../generalComponents/ActionButtons';
 import { handleDeleteCategory, handleRedirectCategory } from './helpers';
 import styles from './categories.module.scss';
 import { Image } from 'antd';
+import { imageFallback } from 'common/constants';
 
 const columns: ColumnsType<Category> = [
   {
@@ -19,10 +20,7 @@ const columns: ColumnsType<Category> = [
         <Image
           src={`/api/images/${record?.image}`}
           className={styles.image}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = '/assets/images/img_error.png';
-          }}
+          fallback={imageFallback}
         />
       );
     },

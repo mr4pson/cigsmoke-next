@@ -44,7 +44,12 @@ const imageSlicer = createSlice({
   initialState,
   reducers: {
     setDefaultImageList(state, action) {
-      state.imageList = [...state.imageList, action.payload];
+      console.log(action)
+      if(action.payload.slideNum) {
+        state.imageList = [...state.imageList, {name: action.payload.file.name as string, uid: action.payload.slideNum as number}];
+      } else {
+        state.imageList = [...state.imageList, action.payload];
+      }
     },
     removeImageFromList(state, action) {
       state.imageList = state.imageList.filter(
@@ -61,10 +66,13 @@ const imageSlicer = createSlice({
       .addCase(createImage.pending, handlePending)
       .addCase(createImage.fulfilled, (state, action) => {
         state.loading = false;
+        // console.log(action)
+        // console.log(state.imageList)
         const file = state.imageList.find(
-          (item: any) => item.uid === action.meta.arg.file.uid,
+          (item: any) => item.name === action.meta.arg.file.name,
         ) as any;
         file.url = `/api/images/${action.payload}`;
+        file.name = action.payload
         openSuccessNotification('Изображение успешно загружено');
         console.log('fulfilled');
       })

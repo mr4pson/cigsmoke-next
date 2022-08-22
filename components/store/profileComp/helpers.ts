@@ -1,14 +1,20 @@
 import axios from 'axios';
 
-const handleFirstLoad = async (setAuthorized, setServerErr, setLoading) => {
+const handleFirstLoad = async (
+  setAuthorized,
+  setServerErr,
+  setLoading,
+  setVerified,
+  setStep,
+) => {
+  setStep(0);
   const token = localStorage.getItem('accessToken');
-  const userId = localStorage.getItem('userId');
-  if (token == 'undefined' || userId == 'undefined') {
+  if (token == 'undefined') {
     setAuthorized(false);
     return;
   }
   const options = {
-    url: `http://localhost:4001/users/${userId}`,
+    url: `http://localhost:4001/users/user`,
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -20,6 +26,7 @@ const handleFirstLoad = async (setAuthorized, setServerErr, setLoading) => {
     .then((response) => {
       setAuthorized(true);
       setLoading(false);
+      setVerified(response.data.isVerified);
       console.log(response.data);
     })
     .catch((error) => {

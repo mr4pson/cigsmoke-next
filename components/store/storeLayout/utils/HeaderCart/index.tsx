@@ -2,48 +2,64 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import styled from 'styled-components';
 import { Basket } from 'swagger/services';
 import CartSVG from '../../../../../assets/cart.svg';
 import { Btns } from '../../common';
 import CartItem from './CartItem';
-import { useDetectClickOutside } from 'react-detect-click-outside';
-import {
-  handleCartBtnClick,
-  handleClickOutside,
-  handleItemCountChange,
-  handleItemRemove,
-} from './helpers';
-import { PopupDisplay } from './constants';
+import { outsideClickListner } from 'components/store/storeLayout/helpers';
+import { handleMenuState } from '../../helpers';
+import { handleItemCountChange, handleItemRemove } from './helpers';
+import { PopupDisplay } from '../../constants';
 import { TCartState } from 'redux/types';
 
 const HeaderCart = () => {
   const dispatch = useAppDispatch();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpened, setIsOpened] = useState(false);
   const [display, setDisplay] = useState(PopupDisplay.None);
-  const { cart } = useAppSelector<TCartState>((state) => state.cart);
+  const [menuRef, setMenuRef] = useState(null);
+  const [btnRef, setBtnRef] = useState(null);
+  const [listening, setListening] = useState(false);
+  const menuNode = useCallback((node: any) => {
+    setMenuRef(node);
+  }, []);
+  const btnNode = useCallback((node: any) => {
+    setBtnRef(node);
+  }, []);
 
-  const ref = useDetectClickOutside({
-    onTriggered: handleClickOutside(isOpen, setIsOpen, setDisplay),
-  });
+  useEffect(
+    outsideClickListner(
+      listening,
+      setListening,
+      menuRef,
+      btnRef,
+      setIsOpened,
+      setDisplay,
+    ),
+  );
+  const { cart } = useAppSelector<TCartState>((state) => state.cart);
 
   return (
     <>
       {!!cart?.orderProducts?.length && (
         <Counter>{cart?.orderProducts?.length}</Counter>
       )}
-      <Btns id="cart-btn" onClick={handleCartBtnClick(setIsOpen, setDisplay)}>
+      <Btns
+        ref={btnNode}
+        id="cart-btn"
+        onClick={handleMenuState(setIsOpened, setDisplay)}
+      >
         <span>
           <CartSVG />
         </span>
         <span>Корзина</span>
       </Btns>
       <PopupWrapper
-        ref={ref}
+        ref={menuNode}
         style={{ display }}
-        animate={isOpen ? 'open' : 'close'}
+        animate={isOpened ? 'open' : 'close'}
         variants={variants.fadeInReveal}
       >
         {!cart?.orderProducts?.length ? (
@@ -68,7 +84,7 @@ const HeaderCart = () => {
                   whileHover="hover"
                   whileTap="tap"
                   variants={variants.boxShadow}
-                  onClick={handleClickOutside(isOpen, setIsOpen, setDisplay)}
+                  onClick={handleMenuState(setIsOpened, setDisplay)}
                 >
                   Перейти в корзину
                 </ActionBtns>
@@ -79,7 +95,7 @@ const HeaderCart = () => {
                     whileHover="hover"
                     whileTap="tap"
                     variants={variants.boxShadow}
-                    onClick={handleClickOutside(isOpen, setIsOpen, setDisplay)}
+                    onClick={handleMenuState(setIsOpened, setDisplay)}
                   >
                     Перейти к оформлению
                   </ActionBtns>

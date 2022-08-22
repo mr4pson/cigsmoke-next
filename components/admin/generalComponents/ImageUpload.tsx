@@ -5,10 +5,11 @@ import { useUploadImage } from 'common/hooks/useUploadImage';
 interface Props {
   fileList: any[];
   isProduct?: boolean;
+  slideNum?: number;
 }
 
-const ImageUpload = ({ fileList, isProduct }: Props) => {
-  const { uploadImage, progress, handleRemoveImage } = useUploadImage();
+const ImageUpload = ({ fileList, isProduct, slideNum }: Props) => {
+  const { uploadImage, progress, handleRemoveImage } = useUploadImage(slideNum);
 
   return (
     <>

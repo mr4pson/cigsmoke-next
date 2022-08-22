@@ -9,7 +9,7 @@ import {
   signup,
   userSignin,
 } from 'redux/slicers/authSlicer';
-import { PopupDisplay } from '../../HeaderCart/constants';
+import { PopupDisplay } from '../../../constants';
 
 const UsePagination = (): [
   number,

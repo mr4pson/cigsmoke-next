@@ -66,7 +66,11 @@ const Details: React.FC<Props> = ({
 
   return (
     <DetailsContainer>
-      <ShareToSocial productId={product?.id} />
+      <ShareToSocial
+        title={product?.name}
+        image={images[0]}
+        productId={product?.id}
+      />
       <UserSelectWrapper>
         <motion.h1
           key="title-product-page"

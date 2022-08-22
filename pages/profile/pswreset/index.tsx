@@ -6,10 +6,8 @@ import {
   Content,
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import Head from 'next/head';
-import ResetPsw from 'components/store/profileComp/resetpsw';
+import EmailResetPsw from 'components/store/profileComp/emailresetpsw';
 
 const PswReset = () => {
   return (
@@ -36,7 +34,7 @@ const PswReset = () => {
             align_items="center"
             gap="30px"
           >
-            <ResetPsw />
+            <EmailResetPsw />
           </Content>
         </Wrapper>
       </Container>

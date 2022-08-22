@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { PopupDisplay } from '../HeaderCart/constants';
+import { PopupDisplay } from '../../constants';
 
 const handleAfterAuthorized =
   (

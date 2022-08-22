@@ -1,15 +1,16 @@
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useDetectClickOutside } from 'react-detect-click-outside';
+import { outsideClickListner } from 'components/store/storeLayout/helpers';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { changeSearchQuery } from 'redux/slicers/store/globalSlicer';
 import { TGlobalState } from 'redux/types';
 import styled from 'styled-components';
 import { CategoryInTree } from 'swagger/services';
 import SearchSVG from '../../../../../assets/search.svg';
-import { PopupDisplay } from '../HeaderCart/constants';
+import { PopupDisplay } from '../../constants';
 import { FilterBtn } from './FilterBtn';
 import FilterModal from './FilterModal';
 import { handleSearchQueryChange, handleSearchFormSubmit } from './helpers';
@@ -34,6 +35,26 @@ const SearchBar: React.FC<Props> = () => {
   const [focused, setFocused] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
   const [display, setDisplay] = useState(PopupDisplay.None);
+  const [menuRef, setMenuRef] = useState(null);
+  const [btnRef, setBtnRef] = useState(null);
+  const [listening, setListening] = useState(false);
+  const menuNode = useCallback((node: any) => {
+    setMenuRef(node);
+  }, []);
+  const btnNode = useCallback((node: any) => {
+    setBtnRef(node);
+  }, []);
+
+  useEffect(
+    outsideClickListner(
+      listening,
+      setListening,
+      menuRef,
+      btnRef,
+      setIsOpened,
+      setDisplay,
+    ),
+  );
 
   const ref = useDetectClickOutside({
     onTriggered: () => {
@@ -112,6 +133,7 @@ const SearchBar: React.FC<Props> = () => {
           setSelectedCategory={setSelectedCategory}
           setIsOpened={setIsOpened}
           setDisplay={setDisplay}
+          btnNode={btnNode}
         />
       </SearchForm>
       <FilterModal
@@ -120,6 +142,7 @@ const SearchBar: React.FC<Props> = () => {
         setSelectedCategory={setSelectedCategory}
         setIsOpened={setIsOpened}
         setDisplay={setDisplay}
+        menuNode={menuNode}
       />
     </>
   );

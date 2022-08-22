@@ -2,22 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { fetchBrands } from 'redux/slicers/store/globalSlicer';
 import { AppDispatch } from 'redux/store';
 import { CategoryInTree } from 'swagger/services';
-import { PopupDisplay } from '../HeaderCart/constants';
-
-const handleCatalogBtnClick =
-  (
-    setIsOpened: Dispatch<SetStateAction<boolean>>,
-    setDisplay: Dispatch<SetStateAction<PopupDisplay>>,
-  ) =>
-  (e) => {
-    e.stopPropagation();
-    setIsOpened((prev) => !prev);
-    setTimeout(() => {
-      setDisplay((prev) =>
-        prev == PopupDisplay.None ? PopupDisplay.Flex : PopupDisplay.None,
-      );
-    }, 150);
-  };
+import { PopupDisplay } from '../../constants';
 
 const handleCategoryHover =
   (
@@ -49,9 +34,4 @@ const handleBrandClick =
     setTimeout(() => setDisplay(PopupDisplay.None), 150);
   };
 
-export {
-  handleCatalogBtnClick,
-  handleCategoryHover,
-  handleSubCategoryHover,
-  handleBrandClick,
-};
+export { handleCategoryHover, handleSubCategoryHover, handleBrandClick };

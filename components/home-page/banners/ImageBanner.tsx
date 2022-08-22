@@ -6,10 +6,12 @@ import { memo } from 'react';
 import styled from 'styled-components';
 import Arrow from '../../../assets/arrow.svg';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
-import { handleDragEnd } from '../helpers';
 import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
 import Link from 'next/link';
-import { UseImagePaginat } from 'components/store/storeLayout/helpers';
+import {
+  UseImagePaginat,
+  handleDragEnd,
+} from 'components/store/storeLayout/helpers';
 import { Slide } from 'swagger/services';
 import { devices } from 'components/store/lib/Devices';
 
@@ -17,7 +19,6 @@ type Props = {
   slides: Slide[] | undefined;
 };
 const ImageBanner: React.FC<Props> = ({ slides }) => {
-  // const [[page, direction], setPage] = useState([0, 0]);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
 
   const imageIndex = wrap(0, Number(slides?.length), page);
@@ -54,9 +55,8 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={1}
               onDragEnd={handleDragEnd(
-                page,
+                paginateImage,
                 SWIPE_CONFIDENCE_THRESHOLD,
-                setPage,
               )}
             />
           </AnimatePresence>

@@ -1,10 +1,12 @@
 import { Btns } from '../../common';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
+import styled from 'styled-components';
 import variants from 'components/store/lib/variants';
 import { PathCircle } from '../paths';
 import { paginateTo } from 'components/store/checkout/constant';
-import { PopupDisplay } from '../HeaderCart/constants';
+import { handleMenuState } from '../../helpers';
+import { PopupDisplay } from '../../constants';
 import { User } from 'swagger/services';
 
 type Props = {
@@ -13,6 +15,7 @@ type Props = {
   setDisplay: Dispatch<SetStateAction<PopupDisplay>>;
   setIsOpened: Dispatch<SetStateAction<boolean>>;
   paginate: any;
+  btnNode: any;
 };
 const AuthBtn: React.FC<Props> = ({
   user,
@@ -20,23 +23,18 @@ const AuthBtn: React.FC<Props> = ({
   setDisplay,
   setIsOpened,
   paginate,
+  btnNode,
 }) => {
   const [isAnimate, setAnimate] = useState(false);
 
-  const handleBtnClick = (e) => {
-    e.stopPropagation();
-    setIsOpened((prev) => !prev);
-    setDisplay((prev) =>
-      prev === PopupDisplay.None ? PopupDisplay.Flex : PopupDisplay.None,
-    );
-    paginate(paginateTo.back, 'selection');
-  };
-
   return (
-    <>
+    <ParentContainer ref={btnNode}>
       {isSignedIn ? (
         <Btns
-          onClick={handleBtnClick}
+          onClick={() => {
+            paginate(paginateTo.back, 'selection');
+            handleMenuState(setIsOpened, setDisplay)();
+          }}
           key="auth-profile"
           initial="init"
           animate={isSignedIn ? 'animate' : 'exit'}
@@ -51,7 +49,8 @@ const AuthBtn: React.FC<Props> = ({
       ) : (
         <Btns
           onClick={(e) => {
-            handleBtnClick(e);
+            paginate(paginateTo.back, 'selection');
+            handleMenuState(setIsOpened, setDisplay)();
             setAnimate(!isAnimate);
             setTimeout(() => setAnimate(false), 200);
           }}
@@ -83,8 +82,17 @@ const AuthBtn: React.FC<Props> = ({
           <span>Войти</span>
         </Btns>
       )}
-    </>
+    </ParentContainer>
   );
 };
+
+const ParentContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
 
 export default AuthBtn;

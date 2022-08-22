@@ -5,25 +5,30 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import {
+  VKShareButton,
+  WhatsappShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+} from 'next-share';
 import { outsideClickListner } from 'components/store/storeLayout/helpers';
 import { useCopyToClipboard } from './helpers';
 import Share from '../../../../../assets/share.svg';
 import Copy from '../../../../../assets/copy.svg';
 import Telegram from '../../../../../assets/telegram.svg';
 import Vk from '../../../../../assets/vk.svg';
-import Ok from '../../../../../assets/okSocial.svg';
+import Whatsapp from '../../../../../assets/whatsapp.svg';
 import Twitter from '../../../../../assets/twitter.svg';
-import { PopupDisplay } from 'components/store/storeLayout/utils/HeaderCart/constants';
+import { PopupDisplay } from 'components/store/storeLayout/constants';
 import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   productId?: string;
+  image?: string;
+  title?: string;
 };
 
-const ShareToSocial: React.FC<Props> = ({ productId }) => {
-  // https://www.npmjs.com/package/next-share
-  // TODO use npm package or implement share to social buttons
-
+const ShareToSocial: React.FC<Props> = ({ productId, image, title }) => {
   const router = useRouter();
   const [isCopied, setCopied, copy] = useCopyToClipboard();
   // _______________socila menu hooks _______________
@@ -32,12 +37,16 @@ const ShareToSocial: React.FC<Props> = ({ productId }) => {
   const [menuRef, setMenuRef] = useState(null);
   const [btnRef, setBtnRef] = useState(null);
   const [listening, setListening] = useState(false);
-
+  const [baseUrl, setBaseUrl] = useState('');
   const menuNode = useCallback((node: any) => {
     setMenuRef(node);
   }, []);
   const btnNode = useCallback((node: any) => {
     setBtnRef(node);
+  }, []);
+
+  useEffect(() => {
+    setBaseUrl(window.location.origin);
   }, []);
 
   useEffect(
@@ -89,7 +98,7 @@ const ShareToSocial: React.FC<Props> = ({ productId }) => {
         <ul>
           <li
             onClick={() => {
-              copy(`cigsmoke.ru/${router.asPath}`);
+              copy(`${baseUrl}${router.asPath}`);
               setTimeout(() => {
                 setCopied(false);
               }, 800);
@@ -98,7 +107,7 @@ const ShareToSocial: React.FC<Props> = ({ productId }) => {
             <span style={{ width: '20px' }}>
               <Copy />
             </span>
-            <button>
+            <button className="copy-url-btn">
               <motion.span
                 animate={!isCopied ? 'animate' : 'exit'}
                 variants={variants.fadeOutSlideOut}
@@ -115,44 +124,82 @@ const ShareToSocial: React.FC<Props> = ({ productId }) => {
             </button>
           </li>
           <li>
-            <a
-              href={`http://vkontakte.ru/share.php?url=https://www.cigsmoke.com/product/product_ID`}
-              target="popup"
+            <VKShareButton
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: '15px',
+              }}
+              url={`${baseUrl}${router.asPath}`}
+              image={image}
             >
               <span>
                 <Vk />
               </span>
-              <span>ВКонтакте</span>
-            </a>
+              <span className="social-name">ВКонтакте</span>
+            </VKShareButton>
           </li>
           <li>
             <Link href="/">
-              <a>
+              <WhatsappShareButton
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: '15px',
+                }}
+                url={`${baseUrl}${router.asPath}`}
+                title={title}
+                separator=":: "
+              >
                 <span>
-                  <Ok />
+                  <Whatsapp />
                 </span>
-                <span>Одноклассники</span>
-              </a>
+                <span className="social-name">Whatsapp</span>
+              </WhatsappShareButton>
             </Link>
           </li>
           <li>
             <Link href="/">
-              <a>
+              <TelegramShareButton
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: '15px',
+                }}
+                url={`${baseUrl}${router.asPath}`}
+                title={title}
+              >
                 <span>
                   <Telegram />
                 </span>
-                <span>Telegram</span>
-              </a>
+                <span className="social-name">Telegram</span>
+              </TelegramShareButton>
             </Link>
           </li>
           <li>
             <Link href="/">
-              <a>
+              <TwitterShareButton
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: '15px',
+                }}
+                url={`${baseUrl}${router.asPath}`}
+                title={title}
+              >
                 <span>
                   <Twitter />
                 </span>
-                <span>Twitter</span>
-              </a>
+                <span className="social-name">Twitter</span>
+              </TwitterShareButton>
             </Link>
           </li>
         </ul>
@@ -216,7 +263,7 @@ const ShareToSocialWrapper = styled(motion.div)`
       gap: 15px;
       padding: 5px 0;
       cursor: pointer;
-      a {
+      .social-name {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -227,7 +274,7 @@ const ShareToSocialWrapper = styled(motion.div)`
           color: ${color.hover};
         }
       }
-      button {
+      .copy-url-btn {
         width: 140px;
         display: flex;
         flex-direction: column;
