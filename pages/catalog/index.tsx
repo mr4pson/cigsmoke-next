@@ -1,5 +1,7 @@
+import { getQueryParams } from 'common/helpers/manageQueryParams.helper';
 import FilterBar from 'components/store/catalog/FilterBar';
 import {
+  convertQueryParams,
   onLocationChange,
   setPriceRange,
 } from 'components/store/catalog/helpers';
@@ -8,11 +10,13 @@ import variants from 'components/store/lib/variants';
 import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
+import { Category } from 'swagger/services';
 import ProductGrid from 'ui-kit/products/productGrid';
 
 const CatalogPage = () => {
@@ -26,22 +30,43 @@ const CatalogPage = () => {
     loading,
   } = useAppSelector<TCatalogState>((state) => state.catalog);
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [category, setCategory] = useState<Category | undefined>();
 
   const handleLocationChange = onLocationChange(dispatch);
+  const onCategoryChange = () => {
+    const queryParams = convertQueryParams(
+      getQueryParams(window.location.search),
+    );
+    const categoryUrl =
+      queryParams.categories && queryParams.categories![0]
+        ? queryParams.categories![0]
+        : '';
+    const category = categories.find(
+      (category) => category.url === categoryUrl,
+    );
+    setCategory(category);
+  };
 
   useEffect(() => {
     localStorage.removeItem('location');
-    window.addEventListener('locationChange', handleLocationChange);
+    window.addEventListener('locationChange', () => {
+      handleLocationChange();
+      onCategoryChange();
+    });
     setPriceRange(dispatch);
     (async () => {
       await dispatch(fetchParentCategories());
       await handleLocationChange();
+      onCategoryChange();
     })();
 
     return () => {
       window.removeEventListener('locationChange', handleLocationChange);
     };
   }, []);
+
+  useEffect(() => {}, [router.query]);
 
   return (
     <Container
@@ -70,7 +95,7 @@ const CatalogPage = () => {
             exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
             variants={variants.fadInSlideUp}
           >
-            Кальяны
+            {category?.name ?? 'Каталог'}
           </CategoryTitle>
           <Products>
             <ProductGrid
