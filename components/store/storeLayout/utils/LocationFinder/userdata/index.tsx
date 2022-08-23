@@ -1,22 +1,23 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import isEmpty from 'validator/lib/isEmpty';
-import color from '../../lib/ui.colors';
-import variants from '../../lib/variants';
+import color from 'components/store/lib/ui.colors';
+import variants from 'components/store/lib/variants';
 import MapContainer from './MapContainer';
 import { useEffect, useState } from 'react';
 import { styleProps } from 'components/store/lib/types';
 import { geoLocatClick } from './helpers';
 import AutoFill from './Autofill';
-import Locate from '../../../../assets/geolocate.svg';
+import Locate from '../../../../../../assets/geolocate.svg';
 import AddressDetails from './AddressDetails';
 import ReciverData from './ReciverData';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setDeliveryInfo } from 'redux/slicers/store/checkoutSlicer';
 import { TStoreCheckoutState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
+import { handleMenuState } from '../../../helpers';
 
-const UserData = ({ setStep, backToFinal, setHasAddress }) => {
+const UserData = ({ setIsOpened, setDisplay }) => {
   const dispatch = useAppDispatch();
   const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
     (state) => state.storeCheckout,
@@ -26,8 +27,8 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   const [viewport, setViewPort]: [any, any] = useState({
     latitude: 55.755825,
     longitude: 37.617298,
-    zoom: 10,
-    width: 'fit',
+    zoom: 15,
+    width: '',
   });
   const [postCode, setPostCode] = useState('');
   const [roomOrOffice, setRoomOrOffice] = useState('');
@@ -36,11 +37,6 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
   const [rignBell, setRingBell] = useState('');
   const [fullName, setFullname] = useState('');
   const [phone, setPhone] = useState('+7');
-
-  const handleClickBack = () => {
-    setStep(2);
-    setHasAddress(true);
-  };
 
   const handleClickSave = () => {
     const payload = {
@@ -54,8 +50,6 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
       rignBell,
     };
     dispatch(setDeliveryInfo(payload));
-    setStep(2);
-    setHasAddress(true);
   };
 
   useEffect(() => {
@@ -82,19 +76,6 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
         animate="animate"
         variants={variants.fadInSlideUp}
       >
-        {backToFinal ? (
-          <ActionBtns
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            bgcolor={color.btnPrimary}
-            onClick={handleClickBack}
-          >
-            Назад
-          </ActionBtns>
-        ) : (
-          ''
-        )}
         <FormWrapper>
           <h3>Куда доставить заказ?</h3>
           <span className="sub-addres-info">
@@ -150,7 +131,10 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
                 ? true
                 : false
             }
-            onClick={handleClickSave}
+            onClick={() => {
+              handleClickSave();
+              handleMenuState(setIsOpened, setDisplay)();
+            }}
           >
             Сохранить и продолжить
           </ActionBtns>
@@ -161,14 +145,14 @@ const UserData = ({ setStep, backToFinal, setHasAddress }) => {
 };
 
 const Container = styled.div`
-  width: 100%;
   position: relative;
+  width: 100%;
+  height: 100%;
 `;
 
 const FormContainer = styled(motion.div)`
   width: 450px;
-  height: 95vh;
-  min-height: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -187,10 +171,8 @@ const FormContainer = styled(motion.div)`
 
   @media ${devices.mobileL} {
     padding: 15px;
-    position: relative;
-    overflow-y: unset;
+    overflow-x: hidden;
     width: 100%;
-    height: auto;
   }
 `;
 

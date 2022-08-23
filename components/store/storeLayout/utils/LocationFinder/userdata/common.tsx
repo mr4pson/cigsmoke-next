@@ -28,6 +28,7 @@ const DetailsColumnWrapper = styled.div`
     padding: 5px;
     span {
       font-family: 'intro';
+
       @media ${devices.mobileL} {
         font-size: 0.6rem;
       }
