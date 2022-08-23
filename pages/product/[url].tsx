@@ -37,7 +37,7 @@ const ProductInfoPage = () => {
   return !loading && product ? (
     <>
       <SEO
-        url={`cigsmoke.ru${router.asPath}`}
+        url={`https://wuluxe.ru${router.asPath}`}
         title={product?.name}
         description={product?.desc}
         image={`/api/images/${images[0]}`}

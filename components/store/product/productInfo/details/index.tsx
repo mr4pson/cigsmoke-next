@@ -70,6 +70,7 @@ const Details: React.FC<Props> = ({
         title={product?.name}
         image={images[0]}
         productId={product?.id}
+        description={product?.desc}
       />
       <UserSelectWrapper>
         <motion.h1

@@ -275,7 +275,7 @@ const WrapperBrands = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 20px 0;
   a {
     display: flex;

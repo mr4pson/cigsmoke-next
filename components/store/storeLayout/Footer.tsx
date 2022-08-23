@@ -6,7 +6,9 @@ import variants from '../lib/variants';
 import color from '../lib/ui.colors';
 import { Container, Wrapper, Content } from './common';
 import { devices } from '../lib/Devices';
-
+import VKSVG from '../../../assets/vkcolored.svg';
+import TelegraSVG from '../../../assets/telegramcolored.svg';
+import WhatsappSVG from '../../../assets/whatsappcolored.svg';
 const Footer = (): JSX.Element => {
   return (
     <AnimatePresence>
@@ -108,9 +110,9 @@ const Footer = (): JSX.Element => {
                   </Sections_item>
                   <Sections_item>
                     <Image width="20" height="14" src="/icons/mail.svg" />
-                    <Link href="mailto:info@cigsmoke.ru">
+                    <Link href="mailto:info@wuluxe.ru">
                       <a>
-                        <span>info@cigsmoke</span>
+                        <span>info@wuluxe.ru</span>
                       </a>
                     </Link>
                   </Sections_item>
@@ -152,6 +154,29 @@ const Footer = (): JSX.Element => {
                       Вы также можете оплатить покупки наличными при получении
                     </span>
                   </Sections_item>
+                  <SocialWrapper>
+                    <Link href="https://vk.com/wuluxe">
+                      <a target="_blank" rel="noopener noreferrer">
+                        <span>
+                          <VKSVG />
+                        </span>
+                      </a>
+                    </Link>
+                    <Link href="https://t.me/wuluxe">
+                      <a target="_blank" rel="noopener noreferrer">
+                        <span>
+                          <TelegraSVG />
+                        </span>
+                      </a>
+                    </Link>
+                    <Link href="https://wa.me/+79855675947">
+                      <a target="_blank" rel="noopener noreferrer">
+                        <span>
+                          <WhatsappSVG />
+                        </span>
+                      </a>
+                    </Link>
+                  </SocialWrapper>
                 </Sections_content>
               </Sections_wrapper>
             </Grid>
@@ -208,6 +233,27 @@ const Sections_item = styled.li`
   }
   a:hover {
     color: ${color.hover};
+  }
+`;
+
+const SocialWrapper = styled.li`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 0;
+  a {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    span {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
   }
 `;
 

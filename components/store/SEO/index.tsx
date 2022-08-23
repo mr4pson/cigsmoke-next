@@ -61,7 +61,7 @@ const SEO = (props: any) => {
 
   return (
     <Head>
-      <title>{title} | Cigsmoke</title>
+      <title>{title} | Wuluxe</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={title} />
       <meta name="description" content={description} />
