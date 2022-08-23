@@ -24,7 +24,7 @@ const VerifyAcount = () => {
         flex_direction="column"
         justify_content="center"
         align_items="center"
-        padding="50px 0"
+        padding="200px 0"
         bg_color={color.textPrimary}
       >
         <Wrapper>

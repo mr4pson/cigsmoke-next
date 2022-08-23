@@ -98,7 +98,7 @@ const Contianer = styled(motion.div)`
 
 const Wrapper = styled.div`
   width: 400px;
-  height: 400px;
+  height: 450px;
   border-radius: 30px;
   background-color: ${color.textPrimary};
   box-shadow: 0px 2px 6px ${color.boxShadow};

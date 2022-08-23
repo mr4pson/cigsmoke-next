@@ -2,7 +2,7 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import { wrap } from 'popmotion';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Arrow from '../../../assets/arrow.svg';
 import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
@@ -20,9 +20,15 @@ type Props = {
 };
 const ImageBanner: React.FC<Props> = ({ slides }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
-
+  const [userInput, setUserInput] = useState(false);
   const imageIndex = wrap(0, Number(slides?.length), page);
-
+  useEffect(() => {
+    if (!userInput) {
+      setTimeout(() => {
+        paginateImage(1);
+      }, 10000);
+    }
+  }, [page, direction]);
   return (
     <SliderWrapper
       key="slider-home-banners"
@@ -72,7 +78,13 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         position="absolute"
         boxshadow="transparent"
         bgcolor={color.textPrimary}
-        onClick={() => paginateImage(1)}
+        onClick={() => {
+          paginateImage(1);
+          setUserInput(true);
+          setTimeout(() => {
+            setUserInput(false);
+          }, 10000);
+        }}
       >
         <ArrowSpan rotate="0">
           <Arrow />
@@ -88,7 +100,13 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         position="absolute"
         boxshadow="transparent"
         bgcolor={color.textPrimary}
-        onClick={() => paginateImage(-1)}
+        onClick={() => {
+          paginateImage(-1);
+          setUserInput(true);
+          setTimeout(() => {
+            setUserInput(false);
+          }, 10000);
+        }}
       >
         <ArrowSpan rotate="180">
           <Arrow />

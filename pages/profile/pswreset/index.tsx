@@ -24,7 +24,7 @@ const PswReset = () => {
         flex_direction="column"
         justify_content="center"
         align_items="center"
-        padding="50px"
+        padding="200px"
         bg_color={color.textPrimary}
       >
         <Wrapper>

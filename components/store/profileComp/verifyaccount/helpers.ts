@@ -14,14 +14,17 @@ const handleVerification = async (router: any, setServerResponse) => {
 
   await axios(options)
     .then((response) => {
-      router.push('/profile');
+      setTimeout(() => {
+        router.push('/profile');
+      }, 10000);
+      setServerResponse(response.status);
       console.log(response.data);
     })
     .catch((error) => {
       setServerResponse(error.response.status);
       setTimeout(() => {
         router.push('/profile');
-      }, 3000);
+      }, 10000);
     });
 };
 

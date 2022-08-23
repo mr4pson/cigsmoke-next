@@ -46,4 +46,12 @@ const useCopyToClipboard = () => {
   return [copiedText, setCopiedText, copy];
 };
 
-export { ImageTooltip, useCopyToClipboard };
+const handleMobileShare = async (shareData: any) => {
+  try {
+    await navigator.share(shareData);
+  } catch (err) {
+    console.warn('share failed', err);
+  }
+};
+
+export { ImageTooltip, useCopyToClipboard, handleMobileShare };

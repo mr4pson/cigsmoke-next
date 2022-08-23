@@ -152,7 +152,7 @@ const SearchForm = styled.form`
   height: 45px;
   position: relative;
   align-self: flex-end;
-
+  overflow: hidden;
   @media ${devices.laptopS} {
     position: absolute;
     top: 10px;

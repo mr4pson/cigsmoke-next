@@ -12,7 +12,7 @@ import {
   TwitterShareButton,
 } from 'next-share';
 import { outsideClickListner } from 'components/store/storeLayout/helpers';
-import { useCopyToClipboard } from './helpers';
+import { useCopyToClipboard, handleMobileShare } from './helpers';
 import Share from '../../../../../assets/share.svg';
 import Copy from '../../../../../assets/copy.svg';
 import Telegram from '../../../../../assets/telegram.svg';
@@ -26,9 +26,15 @@ type Props = {
   productId?: string;
   image?: string;
   title?: string;
+  description?: string;
 };
 
-const ShareToSocial: React.FC<Props> = ({ productId, image, title }) => {
+const ShareToSocial: React.FC<Props> = ({
+  productId,
+  image,
+  title,
+  description,
+}) => {
   const router = useRouter();
   const [isCopied, setCopied, copy] = useCopyToClipboard();
   // _______________socila menu hooks _______________
@@ -68,6 +74,13 @@ const ShareToSocial: React.FC<Props> = ({ productId, image, title }) => {
     }, 100);
   };
 
+  const shareData = {
+    title: title,
+    text: description,
+    url: `${baseUrl}${router.asPath}`,
+  };
+
+
   return (
     <SocialParent
       key="social-product-page"
@@ -79,12 +92,24 @@ const ShareToSocial: React.FC<Props> = ({ productId, image, title }) => {
     >
       <span id="product-code">{`Код товара: ${productId}`}</span>
       <motion.button
+        className="share-btn-pc"
         ref={btnNode}
         custom={1.05}
         whileHover="hover"
         whileTap="tap"
         variants={variants.grow}
         onClick={() => closeHandler()}
+      >
+        <Share />
+        <span>Поделиться</span>
+      </motion.button>
+      <motion.button
+        className="share-btn-mobile"
+        custom={1.05}
+        whileHover="hover"
+        whileTap="tap"
+        variants={variants.grow}
+        onClick={() => handleMobileShare(shareData)}
       >
         <Share />
         <span>Поделиться</span>
@@ -219,7 +244,7 @@ const SocialParent = styled(motion.div)`
   #product-code {
     color: ${color.textSecondary};
   }
-  button {
+  .share-btn-pc {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -227,11 +252,25 @@ const SocialParent = styled(motion.div)`
     gap: 5px;
     color: ${color.yellow};
     cursor: pointer;
-    }
   }
 
+  .share-btn-mobile {
+    display: none;
+  }
   @media ${devices.mobileL} {
     margin-bottom: -40px;
+    .share-btn-pc {
+      display: none;
+    }
+    .share-btn-mobile {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      color: ${color.yellow};
+      cursor: pointer;
+    }
   }
 `;
 

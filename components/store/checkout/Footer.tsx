@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 import color from '../lib/ui.colors';
 import Link from 'next/link';
-import VkSvg from '../../../assets/vkcolored.svg';
-import OkSvg from '../../../assets/okcolored.svg';
-import TelegramSvg from '../../../assets/telegramcolored.svg';
+import VKSVG from '../../../assets/vkcolored.svg';
+import TelegraSVG from '../../../assets/telegramcolored.svg';
+import WhatsappSVG from '../../../assets/whatsappcolored.svg';
 
 const Footer = () => {
   const copyRighYear = new Date().getFullYear();
   return (
     <Container>
       <Wrapper>
-        <Link href="/copyright">
+        <Link href="/copyright-terms">
           <a>
             <span>
               © {copyRighYear} ООО «Интернет Решения». Все права защищены.
@@ -18,24 +18,24 @@ const Footer = () => {
           </a>
         </Link>
         <SocialWrapper>
-          <Link href="vk.com/wuluxe">
-            <a title="vk">
+          <Link href="https://vk.com/wuluxe">
+            <a target="_blank" rel="noopener noreferrer">
               <span>
-                <VkSvg />
+                <VKSVG />
               </span>
             </a>
           </Link>
-          <Link href="ok.com/wuluxe">
-            <a title="ok">
+          <Link href="https://t.me/wuluxe">
+            <a target="_blank" rel="noopener noreferrer">
               <span>
-                <OkSvg />
+                <TelegraSVG />
               </span>
             </a>
           </Link>
-          <Link href="tm.com/wuluxe">
-            <a title="telegram">
+          <Link href="https://wa.me/+79855675947">
+            <a target="_blank" rel="noopener noreferrer">
               <span>
-                <TelegramSvg />
+                <WhatsappSVG />
               </span>
             </a>
           </Link>
@@ -70,12 +70,25 @@ const Wrapper = styled.div`
   }
 `;
 
-const SocialWrapper = styled.div`
+const SocialWrapper = styled.li`
   display: flex;
   flex-direction: row;
-  justify-content: cetner;
+  justify-content: flex-start;
   align-items: center;
   gap: 20px;
+  padding: 10px 0;
+  a {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    span {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
 `;
 
 export default Footer;

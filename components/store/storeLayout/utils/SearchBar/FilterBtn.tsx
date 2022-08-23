@@ -1,7 +1,7 @@
 import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { Category, CategoryInTree } from 'swagger/services';
@@ -34,59 +34,50 @@ const FilterBtn: React.FC<Props> = ({
   };
 
   return (
-    <AnimatePresence>
-      {selectedCategory ? (
-        <FilterSelected
-          id="filter-btn"
-          key="filter-selected"
-          initial="init"
-          animate="animate"
-          exit="exit"
-          variants={variants.fadeInSlideIn}
-          color={selectedCategory ? color.btnPrimary : ''}
-          onClick={(e) => e.preventDefault()}
+    <>
+      <FilterSelected
+        id="filter-btn"
+        animate={selectedCategory ? 'animate' : 'init'}
+        variants={variants.fadeInSlideIn}
+        color={selectedCategory ? color.btnPrimary : ''}
+        onClick={(e) => e.preventDefault()}
+      >
+        {getShortedCategoryName(selectedCategory?.name!)}
+        <svg
+          style={{ cursor: 'pointer' }}
+          width="20"
+          height="14"
+          viewBox="0 0 21 15"
+          stroke="white"
+          onClick={handleResetSelected}
         >
-          {getShortedCategoryName(selectedCategory?.name!)}
-          <svg
-            style={{ cursor: 'pointer' }}
-            width="20"
-            height="14"
-            viewBox="0 0 21 15"
-            stroke="white"
-            onClick={handleResetSelected}
-          >
-            <Path
-              d="M5.5 7.40295L20.5 7.40295"
-              animate={{ rotate: selectedCategory ? 45 : 0 }}
-              transition={{ delay: 0.1 }}
-            />
-            <Path
-              d="M5.5 7.40295L20.5 7.40295"
-              animate={{ rotate: selectedCategory ? -45 : 0 }}
-              transition={{ delay: 0.1 }}
-            />
-          </svg>
-        </FilterSelected>
-      ) : (
-        <Button
-          ref={btnNode}
-          id="filter-btn"
-          key="filter-icon"
-          initial="init"
-          animate="animate"
-          exit="exit"
-          variants={variants.fadeOutSlideOut}
-          onClick={(e) => {
-            e.preventDefault();
-            handleMenuState(setIsOpened, setDisplay)();
-          }}
-        >
-          <span>
-            <Filter />
-          </span>
-        </Button>
-      )}
-    </AnimatePresence>
+          <Path
+            d="M5.5 7.40295L20.5 7.40295"
+            animate={{ rotate: selectedCategory ? 45 : 0 }}
+            transition={{ delay: 0.1 }}
+          />
+          <Path
+            d="M5.5 7.40295L20.5 7.40295"
+            animate={{ rotate: selectedCategory ? -45 : 0 }}
+            transition={{ delay: 0.1 }}
+          />
+        </svg>
+      </FilterSelected>
+      <Button
+        ref={btnNode}
+        id="filter-btn"
+        animate={!selectedCategory ? 'animate' : 'init'}
+        variants={variants.fadeOutSlideOut}
+        onClick={(e) => {
+          e.preventDefault();
+          handleMenuState(setIsOpened, setDisplay)();
+        }}
+      >
+        <span>
+          <Filter />
+        </span>
+      </Button>
+    </>
   );
 };
 

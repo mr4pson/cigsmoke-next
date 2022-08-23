@@ -29,13 +29,13 @@ const Header = (props: any) => {
           </a>
         </Link>
         <InfoWrapper>
-          <span>
+          {/* <span>
             <Return />
           </span>
           <div className="info-text">
             <h3>Гарантия легкого возврата</h3>
             <span>Заберем товар и быстро вернем деньги</span>
-          </div>
+          </div> */}
           <span>
             <Delivery />
           </span>
