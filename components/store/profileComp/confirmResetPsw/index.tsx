@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import isEmpty from 'validator/lib/isEmpty';
 import React, { useState } from 'react';
 import { InputsTooltip } from 'components/store/checkout/helpers';
@@ -22,19 +23,45 @@ const ConfirmResetPsw = () => {
   return (
     <Wrapper>
       <Title>Сбросить пароль</Title>
-      <ServerErrResponses>
-        {serverResponse == 401 ? 'Неавторизованный: токен не найден' : ''}
-        {serverResponse == 403 ? 'Токен просрочен или недействителен' : ''}
-        {serverResponse == 409
-          ? 'Нельзя использовать тот же пароль, что и предыдущий'
-          : ''}
-        {serverResponse == 408 ? 'Срок действия токена истек' : ''}
-        {isCap ? 'Капслок включен' : ''}
-        {repeatPsw !== psw ? 'пароль не подходит' : ''}
-      </ServerErrResponses>
-      <ServerSuccessResponse>
-        {serverResponse == 200 ? 'Ваш пароль был изменен' : ''}
-      </ServerSuccessResponse>
+      <ErrorsWrapper>
+        {isCap ? <ServerErrResponses>Капслок включен</ServerErrResponses> : ''}
+        {repeatPsw !== psw ? (
+          <ServerErrResponses>пароль не подходит</ServerErrResponses>
+        ) : (
+          ''
+        )}
+        {serverResponse == 401 ? (
+          <ServerErrResponses>
+            Неавторизованный: токен не найден
+          </ServerErrResponses>
+        ) : (
+          ''
+        )}
+        {serverResponse == 403 ? (
+          <ServerErrResponses>
+            Токен просрочен или недействителен
+          </ServerErrResponses>
+        ) : (
+          ''
+        )}
+        {serverResponse == 409 ? (
+          <ServerErrResponses>
+            Нельзя использовать тот же пароль, что и предыдущий
+          </ServerErrResponses>
+        ) : (
+          ''
+        )}
+        {serverResponse == 408 ? (
+          <ServerErrResponses>Срок действия токена истек</ServerErrResponses>
+        ) : (
+          ''
+        )}
+        {serverResponse == 200 ? (
+          <ServerSuccessResponse>Ваш пароль был изменен </ServerSuccessResponse>
+        ) : (
+          ''
+        )}
+      </ErrorsWrapper>
       <AuthInputsWrapper>
         <label htmlFor="signin-psw">
           <b>
@@ -221,6 +248,17 @@ flex-direction:column;
 justify-content:flex-start
 align-items:flex-start;
 gap:30px;
+ @media ${devices.mobileL} {
+    width: 100%;
+  }
+`;
+
+const ErrorsWrapper = styled.div`
+width:100%;
+display:flex;
+flex-direction:column;
+justify-content:flex-start
+align-items:flex-start;
 `;
 
 const AuthInputsWrapper = styled(motion.div)`

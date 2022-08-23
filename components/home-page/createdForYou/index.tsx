@@ -86,15 +86,9 @@ const Section = () => {
               variants={variants.fadInSlideUp}
             >
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-                mollitia, molestiae quas vel sint commodi repudiandae
-                consequuntur voluptatum laborum numquam blanditiis harum
-                quisquam eius sed odit fugiat iusto fuga praesentium optio,
-                eaque rerum! Provident similique accusantium nemo autem.
-                Veritatis obcaecati tenetur iure eius earum ut molestias
-                architecto voluptate aliquam nihil, eveniet aliquid culpa
-                officia aut! Impedit sit sunt quaerat, odit, tenetur error,
-                harum nesciunt ipsum debitis quas aliquid
+                Мы приносим наши лучшие товары для вас, мы вручную отобрали эти
+                товары для вас, проверьте, вам может понравиться, Wuluxe —
+                импортер качественного продукта на рынке России
               </p>
               <Link href={`/catalog/id`}>
                 <motion.a
@@ -112,7 +106,7 @@ const Section = () => {
     </Container>
   );
 };
-
+// подобранные товары для вас
 const ContentInner = styled.div`
   width: 100%;
   display: flex;

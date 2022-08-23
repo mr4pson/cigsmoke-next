@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
 import { useEffect, useState } from 'react';
@@ -55,7 +56,11 @@ const EmailResetPsw = () => {
       <ServerSuccessResponse>
         <Link href="/profile">
           <a>
-            {serverResponse == 404 ? 'Вы можете зарегистрироваться здесь' : ''}
+            <ServerSuccessResponse>
+              {serverResponse == 404
+                ? 'Вы можете зарегистрироваться здесь'
+                : ''}
+            </ServerSuccessResponse>
           </a>
         </Link>
         {serverResponse == 403
@@ -128,6 +133,9 @@ const ServerErrResponses = styled.span`
   font-size: 1.2rem;
   width: 400px;
   text-align: center;
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
 `;
 const ServerSuccessResponse = styled.span`
   color: ${color.ok};
@@ -139,6 +147,9 @@ const ServerSuccessResponse = styled.span`
     &:hover {
       color: ${color.btnPrimary};
     }
+  }
+  @media ${devices.mobileL} {
+    width: 100%;
   }
 `;
 
@@ -164,6 +175,9 @@ const InputWrapper = styled.form`
     background-color: ${color.btnPrimary};
     color: ${color.textPrimary};
     font-family: 'intro';
+  }
+  @media ${devices.mobileL} {
+    width: 100%;
   }
 `;
 export default EmailResetPsw;

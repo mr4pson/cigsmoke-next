@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <Container>
       <Wrapper>
-        <Link href="/copyright">
+        <Link href="/copyright-terms">
           <a>
             <span>
               © {copyRighYear} ООО «Интернет Решения». Все права защищены.

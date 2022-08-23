@@ -11,6 +11,10 @@ const VerifyAcountByToken = () => {
   useEffect(() => {
     handleVerification(routre, setServerResponse);
   }, []);
+  const [counter, setCounter] = useState(10);
+  useEffect(() => {
+    setTimeout(() => setCounter(counter - 1), 1000);
+  });
   return (
     <>
       {serverResponse == 401 ? <Err>Ключ не найден</Err> : ''}
@@ -21,10 +25,7 @@ const VerifyAcountByToken = () => {
       ) : (
         ''
       )}
-      {serverResponse != 401 ||
-      serverResponse != 403 ||
-      serverResponse != 408 ||
-      serverResponse != 500 ? (
+      {serverResponse == 200 ? (
         <>
           <Confirmed>Ваша учетная запись была подтверждена</Confirmed>
           <Ok>Вскоре мы перенаправим вас в вашу учетную запись</Ok>
@@ -32,11 +33,14 @@ const VerifyAcountByToken = () => {
       ) : (
         ''
       )}
+      <Counter>
+        Мы перенаправим вас на страницу вашего профиля после: {counter}
+      </Counter>
     </>
   );
 };
 
-const Err = styled(motion.span)`
+const Err = styled(motion.h2)`
   color: ${color.hover};
 `;
 
@@ -46,6 +50,11 @@ const Confirmed = styled(motion.h1)`
 `;
 const Ok = styled(motion.span)`
   color: ${color.ok};
+`;
+
+const Counter = styled.h2`
+  color: ${color.ok};
+  font-family: 'intro';
 `;
 
 export default VerifyAcountByToken;
