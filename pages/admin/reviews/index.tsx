@@ -51,7 +51,7 @@ const ReviewsPage = () => {
         <h1 className={styles.reviewsHeader__title}>Отзывы</h1>
       </div>
       {isLoading ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <>
           <Table

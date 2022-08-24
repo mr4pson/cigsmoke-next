@@ -98,7 +98,7 @@ const ManageProductForm = ({
         <h1 className={styles.createProductHeader__title}>{title}</h1>
       </div>
       {(isLoading || !product) && editMode ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <Form
           layout="vertical"

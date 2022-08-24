@@ -52,7 +52,7 @@ const CheckoutsPage = () => {
         <h1 className={styles.checkoutsHeader__title}>Заказы</h1>
       </div>
       {isLoading ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <Table
           scroll={{

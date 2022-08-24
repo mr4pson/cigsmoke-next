@@ -61,7 +61,7 @@ const Brands = () => {
         </Button>
       </div>
       {isLoading ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <Table
           scroll={{
