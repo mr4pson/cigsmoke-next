@@ -1,3 +1,4 @@
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -14,8 +15,12 @@ type Props = {
 };
 
 const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
-  const { name, price, images } = item.product!;
-  const imageList = images ? images.split(',') : [];
+  const { name } = item.product!;
+
+  const { price } = item.product?.productVariants![0]
+    ? item.product.productVariants![0]
+    : ({} as any);
+  const images = getProductVariantsImages(item.product?.productVariants);
 
   return (
     <Link href="/">
@@ -26,7 +31,7 @@ const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
             whileTap="tap"
             custom={1.05}
             variants={variants.grow}
-            src={`/api/images/${imageList[0]}`}
+            src={`/api/images/${images[0]}`}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
               currentTarget.src = '/assets/images/no_photo.png';

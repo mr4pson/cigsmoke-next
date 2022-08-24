@@ -60,7 +60,7 @@ export const createProduct = createAsyncThunk<
       return await ProductService.createProduct({
         body: {
           ...payload,
-          images: payload.images,
+          // images: payload.images,
         },
       });
     } catch (error: any) {
@@ -84,7 +84,7 @@ export const editProduct = createAsyncThunk<
         productId: id!,
         body: {
           ...payload,
-          images: payload.images,
+          // images: payload.images,
         },
       });
     } catch (error: any) {

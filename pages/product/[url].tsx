@@ -11,6 +11,7 @@ import { TProductInfoState } from 'redux/types';
 import { Basket, Wishlist } from 'swagger/services';
 import Loading from 'ui-kit/Loading';
 import styled from 'styled-components';
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 
 const ProductInfoPage = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,7 @@ const ProductInfoPage = () => {
     return () => {};
   }, [dispatch, router.query]);
 
-  const images = product?.images ? product?.images.split(', ') : [];
+  const images = getProductVariantsImages(product?.productVariants);
 
   return !loading && product ? (
     <>

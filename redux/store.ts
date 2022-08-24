@@ -12,6 +12,7 @@ import colorsReducer from './slicers/colorsSlicer';
 import brandsReducer from './slicers/brandsSlicer';
 import productsReducer from './slicers/productsSlicer';
 import imagesReducer from './slicers/imagesSlicer';
+import multipleImagesSlicer from './slicers/mutipleImagesSlicer';
 import tagsReducer from './slicers/tagsSlicer';
 import reviewsReducer from './slicers/reviewsSlicer';
 import globalSlicer from './slicers/store/globalSlicer';
@@ -32,6 +33,7 @@ const combinedReducer = combineReducers({
   brands: brandsReducer,
   products: productsReducer,
   images: imagesReducer,
+  multipleImages: multipleImagesSlicer,
   tags: tagsReducer,
   reviews: reviewsReducer,
   checkouts: checkoutsReducer,

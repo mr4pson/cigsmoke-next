@@ -1867,18 +1867,8 @@
                 "name": {
                   "type": "string"
                 },
-                "price": {
-                  "type": "integer",
-                  "minimum": 1
-                },
-                "oldPrice": {
-                  "type": "integer"
-                },
                 "desc": {
                   "type": "string"
-                },
-                "available": {
-                  "type": "boolean"
                 },
                 "createdAt": {
                   "type": "string",
@@ -1887,9 +1877,6 @@
                 "updatedAt": {
                   "type": "string",
                   "readOnly": true
-                },
-                "images": {
-                  "type": "string"
                 },
                 "url": {
                   "type": "string"
@@ -4743,19 +4730,8 @@
         "name": {
           "type": "string"
         },
-        "price": {
-          "type": "integer",
-          "minimum": 1
-        },
-        "oldPrice": {
-          "type": "integer",
-          "minimum": 1
-        },
         "desc": {
           "type": "string"
-        },
-        "available": {
-          "type": "boolean"
         },
         "createdAt": {
           "type": "string",
@@ -4764,16 +4740,6 @@
         "updatedAt": {
           "type": "string",
           "readOnly": true
-        },
-        "images": {
-          "type": "string"
-        },
-        "colors": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/ColorWithoutJoins"
-          }
         },
         "category": {
           "type": "object",
@@ -4807,6 +4773,12 @@
           "items": {
             "$ref": "#/definitions/ParameterProduct"
           }
+        },
+        "productVariants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductVariant"
+          }
         }
       }
     },
@@ -4832,18 +4804,8 @@
         "name": {
           "type": "string"
         },
-        "price": {
-          "type": "integer",
-          "minimum": 1
-        },
-        "oldPrice": {
-          "type": "integer"
-        },
         "desc": {
           "type": "string"
-        },
-        "available": {
-          "type": "boolean"
         },
         "createdAt": {
           "type": "string",
@@ -4853,20 +4815,39 @@
           "type": "string",
           "readOnly": true
         },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "ProductVariant": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "price": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "oldPrice": {
+          "type": "integer"
+        },
+        "available": {
+          "type": "boolean"
+        },
         "images": {
           "type": "string"
         },
-        "url": {
-          "type": "string"
+        "color": {
+          "type": "object",
+          "$ref": "#/definitions/Color"
         }
       }
     },
     "ProductDTO": {
       "required": [
         "name",
-        "price",
-        "available",
-        "colors",
         "category",
         "brand",
         "url"
@@ -4879,18 +4860,8 @@
         "name": {
           "type": "string"
         },
-        "price": {
-          "type": "integer",
-          "minimum": 1
-        },
-        "oldPrice": {
-          "type": "integer"
-        },
         "desc": {
           "type": "string"
-        },
-        "available": {
-          "type": "boolean"
         },
         "createdAt": {
           "type": "string",
@@ -4899,13 +4870,6 @@
         "updatedAt": {
           "type": "string",
           "readOnly": true
-        },
-        "colors": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "array of colors IDs"
         },
         "tags": {
           "type": "array",
@@ -4918,10 +4882,6 @@
           "type": "string",
           "description": "Category ID"
         },
-        "images": {
-          "type": "string",
-          "description": "Stringified array of images filenames"
-        },
         "brand": {
           "type": "string",
           "description": "Brand ID"
@@ -4933,6 +4893,12 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/ParameterProductsDTO"
+          }
+        },
+        "productVariants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductVariant"
           }
         }
       }

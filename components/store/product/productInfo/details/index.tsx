@@ -10,7 +10,7 @@ import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
 import { UserSelectWrapper } from './common';
 import Quastions from '../../../../../assets/quastions.svg';
-import { Basket, Product, Wishlist } from 'swagger/services';
+import { Basket, Color, Product, Wishlist } from 'swagger/services';
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import {
   checkIfItemInCart,
@@ -63,6 +63,12 @@ const Details: React.FC<Props> = ({
       }),
     );
   };
+
+  const { price, oldPrice } = product?.productVariants![0]
+    ? product.productVariants![0]
+    : ({} as any);
+
+  const colors = product?.productVariants!.map((variant) => variant.color!);
 
   return (
     <DetailsContainer>
@@ -133,12 +139,12 @@ const Details: React.FC<Props> = ({
           exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
           variants={variants.fadInSlideUp}
         >
-          <PriceItem>{product?.price}₽</PriceItem>
-          {!!product?.oldPrice && <PriceItem>{product?.oldPrice}₽</PriceItem>}
+          <PriceItem>{price}₽</PriceItem>
+          {!!oldPrice && <PriceItem>{oldPrice}₽</PriceItem>}
         </PriceWrapper>
         <ColorPicker
-          images={images}
-          colors={product?.colors ?? []}
+          productVariants={product?.productVariants}
+          colors={colors ?? []}
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
           paginateImage={paginateImage}

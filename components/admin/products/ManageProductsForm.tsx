@@ -1,5 +1,6 @@
 import { Button, Form, Input, List, Select, Spin } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
+import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -7,18 +8,20 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearImageList,
   setDefaultImageList,
-} from 'redux/slicers/imagesSlicer';
+} from 'redux/slicers/mutipleImagesSlicer';
+import { TMultipleImageState } from 'redux/types';
 import { Page } from 'routes/constants';
 import {
   Brand,
   Category,
   Color,
+  Image,
   ParameterProduct,
   Product,
   Tag,
 } from 'swagger/services';
 
-import ImageUpload from '../generalComponents/ImageUpload';
+// import ImageUpload from '../generalComponents/ImageUpload';
 import FormItem from '../generalComponents/FormItem';
 import {
   handleCategoryChange,
@@ -28,7 +31,8 @@ import {
 } from './helpers';
 import { ManageProductFields } from './ManageProductsFields.enum';
 import styles from './products.module.scss';
-import {handleFalsyValuesCheck} from "../../../common/helpers/handleFalsyValuesCheck.helper";
+import ProductVariantForm from './ProductVariantForm';
+import ProductVariant from './ProductVariantForm';
 
 const { Option } = Select;
 
@@ -62,38 +66,18 @@ const ManageProductForm = ({
   const [form] = Form.useForm();
   const initialValues = initialValuesConverter(product as Product);
   const [curCategory, setCurCategory] = useState<Category>();
+  const [variants, setVariants] = useState<any[]>([]);
   const [parameterProducts, setParameterProducts] = useState<
     ParameterProduct[]
   >([]);
-
-  const [available, setAvailable] = useState<boolean>()
-  const [brand, setBrand] = useState<string>()
-  const [category, setCategory] = useState<string>()
-  const [desc, setDesc] = useState<string>()
-  const [name, setName] = useState<string>()
-  const [price, setPrice] = useState<string>()
-  const [url, setUrl] = useState<string>()
-
-  const imageList = useAppSelector((state) => state.images.imageList);
+  const { imagesMap } = useAppSelector<TMultipleImageState>(
+    (state) => state.multipleImages,
+  );
 
   useEffect(() => {
-    if(product) {
-      // console.log(initialValues)
-      setAvailable(initialValues.available)
-      setBrand(initialValues.brand)
-      setCategory(initialValues.category)
-      setDesc(initialValues.desc)
-      setName(initialValues.name)
-      setPrice(initialValues.price)
-      setUrl(initialValues.url)
-    }
-  }, [product])
-
-  useEffect(() => {
-    if (initialValues.images) {
-      // dispatch(clearImageList());
-      initialValues.images.forEach((image) => {
-        dispatch(setDefaultImageList(image));
+    for (let index = 0; index < product?.productVariants?.length!; index++) {
+      initialValues[index]?.forEach((image) => {
+        dispatch(setDefaultImageList({ file: image, index }));
       });
     }
     setCurCategory(product?.category);
@@ -109,12 +93,15 @@ const ManageProductForm = ({
         };
       })!,
     );
+    setVariants(generateArrayOfNumbers(product?.productVariants?.length ?? 0));
     return () => {
       dispatch(clearImageList());
     };
   }, [product]);
 
-  const isDisabled: boolean = handleFalsyValuesCheck(available, brand, category, desc, name, price, url, imageList)
+  const handleAddVariant = () => {
+    setVariants((prev) => prev.concat({}));
+  };
 
   return (
     <>
@@ -129,8 +116,9 @@ const ManageProductForm = ({
           onFinish={handleFormSubmitProduct(
             router,
             dispatch,
-            imageList,
+            imagesMap,
             parameterProducts,
+            variants.length,
           )}
           form={form}
           initialValues={initialValues}
@@ -141,42 +129,15 @@ const ManageProductForm = ({
           <FormItem
             option={ManageProductFields.Name}
             children={
-              <Input required={true} placeholder="Введите имя продукта"
-              onChange={e => {
-              setName(e.target.value)}
-              }
-              />
+              <Input required={true} placeholder="Введите имя продукта" />
             }
           />
-          {/* ----------------------PRICE---------------------- */}
-          <FormItem
-            option={ManageProductFields.Price}
-            children={
-              <Input required={true} placeholder="Введите стоимость продукта"
-              onChange={e => {
-              setPrice(e.target.value)
-              }
-              }
-              />
-            }
-          />
-          {/* ----------------------OLD PRICE---------------------- */}
-          <FormItem
-            option={ManageProductFields.OldPrice}
-            children={
-              <Input placeholder="Введите устаревшую стоимость продукта" />
-            }
-          />
+
           {/* ----------------------ULR---------------------- */}
           <FormItem
             option={ManageProductFields.Url}
             children={
-              <Input required={true} placeholder="Введите Url продукта"
-              onChange={e => {
-              setUrl(e.target.value)
-              }
-              }
-              />
+              <Input required={true} placeholder="Введите Url продукта" />
             }
           />
           {/* ----------------------DESCRIPTION---------------------- */}
@@ -187,50 +148,18 @@ const ManageProductForm = ({
                 required={true}
                 rows={4}
                 placeholder="Введите описание продукта"
-                onChange={e => {
-                setDesc(e.target.value)
-                }
-                }
               />
             }
           />
-          {/* ----------------------AVAILABLE---------------------- */}
-          <Form.Item label="Доступность" name="available" required>
-            <Select style={{ width: '100%' }}
-            onChange={e => {
-              setAvailable(e)
-            }}
-            >
-              <Option value="true">Доступен</Option>
-              <Option value="false">Не доступен</Option>
-            </Select>
-          </Form.Item>
-
-          {/* ----------------------COLORS---------------------- */}
-          <Form.Item label="Цвета" name="colors" required>
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: '100%' }}
-              placeholder={`Пожалуйста, выберите цвета`}
-            >
-              {colors?.map((item) => (
-                <Option key={item.id} value={item.id}>{`${item.name}`}</Option>
-              ))}
-            </Select>
-          </Form.Item>
 
           {/* ----------------------CATEGORIES---------------------- */}
           <Form.Item label="Категория" name="category" required>
             <Select
-              onChange={e => {
-                setCategory(e)
-                handleCategoryChange(
-                    categories,
-                    setCurCategory,
-                    setParameterProducts,
-                )
-              }}
+              onChange={handleCategoryChange(
+                categories,
+                setCurCategory,
+                setParameterProducts,
+              )}
               style={{ width: '100%' }}
             >
               {categories?.map((item) => {
@@ -245,11 +174,7 @@ const ManageProductForm = ({
 
           {/* ----------------------BRANDS---------------------- */}
           <Form.Item label="Бренд" name="brand" required>
-            <Select style={{ width: '100%' }}
-            onChange={e => {
-              setBrand(e)
-            }}
-            >
+            <Select style={{ width: '100%' }}>
               {brands?.map((item) => {
                 return (
                   <Option key={item.id} value={item.id}>
@@ -273,11 +198,24 @@ const ManageProductForm = ({
               ))}
             </Select>
           </Form.Item>
+          <h2 style={{ fontSize: '26px', marginBottom: '20px' }}>
+            Варианты продукта
+          </h2>
+          <div className={styles['product-variants']}>
+            {variants.map((variant, index) => (
+              <ProductVariantForm
+                key={`product-variant-${index}`}
+                colors={colors}
+                index={index}
+                setVariants={setVariants}
+                imagesList={imagesMap[index]}
+              />
+            ))}
+            <Button type="primary" onClick={handleAddVariant}>
+              Добавить вариант
+            </Button>
+          </div>
           {/* ----------------------IMAGES LIST---------------------- */}
-          <FormItem
-            option={ManageProductFields.Images}
-            children={<ImageUpload fileList={imageList} isProduct={true} />}
-          />
           {!!curCategory?.parameters?.length && (
             <>
               <h2 style={{ marginBottom: '10px' }}>Список характеристик</h2>
@@ -311,7 +249,6 @@ const ManageProductForm = ({
               htmlType="submit"
               className={styles.createProductForm__buttonsStack__submitButton}
               loading={isSaveLoading}
-              disabled={isDisabled}
             >
               {products ? 'Сохранить' : 'Создать'}
             </Button>

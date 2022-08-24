@@ -13,6 +13,7 @@ import { DataType } from 'common/interfaces/data-type.interface';
 import { Category, Image, ParameterProduct, Product } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
+import { ManageProductFields } from './ManageProductsFields.enum';
 
 const handleDeleteProduct =
   (id: string, dispatch: AppDispatch, setVisible: any, offset: number) => async () => {
@@ -28,27 +29,49 @@ const handleDeleteProduct =
 
 const handleDataConvertation = (
   form,
-  images,
+  imagesMap: Object,
   parameterProducts: ParameterProduct[],
+  variantsLength: number,
 ) => {
   const newForm = { ...form };
   newForm.price = Number.parseInt(newForm.price, 10);
-  newForm.oldPrice = Number.parseInt(newForm.oldPrice, 10)
   newForm.available && (newForm.available = JSON.parse(newForm.available));
-  newForm.parameterProducts = parameterProducts?.map((parameterProduct) => ({
+  newForm.parameterProducts = parameterProducts.map((parameterProduct) => ({
     parameterId: parameterProduct.parameter?.id,
     value: parameterProduct.value,
   }));
 
-  if (images.length) {
-    const imageNameArray = images.map((image) => {
-      return image.url.split('/api/images/')[1];
-    });
+  const productVariants: any[] = [];
 
-    newForm.images = imageNameArray.join(', ');
-  } else {
-    newForm.images = null;
+  for (let index = 0; index < variantsLength; index++) {
+
+    const id: string = form[`id[${index}]`];
+    const price: number = form[`${ManageProductFields.Price}[${index}]`];
+    const oldPrice: number = form[`${ManageProductFields.OldPrice}[${index}]`];
+    const available: boolean = form[`${ManageProductFields.Available}[${index}]`];
+    const color: number = form[`${ManageProductFields.Color}[${index}]`];
+    const payload = {
+      id,
+      price,
+      oldPrice,
+      available,
+      color,
+      images: null
+    };
+    const images = imagesMap[index];
+
+    if (images?.length) {
+      const imageNameArray = images.map((image) => {
+        return image.url.split('/api/images/')[1];
+      });
+
+      payload.images = imageNameArray.join(', ');
+    }
+
+    productVariants.push(payload);
   }
+
+  newForm.productVariants = productVariants;
 
   return newForm;
 };
@@ -57,38 +80,39 @@ const handleFormSubmitProduct =
   (
     router: NextRouter,
     dispatch: AppDispatch,
-    images: Image[],
+    imagesMap: Object,
     parameterProducts: ParameterProduct[],
+    variantsLength: number,
   ) =>
-  async (form) => {
-  console.log(form)
-    const convertedForm = handleDataConvertation(
-      form,
-      images,
-      parameterProducts,
-    );
-
-    if (router.query.id) {
-      const isSaved: any = await dispatch(
-        editProduct({
-          ...convertedForm,
-          id: router.query.id,
-        }),
+    async (form) => {
+      const convertedForm = handleDataConvertation(
+        form,
+        imagesMap,
+        parameterProducts,
+        variantsLength,
       );
+
+      if (router.query.id) {
+        const isSaved: any = await dispatch(
+          editProduct({
+            ...convertedForm,
+            id: router.query.id,
+          }),
+        );
+
+        if (!isSaved.error) {
+          navigateTo(router, Page.ADMIN_PRODUCTS)();
+        }
+
+        return;
+      }
+
+      const isSaved: any = await dispatch(createProduct(convertedForm));
 
       if (!isSaved.error) {
         navigateTo(router, Page.ADMIN_PRODUCTS)();
       }
-
-      return;
-    }
-
-    const isSaved: any = await dispatch(createProduct(convertedForm));
-
-    if (!isSaved.error) {
-      navigateTo(router, Page.ADMIN_PRODUCTS)();
-    }
-  };
+    };
 
 const handleRedirectProducts = (id: string, router: NextRouter) => () => {
   router.push(`${paths[Page.ADMIN_PRODUCTS]}/${id}`);
@@ -128,10 +152,19 @@ const initialValuesConverter = (product: Product) => {
   newProduct.category = newProduct.category?.id;
   newProduct.brand = newProduct.brand?.id;
 
-  newProduct.colors = multipleItemsConverter(newProduct.colors);
+  // newProduct.colors = multipleItemsConverter(newProduct.colors);
   newProduct.tags = multipleItemsConverter(newProduct.tags);
 
-  newProduct.images = imagesConverter(newProduct.images);
+  // newProduct.images = imagesConverter(newProduct.images);
+  for (let index = 0; index < product?.productVariants?.length!; index++) {
+    const variant = product.productVariants![index];
+    newProduct[`id[${index}]`] = variant.id;
+    newProduct[`${ManageProductFields.Price}[${index}]`] = variant.price;
+    newProduct[`${ManageProductFields.OldPrice}[${index}]`] = variant.oldPrice;
+    newProduct[`${ManageProductFields.Available}[${index}]`] = variant.available;
+    newProduct[`${ManageProductFields.Color}[${index}]`] = variant.color?.id;
+    newProduct[index] = imagesConverter(variant.images);
+  }
 
   return newProduct;
 };
@@ -141,15 +174,15 @@ const handleParameterChange =
     index: number,
     setParameterProducts: Dispatch<SetStateAction<ParameterProduct[]>>,
   ) =>
-  (e) => {
-    setParameterProducts((prev) => {
-      const parameterProducts = cloneDeep(prev);
+    (e) => {
+      setParameterProducts((prev) => {
+        const parameterProducts = cloneDeep(prev);
 
-      parameterProducts[index].value = e.target.value;
+        parameterProducts[index].value = e.target.value;
 
-      return parameterProducts;
-    });
-  };
+        return parameterProducts;
+      });
+    };
 
 const handleCategoryChange =
   (
@@ -157,16 +190,16 @@ const handleCategoryChange =
     setCurCategory: Dispatch<SetStateAction<Category | undefined>>,
     setParameterProducts: Dispatch<SetStateAction<ParameterProduct[]>>,
   ) =>
-  (id: string) => {
-    const category = categories.find((category) => category.id === id)!;
-    setCurCategory(category);
-    setParameterProducts(
-      category?.parameters?.map((parameter) => ({
-        parameter: parameter,
-        value: '',
-      }))!,
-    );
-  };
+    (id: string) => {
+      const category = categories.find((category) => category.id === id)!;
+      setCurCategory(category);
+      setParameterProducts(
+        category?.parameters?.map((parameter) => ({
+          parameter: parameter,
+          value: '',
+        }))!,
+      );
+    };
 
 export {
   handleDeleteProduct,

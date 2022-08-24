@@ -13,6 +13,7 @@ import Details from './details';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { Basket, Product, Wishlist } from 'swagger/services';
 import { devices } from 'components/store/lib/Devices';
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 
 type Props = {
   product?: Product;
@@ -31,7 +32,7 @@ const ProductInfo: React.FC<Props> = ({
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
-  const images = product?.images ? product.images?.split(', ') : [];
+  const images = getProductVariantsImages(product?.productVariants);
 
   return (
     <Container
