@@ -1,3 +1,4 @@
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import { formatNumber } from 'common/helpers/number.helper';
 import { devices } from 'components/store/lib/Devices';
 import color from 'components/store/lib/ui.colors';
@@ -26,7 +27,10 @@ const ProductItem: React.FC<Props> = ({
   onCartBtnClick,
   onWishBtnClick,
 }) => {
-  const images = product.images ? product.images.split(', ') : [];
+  const images = getProductVariantsImages(product.productVariants);
+  const { price, oldPrice } = product.productVariants![0]
+    ? product.productVariants![0]
+    : ({} as any);
 
   return (
     <ItemContainer
@@ -54,9 +58,9 @@ const ProductItem: React.FC<Props> = ({
                   fontWeight: '800',
                 }}
               >
-                {formatNumber(product.price)}₽
+                {formatNumber(price)}₽
               </span>
-              {product.oldPrice ? (
+              {oldPrice ? (
                 <span
                   style={{
                     textDecoration: 'line-through',
@@ -65,7 +69,7 @@ const ProductItem: React.FC<Props> = ({
                     color: '#A4A4A4',
                   }}
                 >
-                  {formatNumber(product.oldPrice)}₽
+                  {formatNumber(oldPrice)}₽
                 </span>
               ) : (
                 <></>

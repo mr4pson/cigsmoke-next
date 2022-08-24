@@ -1,9 +1,7 @@
 import { Carousel, Image } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { imageFallback } from 'common/constants';
-import { useAppDispatch } from 'redux/hooks';
-import { fetchProducts } from 'redux/slicers/productsSlicer';
-import { Color, Product, Tag } from 'swagger/services';
+import { Product, Tag } from 'swagger/services';
 import { handleRedirectBrands } from '../brands/helpers';
 import { handleRedirectCategory } from '../categories/helpers';
 
@@ -22,8 +20,12 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Изображения',
     dataIndex: 'images',
-    render: (_, record?) => {
-      if (record?.images) {
+    render: (_, record) => {
+      if (record.productVariants) {
+        const imagesString = record.productVariants[0]
+          ? record.productVariants[0].images
+          : '';
+        const images = imagesString?.split(', ');
         return (
           <div
             style={{
@@ -32,7 +34,7 @@ export const columns: ColumnsType<Product> = [
             }}
           >
             <Carousel effect="fade">
-              {(record.images as unknown as string[]).map((image) => {
+              {(images as unknown as string[]).map((image) => {
                 if (image) {
                   return (
                     <div>
@@ -61,49 +63,6 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'Имя',
     dataIndex: 'name',
-    width: '7.5%',
-  },
-  {
-    title: 'Цена',
-    dataIndex: 'price',
-    width: '6.5%',
-  },
-  {
-    title: 'Старая Цена',
-    dataIndex: 'oldPrice',
-    width: '6.5%',
-  },
-  {
-    title: 'Описание',
-    dataIndex: 'desc',
-    width: '15%',
-  },
-  {
-    title: 'Доступно',
-    dataIndex: 'available',
-    width: '7.5%',
-  },
-  {
-    title: 'Цвета',
-    dataIndex: 'colors',
-    render: (_, record) => {
-      return (
-        <ul>
-          {(record?.colors as Color[]).map((color) => (
-            <div
-              style={{
-                minWidth: '70px',
-              }}
-            >
-              <div
-                className={styles.productsTable__colorBoxStyle}
-                style={{ backgroundColor: color.code }}
-              ></div>
-            </div>
-          ))}
-        </ul>
-      );
-    },
     width: '7.5%',
   },
   {

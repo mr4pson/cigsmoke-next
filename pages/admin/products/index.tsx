@@ -39,6 +39,7 @@ const ProductsPage = () => {
       brand,
       tags,
       url,
+      productVariants,
       ...rest
     }) => ({
       key: id,
@@ -54,6 +55,7 @@ const ProductsPage = () => {
       brand,
       tags,
       url,
+      productVariants,
     }),
   ) as unknown as DataType[];
 

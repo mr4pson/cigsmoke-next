@@ -61,10 +61,16 @@ type TImageState = {
   loading: boolean;
 };
 
+type TMultipleImageState = {
+  imagesMap: Object;
+  loading: boolean;
+};
+
 interface PayloadCreateImage {
   config: {};
   file: any;
-  slideNum?: number
+  slideNum?: number;
+  index?: number;
 }
 
 interface TTagState {
@@ -144,7 +150,7 @@ type TProductInfoState = {
 
 type TBannerState = {
   advertisement: Advertisement[],
-  slides: Slide[], 
+  slides: Slide[],
   loading: boolean,
   saveLoading: boolean
 }
@@ -225,5 +231,6 @@ export type {
   TStoreCheckoutState,
   TDeliveryInfo,
   TOrderInfo,
+  TMultipleImageState,
   TWishlistState,
 };

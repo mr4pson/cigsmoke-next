@@ -2,6 +2,7 @@ import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import color from 'components/store/lib/ui.colors';
 import { useState } from 'react';
+import { ProductVariant } from 'swagger/services';
 
 const ImageTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -54,4 +55,21 @@ const handleMobileShare = async (shareData: any) => {
   }
 };
 
-export { ImageTooltip, useCopyToClipboard, handleMobileShare };
+const getFlatVariantImages = (productVariants?: ProductVariant[]) => {
+  return productVariants?.reduce((accum, variant) => {
+    const images = variant.images ? variant.images.split(', ') : [];
+    const variants = images.map((image) => ({
+      ...variant,
+      image,
+    }));
+
+    return accum.concat(variants);
+  }, [] as any[]);
+};
+
+export {
+  ImageTooltip,
+  useCopyToClipboard,
+  handleMobileShare,
+  getFlatVariantImages,
+};

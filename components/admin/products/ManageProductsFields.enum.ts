@@ -4,7 +4,7 @@ export enum ManageProductFields {
   OldPrice = 'oldPrice',
   Desc = 'desc',
   Available = 'available',
-  Colors = 'colors',
+  Color = 'color',
   Category = 'category',
   Images = 'images',
   Brand = 'brand',

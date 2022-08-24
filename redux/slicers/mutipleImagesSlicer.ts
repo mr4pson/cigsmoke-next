@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { axiosInstance } from 'common/axios.instance';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-import { PayloadCreateImage, TImageState } from 'redux/types';
+import { PayloadCreateImage, TMultipleImageState } from 'redux/types';
 
 import {
   getErrorMassage,
@@ -10,11 +10,11 @@ import {
 } from '../../common/helpers';
 
 export const createImage = createAsyncThunk<
-  string,
-  PayloadCreateImage,
+  any,
+  any,
   { rejectValue: string }
 >(
-  'images/createImage',
+  'multipleImages/createImage1',
   async function (
     payload: PayloadCreateImage,
     { rejectWithValue },
@@ -27,37 +27,39 @@ export const createImage = createAsyncThunk<
         formData,
         payload.config,
       );
-      return resp.data[0];
+      return { file: resp.data[0], index: payload.index };
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
   },
 );
 
-const initialState: TImageState = {
-  imageList: [],
+const initialState: TMultipleImageState = {
+  imagesMap: {},
   loading: false,
 };
 
-const imageSlicer = createSlice({
-  name: 'image',
+const multipleImagesSlicer = createSlice({
+  name: 'multipleImages',
   initialState,
   reducers: {
     setDefaultImageList(state, action) {
-      console.log(action)
-      if (action.payload.slideNum) {
-        state.imageList = [...state.imageList, { name: action.payload.file.name as string, uid: action.payload.slideNum as number }];
-      } else {
-        state.imageList = [...state.imageList, action.payload];
+      if (!state.imagesMap[action.payload.index]) {
+        state.imagesMap[action.payload.index] = [];
       }
+
+      const imagesList = [...state.imagesMap[action.payload.index]];
+      imagesList.push(action.payload.file);
+      state.imagesMap[action.payload.index] = imagesList;
     },
     removeImageFromList(state, action) {
-      state.imageList = state.imageList.filter(
-        (item: any) => item.name !== action.payload,
+      const imageList = state.imagesMap[action.payload.index];
+      state.imagesMap[action.payload.index] = imageList.filter(
+        (item: any) => item.name !== action.payload.name,
       );
     },
     clearImageList(state) {
-      state.imageList = initialState.imageList;
+      state.imagesMap = initialState.imagesMap;
     },
   },
   extraReducers: (builder) => {
@@ -65,14 +67,13 @@ const imageSlicer = createSlice({
       //createImage
       .addCase(createImage.pending, handlePending)
       .addCase(createImage.fulfilled, (state, action) => {
-        state.loading = false;
-        // console.log(action)
-        // console.log(state.imageList)
-        const file = state.imageList.find(
+        const file = state.imagesMap[action.payload.index]?.find(
           (item: any) => item.name === action.meta.arg.file.name,
         ) as any;
-        file.url = `/api/images/${action.payload}`;
-        file.name = action.payload
+        if (file) {
+          file.url = `/api/images/${action.payload.file}`;
+          file.name = action.payload.file;
+        }
         openSuccessNotification('Изображение успешно загружено');
         console.log('fulfilled');
       })
@@ -81,6 +82,6 @@ const imageSlicer = createSlice({
 });
 
 export const { setDefaultImageList, removeImageFromList, clearImageList } =
-  imageSlicer.actions;
+  multipleImagesSlicer.actions;
 
-export default imageSlicer.reducer;
+export default multipleImagesSlicer.reducer;

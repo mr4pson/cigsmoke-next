@@ -2,16 +2,16 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { ImageTooltip } from './helpers';
+import { getFlatVariantImages, ImageTooltip } from './helpers';
 import React, { Dispatch, SetStateAction } from 'react';
-import { Color } from 'swagger/services';
+import { Color, ProductVariant } from 'swagger/services';
 
 type StyleProps = {
   backgroundColor: string;
 };
 
 type Props = {
-  images: string[];
+  productVariants: ProductVariant[] | undefined;
   colors: Color[];
   selectedIndex: number;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const ColorPicker: React.FC<Props> = ({
-  images,
+  productVariants,
   colors,
   selectedIndex,
   setSelectedIndex,
@@ -38,6 +38,9 @@ const ColorPicker: React.FC<Props> = ({
         paginateImage(selectedIndex > index ? -1 : 1);
       }
     };
+
+  const variantImages = getFlatVariantImages(productVariants);
+
   return (
     <ColorPickerContainer>
       <ColorPickerNameWrapper
@@ -59,69 +62,67 @@ const ColorPicker: React.FC<Props> = ({
         </ColorWrapper>
       </ColorPickerNameWrapper>
       <ColorPickerList>
-        {images.map((image, index) => {
-          return (
-            <ImageTooltip
-              key={`image-item-${index}`}
-              title={
-                <React.Fragment>
-                  <img
-                    style={{ width: '100px', height: '100px' }}
-                    src={`/api/images/${image}`}
-                    alt=""
-                  />
-                  {/* <hr
-                    style={{
-                      backgroundColor: color.textTertiary,
-                      width: '100%',
-                    }}
-                  /> */}
-                  {/* {!item.available ? (
-                    <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
-                  ) : (
-                    <ColorPickerPriceWrapper>
-                      <ColorPickerSpan>{`${item.price}₽`}</ColorPickerSpan>
-                      {item.prevPrice == '' ? (
-                        ''
-                      ) : (
-                        <ColorPickerSpan>
-                          {`${item.prevPrice}₽`}
-                        </ColorPickerSpan>
-                      )}
-                    </ColorPickerPriceWrapper>
-                  )} */}
-                </React.Fragment>
-              }
-            >
-              <ColorPickerItems
-                key="prices-product-page"
-                custom={0.05 * index}
-                initial="init"
-                animate="animate"
-                exit={{
-                  y: -20,
-                  opacity: 0,
-                  transition: { delay: 0.05 * index },
-                }}
-                variants={variants.fadInSlideUp}
-                onClick={handleImageChange(
-                  index,
-                  selectedIndex,
-                  setSelectedIndex,
-                  paginateImage,
+        {variantImages?.map((variant, colIndex) => (
+          <ImageTooltip
+            key={`image-item-${colIndex}`}
+            title={
+              <React.Fragment>
+                <img
+                  style={{ width: '100px', height: '100px' }}
+                  src={`/api/images/${variant.image}`}
+                  alt=""
+                />
+                <hr
+                  style={{
+                    backgroundColor: color.textTertiary,
+                    width: '100%',
+                  }}
+                />
+                {!variant.available ? (
+                  <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
+                ) : (
+                  <ColorPickerPriceWrapper>
+                    <ColorPickerSpan>{`${variant.price}₽`}</ColorPickerSpan>
+                    {!variant.oldPrice ? (
+                      ''
+                    ) : (
+                      <ColorPickerSpan>
+                        {`${variant.oldPrice}₽`}
+                      </ColorPickerSpan>
+                    )}
+                  </ColorPickerPriceWrapper>
                 )}
-                style={{
-                  border: `1px solid ${
-                    selectedIndex == index ? color.yellow : color.textPrimary
-                  }`,
-                }}
-              >
-                <img src={`/api/images/${image}`} alt="" />
-                {/* {!item.available ? <div></div> : ''} */}
-              </ColorPickerItems>
-            </ImageTooltip>
-          );
-        })}
+              </React.Fragment>
+            }
+          >
+            <ColorPickerItems
+              key="prices-product-page"
+              custom={0.05 * colIndex}
+              initial="init"
+              animate="animate"
+              exit={{
+                y: -20,
+                opacity: 0,
+                transition: { delay: 0.05 * colIndex },
+              }}
+              variants={variants.fadInSlideUp}
+              onClick={handleImageChange(
+                colIndex,
+                selectedIndex,
+                setSelectedIndex,
+                paginateImage,
+              )}
+              style={{
+                border: `1px solid ${
+                  selectedIndex == colIndex ? color.yellow : color.textPrimary
+                }`,
+              }}
+            >
+              <img src={`/api/images/${variant.image}`} alt="" />
+              {!variant.available ? <div></div> : ''}
+            </ColorPickerItems>
+          </ImageTooltip>
+        ))}
       </ColorPickerList>
     </ColorPickerContainer>
   );

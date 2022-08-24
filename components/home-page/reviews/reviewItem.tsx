@@ -6,6 +6,7 @@ import variants from 'components/store/lib/variants';
 import { Review } from 'swagger/services';
 import moment from 'moment';
 import Link from 'next/link';
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 
 type Props = {
   review: Review;
@@ -13,9 +14,8 @@ type Props = {
 };
 
 const ReviewItem: React.FC<Props> = ({ index, review }) => {
-  const images = review.product?.images
-    ? review.product?.images!.split(', ')
-    : [];
+  const images = getProductVariantsImages(review.product!.productVariants);
+
   return (
     <ItemContainer
       initial="init"
