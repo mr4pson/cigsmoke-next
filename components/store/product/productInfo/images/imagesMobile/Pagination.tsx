@@ -6,9 +6,8 @@ import { ArrowBtns, ArrowSpan } from 'ui-kit/ArrowBtns';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { styleProps } from 'components/store/lib/types';
-import Arrow from '../../../../../assets/arrow.svg';
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
-import { handlePaginate } from './helpers';
+import Arrow from '../../../../../../assets/arrow.svg';
+import { handlePaginate } from '../helpers';
 
 type Props = {
   images: string[];
@@ -33,7 +32,7 @@ const Pagination: React.FC<Props> = ({
   ] = paginateHandler();
 
   useEffect(() => {
-    setRefType('height');
+    setRefType('width');
     setSlideAmount(120);
   }, []);
 
@@ -43,15 +42,15 @@ const Pagination: React.FC<Props> = ({
         whileHover="hover"
         whileTap="tap"
         custom={1.2}
-        top="-45px"
-        left="35px"
+        top="120px"
+        left="0"
         position="absolute"
         variants={variants.grow}
         bgcolor={color.textPrimary}
         boxshadow={color.boxShadowBtn}
         onClick={() => paginate(1)}
       >
-        <ArrowSpan rotate="-90">
+        <ArrowSpan rotate="-180">
           <Arrow />
         </ArrowSpan>
       </ArrowBtns>
@@ -59,26 +58,26 @@ const Pagination: React.FC<Props> = ({
         whileHover="hover"
         whileTap="tap"
         custom={1.2}
-        top="410px"
-        left="35px"
+        top="120px"
+        left="70px"
         position="absolute"
         variants={variants.grow}
         bgcolor={color.textPrimary}
         boxshadow={color.boxShadowBtn}
         onClick={() => paginate(-1)}
       >
-        <ArrowSpan rotate="90">
+        <ArrowSpan rotate="0">
           <Arrow />
         </ArrowSpan>
       </ArrowBtns>
       <div>
         <ThumbnailWrapper
           ref={widthOrHeightRef}
-          drag="y"
-          dragConstraints={{ bottom: 0, top: -widthOrHeight }}
+          drag="x"
+          dragConstraints={{ left: 0, right: -widthOrHeight }}
           custom={slideTo}
           animate="animate"
-          variants={variants.sliderY}
+          variants={variants.sliderX}
         >
           {images.map((image, index) => {
             return (
@@ -117,16 +116,16 @@ const Pagination: React.FC<Props> = ({
 };
 
 const ThumbnailContainer = styled.div`
-  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   position: relative;
   div {
-    height: 100%;
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-conten: space-between;
     align-items: flex-start;
     overflow: hidden;
@@ -134,10 +133,9 @@ const ThumbnailContainer = styled.div`
 `;
 
 const ThumbnailWrapper = styled(motion.ul)`
-  height: 100%;
-  width: 106px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-conten: space-between;
   align-items: flex-start;
   gap: 20px;

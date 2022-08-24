@@ -89,6 +89,7 @@ const ItemContainer = styled(motion.li)`
 
   @media ${devices.mobileL} {
     width: 100%;
+    min-width: 300px;
   }
 `;
 

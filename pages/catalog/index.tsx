@@ -77,7 +77,8 @@ const CatalogPage = () => {
       exit="end"
       flex_direction="column"
       justify_content="center"
-      style={{ backgroundColor: '#F6F6F6', padding: '35px 0 50px' }}
+      bg_color="#F6F6F6"
+      padding="35px 0 50px"
     >
       <Wrapper style={{ paddingTop: '110px' }}>
         <FilterBar

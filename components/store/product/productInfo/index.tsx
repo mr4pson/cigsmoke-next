@@ -8,6 +8,7 @@ import {
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Images from './images';
+import ImagesMobile from './images/imagesMobile';
 import Details from './details';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import { Basket, Product, Wishlist } from 'swagger/services';
@@ -54,6 +55,16 @@ const ProductInfo: React.FC<Props> = ({
         >
           <Grid>
             <Images
+              product={product}
+              images={images}
+              selectedIndex={selectedIndex}
+              setSelectedIndex={setSelectedIndex}
+              paginateImage={paginateImage}
+              direction={direction}
+              page={page}
+              setPage={setPage}
+            />
+            <ImagesMobile
               product={product}
               images={images}
               selectedIndex={selectedIndex}

@@ -40,8 +40,8 @@ const ProductInfoPage = () => {
         url={`https://wuluxe.ru${router.asPath}`}
         title={product?.name}
         description={product?.desc}
-        image={`/api/images/${images[0]}`}
-        schemaType="cart"
+        image={images} // this shuold point to api base url
+        schemaType="Product"
         keywords="the, keywords, is, saperated, by, comma"
       />
       <ProductInfo

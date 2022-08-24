@@ -1,41 +1,28 @@
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { MagnifieHelper } from './helpers';
-import { SliderImage } from '../../common';
-import { handleDragEnd } from './helpers';
-import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
+import { SliderImage } from '../../../common';
+import { SWIPE_CONFIDENCE_THRESHOLD } from '../../../constants';
+import { handleDragEnd } from '../helpers';
 
 type Props = {
   images: string[];
   selectedIndex: number;
-  setSelectedIndex: any;
   direction: number;
   page: number;
   paginateImage: any;
+  setSelectedIndex: any;
 };
 
 const Slider: React.FC<Props> = ({
   images,
   selectedIndex,
-  setSelectedIndex,
   direction,
   page,
   paginateImage,
+  setSelectedIndex,
 }) => {
-  const [lensDisplay, setLensDisplay] = useState('none');
-  const [imgRef, lensRef, setMagnifiedImage] = MagnifieHelper(
-    images[selectedIndex],
-  );
-
-  useEffect(
-    // TODO add api data and selectedIndex inside of it ie:data[selectedIndex]
-    () => setMagnifiedImage(selectedIndex),
-    [selectedIndex],
-  );
-
   return (
     <SliderWrapper
       key="slider-product-page"
@@ -44,14 +31,9 @@ const Slider: React.FC<Props> = ({
       animate="animate"
       exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
       variants={variants.fadInSlideUp}
-      onMouseOver={() => setLensDisplay('flex')}
-      onMouseLeave={() => setLensDisplay('none')}
     >
-      <Lens ref={lensRef} style={{ display: lensDisplay }}></Lens>
-
       <AnimatePresence initial={false} custom={direction}>
         <SliderImage
-          ref={imgRef}
           key={page}
           src={`/api/images/${images[selectedIndex]}`}
           custom={direction}
@@ -85,7 +67,7 @@ const Slider: React.FC<Props> = ({
 
 const SliderWrapper = styled(motion.div)`
   width: 100%;
-  height: 100%;
+  height: 400px;
   display: flex;
   flex-direction: row;
   justify-content: center;
