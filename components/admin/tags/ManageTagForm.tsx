@@ -41,7 +41,7 @@ const ManageTagForm = ({
         <h1 className={styles.createTagHeader__title}>{title}</h1>
       </div>
       {(isLoading || !tag) && editMode ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <Form
           layout="vertical"

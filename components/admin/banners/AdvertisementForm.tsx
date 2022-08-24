@@ -55,7 +55,7 @@ const AdvertisementForm = ({ isLoading, isSaveLoading }: Props) => {
   return (
     <>
       {isLoading ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <div>
           <Form

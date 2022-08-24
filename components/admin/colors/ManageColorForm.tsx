@@ -65,7 +65,7 @@ const ManageColorForm = ({
         <h1 className={styles.createColorHeader__title}>{title}</h1>
       </div>
       {(isLoading || !color) && editMode ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <Form
           layout="vertical"

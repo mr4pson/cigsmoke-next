@@ -14,7 +14,7 @@ const AdvertisementTab = ({ isLoading }: Props) => {
   return (
     <>
       {isLoading ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <Row
           gutter={[

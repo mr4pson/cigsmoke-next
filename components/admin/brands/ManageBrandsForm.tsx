@@ -68,7 +68,7 @@ const ManageBrandForm = ({
         <h1 className={styles.createBrandHeader__title}>{title}</h1>
       </div>
       {(isLoading || !brand) && editMode ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <Form
           layout="vertical"

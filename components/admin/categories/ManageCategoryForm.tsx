@@ -76,7 +76,7 @@ const ManageCategoryForm = ({
         <h1 className={styles.createCategoryHeader__title}>{title}</h1>
       </div>
       {(isLoading || !category) && editMode ? (
-        <Spin className="spinner" size="large" />
+        <Spin className={styles.spinner} size="large" />
       ) : (
         <Form
           layout="vertical"
