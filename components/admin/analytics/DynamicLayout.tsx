@@ -29,7 +29,7 @@ const DynamicLayout = () => {
   const isLoaded = useAppSelector((state) => state.analytics.loading);
 
   useEffect(() => {
-    if (step !== '') {
+    if (step) {
       handleDynamicAnalyticsDispatch(dispatch, dateFrom, dateTo, step);
     }
     return () => {
