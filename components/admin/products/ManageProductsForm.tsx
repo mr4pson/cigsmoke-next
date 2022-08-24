@@ -28,6 +28,7 @@ import {
 } from './helpers';
 import { ManageProductFields } from './ManageProductsFields.enum';
 import styles from './products.module.scss';
+import {handleFalsyValuesCheck} from "../../../common/helpers/handleFalsyValuesCheck.helper";
 
 const { Option } = Select;
 
@@ -65,7 +66,28 @@ const ManageProductForm = ({
     ParameterProduct[]
   >([]);
 
+  const [available, setAvailable] = useState<boolean>()
+  const [brand, setBrand] = useState<string>()
+  const [category, setCategory] = useState<string>()
+  const [desc, setDesc] = useState<string>()
+  const [name, setName] = useState<string>()
+  const [price, setPrice] = useState<string>()
+  const [url, setUrl] = useState<string>()
+
   const imageList = useAppSelector((state) => state.images.imageList);
+
+  useEffect(() => {
+    if(product) {
+      // console.log(initialValues)
+      setAvailable(initialValues.available)
+      setBrand(initialValues.brand)
+      setCategory(initialValues.category)
+      setDesc(initialValues.desc)
+      setName(initialValues.name)
+      setPrice(initialValues.price)
+      setUrl(initialValues.url)
+    }
+  }, [product])
 
   useEffect(() => {
     if (initialValues.images) {
@@ -92,6 +114,8 @@ const ManageProductForm = ({
     };
   }, [product]);
 
+  const isDisabled: boolean = handleFalsyValuesCheck(available, brand, category, desc, name, price, url, imageList)
+
   return (
     <>
       <div className={styles.createProductHeader}>
@@ -117,14 +141,23 @@ const ManageProductForm = ({
           <FormItem
             option={ManageProductFields.Name}
             children={
-              <Input required={true} placeholder="Введите имя продукта" />
+              <Input required={true} placeholder="Введите имя продукта"
+              onChange={e => {
+              setName(e.target.value)}
+              }
+              />
             }
           />
           {/* ----------------------PRICE---------------------- */}
           <FormItem
             option={ManageProductFields.Price}
             children={
-              <Input required={true} placeholder="Введите стоимость продукта" />
+              <Input required={true} placeholder="Введите стоимость продукта"
+              onChange={e => {
+              setPrice(e.target.value)
+              }
+              }
+              />
             }
           />
           {/* ----------------------OLD PRICE---------------------- */}
@@ -138,7 +171,12 @@ const ManageProductForm = ({
           <FormItem
             option={ManageProductFields.Url}
             children={
-              <Input required={true} placeholder="Введите Url продукта" />
+              <Input required={true} placeholder="Введите Url продукта"
+              onChange={e => {
+              setUrl(e.target.value)
+              }
+              }
+              />
             }
           />
           {/* ----------------------DESCRIPTION---------------------- */}
@@ -149,12 +187,20 @@ const ManageProductForm = ({
                 required={true}
                 rows={4}
                 placeholder="Введите описание продукта"
+                onChange={e => {
+                setDesc(e.target.value)
+                }
+                }
               />
             }
           />
           {/* ----------------------AVAILABLE---------------------- */}
           <Form.Item label="Доступность" name="available" required>
-            <Select style={{ width: '100%' }}>
+            <Select style={{ width: '100%' }}
+            onChange={e => {
+              setAvailable(e)
+            }}
+            >
               <Option value="true">Доступен</Option>
               <Option value="false">Не доступен</Option>
             </Select>
@@ -177,11 +223,14 @@ const ManageProductForm = ({
           {/* ----------------------CATEGORIES---------------------- */}
           <Form.Item label="Категория" name="category" required>
             <Select
-              onChange={handleCategoryChange(
-                categories,
-                setCurCategory,
-                setParameterProducts,
-              )}
+              onChange={e => {
+                setCategory(e)
+                handleCategoryChange(
+                    categories,
+                    setCurCategory,
+                    setParameterProducts,
+                )
+              }}
               style={{ width: '100%' }}
             >
               {categories?.map((item) => {
@@ -196,7 +245,11 @@ const ManageProductForm = ({
 
           {/* ----------------------BRANDS---------------------- */}
           <Form.Item label="Бренд" name="brand" required>
-            <Select style={{ width: '100%' }}>
+            <Select style={{ width: '100%' }}
+            onChange={e => {
+              setBrand(e)
+            }}
+            >
               {brands?.map((item) => {
                 return (
                   <Option key={item.id} value={item.id}>
@@ -258,6 +311,7 @@ const ManageProductForm = ({
               htmlType="submit"
               className={styles.createProductForm__buttonsStack__submitButton}
               loading={isSaveLoading}
+              disabled={isDisabled}
             >
               {products ? 'Сохранить' : 'Создать'}
             </Button>

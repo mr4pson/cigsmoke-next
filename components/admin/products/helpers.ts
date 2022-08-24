@@ -33,8 +33,9 @@ const handleDataConvertation = (
 ) => {
   const newForm = { ...form };
   newForm.price = Number.parseInt(newForm.price, 10);
+  newForm.oldPrice = Number.parseInt(newForm.oldPrice, 10)
   newForm.available && (newForm.available = JSON.parse(newForm.available));
-  newForm.parameterProducts = parameterProducts.map((parameterProduct) => ({
+  newForm.parameterProducts = parameterProducts?.map((parameterProduct) => ({
     parameterId: parameterProduct.parameter?.id,
     value: parameterProduct.value,
   }));
@@ -60,6 +61,7 @@ const handleFormSubmitProduct =
     parameterProducts: ParameterProduct[],
   ) =>
   async (form) => {
+  console.log(form)
     const convertedForm = handleDataConvertation(
       form,
       images,

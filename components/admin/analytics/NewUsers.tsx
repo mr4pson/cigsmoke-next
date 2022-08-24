@@ -36,7 +36,7 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
     };
   }, []);
 
-  const dataSourse = usersData?.map(
+  const dataSourсe = usersData?.map(
     ({
       id,
       isVerified,
@@ -67,7 +67,7 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
           <div>
             <Table
               columns={columns}
-              dataSource={dataSourse as User[]}
+              dataSource={dataSourсe as User[]}
               pagination={{
                 pageSize: 20,
                 current: currentPage,

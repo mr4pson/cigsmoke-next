@@ -6,7 +6,9 @@ import { SetStateAction } from 'react';
 import { createCategory, deleteCategory, editCategory, fetchCategories } from 'redux/slicers/categoriesSlicer';
 import { AppDispatch } from 'redux/store';
 import { Page, paths } from 'routes/constants';
-import { Parameter } from 'swagger/services';
+import {Image, Parameter} from 'swagger/services';
+import {FormInstance} from "antd";
+import {imageToCheck, valueToCheck} from "../types";
 
 const handleFormSubmit =
   (
@@ -16,6 +18,7 @@ const handleFormSubmit =
     parameters: Parameter[],
   ) =>
   async (form) => {
+    // console.log((!form.url || !form.name || !image.length))
     if (router.query.id) {
       const payload = {
         ...form,

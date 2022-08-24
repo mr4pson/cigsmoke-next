@@ -9,6 +9,8 @@ import styles from './tags.module.scss';
 import { handleFormSubmit } from './helpers';
 import { ManageTagFields } from './ManageTagFields.enum';
 import FormItem from '../generalComponents/FormItem';
+import {useEffect, useState} from "react";
+import {handleFalsyValuesCheck} from "../../../common/helpers/handleFalsyValuesCheck.helper";
 
 const { Option } = Select;
 
@@ -27,6 +29,17 @@ const ManageTagForm = ({
   isSaveLoading,
   editMode,
 }: Props) => {
+
+  const [name, setName] = useState<string>()
+  const [url, setUrl] = useState<string>()
+
+  useEffect(() => {
+    if(tag) {
+      setName(tag?.name)
+      setUrl(tag?.url)
+    }
+  }, [tag])
+
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [form] = Form.useForm();
@@ -34,6 +47,8 @@ const ManageTagForm = ({
     name: tag?.name,
     url: tag?.url,
   };
+
+  const isDisabled: boolean = handleFalsyValuesCheck(name, url)
 
   return (
     <>
@@ -53,12 +68,16 @@ const ManageTagForm = ({
         >
           <FormItem
             option={ManageTagFields.Name}
-            children={<Input required={true} placeholder="Введите имя тега" />}
+            children={<Input required={true} placeholder="Введите имя тега"
+                             onChange={e => setName(e.target.value)}
+            />}
           />
           <FormItem
             option={ManageTagFields.Url}
             children={
-              <Input required={true} placeholder="Введите URL бренда" />
+              <Input required={true} placeholder="Введите URL бренда"
+                     onChange={e => setUrl(e.target.value)}
+              />
             }
           />
           <Form.Item className={styles.createTagForm__buttonsStack}>
@@ -67,6 +86,7 @@ const ManageTagForm = ({
               htmlType="submit"
               className={styles.createTagForm__buttonsStack__submitButton}
               loading={isSaveLoading}
+              disabled={isDisabled}
             >
               {tag ? 'Сохранить' : 'Создать'}
             </Button>

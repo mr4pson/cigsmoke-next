@@ -1,7 +1,7 @@
 import { Button, Form, Input, Select, Spin, Switch } from 'antd';
 import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearImageList,
@@ -15,6 +15,7 @@ import ImageUpload from '../generalComponents/ImageUpload';
 import styles from './brands.module.scss';
 import { handleFormSubmitBrands } from './helpers';
 import { ManageBrandFields } from './ManageBrandsFields.enum';
+import {handleFalsyValuesCheck} from "../../../common/helpers/handleFalsyValuesCheck.helper";
 
 const { Option } = Select;
 
@@ -45,9 +46,17 @@ const ManageBrandForm = ({
     showOnMain: brand?.showOnMain,
   };
 
+  const [name, setName] = useState<string>()
+  const [url, setUrl] = useState<string>()
+
   const imageList = useAppSelector((state) => state.images.imageList);
 
   useEffect(() => {
+    if(brand) {
+      setName(brand?.name)
+      setUrl(brand?.url)
+    }
+
     if (brand?.image) {
       dispatch(
         setDefaultImageList({
@@ -61,6 +70,8 @@ const ManageBrandForm = ({
   useEffect(() => {
     dispatch(clearImageList());
   }, []);
+
+  const isDisabled: boolean = handleFalsyValuesCheck(name, url, imageList)
 
   return (
     <>
@@ -81,13 +92,17 @@ const ManageBrandForm = ({
           <FormItem
             option={ManageBrandFields.Name}
             children={
-              <Input required={true} placeholder="Введите имя бренда" />
+              <Input required={true} placeholder="Введите имя бренда"
+                     onChange={e => setName(e.target.value)}
+              />
             }
           />
           <FormItem
             option={ManageBrandFields.Url}
             children={
-              <Input required={true} placeholder="Введите URL бренда" />
+              <Input required={true} placeholder="Введите URL бренда"
+                     onChange={e => setUrl(e.target.value)}
+              />
             }
           />
           <label style={{ marginBottom: '10px', display: 'block' }}>
@@ -109,6 +124,7 @@ const ManageBrandForm = ({
               htmlType="submit"
               className={styles.createBrandForm__buttonsStack__submitButton}
               loading={isSaveLoading}
+              disabled={isDisabled}
             >
               {brands ? 'Сохранить' : 'Создать'}
             </Button>
