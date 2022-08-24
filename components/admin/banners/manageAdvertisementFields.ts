@@ -1,5 +1,5 @@
 export enum ManageAdvertisementFields {
   Image = 'image',
-  Description = 'description',
+  Desc = 'description',
   Link = 'link',
 }

@@ -41,25 +41,25 @@ export const handleFormSubmitBanner =
     id?: number
     ) => async (form) => {
         console.log(form)
-        let isSaved: any
-        switch(bannerIs) {
-            case 'advertisement':
-                isSaved = dispatch(updateAdvertisement({
-                    ...form,
-                    image: image[0]?.url?.split('/api/images/')[1],
-                    id
-                }))
-                break
-            case 'slide':
-                const slidesData = handleSlidesDataFormatter(form, image)
-                console.log(slidesData)
-                isSaved = dispatch(updateSlides(slidesData))
-                break
-        }
-        if (!isSaved.error) {
-            navigateTo(router, Page.ADMIN_BANNERS)();
-        }
-
+        // let isSaved: any
+        // switch(bannerIs) {
+        //     case 'advertisement':
+        //         isSaved = dispatch(updateAdvertisement({
+        //             ...form,
+        //             image: image[0]?.url?.split('/api/images/')[1],
+        //             id
+        //         }))
+        //         break
+        //     case 'slide':
+        //         const slidesData = handleSlidesDataFormatter(form, image)
+        //         console.log(slidesData)
+        //         isSaved = dispatch(updateSlides(slidesData))
+        //         break
+        // }
+        // if (!isSaved.error) {
+        //     navigateTo(router, Page.ADMIN_BANNERS)();
+        // }
+        //
 
   };
 

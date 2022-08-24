@@ -20,6 +20,7 @@ import {
   handleRemoveParameter,
 } from './helpers';
 import { ManageCategoryFields } from './ManageCategoryFields.enum';
+import {handleFalsyValuesCheck} from "../../../common/helpers/handleFalsyValuesCheck.helper";
 
 const { Option } = Select;
 
@@ -53,6 +54,16 @@ const ManageCategoryForm = ({
     parent: category?.parent?.id?.toString(),
   };
 
+  const [name, setName] = useState<string>()
+  const [url, setUrl] = useState<string>()
+
+  useEffect(() => {
+    if(category) {
+      setName(category?.name)
+      setUrl(category?.url)
+    }
+  }, [category])
+
   useEffect(() => {
     dispatch(clearImageList());
   }, []);
@@ -69,6 +80,8 @@ const ManageCategoryForm = ({
     setHasParent(!!category?.parent);
     setParameters(category?.parameters! ? [...category?.parameters!] : []);
   }, [category]);
+
+  const isDisabled: boolean = handleFalsyValuesCheck(name, url, imageList)
 
   return (
     <>
@@ -89,13 +102,17 @@ const ManageCategoryForm = ({
           <FormItem
             option={ManageCategoryFields.Name}
             children={
-              <Input required={true} placeholder="Введите имя категории" />
+              <Input required={true} placeholder="Введите имя категории"
+              onChange={e => setName(e.target.value)}
+              />
             }
           />
           <FormItem
             option={ManageCategoryFields.Url}
             children={
-              <Input required={true} placeholder="Введите URL категории" />
+              <Input required={true} placeholder="Введите URL категории"
+                     onChange={e => setUrl(e.target.value)}
+              />
             }
           />
           <FormItem
@@ -163,6 +180,7 @@ const ManageCategoryForm = ({
               htmlType="submit"
               className={styles.createCategoryForm__buttonsStack__submitButton}
               loading={isSaveLoading}
+              disabled={isDisabled}
             >
               {category ? 'Сохранить' : 'Создать'}
             </Button>

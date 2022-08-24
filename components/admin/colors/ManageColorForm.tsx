@@ -11,6 +11,8 @@ import { ManageColorFields } from './ManageColorFields.enum';
 import { Colorpicker, ColorPickerValue } from 'antd-colorpicker';
 import { useEffect, useState } from 'react';
 import FormItem from '../generalComponents/FormItem';
+import {handleCheckFalsyValues} from "../banners/helpers";
+import {handleFalsyValuesCheck} from "../../../common/helpers/handleFalsyValuesCheck.helper";
 
 const { Option } = Select;
 
@@ -43,8 +45,15 @@ const ManageColorForm = ({
   const [openCP, setOpenCP] = useState(false);
   const [currColor, setCurrColor] = useState<string | null>(null);
 
+  const [name, setName] = useState<string>()
+  const [url, setUrl] = useState<string>()
+
   useEffect(() => {
-    setCurrColor(initialValues.code!);
+    if(color) {
+      setCurrColor(color.code!);
+      setName(color.name)
+      setUrl(color.url)
+    }
 
     return () => {
       setCurrColor(null);
@@ -58,6 +67,8 @@ const ManageColorForm = ({
   const handleChangeColor = (e) => {
     setCurrColor(e.hex);
   };
+
+  const isDisabled = handleFalsyValuesCheck(name, url, currColor)
 
   return (
     <>
@@ -77,11 +88,15 @@ const ManageColorForm = ({
         >
           <FormItem
             option={ManageColorFields.Name}
-            children={<Input required={true} placeholder="Введите имя цвета" />}
+            children={<Input required={true} placeholder="Введите имя цвета"
+            onChange={e => setName(e.target.value)}
+            />}
           />
           <FormItem
             option={ManageColorFields.Url}
-            children={<Input required={true} placeholder="Введите URL цвета" />}
+            children={<Input required={true} placeholder="Введите URL цвета"
+            onChange={e => setUrl(e.target.value)}
+            />}
           />
           <Button
             type="default"
@@ -106,6 +121,7 @@ const ManageColorForm = ({
               htmlType="submit"
               className={styles.createColorForm__buttonsStack__submitButton}
               loading={isSaveLoading}
+              disabled={isDisabled}
             >
               {colors ? 'Сохранить' : 'Создать'}
             </Button>
