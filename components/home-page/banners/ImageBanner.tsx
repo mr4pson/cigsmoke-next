@@ -18,17 +18,23 @@ import { devices } from 'components/store/lib/Devices';
 type Props = {
   slides: Slide[] | undefined;
 };
+
 const ImageBanner: React.FC<Props> = ({ slides }) => {
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
-  const [userInput, setUserInput] = useState(false);
   const imageIndex = wrap(0, Number(slides?.length), page);
+  const [userIntract, setUserIntract] = useState(false);
+  let timer;
   useEffect(() => {
-    if (!userInput) {
-      setTimeout(() => {
+    if (!userIntract) {
+      timer = setTimeout(() => {
         paginateImage(1);
       }, 10000);
     }
-  }, [page, direction]);
+    return () => {
+      if (userIntract) window.clearTimeout(timer);
+    };
+  });
+
   return (
     <SliderWrapper
       key="slider-home-banners"
@@ -64,6 +70,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
                 paginateImage,
                 SWIPE_CONFIDENCE_THRESHOLD,
               )}
+              onDrag={() => setUserIntract(true)}
             />
           </AnimatePresence>
         </a>
@@ -80,10 +87,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         bgcolor={color.textPrimary}
         onClick={() => {
           paginateImage(1);
-          setUserInput(true);
-          setTimeout(() => {
-            setUserInput(false);
-          }, 10000);
+          setUserIntract(true);
         }}
       >
         <ArrowSpan rotate="0">
@@ -102,10 +106,7 @@ const ImageBanner: React.FC<Props> = ({ slides }) => {
         bgcolor={color.textPrimary}
         onClick={() => {
           paginateImage(-1);
-          setUserInput(true);
-          setTimeout(() => {
-            setUserInput(false);
-          }, 10000);
+          setUserIntract(true);
         }}
       >
         <ArrowSpan rotate="180">
@@ -127,7 +128,7 @@ const SliderWrapper = styled(motion.div)`
 
   @media ${devices.mobileL} {
     height: auto;
-
+    overflow: hidden;
     a {
       width: 100%;
       height: 53vw;

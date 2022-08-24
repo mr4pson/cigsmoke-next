@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Pagination from './Pagination';
 import Slider from './Slider';
 import color from 'components/store/lib/ui.colors';
-import ArrowGray from '../../../../../assets/arrowGray.svg';
+import ArrowGray from '../../../../../../assets/arrowGray.svg';
 import { Product } from 'swagger/services';
 import { Dispatch, SetStateAction } from 'react';
 import { devices } from 'components/store/lib/Devices';
@@ -75,17 +75,15 @@ const Images: React.FC<Props> = ({
 
 const ImagesContainer = styled.div`
   width: 100%;
-  height: 400px;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
   gap: 60px;
-  position: sticky;
-  top: 0;
+  padding-bottom: 80px;
 
   @media ${devices.mobileL} {
-    display: none;
+    display: flex;
   }
 `;
 
@@ -105,7 +103,7 @@ const ImagesWrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   justify-content: space-between;
   align-items: center;
   gap: 30px;

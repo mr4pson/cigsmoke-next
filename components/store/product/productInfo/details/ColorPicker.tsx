@@ -66,7 +66,11 @@ const ColorPicker: React.FC<Props> = ({
               title={
                 <React.Fragment>
                   <img
-                    style={{ width: '100px', height: '100px' }}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      objectFit: 'contain',
+                    }}
                     src={`/api/images/${image}`}
                     alt=""
                   />
@@ -171,6 +175,7 @@ const ColorPickerItems = styled(motion.li)`
   img {
     width: 50px;
     height: 50px;
+    object-fit: contain;
   }
   div {
     width: 100%;

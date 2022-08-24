@@ -1,21 +1,19 @@
+import StoreLayout from 'components/store/storeLayout/layouts';
+import CatalogDropDown from 'components/store/storeLayout/utils/HeaderCatalog/CatalogMobile';
 import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
-import { devices } from 'components/store/lib/Devices';
+import Head from 'next/head';
 import {
   Container,
   Wrapper,
   Content,
 } from 'components/store/storeLayout/common';
-import StoreLayout from 'components/store/storeLayout/layouts';
-
-import Head from 'next/head';
-import AddressContactUs from 'components/store/addressContactUs';
-
-const ContactUsAndAddress = () => {
+const CatalogMobile = () => {
   return (
     <>
+      {' '}
       <Head>
-        <title>Правила использования контента сайта | Wuluxe</title>
+        <title>Личные кабинет | Wuluxe</title>
       </Head>
       <Container
         variants={variants.fadInOut}
@@ -33,10 +31,9 @@ const ContactUsAndAddress = () => {
           <Content
             flex_direction="column"
             justify_content="flex-start"
-            align_items="center"
             gap="30px"
           >
-            <AddressContactUs />
+            <CatalogDropDown />
           </Content>
         </Wrapper>
       </Container>
@@ -44,6 +41,6 @@ const ContactUsAndAddress = () => {
   );
 };
 
-ContactUsAndAddress.PageLayout = StoreLayout;
+CatalogMobile.PageLayout = StoreLayout;
 
-export default ContactUsAndAddress;
+export default CatalogMobile;
