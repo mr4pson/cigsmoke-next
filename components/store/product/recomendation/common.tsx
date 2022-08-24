@@ -125,15 +125,14 @@ const FlexWrapper = styled(motion.div)`
   overflow: hidden;
 `;
 
-const SliderWrapper = styled(motion.div)`
+const SliderWrapper = styled(motion.ul)`
   width: 100%;
   display: flex;
   padding-top: 5px;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   gap: 20px;
-  position: relative;
 `;
 
 const ContentWrapper = styled.div`

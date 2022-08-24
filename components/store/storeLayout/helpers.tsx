@@ -7,6 +7,7 @@ const paginateHandler = () => {
   const [widthOrHeight, setWidthOrHeight] = useState(0);
   const [slideTo, setSlideTo] = useState(0);
   const [slideAmount, setSlideAmount] = useState(0);
+
   useEffect(() => {
     refType == 'width'
       ? setWidthOrHeight(
@@ -17,7 +18,7 @@ const paginateHandler = () => {
           widthOrHeightRef.current.scrollHeight -
             widthOrHeightRef.current.offsetHeight,
         );
-  }, [refType]);
+  });
 
   const paginate = (direction: number) => {
     if (direction > 0) {

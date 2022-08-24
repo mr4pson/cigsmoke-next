@@ -58,14 +58,20 @@ const socialTags = ({
 
 const SEO = (props: any) => {
   const { url, title, description, image, schemaType, keywords } = props;
-
+  const images: any = [];
+  for (let i = 0; i < image.length; i++) {
+    images.push(`http://194.58.90.236:4010/api/images/${image[i]}`);
+  }
   return (
     <Head>
       <title>{title} | Wuluxe</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={title} />
       <meta name="description" content={description} />
-      <meta name="image" content={image} />
+      <meta
+        name="image"
+        content={`http://194.58.90.236:4010/api/images/${image[0]}`}
+      />
       <meta name="keywords" content={keywords} />
       {socialTags(props).map(({ name, content }) => {
         return <meta key={name} name={name} content={content} />;
@@ -75,16 +81,46 @@ const SEO = (props: any) => {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'http://schema.org',
-            '@type': schemaType,
+            '@type': 'Product',
             name: title,
-            about: description,
-            url: url,
+            description: description,
+            // url: url,
+            image: images,
+            brand: {
+              '@type': 'Brand',
+              name: 'ACME',
+            },
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: '4.4',
+              reviewCount: '89',
+            },
+            offers: {
+              '@type': 'Offer',
+              url: url,
+              priceCurrency: 'RUB',
+              price: '119.99',
+              // priceValidUntil: '2020-11-20',
+              itemCondition: 'https://schema.org/NewCondition',
+              availability: 'https://schema.org/InStock',
+            },
           }),
         }}
       />
     </Head>
   );
 };
+// options for avialability
+// BackOrder;
+// Discontinued;
+// InStock;
+// InStoreOnly;
+// LimitedAvailability;
+// OnlineOnly;
+// OutOfStock;
+// PreOrder;
+// PreSale;
+// SoldOut;
 
 // SEO.defaultProps = {
 //   title: settings && settings.meta && settings.meta.title,

@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:gen": "node ./swagger/codegen.js"
+    "build:gen": "node ./swagger/codegen.js",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@a2seven/yoo-checkout": "^1.1.2",

@@ -30,7 +30,7 @@ const WeRecomend = () => {
 
   useEffect(() => {
     setRefType('width');
-    setSlideAmount(widthOrHeight);
+    setSlideAmount(200);
   }, []);
   return (
     <ContentWrapper>

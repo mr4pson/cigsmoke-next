@@ -68,7 +68,11 @@ const ColorPicker: React.FC<Props> = ({
             title={
               <React.Fragment>
                 <img
-                  style={{ width: '100px', height: '100px' }}
+                  style={{
+                    width: '100px',
+                    height: '100px',
+                    objectFit: 'contain',
+                  }}
                   src={`/api/images/${variant.image}`}
                   alt=""
                 />

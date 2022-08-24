@@ -36,7 +36,7 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
     };
   }, []);
 
-  const dataSourse = usersData?.map(
+  const dataSource = usersData?.map(
     ({
       id,
       isVerified,
@@ -56,7 +56,7 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
       createdAt: handleDateFormatter(createdAt!),
       updatedAt: handleDateFormatter(updatedAt!),
     }),
-  ) as unknown as readonly object[];
+  ) as unknown as object[];
 
   return (
     <>
@@ -67,7 +67,7 @@ const NewUsers = ({ dateTo, dateFrom, currentPage, setCurrentPage }: Props) => {
           <div>
             <Table
               columns={columns}
-              dataSource={dataSourse as User[]}
+              dataSource={dataSource as User[]}
               pagination={{
                 pageSize: 20,
                 current: currentPage,
