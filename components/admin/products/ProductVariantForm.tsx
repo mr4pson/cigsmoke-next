@@ -38,8 +38,8 @@ const ProductVariant: React.FC<Props> = ({
       >
         <CloseSVG />
       </button>
-      <Form.Item name={`id[${index}]`} hidden>
-        <Input required={true} />
+      <Form.Item name={`id[${index}]`} style={{ display: 'none' }}>
+        <Input name={`id[${index}]`} />
       </Form.Item>
       {/* ----------------------PRICE---------------------- */}
       <Form.Item name={`${ManageProductFields.Price}[${index}]`} required>
