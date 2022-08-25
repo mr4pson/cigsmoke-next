@@ -44,7 +44,6 @@ const handleDataConvertation = (
   const productVariants: any[] = [];
 
   for (let index = 0; index < variantsLength; index++) {
-
     const id: string = form[`id[${index}]`];
     const price: number = form[`${ManageProductFields.Price}[${index}]`];
     const oldPrice: number = form[`${ManageProductFields.OldPrice}[${index}]`];

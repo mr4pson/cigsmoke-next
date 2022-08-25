@@ -61,10 +61,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
       <div className="order-details-wrapper">
         <div className="product-wrapper">
           {checkout.basket?.orderProducts?.map((orderProduct, index) => (
-            <ProductItem
-              key={`product-${index}`}
-              product={orderProduct.product!}
-            />
+            <ProductItem key={`product-${index}`} orderProduct={orderProduct} />
           ))}
         </div>
         <div className="order-full-info-wrapper">
@@ -119,7 +116,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               {`бесплатно`}
             </span>
           </div>
-          <div className="order-action-btns">
+          {/* <div className="order-action-btns">
             {checkout.status !== CheckoutStatus.Completed ? (
               <motion.button
                 whileHover="hover"
@@ -132,7 +129,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             ) : (
               <></>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </Items>

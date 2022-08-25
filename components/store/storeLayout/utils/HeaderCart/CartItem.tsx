@@ -17,9 +17,12 @@ type Props = {
 const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
   const { name } = item.product!;
 
-  const { price } = item.product?.productVariants![0]
-    ? item.product.productVariants![0]
+  const curVariant = item.productVariant
+    ? item.productVariant
+    : item.product?.productVariants![0]
+    ? item.product?.productVariants![0]
     : ({} as any);
+
   const images = getProductVariantsImages(item.product?.productVariants);
 
   return (
@@ -40,7 +43,7 @@ const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
           <ItemDetails>
             <h4>{name}</h4>
             <ItemDetialDivider>
-              <h3>{price}₽</h3>
+              <h3>{curVariant.price}₽</h3>
               <ItemCounter
                 qty={item.qty!}
                 product={item.product!}

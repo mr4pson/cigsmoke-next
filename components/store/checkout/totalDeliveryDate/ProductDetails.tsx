@@ -6,6 +6,7 @@ import { Wrapper } from './common';
 import { getFormatedDate } from './helpers';
 import { TCartState } from 'redux/types';
 import { useAppSelector } from 'redux/hooks';
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 
 const ProductDetails = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
@@ -33,7 +34,11 @@ const ProductDetails = () => {
         variants={variants.fadInSlideUp}
       >
         {cart?.orderProducts?.map((orderProduct) => {
-          const images = orderProduct.product?.images?.split(', ')!;
+          const { price } = orderProduct?.productVariant!;
+
+          const images = getProductVariantsImages(
+            orderProduct.product?.productVariants,
+          );
           return (
             <Product>
               <ProductImageWrapper>
@@ -46,8 +51,7 @@ const ProductDetails = () => {
                 />
               </ProductImageWrapper>
               <div>
-                {orderProduct.product?.name}{' '}
-                <b>— {orderProduct.product?.price} ₽</b>
+                {orderProduct.product?.name} <b>— {price} ₽</b>
               </div>
             </Product>
           );

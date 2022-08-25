@@ -44,7 +44,7 @@ const getFormatedDate = (date: Date): string => {
 
 const getOldPrice = (cart: Basket | null): number => {
   return cart?.orderProducts?.reduce((accum, item) => {
-    accum += item.product?.oldPrice ?? item.productPrice!;
+    accum += item.productVariant?.oldPrice ?? item.productPrice!;
     return accum;
   }, 0)!;
 };

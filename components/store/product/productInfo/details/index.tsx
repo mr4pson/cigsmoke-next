@@ -10,17 +10,24 @@ import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
 import { UserSelectWrapper } from './common';
 import Quastions from '../../../../../assets/quastions.svg';
-import { Basket, Color, Product, Wishlist } from 'swagger/services';
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { Basket, Product, ProductVariant, Wishlist } from 'swagger/services';
+import {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import {
   checkIfItemInCart,
   checkIfItemInWishlist,
   handleCartBtnClick,
   handleWishBtnClick,
 } from 'ui-kit/products/helpers';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { updateCart } from 'redux/slicers/store/cartSlicer';
 import { devices } from 'components/store/lib/Devices';
+import { TCartState } from 'redux/types';
 
 type Props = {
   images: string[];
@@ -46,29 +53,40 @@ const Details: React.FC<Props> = ({
   paginateImage,
 }) => {
   const dispatch = useAppDispatch();
+  const { variant } = useAppSelector<TCartState>((state) => state.cart);
   const orderProduct = cart?.orderProducts?.find(
     (orderProduct) => orderProduct.product?.id === product?.id,
   );
+  const [curVariant, setCurVariant] = useState<ProductVariant>();
 
   const onCountChange = (counter: number, product: Product) => {
     dispatch(
       updateCart({
         orderProducts: cart?.orderProducts
           ?.filter((orderProduct) => orderProduct.product?.id != product.id)
-          ?.concat({ product: { id: product.id }, qty: counter })
+          ?.concat({
+            product: { id: product.id },
+            qty: counter,
+            productVariantId: curVariant?.id!,
+          } as any)
           .map((orderProduct) => ({
             productId: orderProduct.product?.id,
             qty: orderProduct.qty,
+            productVariantId: orderProduct?.productVariant?.id,
           })),
       }),
     );
   };
 
-  const { price, oldPrice } = product?.productVariants![0]
-    ? product.productVariants![0]
-    : ({} as any);
+  useEffect(() => {
+    const curVariant = variant
+      ? variant
+      : product?.productVariants![0]
+      ? product.productVariants![0]
+      : ({} as any);
 
-  const colors = product?.productVariants!.map((variant) => variant.color!);
+    setCurVariant(curVariant);
+  }, [variant, product]);
 
   return (
     <DetailsContainer>
@@ -139,12 +157,14 @@ const Details: React.FC<Props> = ({
           exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
           variants={variants.fadInSlideUp}
         >
-          <PriceItem>{price}₽</PriceItem>
-          {!!oldPrice && <PriceItem>{oldPrice}₽</PriceItem>}
+          <PriceItem>{curVariant?.price}₽</PriceItem>
+          {!!curVariant?.oldPrice && (
+            <PriceItem>{curVariant?.oldPrice}₽</PriceItem>
+          )}
         </PriceWrapper>
         <ColorPicker
+          variantColor={curVariant?.color}
           productVariants={product?.productVariants}
-          colors={colors ?? []}
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
           paginateImage={paginateImage}
@@ -154,7 +174,7 @@ const Details: React.FC<Props> = ({
         orderProduct={orderProduct}
         isInCart={checkIfItemInCart(product, cart)}
         isInWishlist={checkIfItemInWishlist(product, wishlist)}
-        onCartBtnClick={handleCartBtnClick(product, dispatch, cart)}
+        onCartBtnClick={handleCartBtnClick(product, dispatch, curVariant, cart)}
         onWishBtnClick={handleWishBtnClick(product, dispatch, wishlist)}
         onCountChange={onCountChange}
       />
