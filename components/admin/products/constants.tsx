@@ -89,7 +89,7 @@ export const columns: ColumnsType<Product> = [
     render: (_, record) => {
       return (
         <ul>
-          {(record?.colors as Color[]).map((color) => (
+          {(record?.colors as Color[])?.map((color) => (
             <div
               style={{
                 minWidth: '70px',
