@@ -1,3 +1,4 @@
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import variants from 'components/store/lib/variants';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
@@ -15,7 +16,7 @@ type Props = {
 
 const SearchItem: React.FC<Props> = ({ product, index }) => {
   const dispatch = useAppDispatch();
-  const images = product.images ? product.images?.split(', ') : [];
+  const images = getProductVariantsImages(product?.productVariants);
 
   return (
     <Link href={`/product/${product.url}`}>
