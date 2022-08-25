@@ -40,6 +40,8 @@ const UserData = (props: any) => {
                 <span className="required">*</span>
               </b>
               <InputsTooltip
+                enterTouchDelay={0}
+                leaveTouchDelay={5000}
                 key="firstname-tip"
                 title={
                   <React.Fragment>
@@ -83,6 +85,8 @@ const UserData = (props: any) => {
                 <span className="required">*</span>
               </b>
               <InputsTooltip
+                enterTouchDelay={0}
+                leaveTouchDelay={5000}
                 key="lastname-tip"
                 title={
                   <React.Fragment>
@@ -127,6 +131,8 @@ const UserData = (props: any) => {
               <span className="required">*</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="phonenumber-tip"
               title={
                 <React.Fragment>
@@ -170,6 +176,8 @@ const UserData = (props: any) => {
               <span className="required">*</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="address-tip"
               title={
                 <React.Fragment>
