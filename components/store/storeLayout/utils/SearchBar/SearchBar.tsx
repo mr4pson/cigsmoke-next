@@ -79,7 +79,6 @@ const SearchBar: React.FC<Props> = () => {
       >
         <SearchField
           onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
           whileHover="hover"
           whileTap="tap"
           variants={variants.boxShadow}
@@ -152,7 +151,7 @@ const SearchForm = styled.form`
   height: 45px;
   position: relative;
   align-self: flex-end;
-  overflow: hidden;
+  // overflow: hidden;
   @media ${devices.laptopS} {
     position: absolute;
     top: 10px;
