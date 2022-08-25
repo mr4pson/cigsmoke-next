@@ -1,7 +1,7 @@
 import { updateCart } from 'redux/slicers/store/cartSlicer';
 import { updateWishlist } from 'redux/slicers/store/globalSlicer';
 import { AppDispatch } from 'redux/store';
-import { Basket, Product, Wishlist } from 'swagger/services';
+import { Basket, Product, ProductVariant, Wishlist } from 'swagger/services';
 
 const getAnimationDelay = (length: number) => {
   let delay = 0.8;
@@ -29,7 +29,7 @@ const getAnimationDelay = (length: number) => {
 };
 
 const handleCartBtnClick =
-  (product: Product | undefined, dispatch: AppDispatch, cart?: Basket) => async () => {
+  (product: Product | undefined, dispatch: AppDispatch, variant: ProductVariant | undefined, cart?: Basket) => async () => {
     const curOrderProduct = cart?.orderProducts?.find(
       (orderProduct) => orderProduct.product?.id == product?.id,
     );
@@ -41,6 +41,7 @@ const handleCartBtnClick =
             .map((orderProduct) => ({
               productId: orderProduct.product?.id?.toString(),
               qty: orderProduct.qty,
+              productVariantId: variant?.id!,
             })),
         }),
       );
@@ -55,6 +56,7 @@ const handleCartBtnClick =
           .map((orderProduct) => ({
             productId: orderProduct.product?.id,
             qty: 1,
+            productVariantId: variant?.id!,
           })),
       }),
     );

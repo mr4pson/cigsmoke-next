@@ -53,7 +53,12 @@ const ProductGrid: React.FC<Props> = ({
                   custom={delay[index]}
                   isInCart={checkIfItemInCart(product, cart)}
                   isInWishlist={checkIfItemInWishlist(product, wishlist)}
-                  onCartBtnClick={handleCartBtnClick(product, dispatch, cart)}
+                  onCartBtnClick={handleCartBtnClick(
+                    product,
+                    dispatch,
+                    product.productVariants![0],
+                    cart,
+                  )}
                   onWishBtnClick={handleWishBtnClick(
                     product,
                     dispatch,

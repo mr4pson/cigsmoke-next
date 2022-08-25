@@ -1,4 +1,5 @@
 import { generateArrayOfNumbers } from 'common/helpers/array.helper';
+import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -26,8 +27,15 @@ const CartItem: React.FC<Props> = ({
   onCountChange,
   onSelect,
 }) => {
-  const { name, price, images } = item.product!;
-  const imageList = images ? images.split(', ') : [];
+  const { name, url } = item.product!;
+
+  const curVariant = item.productVariant
+    ? item.productVariant
+    : item.product?.productVariants![0]
+    ? item.product?.productVariants![0]
+    : ({} as any);
+
+  const images = getProductVariantsImages(item.product?.productVariants);
 
   const handleRemoveClick = (product: Product) => () => {
     onRemove(product);
@@ -44,23 +52,25 @@ const CartItem: React.FC<Props> = ({
         size={FilterCheckboxSize.Big}
         onChange={handleSelectCheck}
       />
-      <ImageWrapper>
-        <motion.img
-          whileHover="hover"
-          whileTap="tap"
-          custom={1.05}
-          variants={variants.grow}
-          src={`/api/images/${imageList[0]}`}
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null;
-            currentTarget.src = '/assets/images/img_error.png';
-          }}
-        />
-      </ImageWrapper>
+      <Link href={`/product/${url}`}>
+        <ImageWrapper>
+          <motion.img
+            whileHover="hover"
+            whileTap="tap"
+            custom={1.05}
+            variants={variants.grow}
+            src={`/api/images/${images[0]}`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = '/assets/images/img_error.png';
+            }}
+          />
+        </ImageWrapper>
+      </Link>
       <ItemDetails>
         <h4>{name}</h4>
         <ItemDetailDivider>
-          <h3>{price}₽</h3>
+          <h3>{curVariant.price}₽</h3>
           <ItemCounter
             qty={item.qty!}
             inputStyle={{

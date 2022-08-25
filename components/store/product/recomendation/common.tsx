@@ -36,6 +36,9 @@ const ProductFlex: React.FC<Props> = ({
             .map((orderProduct) => ({
               productId: orderProduct.product?.id?.toString(),
               qty: orderProduct.qty,
+              productVariantId: orderProduct.product?.productVariants![0]
+                ? orderProduct.product?.productVariants[0].id
+                : undefined,
             })),
         }),
       );
@@ -50,6 +53,9 @@ const ProductFlex: React.FC<Props> = ({
           .map((orderProduct) => ({
             productId: orderProduct.product?.id,
             qty: 1,
+            productVariantId: orderProduct.product?.productVariants![0]
+              ? orderProduct.product?.productVariants[0].id
+              : undefined,
           })),
       }),
     );

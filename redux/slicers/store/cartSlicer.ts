@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getErrorMassage, handleError, handlePending } from 'common/helpers';
 import { TCartState } from 'redux/types';
-import { Basket, BasketDTO, BasketService } from 'swagger/services';
+import { Basket, BasketDTO, BasketService, ProductVariant } from 'swagger/services';
 
 export const fetchCart = createAsyncThunk<
   Basket,
@@ -49,13 +49,21 @@ export const updateCart = createAsyncThunk<
 
 const initialState: TCartState = {
   cart: null,
+  variant: null,
   loading: false,
 };
 
 const cartSlicer = createSlice({
   name: 'cart',
   initialState,
-  reducers: {},
+  reducers: {
+    setVariant(state, action: PayloadAction<ProductVariant>) {
+      state.variant = action.payload;
+    },
+    clearVariant(state) {
+      state.variant = initialState.variant;
+    }
+  },
   extraReducers: (builder) => {
     builder
       //fetchCart
@@ -87,6 +95,6 @@ const cartSlicer = createSlice({
   },
 });
 
-export const {} = cartSlicer.actions;
+export const { setVariant, clearVariant } = cartSlicer.actions;
 
 export default cartSlicer.reducer;

@@ -10,6 +10,7 @@ import {
   Image,
   PriceRange,
   Product,
+  ProductVariant,
   Review,
   Slide,
   Tag,
@@ -98,6 +99,7 @@ type TGlobalState = {
 
 type TCartState = {
   cart: Basket | null;
+  variant: ProductVariant | null;
   loading: boolean;
 };
 

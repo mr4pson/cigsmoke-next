@@ -5,35 +5,42 @@ import variants from 'components/store/lib/variants';
 import { getFlatVariantImages, ImageTooltip } from './helpers';
 import React, { Dispatch, SetStateAction } from 'react';
 import { Color, ProductVariant } from 'swagger/services';
+import { useAppDispatch } from 'redux/hooks';
+import { setVariant } from 'redux/slicers/store/cartSlicer';
 
 type StyleProps = {
   backgroundColor: string;
 };
 
 type Props = {
+  variantColor: Color | undefined;
   productVariants: ProductVariant[] | undefined;
-  colors: Color[];
   selectedIndex: number;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
   paginateImage: Dispatch<SetStateAction<number>>;
 };
 
 const ColorPicker: React.FC<Props> = ({
+  variantColor,
   productVariants,
-  colors,
   selectedIndex,
   setSelectedIndex,
   paginateImage,
 }) => {
+  const dispatch = useAppDispatch();
+
   const handleImageChange =
     (
+      variant: ProductVariant,
       index: number,
       selectedIndex: number,
       setSelectedIndex: (index: number) => void,
       paginateImage: (index: number) => void,
     ) =>
     () => {
+      dispatch(setVariant(variant));
       setSelectedIndex(index);
+
       if (index != selectedIndex) {
         paginateImage(selectedIndex > index ? -1 : 1);
       }
@@ -52,13 +59,8 @@ const ColorPicker: React.FC<Props> = ({
         variants={variants.fadInSlideUp}
       >
         <ColorWrapper>
-          <span>Цвета:</span>
-          {colors.map((color, index) => (
-            <ColorItem
-              key={`color-item-${index}`}
-              backgroundColor={color.code!}
-            />
-          ))}
+          <span>Цвет:</span>
+          <ColorItem backgroundColor={variantColor?.code!} />
         </ColorWrapper>
       </ColorPickerNameWrapper>
       <ColorPickerList>
@@ -82,6 +84,12 @@ const ColorPicker: React.FC<Props> = ({
                     width: '100%',
                   }}
                 />
+                <ColorPickerSpan
+                  style={{ display: 'flex', gap: '10px', alignItems: 'center' }}
+                >
+                  <span>Цвет:</span>
+                  <ColorItem backgroundColor={variant.color.code!} />
+                </ColorPickerSpan>
                 {!variant.available ? (
                   <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
                 ) : (
@@ -111,6 +119,7 @@ const ColorPicker: React.FC<Props> = ({
               }}
               variants={variants.fadInSlideUp}
               onClick={handleImageChange(
+                variant,
                 colIndex,
                 selectedIndex,
                 setSelectedIndex,

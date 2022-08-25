@@ -19,7 +19,7 @@ const getTotalDiscount = (orderProducts: OrderProduct[]) => {
   const totalOldPrice = orderProducts?.reduce((accum, orderProduct) => {
     return (
       accum +
-      Number(orderProduct.qty) * Number(orderProduct.product?.oldPrice)
+      Number(orderProduct.qty) * Number(orderProduct.productVariant?.price)
     );
   }, 0);
   return totalPrice - totalOldPrice;
