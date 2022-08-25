@@ -80,7 +80,6 @@ const ShareToSocial: React.FC<Props> = ({
     url: `${baseUrl}${router.asPath}`,
   };
 
-
   return (
     <SocialParent
       key="social-product-page"
@@ -110,6 +109,7 @@ const ShareToSocial: React.FC<Props> = ({
         whileTap="tap"
         variants={variants.grow}
         onClick={() => handleMobileShare(shareData)}
+        onTouchStart={() => handleMobileShare(shareData)}
       >
         <Share />
         <span>Поделиться</span>
@@ -122,6 +122,12 @@ const ShareToSocial: React.FC<Props> = ({
       >
         <ul>
           <li
+            onTouchStart={() => {
+              copy(`${baseUrl}${router.asPath}`);
+              setTimeout(() => {
+                setCopied(false);
+              }, 800);
+            }}
             onClick={() => {
               copy(`${baseUrl}${router.asPath}`);
               setTimeout(() => {

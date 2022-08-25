@@ -54,7 +54,7 @@ const UserInfo = (props: any) => {
               : data.address
           }
         />
-        <h2>Мои карты</h2>
+        {/* <h2>Мои карты</h2> */}
         {/* <Cards /> */}
       </Wrapper>
     </Container>

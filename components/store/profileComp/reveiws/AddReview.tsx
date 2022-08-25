@@ -5,6 +5,7 @@ import { useState, useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import { handleFileChange } from './helpers';
 import { PopupContainer } from '../common';
 import Upload from '../../../../assets/upload.svg';
@@ -199,6 +200,9 @@ const AddReviewContainer = styled(motion.div)`
         display: flex;
       }
     }
+  }
+  @media ${devices.mobileL} {
+    width: 90%;
   }
 `;
 

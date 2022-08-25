@@ -8,6 +8,7 @@ import UserInfo from './userInfo';
 import Reveiws from './reveiws';
 import Changepsw from './changepsw';
 import Settings from './settings';
+import { devices } from '../lib/Devices';
 
 const ProfileComp = (props: any) => {
   const { setActive } = props;
@@ -103,6 +104,12 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 30px;
+  @media ${devices.laptopS} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileL} {
+    flex-direction: column;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -112,6 +119,12 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 50px;
+  @media ${devices.laptopS} {
+    width: 100%;
+  }
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
 `;
 
 export default ProfileComp;

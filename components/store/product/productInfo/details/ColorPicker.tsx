@@ -66,6 +66,8 @@ const ColorPicker: React.FC<Props> = ({
       <ColorPickerList>
         {variantImages?.map((variant, colIndex) => (
           <ImageTooltip
+            enterTouchDelay={0}
+            leaveTouchDelay={5000}
             key={`image-item-${colIndex}`}
             title={
               <React.Fragment>

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import UserInfo from './UserInfo';
 import Nav from './Nav';
+import { devices } from 'components/store/lib/Devices';
 
 const SideBar = (props: any) => {
   return (
@@ -21,6 +22,14 @@ const ContainerSideBar = styled.div`
   position: sticky;
   top: 0;
   user-select: none;
+  @media ${devices.laptopS} {
+    width: 100%;
+    position: unset;
+  }
+  @media ${devices.mobileL} {
+    width: 100%;
+    position: unset;
+  }
 `;
 
 const Wrapper = styled.div``;

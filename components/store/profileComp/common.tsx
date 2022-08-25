@@ -32,6 +32,10 @@ const PopupContainer = styled.div`
   @media ${devices.laptopM} {
     padding-top: 50px;
   }
+  @media ${devices.mobileL} {
+    height: 100vh;
+    justify-content: center;
+  }
 `;
 
 export { Container, Header, PopupContainer };

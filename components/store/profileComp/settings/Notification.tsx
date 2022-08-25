@@ -4,6 +4,7 @@ import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import { useState } from 'react';
 import MailSVg from '../../../../assets/mail.svg';
 
@@ -21,7 +22,7 @@ const Notifactions = () => {
           Изменив почта, вам также нужно будет подтвердить свой адрес
           электронной почты.
         </span>
-        <div style={{ gap: '50px' }} className="inputs-wrapper">
+        <div className="input-wrapper">
           <span style={{ color: color.textSecondary }}>Получать на адрес</span>
           {editNotify ? (
             <div className="notify-email-wrapper">
@@ -64,7 +65,7 @@ const Notifactions = () => {
           )}
         </div>
 
-        <label className="inputs-wrapper" htmlFor="review-notify">
+        <label className="check-box-wrapper " htmlFor="review-notify">
           <input
             type="checkbox"
             id="review-notify"
@@ -72,7 +73,7 @@ const Notifactions = () => {
           />
           <span>Ответы на мои отзывы</span>
         </label>
-        <label className="inputs-wrapper" htmlFor="questions-notify">
+        <label className="check-box-wrapper " htmlFor="questions-notify">
           <input
             type="checkbox"
             id="questions-notify"
@@ -80,7 +81,7 @@ const Notifactions = () => {
           />
           <span>Ответы на мои вопросы</span>
         </label>
-        <label className="inputs-wrapper" htmlFor="discounts-notify">
+        <label className="check-box-wrapper " htmlFor="discounts-notify">
           <input
             type="checkbox"
             id="discounts-notify"
@@ -88,7 +89,7 @@ const Notifactions = () => {
           />
           <span>Рассылки о скидках и акциях</span>
         </label>
-        <label className="inputs-wrapper" htmlFor="wishlist-notify">
+        <label className="check-box-wrapper " htmlFor="wishlist-notify">
           <input
             type="checkbox"
             id="wishlist-notify"
@@ -96,7 +97,7 @@ const Notifactions = () => {
           />
           <span>Уведомления о товарах в избранном и сравнении</span>
         </label>
-        <label className="inputs-wrapper" htmlFor="blog-notify">
+        <label className="check-box-wrapper " htmlFor="blog-notify">
           <input
             type="checkbox"
             id="blog-notify"
@@ -136,8 +137,7 @@ const Notifaction = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 20px;
-
-  .inputs-wrapper {
+  .check-box-wrapper {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -145,6 +145,19 @@ const Notifaction = styled.div`
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    span {
+      font-size: 1rem;
+    }
+  }
+  .input-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    gap: 50px;
     span {
       font-size: 1rem;
     }
@@ -169,6 +182,23 @@ const Notifaction = styled.div`
         background-color: ${color.btnPrimary};
         color: ${color.textPrimary};
         cursor: pointer;
+      }
+    }
+  }
+  @media ${devices.mobileL} {
+    .input-wrapper {
+      flex-direction: column;
+      gap: 10px;
+      span {
+        width: 100%;
+      }
+      .notify-email-wrapper {
+        width: 100%;
+        flex-direction: column;
+        button,
+        input {
+          width: 100%;
+        }
       }
     }
   }

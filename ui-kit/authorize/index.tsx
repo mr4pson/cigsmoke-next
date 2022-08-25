@@ -89,7 +89,7 @@ const Authorize = (props: any) => {
 
 const Contianer = styled(motion.div)`
   width: 100%;
-  height: 70vh;
+  // height: 70vh;
   display: flex;
   flex-direction: row;
   justify-content: center;

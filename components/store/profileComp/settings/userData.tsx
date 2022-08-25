@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import isEmpty from 'validator/lib/isEmpty';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import { PopupContainer } from '../common';
 import { InputsTooltip } from './helpers';
 import CloseSVG from '../../../../assets/close_black.svg';
@@ -259,6 +260,9 @@ const UserDataContainer = styled(motion.form)`
   }
   .success {
     color: ${color.ok};
+  }
+  @media ${devices.mobileL} {
+    width: 90%;
   }
 `;
 
