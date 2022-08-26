@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import { styleProps } from 'components/store/lib/types';
+import { devices } from 'components/store/lib/Devices';
 
 const Content = styled(motion.div)`
   width: 100%;
@@ -72,6 +73,9 @@ const AuthInputsWrapper = styled(motion.div)`
     gap: 10px;
     span {
       font-family: 'intro';
+      @media ${devices.mobileL} {
+        font-size: 0.6rem;
+      }
     }
     .tool-tip {
       width: 18px;

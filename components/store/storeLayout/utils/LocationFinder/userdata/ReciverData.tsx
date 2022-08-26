@@ -18,6 +18,8 @@ const ReciverData = (props: any) => {
               <span className="required">*</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="address-reciver-fullname-tip"
               title={
                 <React.Fragment>
@@ -48,6 +50,8 @@ const ReciverData = (props: any) => {
               <span className="required">*</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="address-reciver-phone-tip"
               title={
                 <React.Fragment>

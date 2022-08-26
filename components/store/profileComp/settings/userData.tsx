@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import isEmpty from 'validator/lib/isEmpty';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import { PopupContainer } from '../common';
 import { InputsTooltip } from './helpers';
 import CloseSVG from '../../../../assets/close_black.svg';
@@ -39,6 +40,8 @@ const UserData = (props: any) => {
                 <span className="required">*</span>
               </b>
               <InputsTooltip
+                enterTouchDelay={0}
+                leaveTouchDelay={5000}
                 key="firstname-tip"
                 title={
                   <React.Fragment>
@@ -82,6 +85,8 @@ const UserData = (props: any) => {
                 <span className="required">*</span>
               </b>
               <InputsTooltip
+                enterTouchDelay={0}
+                leaveTouchDelay={5000}
                 key="lastname-tip"
                 title={
                   <React.Fragment>
@@ -126,6 +131,8 @@ const UserData = (props: any) => {
               <span className="required">*</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="phonenumber-tip"
               title={
                 <React.Fragment>
@@ -169,6 +176,8 @@ const UserData = (props: any) => {
               <span className="required">*</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="address-tip"
               title={
                 <React.Fragment>
@@ -259,6 +268,9 @@ const UserDataContainer = styled(motion.form)`
   }
   .success {
     color: ${color.ok};
+  }
+  @media ${devices.mobileL} {
+    width: 90%;
   }
 `;
 

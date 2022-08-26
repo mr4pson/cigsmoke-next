@@ -24,6 +24,8 @@ const AutoFill = (props: any) => {
             <span className="required">*</span>
           </b>
           <InputsTooltip
+            enterTouchDelay={0}
+            leaveTouchDelay={5000}
             key="address-tip"
             title={
               <React.Fragment>

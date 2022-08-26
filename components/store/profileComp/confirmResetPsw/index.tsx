@@ -69,6 +69,8 @@ const ConfirmResetPsw = () => {
             <span className="required">*</span>
           </b>
           <InputsTooltip
+            enterTouchDelay={0}
+            leaveTouchDelay={5000}
             key="psw-tip"
             title={
               <React.Fragment>
@@ -131,6 +133,8 @@ const ConfirmResetPsw = () => {
             <span className="required">*</span>
           </b>
           <InputsTooltip
+            enterTouchDelay={0}
+            leaveTouchDelay={5000}
             key="rpeat-psw-tip"
             title={
               <React.Fragment>
@@ -277,7 +281,7 @@ const AuthInputsWrapper = styled(motion.div)`
     align-items: center;
     gap: 10px;
     span {
-      font-family: 'intro';
+      // font-family: 'intro';
     }
     .tool-tip {
       width: 18px;

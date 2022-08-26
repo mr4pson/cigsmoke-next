@@ -102,6 +102,8 @@ const UserDetails = (props: any) => {
         </label>
         <span>
           <DeliveryTooltip
+            enterTouchDelay={0}
+            leaveTouchDelay={5000}
             key="address-room-tip"
             title={
               <React.Fragment>

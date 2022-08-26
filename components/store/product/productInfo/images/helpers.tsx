@@ -107,9 +107,7 @@ const handleDragEnd =
       );
     } else if (swipe > swipeConfidenceThreshold) {
       paginateTo(-1);
-      setSelectedIndex(
-        selectedIndex >= dragConstrain ? selectedIndex - 1 : selectedIndex,
-      );
+      setSelectedIndex(selectedIndex >= 1 ? selectedIndex - 1 : selectedIndex);
     }
   };
 

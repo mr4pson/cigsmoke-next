@@ -87,7 +87,11 @@ const UserData = ({ setIsOpened, setDisplay }) => {
             setPostCode={setPostCode}
             setViewPort={setViewPort}
           />
-          <button className="geolocate" onClick={geoLocatClick}>
+          <button
+            className="geolocate"
+            onTouchStart={geoLocatClick}
+            onClick={geoLocatClick}
+          >
             <span>
               <Locate />
             </span>

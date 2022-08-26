@@ -68,6 +68,8 @@ const SignUp: React.FC<Props> = ({
                   <span className="required">*</span>
                 </b>
                 <InputsTooltip
+                  enterTouchDelay={0}
+                  leaveTouchDelay={5000}
                   key="name-tip"
                   title={
                     <React.Fragment>
@@ -110,6 +112,8 @@ const SignUp: React.FC<Props> = ({
                   <span className="required">*</span>
                 </b>
                 <InputsTooltip
+                  enterTouchDelay={0}
+                  leaveTouchDelay={5000}
                   key="lastName-tip"
                   title={
                     <React.Fragment>
@@ -157,6 +161,8 @@ const SignUp: React.FC<Props> = ({
                 <span className="required">*</span>
               </b>
               <InputsTooltip
+                enterTouchDelay={0}
+                leaveTouchDelay={5000}
                 key="email-tip"
                 title={
                   <React.Fragment>

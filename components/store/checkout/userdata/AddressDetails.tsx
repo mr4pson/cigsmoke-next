@@ -25,6 +25,8 @@ const AddressDetails = (props: any) => {
               <span>Квартира/офис</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="address-room-tip"
               title={
                 <React.Fragment>
@@ -54,6 +56,8 @@ const AddressDetails = (props: any) => {
               <span className="required">*</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="address-postcode-tip"
               title={
                 <React.Fragment>
@@ -84,6 +88,8 @@ const AddressDetails = (props: any) => {
               <span>Подъезд</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="address-door-tip"
               title={
                 <React.Fragment>
@@ -112,6 +118,8 @@ const AddressDetails = (props: any) => {
               <span>Этаж</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="address-floor-tip"
               title={
                 <React.Fragment>
@@ -140,6 +148,8 @@ const AddressDetails = (props: any) => {
               <span>Домофон</span>
             </b>
             <InputsTooltip
+              enterTouchDelay={0}
+              leaveTouchDelay={5000}
               key="address-door-bell-tip"
               title={
                 <React.Fragment>
