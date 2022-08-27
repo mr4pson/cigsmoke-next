@@ -281,7 +281,7 @@ const AuthInputsWrapper = styled(motion.div)`
     align-items: center;
     gap: 10px;
     span {
-      // font-family: 'intro';
+      font-family: 'intro';
     }
     .tool-tip {
       width: 18px;

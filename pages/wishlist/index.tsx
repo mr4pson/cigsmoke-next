@@ -71,7 +71,7 @@ const Wishlist = () => {
 };
 
 const NoWishlist = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 70vh;
   h2 {
     font-family: 'intro';

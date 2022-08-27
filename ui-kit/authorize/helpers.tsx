@@ -120,6 +120,8 @@ const handleSignUp = ({
           setLoading(false);
           setStep(1);
           setAuthorized(true);
+          localStorage.setItem('accessToken', response.data.accessToken);
+          localStorage.setItem('refreshToken', response.data.accessToken);
           console.log(response.data);
         }
       })

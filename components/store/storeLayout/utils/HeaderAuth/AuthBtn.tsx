@@ -8,6 +8,7 @@ import { paginateTo } from 'components/store/checkout/constant';
 import { handleMenuState } from '../../helpers';
 import { PopupDisplay } from '../../constants';
 import { User } from 'swagger/services';
+import { devices } from 'components/store/lib/Devices';
 
 type Props = {
   user: User | null;
@@ -93,6 +94,10 @@ const ParentContainer = styled.div`
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  @media ${devices.mobileL} {
+    width: 100%;
+    hieght: 100%;
+  }
 `;
 
 export default AuthBtn;

@@ -161,7 +161,7 @@ const SearchForm = styled.form`
   @media ${devices.mobileL} {
     position: absolute;
     top: 52px;
-    width: calc(100% - 155px);
+    width: calc(100% - 100px);
   }
 `;
 
