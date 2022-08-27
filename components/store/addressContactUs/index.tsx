@@ -49,6 +49,12 @@ const AddressContactUs = () => {
             setCopiedText(false);
           }, 1000);
         }}
+        onTouchStart={() => {
+          copy('МО, г. Люберцы, Октябрьский проспект 181');
+          setTimeout(() => {
+            setCopiedText(false);
+          }, 1000);
+        }}
         style={{ cursor: 'pointer' }}
       >
         МО, г. Люберцы, Октябрьский проспект 181

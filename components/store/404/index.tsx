@@ -18,6 +18,8 @@ const NotFoundSvg = () => {
         onMouseLeave={() => setAnimate(false)}
         onMouseDown={() => setAnimate(false)}
         onMouseUp={() => setAnimate(true)}
+        onTouchStart={() => setAnimate(false)}
+        onTouchEnd={() => setAnimate(true)}
       >
         <rect
           x="885"

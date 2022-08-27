@@ -86,11 +86,7 @@ const BtnSvg = styled(motion.button)`
   }
 
   @media ${devices.mobileL} {
-    position: absolute;
-    right: 15px;
-    top: 52px;
-    height: 40px;
-    width: 114px;
+    display: none;
   }
 `;
 

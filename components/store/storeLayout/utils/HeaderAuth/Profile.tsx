@@ -2,8 +2,8 @@ import color from 'components/store/lib/ui.colors';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styled from 'styled-components';
-import CardsSVG from '../../../../../assets/creditCard.svg';
-import BookmarkSVG from '../../../../../assets/bookmark.svg';
+import ReviewsSVG from '../../../../../assets/reviews.svg';
+import SettingskSVG from '../../../../../assets/settings.svg';
 import variants from 'components/store/lib/variants';
 import { handleMenuState } from '../../helpers';
 import { handleLogout } from './authorize/helpers';
@@ -62,34 +62,36 @@ const Profile: React.FC<Props> = ({
         </AuthDevider>
       </ProfileWrapper>
 
-      <Link href="/profile#user-cards">
+      <Link href="/profile#reviews">
         <motion.a
           whileHover="hover"
           whileTap="tap"
           custom={1.04}
           variants={variants.grow}
           style={{ alignSelf: 'flex-start' }}
+          onClick={handleMenuState(setIsOpened, setDisplay)}
         >
           <AuthDevider style={{ justifyContent: 'flex-start' }}>
-            <CardsSVG />
-            <span style={{ fontWeight: '500', color: color.btnPrimary }}>
-              Мои карты
+            <ReviewsSVG />
+            <span style={{ fontWeight: '500', color: color.textSecondary }}>
+              Мои отзывы
             </span>
           </AuthDevider>
         </motion.a>
       </Link>
-      <Link href="/bookmarks">
+      <Link href="/profile#settings">
         <motion.a
           whileHover="hover"
           whileTap="tap"
           custom={1.04}
           variants={variants.grow}
           style={{ alignSelf: 'flex-start' }}
+          onClick={handleMenuState(setIsOpened, setDisplay)}
         >
           <AuthDevider style={{ justifyContent: 'flex-start' }}>
-            <BookmarkSVG />
-            <span style={{ fontWeight: '500', color: color.btnPrimary }}>
-              Любимые бренды
+            <SettingskSVG />
+            <span style={{ fontWeight: '500', color: color.textSecondary }}>
+              Настройки
             </span>
           </AuthDevider>
         </motion.a>

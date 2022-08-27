@@ -15,6 +15,7 @@ import HeaderCatalog from './utils/HeaderCatalog/index';
 import { devices } from '../lib/Devices';
 import { useEffect, useState } from 'react';
 import NavWrapMobile from './NavWrapMobile';
+import AuthBtnMobile from './utils/HeaderAuth/AuthBtnMobile';
 
 const Header = () => {
   const [boxShadow, setBoxShadow] = useState('');
@@ -72,6 +73,7 @@ const Header = () => {
             </LogoWrapper>
             <HeaderCatalog />
             <SearchBar />
+            <AuthBtnMobile />
             <NavWrap>
               <RelativeContainer id="auth-container">
                 <AuthComp />

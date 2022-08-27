@@ -96,9 +96,10 @@ const CatalogPage = () => {
         <Content
           style={{ minHeight: 'calc(90vh + 124px)', paddingTop: '110px' }}
           flex_direction="column"
+          gap="30px"
         >
           <PageTitle>Корзина</PageTitle>
-          {!loading ? (
+          {cart?.orderProducts?.length && !loading ? (
             <>
               <CartBody>
                 <Actions>
@@ -128,8 +129,12 @@ const CatalogPage = () => {
               </CartBody>
               <CartFooter cart={cart} />
             </>
-          ) : (
+          ) : loading ? (
             <Loading />
+          ) : (
+            <NoCartItem>
+              <h2>Ваша корзина пуста</h2>
+            </NoCartItem>
           )}
         </Content>
       </Wrapper>
@@ -140,8 +145,8 @@ const CatalogPage = () => {
 CatalogPage.PageLayout = StoreLayout;
 
 const PageTitle = styled.h3`
-  font-size: 28px;
-
+  font-size: 2rem;
+  font-family: 'intro';
   @media ${devices.mobileL} {
     padding-top: 15px;
   }
@@ -166,6 +171,14 @@ const DeleteBtn = styled.button`
   color: #ff0000;
   cursor: pointer;
   margin-left: 30px;
+`;
+
+const NoCartItem = styled.div`
+  width: 100%;
+  height: 70vh;
+  h2 {
+    font-family: 'intro';
+  }
 `;
 
 export default CatalogPage;
