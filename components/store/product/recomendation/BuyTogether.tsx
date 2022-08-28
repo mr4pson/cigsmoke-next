@@ -8,13 +8,14 @@ import { HeaderWrapper } from '../common';
 import { Product, ProductService } from 'swagger/services';
 import ArrowWhite from '../../../../assets/arrow_white.svg';
 
-const BuyTogether = () => {
+const BuyTogether = ({ product }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     (async () => {
       const response = (await ProductService.getProducts({
         limit: 8,
+        categories: product.brand,
       })) as unknown as { rows: Product[]; length: number };
       setProducts(response.rows);
     })();
