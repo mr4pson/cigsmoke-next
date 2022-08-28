@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Btns, Container, Content, Wrapper } from './common';
+import { overrideDefaultIOSZoom } from './helpers';
 import AuthComp from './utils/HeaderAuth/index';
 import HeaderCart from './utils/HeaderCart';
 import SearchBar from './utils/SearchBar/SearchBar';
@@ -32,6 +33,7 @@ const Header = () => {
       setBoxShadow('');
     });
   }, []);
+  useEffect(() => overrideDefaultIOSZoom(), []);
   return (
     <>
       <Head>

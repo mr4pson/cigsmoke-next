@@ -9,20 +9,50 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Product, ProductService } from 'swagger/services';
+import { TAuthState } from 'redux/types';
+import { useAppSelector } from 'redux/hooks';
+import {
+  Product,
+  // ProductService,
+  ForyouProductsService,
+  UserHistoryService,
+  UserHistoryInDbService,
+} from 'swagger/services';
 import ProductGrid from '../../../ui-kit/products/productGrid';
 import Subscription from './subscription';
 
 const Section = () => {
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const history = localStorage.getItem('histroy');
     (async () => {
       setLoading(true);
-      const products = (await ProductService.getProducts({
-        limit: 8,
-      })) as unknown as { rows: Product[] };
+      const userHistoryInDB = await UserHistoryInDbService.getUserHistory();
+      let products: any = [];
+      if (!history) {
+        products = await ForyouProductsService.getProducts();
+      }
+      if (history && !user && !userHistoryInDB) {
+        products = await UserHistoryService.getUserHistory({
+          body: { history },
+        });
+      }
+      if (history && user && !userHistoryInDB) {
+        await UserHistoryInDbService.createUserHistory({ body: { history } });
+      }
+      if (history && user && userHistoryInDB) {
+        await UserHistoryInDbService.updateUserHistory({ body: { history } });
+        products = await UserHistoryInDbService.getUserHistory();
+      }
+      // (
+      //   await ProductService.getProducts({
+      //     limit: 8,
+      //   }),
+      // ) as unknown as { rows: Product[] };
       setLoading(false);
       setProducts(products.rows);
     })();

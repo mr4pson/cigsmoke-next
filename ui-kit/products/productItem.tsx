@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { Product } from 'swagger/services';
 import AddToCart from '../../components/home-page/bestsellers/cartBtn';
 import Slider from './slider';
+import { handleHistory } from './helpers';
 
 type Props = {
   product: Product;
@@ -49,7 +50,7 @@ const ProductItem: React.FC<Props> = ({
           onWishBtnClick={onWishBtnClick}
         />
         <Link href={`/product/${product.url}`}>
-          <a>
+          <a onClick={() => handleHistory(product.id)}>
             <span>{product.name}</span>
             <PriceWrapper>
               <span

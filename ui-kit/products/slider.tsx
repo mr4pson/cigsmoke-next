@@ -12,6 +12,7 @@ import HeartEmpty from '../../assets/heart_empty.svg';
 import HeartFull from '../../assets/heart_full.svg';
 import { SWIPE_CONFIDENCE_THRESHOLD } from './constants';
 import { handleWishBtnClick } from '../../components/home-page/helpers';
+import { handleHistory } from './helpers';
 
 import {
   UseImagePaginat,
@@ -42,7 +43,7 @@ const Slider: React.FC<Props> = ({
     <>
       <ImageSliderWrapper>
         <Link href={`/product/${url}`}>
-          <a>
+          <a onClick={() => handleHistory(product.id)}>
             <AnimatePresence initial={false} custom={direction}>
               <ImageSlider
                 key={`slider-image${imageIndex}`}

@@ -29,7 +29,13 @@ const getAnimationDelay = (length: number) => {
 };
 
 const handleCartBtnClick =
-  (product: Product | undefined, dispatch: AppDispatch, variant: ProductVariant | undefined, cart?: Basket) => async () => {
+  (
+    product: Product | undefined,
+    dispatch: AppDispatch,
+    variant: ProductVariant | undefined,
+    cart?: Basket,
+  ) =>
+  async () => {
     const curOrderProduct = cart?.orderProducts?.find(
       (orderProduct) => orderProduct.product?.id == product?.id,
     );
@@ -64,42 +70,59 @@ const handleCartBtnClick =
 
 const handleWishBtnClick =
   (product: Product | undefined, dispatch: AppDispatch, wishlist?: Wishlist) =>
-    async () => {
-      const curItem = wishlist?.items?.find(
-        (wishlistProduct) => wishlistProduct.productId == product?.id,
-      );
-      if (curItem) {
-        dispatch(
-          updateWishlist({
-            items: wishlist?.items
-              ?.filter((item) => item.productId != product?.id)
-              .map((item) => ({
-                productId: item.productId?.toString(),
-              })),
-          }),
-        );
-
-        return;
-      }
-
+  async () => {
+    const curItem = wishlist?.items?.find(
+      (wishlistProduct) => wishlistProduct.productId == product?.id,
+    );
+    if (curItem) {
       dispatch(
         updateWishlist({
           items: wishlist?.items
-            ?.concat({ productId: product?.id })
-            .map((orderProduct) => ({
-              productId: orderProduct.productId,
+            ?.filter((item) => item.productId != product?.id)
+            .map((item) => ({
+              productId: item.productId?.toString(),
             })),
         }),
       );
-    };
 
-const checkIfItemInCart = (product: Product | undefined, cart: Basket | undefined) =>
+      return;
+    }
+
+    dispatch(
+      updateWishlist({
+        items: wishlist?.items
+          ?.concat({ productId: product?.id })
+          .map((orderProduct) => ({
+            productId: orderProduct.productId,
+          })),
+      }),
+    );
+  };
+
+const checkIfItemInCart = (
+  product: Product | undefined,
+  cart: Basket | undefined,
+) =>
   !!cart?.orderProducts?.find(
     (orderProduct) => orderProduct.product?.id == product?.id,
   );
 
-const checkIfItemInWishlist = (product: Product | undefined, wishlist: Wishlist | undefined) =>
-  !!wishlist?.items?.find((item) => item.productId == product?.id);
+const checkIfItemInWishlist = (
+  product: Product | undefined,
+  wishlist: Wishlist | undefined,
+) => !!wishlist?.items?.find((item) => item.productId == product?.id);
+
+const handleHistory = (productId) => {
+  const history = localStorage.getItem('history');
+  if (history) {
+    const historyDestringefied = JSON.parse(history);
+    const newHistory = [productId, ...historyDestringefied];
+    localStorage.setItem('history', JSON.stringify(newHistory));
+  }
+  if (!history) {
+    localStorage.setItem('history', JSON.stringify(history));
+  }
+};
 
 export {
   getAnimationDelay,
@@ -107,4 +130,5 @@ export {
   handleWishBtnClick,
   checkIfItemInCart,
   checkIfItemInWishlist,
+  handleHistory,
 };

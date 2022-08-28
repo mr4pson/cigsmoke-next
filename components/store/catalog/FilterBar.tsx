@@ -79,7 +79,7 @@ const FilterBar: React.FC<Props> = ({
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
   }, [filtersConfig]);
-
+  useEffect(() => handleExpantionChange(), []);
   return (
     <FilterBarContent expanded={expanded}>
       <FiltersWrapper>
