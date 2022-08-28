@@ -8,7 +8,7 @@ import variants from 'components/store/lib/variants';
 import WeRecomend from './WeRecomend';
 import BuyTogether from './BuyTogether';
 
-const Recomendation = () => {
+const Recomendation = ({ product }) => {
   return (
     <Container
       key="container-product-section-two"
@@ -29,8 +29,8 @@ const Recomendation = () => {
           align_items="center"
           gap="30px"
         >
-          <WeRecomend />
-          <BuyTogether />
+          <WeRecomend product={product} />
+          <BuyTogether product={product} />
         </Content>
       </Wrapper>
     </Container>

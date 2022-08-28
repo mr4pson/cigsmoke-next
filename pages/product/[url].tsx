@@ -52,7 +52,7 @@ const ProductInfoPage = () => {
         cart={cart}
         wishlist={wishlist}
       />
-      <Recomendation />
+      <Recomendation product={product} />
       {/* <ReveiwsAndQuastions
           reviewRef={reviewBtnRef}
           questionRef={questionBtnRef}

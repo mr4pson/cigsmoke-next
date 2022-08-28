@@ -2,15 +2,22 @@ import styled from 'styled-components';
 import color from '../lib/ui.colors';
 import variants from '../lib/variants';
 import { Wrapper } from './common';
+import { overrideDefaultIOSZoom } from '../storeLayout/helpers';
 import LogoSVG from '../../../assets/wuluxe.svg';
 import Return from '../../../assets/return.svg';
 import Delivery from '../../../assets/delivery.svg';
 import Progress from './Progress';
 import Link from 'next/link';
+import { useEffect } from 'react';
+import Head from 'next/head';
 
 const Header = (props: any) => {
+  useEffect(() => overrideDefaultIOSZoom(), []);
   return (
     <>
+      <Head>
+        <title>Оформить заказ | Wuluxe</title>
+      </Head>
       <Wrapper
         key={`header-checkout`}
         custom={0.05}
@@ -40,9 +47,9 @@ const Header = (props: any) => {
             <Delivery />
           </span>
           <div className="info-text">
-            <h3>Бесплатная доставка курьером от {`2 500`} ₽</h3>
+            <h3>Бесплатная доставка курьером от {`10 000 `}₽</h3>
             <span>
-              Доставка заказов до {`2 500`} ₽ – {`149`} ₽ / {`249 `}₽
+              Доставка заказов до {`10 000`} ₽ – {`350 `}₽ / {`500 `}₽
             </span>
           </div>
         </InfoWrapper>
