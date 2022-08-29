@@ -124,7 +124,7 @@ const Details: React.FC<Props> = ({
                 reviewRef.current.scrollIntoView();
               }}
             >
-              <span>{product?.reviews?.length ?? 0} Отзывов</span>
+              <span>{product?.reviews?.length ?? 0} Отзыв(ов)</span>
             </span>
           </ConvoWrappers>
           <ConvoWrappers

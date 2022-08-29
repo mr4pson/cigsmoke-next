@@ -66,13 +66,15 @@ const imageSlicer = createSlice({
       .addCase(createImage.pending, handlePending)
       .addCase(createImage.fulfilled, (state, action) => {
         state.loading = false;
-        // console.log(action)
-        // console.log(state.imageList)
         const file = state.imageList.find(
           (item: any) => item.name === action.meta.arg.file.name,
         ) as any;
-        file.url = `/api/images/${action.payload}`;
-        file.name = action.payload
+        if (file) {
+          file.url = `/api/images/${action.payload}`;
+          file.name = action.payload
+        } else {
+          state.imageList.push(action.payload as any);
+        }
         openSuccessNotification('Изображение успешно загружено');
         console.log('fulfilled');
       })

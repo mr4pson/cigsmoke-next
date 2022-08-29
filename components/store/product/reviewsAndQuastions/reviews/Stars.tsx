@@ -3,13 +3,16 @@ import { motion } from 'framer-motion';
 import { Rating } from '@mui/material';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
-import { progressBarCalc } from './helpers';
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
-
-const fakeData = generateArrayOfNumbers(5);
+import { getTotalReviewsNumber, progressBarCalc } from './helpers';
+import { useAppSelector } from 'redux/hooks';
+import { TProductInfoState } from 'redux/types';
+import React from 'react';
 
 const Stars = () => {
-  const totalReviews = 1475;
+  const { product }: TProductInfoState = useAppSelector(
+    (state) => state.productInfo,
+  );
+  const totalReviews = getTotalReviewsNumber(product?.rating);
 
   return (
     <StarsContainer>
@@ -20,41 +23,45 @@ const Stars = () => {
         viewport={{ once: true }}
         variants={variants.fadInSlideUp}
       >
-        <Rating value={4} size="large" readOnly />
-        <span>{`4/5`}</span>
+        <Rating value={product?.rating?.avg} size="large" readOnly />
+        <span>{`${product?.rating?.avg ?? 0}/5`}</span>
       </StarWrapper>
-      {fakeData.map((review, index) => {
-        const random = Math.floor(Math.random() * totalReviews);
-        // TODO add number of reviews based on stars instead of random
-        return (
-          <ProgressBarContaier
-            key={`progress-bar-${index}`}
-            custom={index * 0.05}
-            initial="init"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={variants.fadInSlideUp}
-          >
-            <span>
-              {5 - index}
-              {index == 0 ? ' звезд' : index == 4 ? ' звезда' : ' звезды'}
-            </span>
-            <ProgressBarWrapper>
-              <span id="progress-bg"></span>
-              <ProgressBar
-                initial={{ width: '0%', opacity: 0 }}
-                whileInView={{
-                  width: `${progressBarCalc(totalReviews, random)}%`,
-                  opacity: 1,
-                }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.15 }}
-              ></ProgressBar>
-            </ProgressBarWrapper>
-            <span style={{ fontFamily: 'intro' }}>{random}</span>
-          </ProgressBarContaier>
-        );
-      })}
+      {Object.entries(product?.rating ?? {})
+        .reverse()
+        .map(([key, number], index) => {
+          return (
+            <React.Fragment key={`stars-${index}`}>
+              {!isNaN(Number(key)) && (
+                <ProgressBarContaier
+                  key={`progress-bar-${index}`}
+                  custom={index * 0.05}
+                  initial="init"
+                  whileInView="animate"
+                  viewport={{ once: true }}
+                  variants={variants.fadInSlideUp}
+                >
+                  <span>
+                    {6 - index}
+                    {index == 0 ? ' звезд' : index == 4 ? ' звезда' : ' звезды'}
+                  </span>
+                  <ProgressBarWrapper>
+                    <span id="progress-bg"></span>
+                    <ProgressBar
+                      initial={{ width: '0%', opacity: 0 }}
+                      whileInView={{
+                        width: `${progressBarCalc(totalReviews, number)}%`,
+                        opacity: 1,
+                      }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.15 }}
+                    ></ProgressBar>
+                  </ProgressBarWrapper>
+                  <span style={{ fontFamily: 'intro' }}>{number}</span>
+                </ProgressBarContaier>
+              )}
+            </React.Fragment>
+          );
+        })}
     </StarsContainer>
   );
 };
