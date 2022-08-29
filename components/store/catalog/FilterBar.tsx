@@ -79,7 +79,7 @@ const FilterBar: React.FC<Props> = ({
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
   }, [filtersConfig]);
-
+  useEffect(() => handleExpantionChange(), []);
   return (
     <FilterBarContent expanded={expanded}>
       <FiltersWrapper>
@@ -171,6 +171,7 @@ const FilterBarContent = styled.div<any>`
     z-index: 1000;
     background: #fff;
     top: 0;
+    left: 0;
     bottom: 0;
     width: 100%;
     display: block;
@@ -215,7 +216,7 @@ const ShowBtn = styled.button`
   align-items: center;
   justify-content: center;
   position: absolute;
-  right: -20px;
+  right: -30px;
   top: calc(50vh - 20px);
   display: none;
 

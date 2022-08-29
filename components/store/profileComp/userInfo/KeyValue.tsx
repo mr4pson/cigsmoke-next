@@ -4,6 +4,8 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { handleEdit, handleHover } from './helpers';
 import { useState } from 'react';
+import { devices } from 'components/store/lib/Devices';
+import { styleProps } from 'components/store/lib/types';
 
 const KeyValue = (props: any) => {
   const { keyData, valueData, delay, settingsRef, setActive } = props;
@@ -22,13 +24,12 @@ const KeyValue = (props: any) => {
       <span className="key">{keyData}</span>
       <div className="value">
         <span>{valueData}</span>
-        <span
-          style={{ display: !ishovered ? 'none' : 'block' }}
-          className="edit-data"
+        <EditData
+          display={!ishovered ? 'none' : 'block'}
           onClick={() => handleEdit(settingsRef, setActive)}
         >
           Изменить данные
-        </span>
+        </EditData>
       </div>
     </KeyValueWrapper>
   );
@@ -62,12 +63,31 @@ const KeyValueWrapper = styled(motion.div)`
     align-items: center;
     gap: 20px;
     .edit-data {
+      display: ${(p: styleProps) => p.display};
       cursor: pointer;
       color: ${color.textSecondary};
       &:hover {
         color: ${color.hover};
       }
     }
+  }
+  @media ${devices.mobileL} {
+    gap: 10px;
+    .edit-data {
+      display: none;
+    }
+  }
+`;
+
+const EditData = styled.span`
+  display: ${(p: styleProps) => p.display};
+  cursor: pointer;
+  color: ${color.textSecondary};
+  &:hover {
+    color: ${color.hover};
+  }
+  @media ${devices.mobileL} {
+    display: none;
   }
 `;
 

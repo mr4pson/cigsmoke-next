@@ -9,15 +9,11 @@
   "paths": {
     "/auth/signup": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Signup like a new user",
         "description": "",
         "operationId": "signup",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -52,15 +48,11 @@
     },
     "/auth/signin": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Login with email",
         "description": "",
         "operationId": "signin",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -95,15 +87,11 @@
     },
     "/auth/token": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Create token",
         "description": "",
         "operationId": "CreateToken",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -112,9 +100,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "token"
-              ],
+              "required": ["token"],
               "properties": {
                 "token": {
                   "type": "string"
@@ -146,15 +132,11 @@
     },
     "/auth/reset": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Reset password by email",
         "description": "",
         "operationId": "ResetPwd",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -163,9 +145,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "email"
-              ],
+              "required": ["email"],
               "properties": {
                 "email": {
                   "type": "string"
@@ -197,15 +177,11 @@
     },
     "/auth/update-password": {
       "put": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Update password",
         "description": "",
         "operationId": "UpdatePwd",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -214,10 +190,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "token",
-                "password"
-              ],
+              "required": ["token", "password"],
               "properties": {
                 "token": {
                   "type": "string",
@@ -253,15 +226,11 @@
     },
     "/auth/authorize/:token": {
       "get": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Authorize by email ",
         "description": "",
         "operationId": "Auth",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -270,9 +239,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": [
-                "token"
-              ],
+              "required": ["token"],
               "properties": {
                 "token": {
                   "type": "string",
@@ -305,18 +272,12 @@
     },
     "/users": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Get array of users",
         "description": "",
         "operationId": "getUsers",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -359,10 +320,7 @@
             "description": "Filtering tags by role",
             "required": false,
             "type": "string",
-            "enum": [
-              "Admin",
-              "User"
-            ]
+            "enum": ["Admin", "User"]
           },
           {
             "name": "sortBy",
@@ -405,15 +363,11 @@
         }
       },
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Create a user",
         "description": "",
         "operationId": "createUser",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -458,17 +412,11 @@
     },
     "/users/{userId}": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Find user by id",
         "operationId": "findUserById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -507,15 +455,11 @@
         }
       },
       "put": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Update the user",
         "description": "",
         "operationId": "updateUser",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -563,15 +507,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Delete the user",
         "description": "",
         "operationId": "deleteUser",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -608,10 +548,7 @@
                   "default": false
                 },
                 "role": {
-                  "enum": [
-                    "User",
-                    "Admins"
-                  ]
+                  "enum": ["User", "Admins"]
                 }
               }
             }
@@ -630,18 +567,12 @@
     },
     "/brands": {
       "get": {
-        "tags": [
-          "brand"
-        ],
+        "tags": ["brand"],
         "summary": "Get array of brands",
         "description": "",
         "operationId": "getBrands",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -709,15 +640,11 @@
         }
       },
       "post": {
-        "tags": [
-          "brand"
-        ],
+        "tags": ["brand"],
         "summary": "Create a brand",
         "description": "",
         "operationId": "createBrand",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -759,17 +686,11 @@
     },
     "/brands/{brandId}": {
       "get": {
-        "tags": [
-          "brand"
-        ],
+        "tags": ["brand"],
         "summary": "Find brand by id",
         "operationId": "findBrandById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "brandId",
@@ -795,15 +716,11 @@
         }
       },
       "put": {
-        "tags": [
-          "brand"
-        ],
+        "tags": ["brand"],
         "summary": "Update the brand",
         "description": "",
         "operationId": "updateBrand",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -848,15 +765,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "brand"
-        ],
+        "tags": ["brand"],
         "summary": "Delete the brand",
         "description": "",
         "operationId": "deleteBrand",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -910,18 +823,12 @@
     },
     "/categories": {
       "get": {
-        "tags": [
-          "category"
-        ],
+        "tags": ["category"],
         "summary": "Get array of categories",
         "description": "",
         "operationId": "getCategories",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -1001,15 +908,11 @@
         }
       },
       "post": {
-        "tags": [
-          "category"
-        ],
+        "tags": ["category"],
         "summary": "Create a category",
         "description": "",
         "operationId": "createCategory",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -1054,17 +957,11 @@
     },
     "/categories/{categoryId}": {
       "get": {
-        "tags": [
-          "category"
-        ],
+        "tags": ["category"],
         "summary": "Find category by id",
         "operationId": "findCategoryById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "categoryId",
@@ -1090,15 +987,11 @@
         }
       },
       "put": {
-        "tags": [
-          "category"
-        ],
+        "tags": ["category"],
         "summary": "Update the category",
         "description": "",
         "operationId": "updateCategory",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -1175,15 +1068,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "category"
-        ],
+        "tags": ["category"],
         "summary": "Delete the category",
         "description": "",
         "operationId": "deleteCategory",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -1240,18 +1129,12 @@
     },
     "/categories/categoriesTree": {
       "get": {
-        "tags": [
-          "category"
-        ],
+        "tags": ["category"],
         "summary": "Get array of categories with parents and children trees",
         "description": "",
         "operationId": "getCategoriesTree",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -1270,18 +1153,12 @@
     },
     "/colors": {
       "get": {
-        "tags": [
-          "color"
-        ],
+        "tags": ["color"],
         "summary": "Get array of colors",
         "description": "",
         "operationId": "getColors",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -1364,15 +1241,11 @@
         }
       },
       "post": {
-        "tags": [
-          "color"
-        ],
+        "tags": ["color"],
         "summary": "Create a color",
         "description": "",
         "operationId": "createColor",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -1410,17 +1283,11 @@
     },
     "/colors/{colorId}": {
       "get": {
-        "tags": [
-          "color"
-        ],
+        "tags": ["color"],
         "summary": "Find color by id",
         "operationId": "findColorById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "colorId",
@@ -1446,15 +1313,11 @@
         }
       },
       "put": {
-        "tags": [
-          "color"
-        ],
+        "tags": ["color"],
         "summary": "Update the color",
         "description": "",
         "operationId": "updateColor",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "colorId",
@@ -1495,15 +1358,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "color"
-        ],
+        "tags": ["color"],
         "summary": "Delete the color",
         "description": "",
         "operationId": "deleteColor",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "colorId",
@@ -1545,18 +1404,12 @@
     },
     "/products": {
       "get": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Get array of products",
         "description": "",
         "operationId": "getProducts",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "name",
@@ -1685,15 +1538,11 @@
         }
       },
       "post": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Create a product",
         "description": "",
         "operationId": "createProduct",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -1738,17 +1587,11 @@
     },
     "/products/{productId}": {
       "get": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Find product by id",
         "operationId": "findProductById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "productId",
@@ -1777,15 +1620,11 @@
         }
       },
       "put": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Update the product",
         "description": "",
         "operationId": "updateProduct",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -1833,15 +1672,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Delete the product",
         "description": "",
         "operationId": "deleteProduct",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -1898,17 +1733,11 @@
     },
     "/products/by-url/{url}": {
       "get": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Find product by url",
         "operationId": "findProductByUrl",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "url",
@@ -1936,18 +1765,12 @@
     },
     "/products/productsUnderOneThousand": {
       "get": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Get array of products which price is under 1000",
         "description": "",
         "operationId": "getProducts",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -1963,18 +1786,12 @@
     },
     "/products/priceRange": {
       "get": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Get min and max product prices by category and name",
         "description": "",
         "operationId": "getPriceRange",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "name",
@@ -2011,20 +1828,142 @@
         }
       }
     },
+    "/foryou/anonymous": {
+      "get": {
+        "tags": ["foryouProducts"],
+        "summary": "Get products based on heighst sales products",
+        "description": "",
+        "operationId": "getProducts",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/foryou/by-history": {
+      "get": {
+        "tags": ["userHistory"],
+        "summary": "Get products based on user histroy in database",
+        "description": "",
+        "operationId": "getUserHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "histroyDTO": {
+      "type": "array",
+      "properties": [
+        {
+          "id": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/foryou": {
+      "get": {
+        "tags": ["userHistoryInDB"],
+        "summary": "Get products based on user histroy",
+        "description": "",
+        "operationId": "getUserHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token or user-token from user owner"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "post": {
+        "tags": ["userHistoryInDB"],
+        "summary": "Post products based on user histroy",
+        "description": "",
+        "operationId": "createUserHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token or user-token from user owner"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "put": {
+        "tags": ["userHistoryInDB"],
+        "summary": "update products based on user histroy",
+        "description": "",
+        "operationId": "updateUserHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token or user-token from user owner"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
     "/tags": {
       "get": {
-        "tags": [
-          "tag"
-        ],
+        "tags": ["tag"],
         "summary": "Get array of tags",
         "description": "",
         "operationId": "getTags",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -2092,15 +2031,11 @@
         }
       },
       "post": {
-        "tags": [
-          "tag"
-        ],
+        "tags": ["tag"],
         "summary": "Create a tag",
         "description": "",
         "operationId": "createTag",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -2145,17 +2080,11 @@
     },
     "/tags/{tagId}": {
       "get": {
-        "tags": [
-          "tag"
-        ],
+        "tags": ["tag"],
         "summary": "Find tag by id",
         "operationId": "findTagById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "tagId",
@@ -2181,15 +2110,11 @@
         }
       },
       "put": {
-        "tags": [
-          "tag"
-        ],
+        "tags": ["tag"],
         "summary": "Update the tag",
         "description": "",
         "operationId": "updateTag",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -2237,15 +2162,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "tag"
-        ],
+        "tags": ["tag"],
         "summary": "Delete the tag",
         "description": "",
         "operationId": "deleteTag",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -2291,17 +2212,11 @@
     },
     "/images/{fileName}": {
       "get": {
-        "tags": [
-          "image"
-        ],
+        "tags": ["image"],
         "summary": "Find image by filename",
         "operationId": "findImageByFileName",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "image/png"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["image/png"],
         "parameters": [
           {
             "name": "fileName",
@@ -2326,18 +2241,12 @@
     },
     "/images": {
       "post": {
-        "tags": [
-          "image"
-        ],
+        "tags": ["image"],
         "summary": "Create an image",
         "description": "Return array of filenames images which uploaded",
         "operationId": "createImage",
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -2345,9 +2254,7 @@
             "description": "",
             "required": true,
             "schema": {
-              "required": [
-                "files"
-              ],
+              "required": ["files"],
               "type": "object",
               "properties": {
                 "files": {
@@ -2390,18 +2297,12 @@
     },
     "/addresses": {
       "get": {
-        "tags": [
-          "address"
-        ],
+        "tags": ["address"],
         "summary": "Get array of addresses",
         "description": "",
         "operationId": "getAddresses",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -2508,15 +2409,11 @@
         }
       },
       "post": {
-        "tags": [
-          "address"
-        ],
+        "tags": ["address"],
         "summary": "Create a address",
         "description": "",
         "operationId": "createAddress",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -2558,17 +2455,11 @@
     },
     "/addresses/{addressId}": {
       "get": {
-        "tags": [
-          "address"
-        ],
+        "tags": ["address"],
         "summary": "Find address by id",
         "operationId": "findAddressById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "addressId",
@@ -2594,15 +2485,11 @@
         }
       },
       "put": {
-        "tags": [
-          "address"
-        ],
+        "tags": ["address"],
         "summary": "Update the address",
         "description": "",
         "operationId": "updateAddress",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -2650,15 +2537,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "address"
-        ],
+        "tags": ["address"],
         "summary": "Delete the address",
         "description": "",
         "operationId": "deleteAddress",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -2719,18 +2602,12 @@
     },
     "/baskets": {
       "get": {
-        "tags": [
-          "basket"
-        ],
+        "tags": ["basket"],
         "summary": "Get array of baskets",
         "description": "",
         "operationId": "getBaskets",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "userId",
@@ -2818,15 +2695,11 @@
         }
       },
       "post": {
-        "tags": [
-          "basket"
-        ],
+        "tags": ["basket"],
         "summary": "Create a basket",
         "description": "",
         "operationId": "createBasket",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -2861,17 +2734,11 @@
     },
     "/baskets/{basketId}": {
       "get": {
-        "tags": [
-          "basket"
-        ],
+        "tags": ["basket"],
         "summary": "Find basket by id",
         "operationId": "findBasketById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "basketId",
@@ -2897,15 +2764,11 @@
         }
       },
       "put": {
-        "tags": [
-          "basket"
-        ],
+        "tags": ["basket"],
         "summary": "Update the basket",
         "description": "",
         "operationId": "updateBasket",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "basketId",
@@ -2946,15 +2809,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "basket"
-        ],
+        "tags": ["basket"],
         "summary": "Delete the basket",
         "description": "",
         "operationId": "deleteBasket",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -3006,18 +2865,12 @@
     },
     "/checkouts": {
       "get": {
-        "tags": [
-          "checkout"
-        ],
+        "tags": ["checkout"],
         "summary": "Get array of checkouts",
         "description": "",
         "operationId": "getCheckouts",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "addressId",
@@ -3079,15 +2932,11 @@
         }
       },
       "post": {
-        "tags": [
-          "checkout"
-        ],
+        "tags": ["checkout"],
         "summary": "Create a checkout",
         "description": "",
         "operationId": "createCheckout",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -3122,17 +2971,11 @@
     },
     "/checkouts/{checkoutId}": {
       "get": {
-        "tags": [
-          "checkout"
-        ],
+        "tags": ["checkout"],
         "summary": "Find checkout by id",
         "operationId": "findCheckoutById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "checkoutId",
@@ -3158,15 +3001,11 @@
         }
       },
       "put": {
-        "tags": [
-          "checkout"
-        ],
+        "tags": ["checkout"],
         "summary": "Update the checkout",
         "description": "",
         "operationId": "updateCheckout",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "checkoutId",
@@ -3207,15 +3046,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "checkout"
-        ],
+        "tags": ["checkout"],
         "summary": "Delete the checkout",
         "description": "",
         "operationId": "deleteCheckout",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "checkoutId",
@@ -3254,18 +3089,12 @@
     },
     "/orderProducts": {
       "get": {
-        "tags": [
-          "orderProduct"
-        ],
+        "tags": ["orderProduct"],
         "summary": "Get array of orderProducts",
         "description": "",
         "operationId": "getOrderProducts",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -3355,17 +3184,11 @@
     },
     "/orderProducts/{orderProductId}": {
       "get": {
-        "tags": [
-          "orderProduct"
-        ],
+        "tags": ["orderProduct"],
         "summary": "Find orderProduct by id",
         "operationId": "findOrderProductById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -3400,18 +3223,12 @@
     },
     "/reviews": {
       "get": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Get array of reviews",
         "description": "",
         "operationId": "getReviews",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "productId",
@@ -3484,15 +3301,11 @@
         }
       },
       "post": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Create a review",
         "description": "",
         "operationId": "createReview",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -3534,17 +3347,11 @@
     },
     "/reviews/{reviewId}": {
       "get": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Find review by id",
         "operationId": "findReviewById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -3577,15 +3384,11 @@
         }
       },
       "put": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Update the review",
         "description": "",
         "operationId": "updateReview",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -3633,15 +3436,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Delete the review",
         "description": "",
         "operationId": "deleteReview",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -4014,18 +3813,12 @@
     },
     "/wishlists": {
       "get": {
-        "tags": [
-          "wishlist"
-        ],
+        "tags": ["wishlist"],
         "summary": "Get array of wishlists",
         "description": "",
         "operationId": "getWishlists",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "sortBy",
@@ -4065,15 +3858,11 @@
         }
       },
       "post": {
-        "tags": [
-          "wishlist"
-        ],
+        "tags": ["wishlist"],
         "summary": "Create a wishlist",
         "description": "",
         "operationId": "createWishlist",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -4102,17 +3891,11 @@
     },
     "/wishlists/{wishlistId}": {
       "get": {
-        "tags": [
-          "wishlist"
-        ],
+        "tags": ["wishlist"],
         "summary": "Find wishlist by id",
         "operationId": "findWishlistById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "wishlistId",
@@ -4138,15 +3921,11 @@
         }
       },
       "put": {
-        "tags": [
-          "wishlist"
-        ],
+        "tags": ["wishlist"],
         "summary": "Update the wishlist",
         "description": "",
         "operationId": "updateWishlist",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "wishlistId",
@@ -4197,15 +3976,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "wishlist"
-        ],
+        "tags": ["wishlist"],
         "summary": "Delete the wishlist",
         "description": "",
         "operationId": "deleteWishlist",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "wishlistId",
@@ -4246,17 +4021,11 @@
     },
     "/wishlists/wishlistProducts/{wishlistId}": {
       "get": {
-        "tags": [
-          "wishlist"
-        ],
+        "tags": ["wishlist"],
         "summary": "Find products by wishlist id",
         "operationId": "findWishlistProducts",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "wishlistId",
@@ -4287,18 +4056,12 @@
     },
     "/slides": {
       "get": {
-        "tags": [
-          "slide"
-        ],
+        "tags": ["slide"],
         "summary": "Get array of slides",
         "description": "",
         "operationId": "getSlides",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -4312,15 +4075,11 @@
         }
       },
       "put": {
-        "tags": [
-          "slide"
-        ],
+        "tags": ["slide"],
         "summary": "Update slides",
         "description": "",
         "operationId": "updateSlides",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -4366,17 +4125,11 @@
     },
     "/slides/{slideId}": {
       "get": {
-        "tags": [
-          "slide"
-        ],
+        "tags": ["slide"],
         "summary": "Find slide by id",
         "operationId": "findSlideById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "slideId",
@@ -4404,18 +4157,12 @@
     },
     "/advertisements": {
       "get": {
-        "tags": [
-          "advertisement"
-        ],
+        "tags": ["advertisement"],
         "summary": "Get array of advertisements",
         "description": "",
         "operationId": "getAdvertisements",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -4431,17 +4178,11 @@
     },
     "/advertisements/{advertisementId}": {
       "get": {
-        "tags": [
-          "advertisement"
-        ],
+        "tags": ["advertisement"],
         "summary": "Find advertisement by id",
         "operationId": "findAdvertisementById",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "advertisementId",
@@ -4467,15 +4208,11 @@
         }
       },
       "put": {
-        "tags": [
-          "advertisement"
-        ],
+        "tags": ["advertisement"],
         "summary": "Update the advertisement",
         "description": "",
         "operationId": "updateAdvertisement",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -4525,15 +4262,11 @@
     },
     "/analytics": {
       "get": {
-        "tags": [
-          "analytics"
-        ],
+        "tags": ["analytics"],
         "summary": "Get analytics object",
         "description": "",
         "operationId": "getAnalytics",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -4572,9 +4305,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -4608,15 +4339,11 @@
     },
     "/analytics/dynamic": {
       "get": {
-        "tags": [
-          "analytics"
-        ],
+        "tags": ["analytics"],
         "summary": "Get sales dynamic from period",
         "description": "",
         "operationId": "getDynamic",
-        "consumes": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -4648,9 +4375,7 @@
             "type": "string"
           }
         ],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -4700,10 +4425,7 @@
   },
   "definitions": {
     "Brand": {
-      "required": [
-        "name",
-        "url"
-      ],
+      "required": ["name", "url"],
       "properties": {
         "id": {
           "type": "string",
@@ -4852,11 +4574,7 @@
       }
     },
     "CategoryDTO": {
-      "required": [
-        "name",
-        "parameters",
-        "url"
-      ],
+      "required": ["name", "parameters", "url"],
       "properties": {
         "name": {
           "type": "string"
@@ -4888,11 +4606,7 @@
       }
     },
     "Color": {
-      "required": [
-        "name",
-        "url",
-        "code"
-      ],
+      "required": ["name", "url", "code"],
       "properties": {
         "id": {
           "type": "string",
@@ -4918,11 +4632,7 @@
       }
     },
     "ColorWithoutJoins": {
-      "required": [
-        "name",
-        "url",
-        "code"
-      ],
+      "required": ["name", "url", "code"],
       "properties": {
         "id": {
           "type": "string",
@@ -4953,9 +4663,7 @@
       }
     },
     "Parameter": {
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "properties": {
         "id": {
           "type": "string",
@@ -5005,10 +4713,7 @@
       }
     },
     "ParameterProductsDTO": {
-      "required": [
-        "parameterId",
-        "value"
-      ],
+      "required": ["parameterId", "value"],
       "properties": {
         "parameterId": {
           "type": "number"
@@ -5143,12 +4848,7 @@
       }
     },
     "ProductDTO": {
-      "required": [
-        "name",
-        "category",
-        "brand",
-        "url"
-      ],
+      "required": ["name", "category", "brand", "url"],
       "properties": {
         "id": {
           "type": "string",
@@ -5201,10 +4901,7 @@
       }
     },
     "Tag": {
-      "required": [
-        "name",
-        "url"
-      ],
+      "required": ["name", "url"],
       "properties": {
         "id": {
           "type": "string",
@@ -5357,12 +5054,7 @@
       }
     },
     "AddressDTO": {
-      "required": [
-        "receiverName",
-        "receiverPhone",
-        "address",
-        "zipCode"
-      ],
+      "required": ["receiverName", "receiverPhone", "address", "zipCode"],
       "properties": {
         "id": {
           "type": "string",
@@ -5395,12 +5087,7 @@
       }
     },
     "Basket": {
-      "required": [
-        "id",
-        "orderProducts",
-        "createdAt",
-        "updatedAt"
-      ],
+      "required": ["id", "orderProducts", "createdAt", "updatedAt"],
       "properties": {
         "id": {
           "type": "string",
@@ -5525,11 +5212,7 @@
         },
         "status": {
           "type": "number",
-          "enum": [
-            "New",
-            "InDelivery",
-            "Completed"
-          ]
+          "enum": ["New", "InDelivery", "Completed"]
         }
       }
     },
@@ -5567,10 +5250,7 @@
       }
     },
     "CheckoutDTO": {
-      "required": [
-        "address",
-        "basket"
-      ],
+      "required": ["address", "basket"],
       "properties": {
         "id": {
           "type": "string",
@@ -5597,11 +5277,7 @@
       }
     },
     "OrderProduct": {
-      "required": [
-        "id",
-        "product",
-        "inBasket"
-      ],
+      "required": ["id", "product", "inBasket"],
       "properties": {
         "id": {
           "type": "string",
@@ -5643,10 +5319,7 @@
       }
     },
     "OrderProductDTO": {
-      "required": [
-        "productId",
-        "qty"
-      ],
+      "required": ["productId", "qty"],
       "properties": {
         "productId": {
           "type": "string"
@@ -5689,11 +5362,7 @@
       }
     },
     "ReviewDTO": {
-      "required": [
-        "rating",
-        "productId",
-        "userId"
-      ],
+      "required": ["rating", "productId", "userId"],
       "properties": {
         "id": {
           "type": "string",
@@ -5833,10 +5502,7 @@
     },
     "SigninDTO": {
       "type": "object",
-      "required": [
-        "email",
-        "password"
-      ],
+      "required": ["email", "password"],
       "properties": {
         "email": {
           "type": "string"
@@ -5848,12 +5514,7 @@
     },
     "SignupDTO": {
       "type": "object",
-      "required": [
-        "firstName",
-        "lastName",
-        "email",
-        "password"
-      ],
+      "required": ["firstName", "lastName", "email", "password"],
       "properties": {
         "firstName": {
           "type": "string"
@@ -5887,12 +5548,7 @@
       }
     },
     "User": {
-      "required": [
-        "firstName",
-        "lastName",
-        "email",
-        "password"
-      ],
+      "required": ["firstName", "lastName", "email", "password"],
       "properties": {
         "id": {
           "type": "string",

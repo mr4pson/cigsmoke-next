@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import isEmpty from 'validator/lib/isEmpty';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import { Container, Header } from '../common';
 import { styleProps } from 'components/store/lib/types';
 import { InputsTooltip, handleChangePsw } from './helpers';
@@ -75,6 +76,8 @@ const Changepsw = (props: any) => {
                 <span className="required">*</span>
               </b>
               <InputsTooltip
+                enterTouchDelay={0}
+                leaveTouchDelay={5000}
                 key="old-psw-tip"
                 title={
                   <React.Fragment>
@@ -155,6 +158,8 @@ const Changepsw = (props: any) => {
                 <span className="required">*</span>
               </b>
               <InputsTooltip
+                enterTouchDelay={0}
+                leaveTouchDelay={5000}
                 key="psw-tip"
                 title={
                   <React.Fragment>
@@ -236,6 +241,8 @@ const Changepsw = (props: any) => {
                 <span className="required">*</span>
               </b>
               <InputsTooltip
+                enterTouchDelay={0}
+                leaveTouchDelay={5000}
                 key="psw-tip"
                 title={
                   <React.Fragment>
@@ -388,6 +395,15 @@ const FormWrapper = styled.form`
   gap: 15px;
   h4 {
     font-size: 1rem;
+  }
+  @media ${devices.laptopM} {
+    flex-direction: column;
+  }
+  @media ${devices.laptopS} {
+    flex-direction: column;
+  }
+  @media ${devices.mobileL} {
+    flex-direction: column;
   }
 `;
 

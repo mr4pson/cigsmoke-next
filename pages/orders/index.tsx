@@ -41,7 +41,7 @@ const Orders = () => {
         flex_direction="column"
         justify_content="center"
         align_items="center"
-        padding="50px"
+        padding="150px"
         bg_color={color.textPrimary}
       >
         <Wrapper>
@@ -50,12 +50,15 @@ const Orders = () => {
             justify_content="flex-start"
             gap="30px"
           >
+            <PageTitle>Заказы</PageTitle>
             {checkouts.length && !loading ? (
               <Order checkouts={checkouts} />
             ) : loading ? (
               <Loading />
             ) : (
-              <NoOreder>У вас пока нет заказов</NoOreder>
+              <NoOreder>
+                <h2>У вас пока нет заказов</h2>
+              </NoOreder>
             )}
           </Content>
         </Wrapper>
@@ -63,9 +66,12 @@ const Orders = () => {
     </>
   );
 };
-
+const PageTitle = styled.h3`
+  font-size: 2rem;
+  font-family: 'intro';
+`;
 const NoOreder = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 70vh;
   h2 {
     font-family: 'intro';

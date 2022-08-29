@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Btns, Container, Content, Wrapper } from './common';
+import { overrideDefaultIOSZoom } from './helpers';
 import AuthComp from './utils/HeaderAuth/index';
 import HeaderCart from './utils/HeaderCart';
 import SearchBar from './utils/SearchBar/SearchBar';
@@ -15,6 +16,7 @@ import HeaderCatalog from './utils/HeaderCatalog/index';
 import { devices } from '../lib/Devices';
 import { useEffect, useState } from 'react';
 import NavWrapMobile from './NavWrapMobile';
+import AuthBtnMobile from './utils/HeaderAuth/AuthBtnMobile';
 
 const Header = () => {
   const [boxShadow, setBoxShadow] = useState('');
@@ -31,6 +33,7 @@ const Header = () => {
       setBoxShadow('');
     });
   }, []);
+  useEffect(() => overrideDefaultIOSZoom(), []);
   return (
     <>
       <Head>
@@ -72,6 +75,7 @@ const Header = () => {
             </LogoWrapper>
             <HeaderCatalog />
             <SearchBar />
+            <AuthBtnMobile />
             <NavWrap>
               <RelativeContainer id="auth-container">
                 <AuthComp />
