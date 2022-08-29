@@ -38,14 +38,18 @@ const Section = () => {
       }
       if (history && !user && !userHistoryInDB) {
         products = await UserHistoryService.getUserHistory({
-          body: { history },
+          body: { history: JSON.parse(history) },
         });
       }
       if (history && user && !userHistoryInDB) {
-        await UserHistoryInDbService.createUserHistory({ body: { history } });
+        await UserHistoryInDbService.createUserHistory({
+          body: { history: JSON.parse(history) },
+        });
       }
       if (history && user && userHistoryInDB) {
-        await UserHistoryInDbService.updateUserHistory({ body: { history } });
+        await UserHistoryInDbService.updateUserHistory({
+          body: { history: JSON.parse(history) },
+        });
         products = await UserHistoryInDbService.getUserHistory();
       }
       // (
