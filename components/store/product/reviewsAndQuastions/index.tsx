@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MutableRefObject, useState } from 'react';
 import styled from 'styled-components';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -15,13 +15,26 @@ import { a11yProps } from './helpers';
 import Reviews from './reviews';
 import Quastions from './quastions';
 import { HeaderWrapper } from '../common';
+import { useAppDispatch } from 'redux/hooks';
+import { Product } from 'swagger/services';
 
-const ReveiwsAndQuastions = (props: any) => {
+type Props = {
+  reviewRef: MutableRefObject<null>;
+  questionRef: MutableRefObject<null>;
+  product: Product | undefined;
+};
+const ReveiwsAndQuastions: React.FC<Props> = ({
+  reviewRef,
+  questionRef,
+  product,
+}) => {
+  const dispatch = useAppDispatch();
   const [tab, setTab] = useState(0);
   const [content, setContent] = useState(false);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
   };
+
   return (
     <Container
       id="reveiws-quastions"
@@ -66,12 +79,12 @@ const ReveiwsAndQuastions = (props: any) => {
                 aria-label="reviews label"
               >
                 <Tab
-                  ref={props.reviewRef}
+                  ref={reviewRef}
                   label="Отзывы о товаре"
                   {...a11yProps(0)}
                 />
                 <Tab
-                  ref={props.questionRef}
+                  ref={questionRef}
                   label="Вопросы и ответы о товаре"
                   {...a11yProps(1)}
                 />

@@ -1,8 +1,14 @@
+import { Reaction } from "common/enums/reaction.enum";
+import { createImage } from "redux/slicers/imagesSlicer";
+import { createCommentReaction, createReviewReaction, deleteCommentReaction, deleteReviewReaction } from "redux/slicers/store/productInfoSlicer";
+import { AppDispatch } from "redux/store";
+import { Comment, CommentReaction, Rating, ReviewReaction, ReviewWithoutJoins, User } from "swagger/services";
+
 const progressBarCalc = (totalReviews: number, totalStars: number) => {
   return (totalStars * 100) / totalReviews;
 };
 
-const handleFileChange = (event: any, setSrc: any) => {
+const handleFileChange = async (event: any, setSrc: any, dispatch: AppDispatch) => {
   const fileObj = event.target.files;
   if (!fileObj[0]) {
     return;
@@ -10,8 +16,108 @@ const handleFileChange = (event: any, setSrc: any) => {
   const imagesUrl: any = [];
   for (let i = 0; i < fileObj.length; i++) {
     imagesUrl.push(URL.createObjectURL(fileObj[i]));
+
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+
+    try {
+      await dispatch(createImage({
+        config,
+        file: fileObj[i]
+      }))
+    } catch (error: any) {
+      console.log(error);
+    }
   }
   setSrc(imagesUrl);
 };
 
-export { progressBarCalc, handleFileChange };
+const getTotalReviewsNumber = (rating: Rating | undefined): number => {
+  return rating ? Object.entries(rating).reduce((accum, [key, number]) => {
+    if (isNaN(Number(key))) {
+      return accum;
+    }
+    return accum + number;
+  }, 0) : 0;
+};
+
+const getReactionNumber = (reactions: (ReviewReaction | CommentReaction)[] | undefined, reactionValue: Reaction) => {
+  return reactions?.reduce((accum, reaction) => {
+    return reaction.reaction === reactionValue ? accum + 1 : accum;
+  }, 0) ?? 0;
+}
+
+const handleReviewReactionClick =
+  (review: ReviewWithoutJoins, dispatch: any, reactionValue: Reaction, user: User | null) =>
+    async (e) => {
+      e.preventDefault();
+      const reaction = review.reactions?.find(
+        (reaction) => reaction.userId == user?.id,
+      );
+
+      if (reaction && reaction.reaction === reactionValue) {
+        dispatch(deleteReviewReaction(reaction.id!));
+      } else if (reaction && reaction.reaction !== reactionValue) {
+        await dispatch(deleteReviewReaction(reaction.id!));
+        dispatch(
+          createReviewReaction({
+            userId: user?.id!,
+            reviewId: review.id!,
+            reaction: reactionValue,
+          }),
+        );
+      } else {
+        dispatch(
+          createReviewReaction({
+            userId: user?.id!,
+            reviewId: review.id!,
+            reaction: reactionValue,
+          }),
+        );
+      }
+    };
+
+const handleCommentReactionClick =
+  (
+    review: ReviewWithoutJoins,
+    comment: Comment,
+    dispatch: any,
+    reactionValue: Reaction,
+    user: User | null,
+  ) =>
+    async (e) => {
+      e.preventDefault();
+      const reaction = comment.reactions?.find(
+        (reaction) => reaction.userId == user?.id,
+      );
+
+      if (reaction && reaction.reaction === reactionValue) {
+        dispatch(
+          deleteCommentReaction({ id: reaction.id!, reviewId: review.id! }),
+        );
+      } else if (reaction && reaction.reaction !== reactionValue) {
+        await dispatch(
+          deleteCommentReaction({ id: reaction.id!, reviewId: review.id! }),
+        );
+        dispatch(
+          createCommentReaction({
+            userId: user?.id!,
+            commentId: comment.id!,
+            reviewId: review.id!,
+            reaction: reactionValue,
+          }),
+        );
+      } else {
+        dispatch(
+          createCommentReaction({
+            userId: user?.id!,
+            commentId: comment.id!,
+            reviewId: review.id!,
+            reaction: reactionValue,
+          }),
+        );
+      }
+    };
+
+export { progressBarCalc, handleFileChange, getTotalReviewsNumber, getReactionNumber, handleReviewReactionClick, handleCommentReactionClick };

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Rating } from '@mui/material';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
@@ -9,13 +9,26 @@ import { handleFileChange } from './helpers';
 import Upload from '../../../../../assets/upload.svg';
 import Delete from '../../../../../assets/delete.svg';
 import Share from '../../../../../assets/shareWhite.svg';
+import { getUserInfo } from 'common/helpers/jwtToken.helpers';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { clearImageList } from 'redux/slicers/imagesSlicer';
+import { Product } from 'swagger/services';
+import { AppDispatch } from 'redux/store';
+import { createReview } from 'redux/slicers/store/productInfoSlicer';
 
-const AddReview = () => {
+type Props = {
+  product: Product | undefined;
+};
+const AddReview: React.FC<Props> = ({ product }) => {
+  const dispatch = useAppDispatch();
   const [rate, setRate] = useState(0);
   const [src, setSrc] = useState([]);
   const [input, setInput] = useState('');
   const [success, setSuccess] = useState('');
   const inputRef = useRef<any>(null);
+  const user = getUserInfo();
+  const imageList = useAppSelector<any[]>((state) => state.images.imageList);
+
   const handleClick = (evt: any) => {
     evt.preventDefault();
     inputRef.current.click();
@@ -24,6 +37,36 @@ const AddReview = () => {
   const handleDelete = (passed: any) => {
     setSrc(src.filter((item) => item != passed));
   };
+
+  const handleReviewPublish =
+    (
+      dispatch: AppDispatch,
+      rating: number,
+      images: string[],
+      text: string,
+      userId: string,
+      productId: string,
+    ) =>
+    async (e) => {
+      e.preventDefault();
+      const payload = {
+        rating,
+        text,
+        images: images.join(', '),
+        productId,
+        userId,
+      };
+      await dispatch(createReview(payload));
+      console.log(payload);
+      setSuccess('Ваш отзыв опубликован');
+      setTimeout(() => setSuccess(''), 2000);
+    };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearImageList());
+    };
+  }, []);
 
   return (
     <AddReviewContainer
@@ -59,7 +102,7 @@ const AddReview = () => {
           type="file"
           name="img"
           multiple
-          onChange={(evt) => handleFileChange(evt, setSrc)}
+          onChange={(evt) => handleFileChange(evt, setSrc, dispatch)}
         />
         <motion.button
           whileHover="hover"
@@ -79,11 +122,14 @@ const AddReview = () => {
           animate={input.length == 0 ? 'init' : 'animate'}
           variants={variants.fadeOutSlideOut}
           style={{ display: input.length == 0 ? 'none' : 'flex' }}
-          onClick={(e) => {
-            e.preventDefault();
-            setSuccess('Ваш отзыв опубликован');
-            setTimeout(() => setSuccess(''), 2000);
-          }}
+          onClick={handleReviewPublish(
+            dispatch,
+            rate,
+            imageList,
+            input,
+            user?.id!,
+            product?.id!,
+          )}
         >
           <span>Опубликовать обзор</span>
           <span>

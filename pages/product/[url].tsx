@@ -53,10 +53,11 @@ const ProductInfoPage = () => {
         wishlist={wishlist}
       />
       <Recomendation />
-      {/* <ReveiwsAndQuastions
-          reviewRef={reviewBtnRef}
-          questionRef={questionBtnRef}
-        /> */}
+      <ReveiwsAndQuastions
+        product={product}
+        reviewRef={reviewBtnRef}
+        questionRef={questionBtnRef}
+      />
     </>
   ) : (
     <LoadingWrapper>
