@@ -42,7 +42,7 @@ const ReviewItem: React.FC<Props> = ({ index, review }) => {
         </span>
       </div>
       {/* TODO add product id here */}
-      <Link href={`/product/${review.id}`}>
+      <Link href={`/product/${review.product?.url}`}>
         <a>
           <motion.img
             whileHover="hover"

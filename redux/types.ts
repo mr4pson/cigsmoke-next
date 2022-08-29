@@ -148,6 +148,7 @@ type TAnalyticsState = {
 type TProductInfoState = {
   product?: Product;
   loading: boolean;
+  saveLoading: boolean;
 };
 
 type TBannerState = {
@@ -208,6 +209,11 @@ type TWishlistState = {
   loading: boolean;
 };
 
+type TProductReviewsState = {
+  reviews: Review[];
+  loading: boolean;
+};
+
 export type {
   TCategoryState,
   TAuthState,
@@ -235,4 +241,5 @@ export type {
   TOrderInfo,
   TMultipleImageState,
   TWishlistState,
+  TProductReviewsState,
 };

@@ -45,11 +45,12 @@ const ProductInfoPage = () => {
         cart={cart}
         wishlist={wishlist}
       />
-      <Recomendation product={product} />
-      {/* <ReveiwsAndQuastions
-          reviewRef={reviewBtnRef}
-          questionRef={questionBtnRef}
-        /> */}
+      <Recomendation />
+      <ReveiwsAndQuastions
+        product={product}
+        reviewRef={reviewBtnRef}
+        questionRef={questionBtnRef}
+      />
     </>
   ) : (
     <LoadingWrapper>

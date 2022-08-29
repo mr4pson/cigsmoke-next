@@ -4,18 +4,39 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Like from '../../../../assets/like.svg';
 import { styleProps } from 'components/store/lib/types';
+import { Review } from 'swagger/services';
+import { AppDispatch } from 'redux/store';
 
-const LikeDisLike = (props: any) => {
+type Props = {
+  bgColor: string;
+  likeNum: number;
+  dislikeNum: number;
+  isLiked: boolean;
+  isDisliked: boolean;
+  onLikeClick: (e) => void;
+  onDislikeClick: (e) => void;
+};
+const LikeDisLike: React.FC<Props> = ({
+  bgColor,
+  likeNum,
+  dislikeNum,
+  isLiked,
+  isDisliked,
+  onLikeClick,
+  onDislikeClick,
+}) => {
   return (
-    <LikeDisLikeWrapper bgcolor={props.bgColor}>
+    <LikeDisLikeWrapper bgcolor={bgColor}>
       <motion.button
         custom={1.1}
         whileHover="hover"
         whileTap="tap"
         variants={variants.grow}
+        onClick={onLikeClick}
+        style={{ background: isLiked ? '#dfdfdf' : '#fff' }}
       >
         <Like />
-        {`0`}
+        {likeNum}
       </motion.button>
       <motion.button
         custom={1.1}
@@ -23,9 +44,11 @@ const LikeDisLike = (props: any) => {
         whileTap="tap"
         variants={variants.grow}
         className="dislike"
+        onClick={onDislikeClick}
+        style={{ background: isDisliked ? '#dfdfdf' : '#fff' }}
       >
         <Like />
-        {`0`}
+        {dislikeNum}
       </motion.button>
     </LikeDisLikeWrapper>
   );

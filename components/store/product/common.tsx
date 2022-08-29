@@ -33,7 +33,7 @@ const LoadMoreBtnWrapper = styled.div`
   justify-content: center;
   align-items: center;
   button {
-    width: 200px;
+    width: 250px;
     height: 45px;
     border-radius: 15px;
     background-color: ${color.btnPrimary};
@@ -127,8 +127,19 @@ const ReviewReplyItem = styled.div`
       justify-content: flex-end;
       align-items: center;
       gap: 20px;
+
       .post-date {
         color: ${color.textSecondary};
+        display: flex;
+        flex-direction: column;
+
+        button {
+          text-align: right;
+          cursor: pointer;
+          &:hover {
+            color: #edba64;
+          }
+        }
       }
     }
   }
@@ -162,6 +173,11 @@ const UserImageWrapper = styled.div`
     width: 1px;
     height: 100%;
     background-color: ${color.textSecondary};
+  }
+
+  img {
+    width: 70px;
+    height: 70px;
   }
 `;
 

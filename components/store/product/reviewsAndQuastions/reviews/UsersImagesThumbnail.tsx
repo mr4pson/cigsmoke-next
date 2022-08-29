@@ -3,12 +3,12 @@ import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 
-const UserImages = (props: any) => {
+const UserImages = ({ title, thumbnails, setOpen, setDisplay }) => {
   return (
     <ImagesWrapper>
-      <h3>{props.title}</h3>
+      <h3>{title}</h3>
       <ImagesContentWrapper>
-        {props.thumbnails.slice(0, 6).map((images, index) => {
+        {thumbnails.slice(0, 6).map((image, index) => {
           return (
             <motion.li
               key={`user-images-${index}`}
@@ -18,20 +18,27 @@ const UserImages = (props: any) => {
               viewport={{ once: true }}
               variants={variants.fadInSlideUp}
               onClick={() => {
-                props.setOpen(true);
-                props.setDisplay('flex');
+                setOpen(true);
+                setDisplay('flex');
               }}
             >
-              <motion.img
+              <motion.div
                 custom={index * 0.08}
                 initial="init"
                 whileInView="animate"
                 viewport={{ once: true }}
                 variants={variants.slideInFromRigh}
-                src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+                style={{
+                  backgroundImage: `url(/api/images/${image})`,
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  width: '80px',
+                  height: '80px',
+                }}
               />
               {index > 4 ? (
-                <span>{`+${props.thumbnails.length - index - 1}`}</span>
+                <span>{`+${thumbnails.length - index - 1}`}</span>
               ) : (
                 ''
               )}
