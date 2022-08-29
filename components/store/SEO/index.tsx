@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { settings } from './helpers';
 
@@ -56,24 +55,29 @@ const socialTags = ({
   return metaTags;
 };
 
-const SEO = (props: any) => {
-  const { url, title, description, image, schemaType, keywords } = props;
-  const images: any = [];
-  for (let i = 0; i < image.length; i++) {
-    images.push(`http://194.58.90.236:4010/api/images/${image[i]}`);
+const SEO = ({ product, images }) => {
+  const url = `https://www.wuluxe.ru/prodcut/${product?.url}`;
+  const image: any = [];
+  for (let i = 0; i < images?.length; i++) {
+    image.push(`http://194.58.90.236:4010/api/images/${images[i]}`);
   }
   return (
     <Head>
-      <title>{title} | Wuluxe</title>
+      <title>{product?.name} | Wuluxe</title>
       <meta name="robots" content="index, follow" />
-      <meta name="title" content={title} />
-      <meta name="description" content={description} />
-      <meta
-        name="image"
-        content={`http://194.58.90.236:4010/api/images/${image[0]}`}
-      />
-      <meta name="keywords" content={keywords} />
-      {socialTags(props).map(({ name, content }) => {
+      <meta name="title" content={product?.name} />
+      <meta name="description" content={product?.desc} />
+      <meta name="image" content={image[0]} />
+      <meta name="keywords" content={product?.keywords} />
+      {socialTags({
+        openGraphType: 'product',
+        url: url,
+        title: product?.name,
+        description: product?.desc,
+        image: image[0],
+        createdAt: product?.createdAt,
+        updatedAt: product?.updatedAt,
+      }).map(({ name, content }) => {
         return <meta key={name} name={name} content={content} />;
       })}
       <script
@@ -82,25 +86,23 @@ const SEO = (props: any) => {
           __html: JSON.stringify({
             '@context': 'http://schema.org',
             '@type': 'Product',
-            name: title,
-            description: description,
-            // url: url,
-            image: images,
+            name: product?.title,
+            description: product?.desc,
+            image: image,
             brand: {
               '@type': 'Brand',
-              name: 'ACME',
+              name: product?.brand,
             },
             aggregateRating: {
               '@type': 'AggregateRating',
-              ratingValue: '4.4',
-              reviewCount: '89',
+              ratingValue: product?.rating?.avg,
+              reviewCount: product?.reviews?.length,
             },
             offers: {
               '@type': 'Offer',
               url: url,
               priceCurrency: 'RUB',
-              price: '119.99',
-              // priceValidUntil: '2020-11-20',
+              price: product?.productVariants[0],
               itemCondition: 'https://schema.org/NewCondition',
               availability: 'https://schema.org/InStock',
             },
@@ -110,32 +112,5 @@ const SEO = (props: any) => {
     </Head>
   );
 };
-// options for avialability
-// BackOrder;
-// Discontinued;
-// InStock;
-// InStoreOnly;
-// LimitedAvailability;
-// OnlineOnly;
-// OutOfStock;
-// PreOrder;
-// PreSale;
-// SoldOut;
-
-// SEO.defaultProps = {
-//   title: settings && settings.meta && settings.meta.title,
-//   description: settings && settings.meta && settings.meta.description,
-//   image:
-//     settings &&
-//     settings.meta &&
-//     settings.meta.social &&
-//     settings.meta.social.graphic,
-// };
-
-// SEO.propTypes = {
-//   title: PropTypes.string,
-//   description: PropTypes.string,
-//   image: PropTypes.string,
-// };
 
 export default SEO;
