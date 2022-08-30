@@ -1,6 +1,7 @@
 import { Rating } from '@mui/material';
 import { Modal } from 'antd';
 import { Reaction } from 'common/enums/reaction.enum';
+import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
@@ -56,6 +57,7 @@ const Review = () => {
   const [commentId, setCommentId] = useState('');
   const [isCommentSendVisibleMap, setIsCommentSendVisibleMap] = useState({});
   const [commentValueMap, setCommentValueMap] = useState({});
+  // const [imagesData, setImagesData] = useState(8);
 
   const onReviewRemoveClick = (id: string) => () => {
     setIsReviewModalVisible(true);
@@ -194,6 +196,9 @@ const Review = () => {
                         display={reviewDisplay}
                         setDisplay={setReveiwsDisplay}
                         images={thumbnails}
+                        review={review}
+                        // imagesData={imagesData}
+                        // setImagesData={setImagesData}
                       />
                     </UserImagesWrapper>
                     <LikeDisLike
@@ -260,7 +265,7 @@ const Review = () => {
                           <span className="date-stars">
                             <span className="post-date">
                               {moment(comment.createdAt).format('DD.MM.YYYY')}
-                              {review.user?.id == user?.id && (
+                              {comment.user?.id == user?.id && (
                                 <button
                                   onClick={onCommentRemoveClick(comment.id!)}
                                 >

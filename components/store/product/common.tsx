@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from '../lib/ui.colors';
 import { styleProps } from '../lib/types';
+import { devices } from '../lib/Devices';
 
 const HeaderWrapper = styled(motion.div)`
   width: 100%;
@@ -53,6 +54,14 @@ const ReviewContainer = styled.ul`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 30px;
+
+  @media ${devices.laptopS} {
+    width: 100%;
+  }
+
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
 `;
 
 const ReviewReplyWrapper = styled(motion.li)`
@@ -140,6 +149,12 @@ const ReviewReplyItem = styled.div`
             color: #edba64;
           }
         }
+      }
+
+      @media ${devices.mobileL} {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 5px;
       }
     }
   }

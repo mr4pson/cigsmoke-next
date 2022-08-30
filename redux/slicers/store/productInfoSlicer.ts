@@ -289,7 +289,7 @@ const productInfoSlicer = createSlice({
         },
       )
       .addCase(deleteComment.rejected, handleError)
-      //deleteComment
+      //createReview
       .addCase(createReview.pending, handleChangePending)
       .addCase(
         createReview.fulfilled,
