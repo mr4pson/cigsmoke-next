@@ -8,29 +8,58 @@ import LikeDisLike from '../LikeOrDisLike';
 import { SliderImage } from '../../common';
 import UserImagePicker from './UserImagePagination';
 import { handleDragEnd } from 'components/home-page/helpers';
-import { SWIPE_CONFIDENCE_THRESHOLD, image } from '../../constants';
+import { SWIPE_CONFIDENCE_THRESHOLD } from '../../constants';
 import { UseImagePaginat } from 'components/store/storeLayout/helpers';
 import CloseBtn from '../../../../../assets/close.svg';
 import { devices } from 'components/store/lib/Devices';
+import moment from 'moment';
+import { Reaction } from 'common/enums/reaction.enum';
+import { getReactionNumber } from './helpers';
+import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 
-const UserImagesSlider = (props: any) => {
+const UserImagesSlider = ({
+  setSelectedIndex,
+  selectedIndex,
+  isOpen,
+  setOpen,
+  display,
+  setDisplay,
+  images,
+  review,
+  // imagesData,
+  // setImagesData,
+}) => {
+  const user = getUserInfo();
   const [page, direction, setPage, paginateImage] = UseImagePaginat();
+  const isReviewLiked = !!review?.reactions?.find(
+    (reaction) =>
+      reaction.userId == user?.id && reaction.reaction === Reaction.Like,
+  );
+  const isReviewDisliked = !!review?.reactions?.find(
+    (reaction) =>
+      reaction.userId == user?.id && reaction.reaction === Reaction.Dislike,
+  );
+  const likeNum = getReactionNumber(review?.reactions, Reaction.Like);
+  const dislikeNum = getReactionNumber(review?.reactions, Reaction.Dislike);
+
   return (
     <Slidercontainer
-      style={{ display: props.display }}
-      custom={props.isOpen ? 0 : 0.3}
-      animate={props.isOpen ? 'animate' : 'init'}
+      style={{ display }}
+      custom={isOpen ? 0 : 0.3}
+      animate={isOpen ? 'animate' : 'init'}
       variants={variants.fadInSlideUp}
     >
       <SliderContent>
-        <StarsWrapper
-          custom={props.isOpen ? 0.1 : 0}
-          animate={props.isOpen ? 'animate' : 'init'}
-          variants={variants.fadInSlideUp}
-        >
-          <span className="rating-image">Отзыв</span>
-          <Rating value={4} size="medium" readOnly />
-        </StarsWrapper>
+        {!!review?.rating && (
+          <StarsWrapper
+            custom={isOpen ? 0.1 : 0}
+            animate={isOpen ? 'animate' : 'init'}
+            variants={variants.fadInSlideUp}
+          >
+            <span className="rating-image">Отзыв</span>
+            <Rating value={review?.rating} size="medium" readOnly />
+          </StarsWrapper>
+        )}
         <ArrowBtns
           position="absolute"
           top="25px"
@@ -41,8 +70,8 @@ const UserImagesSlider = (props: any) => {
           whileTap="tap"
           variants={variants.grow}
           onClick={() => {
-            props.setOpen(false);
-            setTimeout(() => props.setDisplay('none'), 300);
+            setOpen(false);
+            setTimeout(() => setDisplay('none'), 300);
           }}
         >
           <ArrowSpan>
@@ -50,14 +79,14 @@ const UserImagesSlider = (props: any) => {
           </ArrowSpan>
         </ArrowBtns>
         <SliderWrapper
-          custom={props.isOpen ? 0.1 : 0}
-          animate={props.isOpen ? 'animate' : 'init'}
+          custom={isOpen ? 0.1 : 0}
+          animate={isOpen ? 'animate' : 'init'}
           variants={variants.fadInSlideUp}
         >
           <AnimatePresence initial={false} custom={direction}>
             <SliderImage
               key={page}
-              src={image}
+              src={`/api/images/${images[selectedIndex]}`}
               custom={direction}
               variants={variants.slider}
               initial="enter"
@@ -80,41 +109,55 @@ const UserImagesSlider = (props: any) => {
         </SliderWrapper>
         <ReviewAndPaginateWrapper>
           <ReviewAndBtnsWrapper>
-            <ReviewHeaderWrapper
-              custom={props.isOpen ? 0.15 : 0.5}
-              animate={props.isOpen ? 'animate' : 'init'}
-              variants={variants.fadInSlideUp}
-            >
-              <h3>Комментарии</h3>
-              <span>1</span>
-            </ReviewHeaderWrapper>
+            {!!review && (
+              <ReviewHeaderWrapper
+                custom={isOpen ? 0.15 : 0.5}
+                animate={isOpen ? 'animate' : 'init'}
+                variants={variants.fadInSlideUp}
+              >
+                <h3>Комментарии</h3>
+                <span>{review?.comments.length}</span>
+              </ReviewHeaderWrapper>
+            )}
             <UserReviewWrapper
-              custom={props.isOpen ? 0.2 : 0.1}
-              animate={props.isOpen ? 'animate' : 'init'}
+              custom={isOpen ? 0.2 : 0.1}
+              animate={isOpen ? 'animate' : 'init'}
               variants={variants.fadInSlideUp}
             >
-              <img src={image} alt="" />
-              <div className="user-review">
-                <h3>User name</h3>
-                <span className="review-date">19.07.2022</span>
-                <span className="user-post-text">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Officia suscipit quod culpa aut. Lorem ipsum dolor sit amet
-                  consectetur adipisicing elit. Suscipit ut veniam unde sed
-                  adipisci error ipsa dolore repellendus in accusamus. Officiis,
-                  sapiente! Delectus eveniet est assumenda voluptatum a? Enim,
-                  esse. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Officia suscipit quod culpa aut. Lorem ipsum dolor sit amet
-                  consectetur adipisicing elit. Suscipit ut veniam unde sed
-                  adipisci error ipsa dolore repellendus in accusamus. Officiis,
-                  sapiente! Delectus eveniet est assumenda voluptatum a? Enim,
-                  esse.
-                </span>
-              </div>
+              {review?.comments.map((comment) => (
+                <div className="user-comment-wrap">
+                  <img src={`/static/temp/gamer.png`} alt="" />
+                  <div className="user-review">
+                    <h3>{comment?.user?.firstName}</h3>
+                    <span className="review-date">
+                      {moment(comment.createAt).format('DD.MM.YYYY')}
+                    </span>
+                    <span className="user-post-text">{comment.text}</span>
+                  </div>
+                </div>
+              ))}
             </UserReviewWrapper>
-            <LikeDisLike bgColor={color.bgProduct} />
+            {!!review && (
+              <LikeDisLike
+                likeNum={likeNum}
+                dislikeNum={dislikeNum}
+                isLiked={isReviewLiked}
+                isDisliked={isReviewDisliked}
+                bgColor={color.textPrimary}
+                onLikeClick={() => {}}
+                onDislikeClick={() => {}}
+              />
+            )}
           </ReviewAndBtnsWrapper>
-          <UserImagePicker {...props} paginate={paginateImage} image={image} />
+          <UserImagePicker
+            // image={image}
+            images={images}
+            // imagesData={imagesData}
+            selectedIndex={selectedIndex}
+            paginate={paginateImage}
+            // setImagesData={setImagesData}
+            setSelectedIndex={setSelectedIndex}
+          />
         </ReviewAndPaginateWrapper>
       </SliderContent>
     </Slidercontainer>
@@ -149,7 +192,7 @@ const SliderContent = styled.div`
 `;
 
 const SliderWrapper = styled(motion.div)`
-  width: 70%;
+  width: calc(100% - 400px);
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -157,6 +200,14 @@ const SliderWrapper = styled(motion.div)`
   align-items: center;
   position: relative;
   overflow: hidden;
+
+  @media ${devices.laptopS} {
+    width: calc(100% - 280px);
+  }
+
+  @media ${devices.mobileL} {
+    width: calc(100% - 185px);
+  }
 `;
 
 const StarsWrapper = styled(motion.div)`
@@ -179,7 +230,7 @@ const StarsWrapper = styled(motion.div)`
 `;
 
 const ReviewAndPaginateWrapper = styled.div`
-  width: 30%;
+  width: 400px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -189,6 +240,16 @@ const ReviewAndPaginateWrapper = styled.div`
   padding: 40px 10px;
   border-left: 1px solid #e2e7ec;
   overflow-y: scroll;
+
+  @media ${devices.laptopS} {
+    width: 280px;
+  }
+
+  @media ${devices.mobileL} {
+    padding-right: 0;
+    margin-right: -25px;
+    width: 210px;
+  }
 `;
 
 const ReviewAndBtnsWrapper = styled.div`
@@ -199,11 +260,8 @@ const ReviewAndBtnsWrapper = styled.div`
   align-items: flex-start;
   gap: 15px;
   .user-post-text {
-    height: 125px;
+    max-height: 125px;
     overflow-y: scroll;
-    @media ${devices.laptopM} {
-      height: 200px;
-    }
   }
   ::-webkit-scrollbar {
     width: 10px;
@@ -225,11 +283,21 @@ const ReviewHeaderWrapper = styled(motion.div)`
 
 const UserReviewWrapper = styled(motion.div)`
   width: 100%;
+  max-height: 500px;
+  overflow: auto;
   display: flex;
-  flex-dirction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 10px;
+
+  .user-comment-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
   img {
     width: 40px;
     height: 40px;

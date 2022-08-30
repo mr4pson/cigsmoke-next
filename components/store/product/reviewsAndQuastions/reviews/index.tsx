@@ -9,8 +9,7 @@ import AddReview from './AddReview';
 import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { useAppSelector } from 'redux/hooks';
 import { TAuthState, TProductInfoState } from 'redux/types';
-
-const thumbnails = generateArrayOfNumbers(23);
+import { devices } from 'components/store/lib/Devices';
 
 const Reviews = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
@@ -21,12 +20,15 @@ const Reviews = () => {
   const [reviewsOpen, setReveiwsOpen] = useState(false);
   const [reviewDisplay, setReveiwsDisplay] = useState('none');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [imagesData, setImagesData] = useState(8);
-  const images = generateArrayOfNumbers(imagesData);
 
   const isReviewAlreadyPublished = !!product?.reviews?.find(
     (review) => review.user?.id == user?.id,
   );
+
+  const thumbnails = product?.reviews?.reduce((accum: string[], review) => {
+    const images = review.images ? review.images.split(', ') : [];
+    return images && images.length ? accum.concat(images) : accum;
+  }, []);
 
   useEffect(() => {
     setAuthorized(!!user);
@@ -48,9 +50,10 @@ const Reviews = () => {
           setOpen={setReveiwsOpen}
           display={reviewDisplay}
           setDisplay={setReveiwsDisplay}
-          images={images}
-          imagesData={imagesData}
-          setImagesData={setImagesData}
+          images={thumbnails}
+          review={undefined}
+          // imagesData={imagesData}
+          // setImagesData={setImagesData}
         />
         <Review />
       </ContentWrapper>
@@ -76,6 +79,16 @@ const ContentContainer = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   padding: 0;
+
+  @media ${devices.laptopS} {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  @media ${devices.mobileL} {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -86,6 +99,14 @@ const ContentWrapper = styled.div`
   padding: 20px 0;
   gap: 20px;
   position: relative;
+
+  @media ${devices.laptopS} {
+    width: 100%;
+  }
+
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
 `;
 
 export default Reviews;

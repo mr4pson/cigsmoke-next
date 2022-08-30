@@ -13,7 +13,7 @@ export const devices = {
   // mobileS: `(min-width: ${sizes.mobileS})`,
   // mobileM: `(min-width: ${sizes.mobileM})`,
   mobileL: `(min-width: ${sizes.mobileL}) and (max-width: ${sizes.tablet})`,
-  tablet: `(min-width: ${sizes.mobileL}) and (max-width: ${sizes.tablet})`,
+  // tablet: `(min-width: ${sizes.mobileL}) and (max-width: ${sizes.tablet})`,
   laptopS: `(min-width: ${sizes.tablet}) and (max-width: ${sizes.laptopS})`,
   laptopM: `(min-width: ${sizes.laptopS}) and (max-width: ${sizes.laptopM})`,
   // laptopL: `(min-width: ${sizes.laptopL})`,
