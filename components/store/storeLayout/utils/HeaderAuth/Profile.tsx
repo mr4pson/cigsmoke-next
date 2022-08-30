@@ -47,7 +47,12 @@ const Profile: React.FC<Props> = ({
         <AuthDevider style={{ justifyContent: 'flex-start' }}>
           <Link href="/profile">
             <a>
-              <motion.img src="/static/temp/gamer.png" />
+              <motion.img
+                src={`https://avatars.dicebear.com/api/micah/${Math.floor(
+                  Math.random() * 1000,
+                )}.svg?facialHairProbability=0&mouth[]=smile&scale=100&hair[]=fonze,full,pixie`}
+                alt="profile"
+              />
             </a>
           </Link>
           <ProfileDataWrapper>

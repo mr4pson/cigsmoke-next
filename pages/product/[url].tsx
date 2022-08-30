@@ -35,7 +35,8 @@ const ProductInfoPage = () => {
 
   const images = getProductVariantsImages(product?.productVariants);
 
-  return !loading && product ? (
+  // return !loading && product ?
+  return (
     <>
       <SEO images={images} product={product} />
       <ProductInfo
@@ -45,18 +46,19 @@ const ProductInfoPage = () => {
         cart={cart}
         wishlist={wishlist}
       />
-      <Recomendation />
+      <Recomendation product={product} />
       <ReveiwsAndQuastions
         product={product}
         reviewRef={reviewBtnRef}
         questionRef={questionBtnRef}
       />
     </>
-  ) : (
-    <LoadingWrapper>
-      <Loading />
-    </LoadingWrapper>
   );
+  //  : (
+  //   <LoadingWrapper>
+  //     <Loading />
+  //   </LoadingWrapper>
+  // );
 };
 
 const LoadingWrapper = styled.div`

@@ -68,6 +68,7 @@ const ReviewReplyWrapper = styled(motion.li)`
 
 const ReviewReplyContent = styled(motion.div)`
   width: 100%;
+  height: 250px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -77,6 +78,7 @@ const ReviewReplyContent = styled(motion.div)`
   .user-profile-img {
     width: 70px;
     height: 70px;
+    min-height: 70px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -87,11 +89,17 @@ const ReviewReplyContent = styled(motion.div)`
     color: ${color.textPrimary};
     border-radius: 50%;
     border: 2px solid ${color.textPrimary};
+    img {
+      width: 50px;
+      height: 50px;
+    }
   }
 `;
 
 const ReviewReplyItem = styled.div`
   width: 100%;
+  height: 100%;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -165,11 +173,12 @@ const ReviewReplyItem = styled.div`
 `;
 
 const UserImageWrapper = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  div {
+  .side-line {
     width: 1px;
     height: 100%;
     background-color: ${color.textSecondary};
