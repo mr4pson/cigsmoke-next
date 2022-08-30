@@ -131,7 +131,7 @@ const LogoWrapper = styled.div`
     margin-top: 15px;
     margin-bottom: -15px;
     #header-logo {
-      width: 85px;
+      margin-top: -10px;
     }
   }
 `;

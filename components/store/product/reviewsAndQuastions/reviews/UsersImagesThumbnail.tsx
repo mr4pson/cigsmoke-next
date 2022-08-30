@@ -30,7 +30,7 @@ const UserImages = ({ title, thumbnails, setOpen, setDisplay }) => {
                 variants={variants.slideInFromRigh}
                 style={{
                   backgroundImage: `url(/api/images/${image})`,
-                  backgroundSize: 'cover',
+                  backgroundSize: 'contain',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'center',
                   width: '80px',
@@ -51,7 +51,8 @@ const UserImages = ({ title, thumbnails, setOpen, setDisplay }) => {
 };
 
 const ImagesWrapper = styled.div`
-  width: 600px;
+  max-width: 600px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

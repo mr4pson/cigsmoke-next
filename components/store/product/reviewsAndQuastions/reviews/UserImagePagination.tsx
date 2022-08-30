@@ -3,11 +3,19 @@ import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import React from 'react';
+import { devices } from 'components/store/lib/Devices';
 
-const UserImagePicker = (props: any) => {
+const UserImagePicker = ({
+  images,
+  // imagesData,
+  selectedIndex,
+  paginate,
+  // setImagesData,
+  setSelectedIndex,
+}) => {
   return (
     <UserImageList>
-      {props.images.map((item, index) => {
+      {images.map((image, index) => {
         return (
           <UserImageItems
             key={`user-review-image-${index}`}
@@ -16,35 +24,44 @@ const UserImagePicker = (props: any) => {
             whileInView="animate"
             variants={variants.fadInSlideUp}
             onClick={() => {
-              props.setSelectedIndex(index);
-              if (index != props.selectedIndex) {
-                props.paginate(index > props.selectedIndex ? 1 : -1);
+              setSelectedIndex(index);
+              if (index != selectedIndex) {
+                paginate(index > selectedIndex ? 1 : -1);
               }
             }}
           >
-            <motion.img
+            <motion.div
               custom={index * 0.005}
               initial="init"
               animate="animate"
               variants={variants.slideInFromRigh}
-              src={props.image}
+              style={{
+                backgroundColor: '#fff',
+                backgroundImage: `url(/api/images/${image})`,
+                width: '100px',
+                height: '100px',
+                backgroundPosition: 'center',
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                borderRadius: '10px',
+              }}
             />
           </UserImageItems>
         );
       })}
-      {props.imagesData != null ? (
+      {/* {imagesData != null ? (
         <UserImageItems
           whileHover="hover"
           whileTap="tap"
           custom={1.1}
           variants={variants.grow}
-          onClick={() => props.setImagesData(props.imagesData + 1)}
+          // onClick={() => setImagesData(imagesData + 1)}
         >
           <span>Еще...</span>
         </UserImageItems>
       ) : (
         ''
-      )}
+      )} */}
     </UserImageList>
   );
 };
@@ -61,6 +78,15 @@ const UserImageList = styled.ul`
   overflow-x: hidden;
   user-select: none;
   padding: 10px;
+
+  @media ${devices.laptopS} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media ${devices.mobileL} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const UserImageItems = styled(motion.li)`
