@@ -15,6 +15,7 @@ import { a11yProps } from './helpers';
 import Reviews from './reviews';
 import Quastions from './quastions';
 import { HeaderWrapper } from '../common';
+import { useAppDispatch } from 'redux/hooks';
 import { Product } from 'swagger/services';
 
 type Props = {
@@ -27,7 +28,9 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
   questionRef,
   product,
 }) => {
+  const dispatch = useAppDispatch();
   const [tab, setTab] = useState(0);
+  const [content, setContent] = useState(false);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
   };
@@ -97,7 +100,6 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
               )}
             </TabPanel>
             <TabPanel value={tab} index={1}>
-              {/* TODO: Change to rpoduct.questions.length */}
               {!product?.reviews?.length ? (
                 <NoContent>
                   <h3>Пока нет вопросов</h3>
