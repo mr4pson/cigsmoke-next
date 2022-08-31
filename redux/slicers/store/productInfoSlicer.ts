@@ -155,6 +155,23 @@ export const createReview = createAsyncThunk<
   },
 );
 
+export const updateReview = createAsyncThunk<
+  Review,
+  { reviewId: string, payload: ReviewDTO },
+  { rejectValue: string }
+>(
+  'productInfo/updateReview',
+  async function ({ reviewId, payload }, { rejectWithValue }): Promise<any> {
+    try {
+      const removed = await ReviewService.updateReview({ reviewId, body: payload });
+
+      return removed;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 export const createComment = createAsyncThunk<
   Comment,
   CreateCommentDTO,
@@ -206,7 +223,6 @@ const productInfoSlicer = createSlice({
         (state, action) => {
           const review = state.product?.reviews?.find(review => review.id == action.payload.reviewId);
           review?.reactions?.push(action.payload);
-          console.log(JSON.parse(JSON.stringify(review)), action.payload.reviewId);
           state.saveLoading = false;
           console.log('fulfilled');
         },
@@ -301,6 +317,19 @@ const productInfoSlicer = createSlice({
         },
       )
       .addCase(createReview.rejected, handleError)
+      //updateReview
+      .addCase(updateReview.pending, handleChangePending)
+      .addCase(
+        updateReview.fulfilled,
+        (state, action) => {
+          const index = state.product?.reviews?.findIndex(review => review.id == action.payload?.id);
+          if (state.product?.reviews && index) {
+            state.product.reviews[index] = action.payload;
+          }
+          state.saveLoading = false;
+        },
+      )
+      .addCase(updateReview.rejected, handleError)
       //createComment
       .addCase(createComment.pending, handleChangePending)
       .addCase(

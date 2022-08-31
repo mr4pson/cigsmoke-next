@@ -25,6 +25,7 @@ import homePageSlicer from './slicers/store/homePageSlicer';
 import bannersReducer from './slicers/bannersSlicer';
 import storeCheckoutSlicer from './slicers/store/checkoutSlicer';
 import wishlistSlicer from './slicers/store/wishlistSlicer';
+import profileSlicer from './slicers/store/profileSlicer';
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
@@ -47,6 +48,7 @@ const combinedReducer = combineReducers({
   homePage: homePageSlicer,
   storeCheckout: storeCheckoutSlicer,
   wishlist: wishlistSlicer,
+  profile: profileSlicer,
 });
 
 const reducer = (
