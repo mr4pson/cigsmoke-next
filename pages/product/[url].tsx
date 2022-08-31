@@ -35,8 +35,7 @@ const ProductInfoPage = () => {
 
   const images = getProductVariantsImages(product?.productVariants);
 
-  // return !loading && product ?
-  return (
+  return !loading && product ? (
     <>
       <SEO images={images} product={product} />
       <ProductInfo
@@ -53,12 +52,11 @@ const ProductInfoPage = () => {
         questionRef={questionBtnRef}
       />
     </>
+  ) : (
+    <LoadingWrapper>
+      <Loading />
+    </LoadingWrapper>
   );
-  //  : (
-  //   <LoadingWrapper>
-  //     <Loading />
-  //   </LoadingWrapper>
-  // );
 };
 
 const LoadingWrapper = styled.div`
