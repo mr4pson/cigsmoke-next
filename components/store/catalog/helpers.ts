@@ -8,10 +8,13 @@ import {
   fetchPriceRange,
   fetchProducts,
   fetchSubCategories,
+  setPage,
 } from 'redux/slicers/store/catalogSlicer';
 import { AppDispatch } from 'redux/store';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { TFiltersConfig } from './types';
+
+const PAGE_ITEMS_LIMIT = 12;
 
 const convertQueryParams = (query: {
   [k: string]: string | string[] | undefined;
@@ -100,7 +103,7 @@ const setPriceRange = (dispatch: AppDispatch) => {
 
 const onLocationChange = (dispatch: AppDispatch) => async () => {
   const queryParams = getQueryParams(window.location.search);
-  const { minPrice, maxPrice, name } = queryParams;
+  const { minPrice, maxPrice, name, page } = queryParams;
   const { categories, subCategories, brands, colors } =
     convertQueryParams(queryParams);
   const payload = {
@@ -111,7 +114,11 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
     categories: subCategories,
     minPrice: minPrice ? Number(minPrice) : undefined,
     maxPrice: maxPrice ? Number(maxPrice) : undefined,
+    limit: PAGE_ITEMS_LIMIT,
+    offset: PAGE_ITEMS_LIMIT * (Number(page ?? 1) - 1),
   };
+
+  dispatch(setPage(Number(page ?? 1)));
 
   dispatch(fetchProducts(payload));
   const curLocation = localStorage.getItem('location')!;

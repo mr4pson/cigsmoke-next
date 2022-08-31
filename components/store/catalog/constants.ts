@@ -40,6 +40,7 @@ const getFilters = ({
           { name: 'colors', value: [] },
           { name: 'minPrice', value: null },
           { name: 'maxPrice', value: null },
+          { name: 'page', value: 1 },
         ]);
       },
     },
@@ -56,6 +57,7 @@ const getFilters = ({
           { name: 'colors', value: [] },
           { name: 'minPrice', value: null },
           { name: 'maxPrice', value: null },
+          { name: 'page', value: 1 },
         ]);
       },
     },
@@ -66,7 +68,10 @@ const getFilters = ({
       onChange: (selectedOptions: FilterOption[] | undefined) => {
         const brands = selectedOptions?.map((option) => option.url);
 
-        pushQueryParams([{ name: 'brands', value: brands }]);
+        pushQueryParams([
+          { name: 'brands', value: brands },
+          { name: 'page', value: 1 },
+        ]);
       },
     },
     {
@@ -76,7 +81,10 @@ const getFilters = ({
       onChange: (selectedOptions: FilterOption[] | undefined) => {
         const colors = selectedOptions?.map((option) => option.url);
 
-        pushQueryParams([{ name: 'colors', value: colors }]);
+        pushQueryParams([
+          { name: 'colors', value: colors },
+          { name: 'page', value: 1 },
+        ]);
       },
     },
     {
@@ -88,6 +96,7 @@ const getFilters = ({
         pushQueryParams([
           { name: 'minPrice', value: minPrice },
           { name: 'maxPrice', value: maxPrice },
+          { name: 'page', value: 1 },
         ]);
       },
     },

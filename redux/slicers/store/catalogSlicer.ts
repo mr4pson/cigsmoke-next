@@ -82,7 +82,7 @@ export const fetchColors = createAsyncThunk<
 );
 
 export const fetchProducts = createAsyncThunk<
-  Product[],
+  { rows: Product[], length: number },
   TFilters,
   { rejectValue: string }
 >(
@@ -91,8 +91,8 @@ export const fetchProducts = createAsyncThunk<
     try {
       const response = (await ProductService.getProducts(
         payload,
-      )) as unknown as { rows: Product[] };
-      return response.rows;
+      )) as unknown as { rows: Product[], length: number };
+      return response;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
@@ -124,8 +124,10 @@ const initialState: TCatalogState = {
     maxPrice: 0,
   },
   products: [],
+  productsLength: 0,
   filters: {},
   loading: false,
+  page: 1,
 };
 
 const cartSlicer = createSlice({
@@ -140,6 +142,9 @@ const cartSlicer = createSlice({
     },
     clearColors(state) {
       state.colors = initialState.colors;
+    },
+    setPage(state, action) {
+      state.page = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -187,7 +192,8 @@ const cartSlicer = createSlice({
       //fetchProducts
       .addCase(fetchProducts.pending, handlePending)
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.products = action.payload.rows;
+        state.productsLength = action.payload.length;
         state.loading = false;
         console.log('fulfilled');
       })
@@ -195,7 +201,7 @@ const cartSlicer = createSlice({
   },
 });
 
-export const { clearSubCategories, clearBrands, clearColors } =
+export const { clearSubCategories, clearBrands, clearColors, setPage } =
   cartSlicer.actions;
 
 export default cartSlicer.reducer;

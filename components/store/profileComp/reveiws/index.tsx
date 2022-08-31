@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 import { Container, Header } from '../common';
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import ReviewsItems from './ReviewItems';
 import { useMemo, useEffect } from 'react';
-const reviews = generateArrayOfNumbers(3);
+import { getUserInfo } from 'common/helpers/jwtToken.helpers';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { fetchUserReviews } from 'redux/slicers/store/profileSlicer';
+import { TProfileState } from 'redux/types';
 const Reveiws = (props: any) => {
+  const dispatch = useAppDispatch();
+  const user = getUserInfo();
   const { reveiwsRef, setActive } = props;
+  const { reviews } = useAppSelector<TProfileState>((state) => state.profile);
   const observer = useMemo(
     () =>
       new IntersectionObserver(([entry]) => {
@@ -16,6 +21,7 @@ const Reveiws = (props: any) => {
 
   useEffect(() => {
     observer.observe(reveiwsRef.current);
+    dispatch(fetchUserReviews(user?.id!));
 
     return () => {
       observer.disconnect();
@@ -24,11 +30,15 @@ const Reveiws = (props: any) => {
   return (
     <Container id="reviews" ref={reveiwsRef}>
       <Header>Напишите отзывы</Header>
-      <ReviewsList>
-        {reviews.map((review, index) => {
-          return <ReviewsItems review={index} key={index} />;
-        })}
-      </ReviewsList>
+      {reviews.length ? (
+        <ReviewsList>
+          {reviews?.map((review, index) => {
+            return <ReviewsItems review={review} key={index} />;
+          })}
+        </ReviewsList>
+      ) : (
+        <div>У вас еще нет отзывов</div>
+      )}
     </Container>
   );
 };
