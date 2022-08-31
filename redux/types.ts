@@ -124,8 +124,10 @@ type TCatalogState = {
   colors: Color[];
   priceRange: PriceRange;
   products: Product[];
+  productsLength: number;
   loading: boolean;
   filters: TFilters;
+  page: number;
 };
 
 type TCheckoutState = {
@@ -214,6 +216,12 @@ type TProductReviewsState = {
   loading: boolean;
 };
 
+type TProfileState = {
+  reviews: Review[];
+  loading: boolean;
+  saveLoading: boolean;
+};
+
 export type {
   TCategoryState,
   TAuthState,
@@ -242,4 +250,5 @@ export type {
   TMultipleImageState,
   TWishlistState,
   TProductReviewsState,
+  TProfileState,
 };

@@ -1,4 +1,8 @@
-import { getQueryParams } from 'common/helpers/manageQueryParams.helper';
+import { Pagination } from 'antd';
+import {
+  getQueryParams,
+  pushQueryParams,
+} from 'common/helpers/manageQueryParams.helper';
 import FilterBar from 'components/store/catalog/FilterBar';
 import {
   convertQueryParams,
@@ -20,15 +24,19 @@ import styled from 'styled-components';
 import { Category } from 'swagger/services';
 import ProductGrid from 'ui-kit/products/productGrid';
 
+const PAGE_ITEMS_LIMIT = 12;
+
 const CatalogPage = () => {
   const {
     products,
+    productsLength,
     categories,
     subCategories,
     brands,
     colors,
     priceRange,
     loading,
+    page,
   } = useAppSelector<TCatalogState>((state) => state.catalog);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -56,6 +64,7 @@ const CatalogPage = () => {
       onCategoryChange();
     });
     setPriceRange(dispatch);
+
     (async () => {
       await dispatch(fetchParentCategories());
       await handleLocationChange();
@@ -67,7 +76,9 @@ const CatalogPage = () => {
     };
   }, []);
 
-  useEffect(() => {}, [router.query]);
+  const handlePageChange = (page: number) => {
+    pushQueryParams([{ name: 'page', value: page }]);
+  };
 
   return (
     <>
@@ -118,6 +129,15 @@ const CatalogPage = () => {
                 emptyProductsTitle={'По вашему запросу ничего не найдено.'}
               />
             </Products>
+            {!loading && !!productsLength && (
+              <Pagination
+                style={{ marginTop: '20px' }}
+                defaultCurrent={page}
+                total={productsLength}
+                pageSize={PAGE_ITEMS_LIMIT}
+                onChange={handlePageChange}
+              />
+            )}
           </Content>
         </Wrapper>
       </Container>

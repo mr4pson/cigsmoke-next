@@ -7,26 +7,25 @@ import { Rating } from '@mui/material';
 import DeleteSVG from '../../../../assets/close_black.svg';
 import Link from 'next/link';
 import AddReview from './AddReview';
+import { Review } from 'swagger/services';
 
-const ReviewsItems = (props: any) => {
+type Props = {
+  review: Review;
+};
+const ReviewsItems: React.FC<Props> = ({ review }) => {
   const [isOpen, setOpen] = useState(false);
-  const { review } = props;
+  const images = review.images?.split(', ');
+
   return (
     <ReviewsItem>
       <div className="review-info-wrapper">
         <Link href="/product/id">
-          <a className="product-title">
-            Клавиатура для Lenovo 330-15ikb, 520-15ikb, 320-15ikb, S145-15ast,
-            320-15abr...
-          </a>
+          <a className="product-title">{review.product?.name}</a>
         </Link>
         <span>
-          <Rating value={review} size="small" readOnly />
+          <Rating value={review.rating} size="small" readOnly />
         </span>
-        <span className="review-text">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-          expedita maxime ad molestiae, facilis sit unde eaque modi.
-        </span>
+        <span className="review-text">{review.text}</span>
         <motion.button
           whileHover="hover"
           whileTap="tap"
@@ -46,12 +45,9 @@ const ReviewsItems = (props: any) => {
         >
           <DeleteSVG />
         </motion.span>
-        <img
-          src="https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg"
-          alt=""
-        />
+        <img src={`/api/images/${images ? images[0] : ''}`} alt="" />
       </div>
-      {isOpen ? <AddReview setOpen={setOpen} /> : ''}
+      {isOpen ? <AddReview setOpen={setOpen} review={review} /> : ''}
     </ReviewsItem>
   );
 };

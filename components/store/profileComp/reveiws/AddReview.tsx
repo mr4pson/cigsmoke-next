@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Rating } from '@mui/material';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
@@ -12,14 +12,24 @@ import Upload from '../../../../assets/upload.svg';
 import Delete from '../../../../assets/delete.svg';
 import Share from '../../../../assets/shareWhite.svg';
 import CloseSVG from '../../../../assets/close_black.svg';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { updateReview } from 'redux/slicers/store/productInfoSlicer';
+import { AppDispatch } from 'redux/store';
+import { clearImageList } from 'redux/slicers/imagesSlicer';
+import { getUserInfo } from 'common/helpers/jwtToken.helpers';
+import { Review } from 'swagger/services';
+import { fetchUserReviews } from 'redux/slicers/store/profileSlicer';
 
-const AddReview = (props: any) => {
-  const { setOpen } = props;
-  const [rate, setRate] = useState(0);
+const AddReview = ({ setOpen, review }) => {
+  const dispatch = useAppDispatch();
+  const [rate, setRate] = useState(review.rating);
   const [src, setSrc] = useState([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(review.text);
   const [success, setSuccess] = useState('');
   const inputRef = useRef<any>(null);
+  const imageList = useAppSelector<any[]>((state) => state.images.imageList);
+  const user = getUserInfo();
+
   const handleClick = (evt: any) => {
     evt.preventDefault();
     inputRef.current.click();
@@ -28,6 +38,37 @@ const AddReview = (props: any) => {
   const handleDelete = (passed: any) => {
     setSrc(src.filter((item) => item != passed));
   };
+
+  const handleReviewPublish =
+    (
+      dispatch: AppDispatch,
+      rating: number,
+      images: string[],
+      text: string,
+      review: Review,
+    ) =>
+    async (e) => {
+      e.preventDefault();
+      const payload = {
+        ...review,
+        rating,
+        text,
+        images: images.join(', '),
+      };
+      await dispatch(updateReview({ reviewId: review.id!, payload }));
+      setSuccess('Ваш отзыв опубликован');
+      dispatch(fetchUserReviews(user?.id!));
+      setTimeout(() => {
+        setSuccess('');
+        setOpen(false);
+      }, 1000);
+    };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearImageList());
+    };
+  }, []);
 
   return (
     <PopupContainer>
@@ -67,7 +108,7 @@ const AddReview = (props: any) => {
             type="file"
             name="img"
             multiple
-            onChange={(evt) => handleFileChange(evt, setSrc)}
+            onChange={(evt) => handleFileChange(evt, setSrc, dispatch)}
           />
           <motion.button
             whileHover="hover"
@@ -87,12 +128,13 @@ const AddReview = (props: any) => {
             animate={input.length == 0 ? 'init' : 'animate'}
             variants={variants.fadeOutSlideOut}
             style={{ display: input.length == 0 ? 'none' : 'flex' }}
-            onClick={(e) => {
-              e.preventDefault();
-              setOpen(false);
-              setSuccess('Ваш отзыв опубликован');
-              setTimeout(() => setSuccess(''), 2000);
-            }}
+            onClick={handleReviewPublish(
+              dispatch,
+              rate,
+              imageList,
+              input,
+              review,
+            )}
           >
             <span>Опубликовать обзор</span>
             <span>
