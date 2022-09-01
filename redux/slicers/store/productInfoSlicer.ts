@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Reaction } from 'common/enums/reaction.enum';
 import { TProductInfoState } from 'redux/types';
-import { Comment, CommentReaction, CommentService, CreateCommentDTO, Product, ProductService, Review, ReviewDTO, ReviewReaction, ReviewService } from 'swagger/services';
+import { Comment, CommentReaction, CommentService, CreateCommentDTO, CreateQuestionCommentDTO, Product, ProductService, Question, QuestionComment, QuestionDTO, QuestionService, ReactionQuestion, Review, ReviewDTO, ReviewReaction, ReviewService } from 'swagger/services';
 import {
   getErrorMassage, handleChangePending, handleError, handlePending
 } from '../../../common/helpers';
@@ -189,6 +189,158 @@ export const createComment = createAsyncThunk<
   },
 );
 
+export const createQuestion = createAsyncThunk<
+  Question,
+  QuestionDTO,
+  { rejectValue: string }
+>(
+  'productInfo/createQuestion',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      const removed = await QuestionService.createQuestion({ body: payload });
+
+      return removed;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const deleteQuestion = createAsyncThunk<
+  Review,
+  string,
+  { rejectValue: string }
+>(
+  'productInfo/deleteQuestion',
+  async function (id, { rejectWithValue }): Promise<any> {
+    try {
+      const removed = await QuestionService.deleteQuestion({ questionId: id });
+
+      return removed;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const createQuestionReaction = createAsyncThunk<
+  ReactionQuestion,
+  { userId: string, questionId: string, reaction: Reaction },
+  { rejectValue: string }
+>(
+  'productInfo/createQuestionReaction',
+  async function ({ userId, questionId, reaction }, { rejectWithValue }): Promise<any> {
+    try {
+      const created = await QuestionService.createQuestionReaction({
+        body: {
+          userId,
+          questionId,
+          reaction,
+        },
+      });
+
+      return created;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const deleteQuestionReaction = createAsyncThunk<
+  ReactionQuestion,
+  string,
+  { rejectValue: string }
+>(
+  'productInfo/deleteQuestionReaction',
+  async function (id, { rejectWithValue }): Promise<any> {
+    try {
+      const removed = await ReviewService.deleteQuestionReaction({ reactionId: id });
+
+      return removed;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const createQuestionComment = createAsyncThunk<
+  QuestionComment,
+  CreateQuestionCommentDTO,
+  { rejectValue: string }
+>(
+  'productInfo/createQuestionComment',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      const removed = await QuestionService.createQuestionComment({ body: payload });
+
+      return removed;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const deleteQuestionComment = createAsyncThunk<
+  QuestionComment,
+  string,
+  { rejectValue: string }
+>(
+  'productInfo/deleteQuestionComment',
+  async function (id, { rejectWithValue }): Promise<any> {
+    try {
+      const removed = await QuestionService.deleteQuestionComment({ commentId: id });
+
+      return removed;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+
+export const createQuestionCommentReaction = createAsyncThunk<
+  CommentReaction & { questionId: string },
+  { userId: string, questionId: string, commentId: string, reaction: Reaction },
+  { rejectValue: string }
+>(
+  'productInfo/createQuestionCommentReaction',
+  async function ({ userId, questionId, commentId, reaction }, { rejectWithValue }): Promise<any> {
+    try {
+      const created = await QuestionService.createQuestionCommentReaction({
+        body: {
+          userId,
+          commentId,
+          reaction,
+        },
+      });
+
+      return {
+        ...created,
+        questionId: questionId
+      };
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
+export const deleteQuestionCommentReaction = createAsyncThunk<
+  CommentReaction & { questionId: string },
+  { questionId: string, id: string },
+  { rejectValue: string }
+>(
+  'productInfo/deleteQuestionCommentReaction',
+  async function ({ questionId, id }, { rejectWithValue }): Promise<any> {
+    try {
+      const removed = await QuestionService.deleteQuestionCommentReaction({ reactionId: id });
+
+      return { ...removed, questionId };
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 const initialState: TProductInfoState = {
   product: undefined,
   loading: false,
@@ -343,6 +495,118 @@ const productInfoSlicer = createSlice({
         },
       )
       .addCase(createComment.rejected, handleError)
+      //createQuestion
+      .addCase(createQuestion.pending, handleChangePending)
+      .addCase(
+        createQuestion.fulfilled,
+        (state, action) => {
+          if (state.product?.questions) {
+            state.product.questions.push(action.payload);
+          }
+          state.saveLoading = false;
+        },
+      )
+      .addCase(createQuestion.rejected, handleError)
+      //deleteQuestion
+      .addCase(deleteQuestion.pending, handleChangePending)
+      .addCase(
+        deleteQuestion.fulfilled,
+        (state, action) => {
+          if (state.product?.questions) {
+            state.product.questions = state.product?.questions.filter(question => question.id != action.payload.id);
+          }
+          state.saveLoading = false;
+        },
+      )
+      .addCase(deleteQuestion.rejected, handleError)
+      //createQuestionReaction
+      .addCase(createQuestionReaction.pending, handleChangePending)
+      .addCase(
+        createQuestionReaction.fulfilled,
+        (state, action) => {
+          const question = state.product?.questions?.find(question => question.id == action.payload.questionId);
+          question?.reactions?.push(action.payload);
+          state.saveLoading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(createQuestionReaction.rejected, handleError)
+      //deleteQuestionReaction
+      .addCase(deleteQuestionReaction.pending, handleChangePending)
+      .addCase(
+        deleteQuestionReaction.fulfilled,
+        (state, action) => {
+          const question = state.product?.questions?.find(question => question.id == action.payload.questionId);
+          if (question?.reactions) {
+            question.reactions = question?.reactions?.filter(reaction => reaction.id != action.payload.id);
+          }
+          state.saveLoading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(deleteQuestionReaction.rejected, handleError)
+      //createQuestionComment
+      .addCase(createQuestionComment.pending, handleChangePending)
+      .addCase(
+        createQuestionComment.fulfilled,
+        (state, action) => {
+          const question = state.product?.questions?.find(question => question.id == action.payload.question?.id);
+          if (question?.comments) {
+            question.comments.push(action.payload);
+          }
+          state.saveLoading = false;
+        },
+      )
+      .addCase(createQuestionComment.rejected, handleError)
+      //deleteQuestionComment
+      .addCase(deleteQuestionComment.pending, handleChangePending)
+      .addCase(
+        deleteQuestionComment.fulfilled,
+        (state, action) => {
+          const question = state.product?.questions?.find(question => question.id == action.payload.question!.id);
+          if (question?.comments) {
+            question.comments = question?.comments.filter(comment => comment.id != action.payload.id);
+          }
+
+          state.saveLoading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(deleteQuestionComment.rejected, handleError)
+      //createQuestionCommentReaction
+      .addCase(createQuestionCommentReaction.pending, handleChangePending)
+      .addCase(
+        createQuestionCommentReaction.fulfilled,
+        (state, action) => {
+          const question = state.product?.questions?.find(question => question.id == action.payload.questionId);
+          const comment = question?.comments?.find(comment => comment.id == action.payload.commentId);
+
+          if (comment?.reactions) {
+            comment?.reactions?.push(action.payload)
+          }
+
+          state.saveLoading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(createQuestionCommentReaction.rejected, handleError)
+      //deleteCommentReaction
+      .addCase(deleteQuestionCommentReaction.pending, handleChangePending)
+      .addCase(
+        deleteQuestionCommentReaction.fulfilled,
+        (state, action) => {
+          const question = state.product?.questions?.find(question => question.id == action.payload.questionId);
+          const comment = question?.comments?.find(comment => comment.id == action.payload.commentId);
+
+          if (comment?.reactions) {
+            comment.reactions = comment?.reactions?.filter(reaction => reaction.id != action.payload.id);
+          }
+
+          state.saveLoading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(deleteQuestionCommentReaction.rejected, handleError)
   },
 });
 

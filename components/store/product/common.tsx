@@ -77,7 +77,6 @@ const ReviewReplyWrapper = styled(motion.li)`
 
 const ReviewReplyContent = styled(motion.div)`
   width: 100%;
-  height: 250px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -114,6 +113,8 @@ const ReviewReplyItem = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 15px;
+  padding-bottom: 7px;
+
   .review-header {
     width: 100%;
     height: 70px;

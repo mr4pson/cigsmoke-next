@@ -5,10 +5,29 @@ import TextField from '@mui/material/TextField';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import Share from '../../../../../assets/shareWhite.svg';
+import { useAppDispatch } from 'redux/hooks';
+import { createQuestion } from 'redux/slicers/store/productInfoSlicer';
 
-const AskQuastion = () => {
+const AskQuastion = ({ userId, productId }) => {
+  const dispatch = useAppDispatch();
   const [input, setInput] = useState('');
   const [success, setSuccess] = useState('');
+
+  const handleAskQuestion = () => async (e) => {
+    e.preventDefault();
+    await dispatch(
+      createQuestion({
+        text: input,
+        productId,
+        userId,
+      }),
+    );
+    setSuccess('Мы получили ваш вопрос');
+    setTimeout(() => {
+      setSuccess('');
+      setInput('');
+    }, 2000);
+  };
 
   return (
     <AddReviewContainer
@@ -35,11 +54,7 @@ const AskQuastion = () => {
           animate={input.length == 0 ? 'init' : 'animate'}
           variants={variants.fadeOutSlideOut}
           style={{ display: input.length == 0 ? 'none' : 'flex' }}
-          onClick={(e) => {
-            e.preventDefault();
-            setSuccess('Ваш вопрос опубликован');
-            setTimeout(() => setSuccess(''), 2000);
-          }}
+          onClick={handleAskQuestion()}
         >
           <span>Опубликовать вопрос</span>
           <span>
