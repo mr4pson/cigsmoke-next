@@ -45,15 +45,30 @@ module.exports = {
         userAgent: '*',
         disallow: '/orders/*',
       },
-
+      {
+        userAgent: '*',
+        disallow: '/wishlist',
+      },
+      {
+        userAgent: '*',
+        disallow: '/wishlist/*',
+      },
+      {
+        userAgent: '*',
+        disallow: '/after-payment',
+      },
+      {
+        userAgent: '*',
+        disallow: '/after-payment/*',
+      },
       {
         userAgent: '*',
         allow: '/',
       },
     ],
     additionalSitemaps: [
-      `${siteUrl}/sitemap.xml`,
       `${siteUrl}/server-sitemap.xml`,
+      `${siteUrl}/sitemap.xml`,
     ],
   },
   exclude: [
@@ -67,5 +82,9 @@ module.exports = {
     '/profile/*',
     '/orders',
     '/orders/*',
+    '/wishlist',
+    '/wishlist/*',
+    '/after-payment',
+    '/after-payment/*',
   ],
 };

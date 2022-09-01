@@ -37,14 +37,7 @@ const ProductInfoPage = () => {
 
   return !loading && product ? (
     <>
-      <SEO
-        url={`https://wuluxe.ru${router.asPath}`}
-        title={product?.name}
-        description={product?.desc}
-        image={images} // this shuold point to api base url
-        schemaType="Product"
-        keywords="the, keywords, is, saperated, by, comma"
-      />
+      <SEO images={images} product={product} />
       <ProductInfo
         reviewRef={reviewBtnRef}
         questionRef={questionBtnRef}
@@ -52,7 +45,7 @@ const ProductInfoPage = () => {
         cart={cart}
         wishlist={wishlist}
       />
-      <Recomendation />
+      <Recomendation product={product} />
       <ReveiwsAndQuastions
         product={product}
         reviewRef={reviewBtnRef}

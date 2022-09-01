@@ -24,7 +24,12 @@ const UserInfo = (props: any) => {
   }, [counter, counterStart]);
   return (
     <Wrapper>
-      <img src="/static/temp/gamer.png" alt="profile" />
+      <img
+        src={`https://avatars.dicebear.com/api/micah/${Math.floor(
+          Math.random() * 1000,
+        )}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
+        alt="profile"
+      />
       <h1>Rishad Moammadi</h1>
       <span style={{ color: isVerified ? color.textSecondary : color.hover }}>
         email@mail.com

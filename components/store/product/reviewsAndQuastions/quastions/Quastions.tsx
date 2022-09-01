@@ -42,8 +42,15 @@ const Quastion = () => {
               >
                 <ReviewReplyContent>
                   <UserImageWrapper>
-                    <img src={image} alt="" className="user-profile-img" />
-                    <div></div>
+                    <div className="user-profile-img">
+                      <img
+                        src={`https://avatars.dicebear.com/api/micah/${Math.floor(
+                          Math.random() * 1000,
+                        )}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
+                        alt="profile"
+                      />
+                    </div>
+                    <div className="side-line"></div>
                   </UserImageWrapper>
                   <ReviewReplyItem>
                     <div className="review-header">
@@ -53,7 +60,7 @@ const Quastion = () => {
                       </span>
                     </div>
                     <div className="user-post-text">
-                      <h3>Комментарий</h3>
+                      <h3>Вопрос</h3>
                       <span>
                         Lorem, ipsum dolor sit amet consectetur adipisicing
                         elit. Aperiam perferendis odio enim explicabo sint unde
@@ -76,13 +83,13 @@ const Quastion = () => {
               >
                 <ReviewReplyContent>
                   <UserImageWrapper>
-                    <span className="reply-logo">CigSmoke</span>
-                    <div></div>
+                    <span className="reply-logo">Wuluxe</span>
+                    <div className="side-line"></div>
                   </UserImageWrapper>
                   <ReviewReplyItem>
                     <div className="review-header">
                       <div className="replied-to-wrapper">
-                        <h3>Cigsmoke</h3>
+                        <h3>Wuluxe</h3>
                         <span>{`в ответ User name`}</span>
                       </div>
                       <span className="date-stars">

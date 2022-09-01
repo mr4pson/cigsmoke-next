@@ -26,7 +26,11 @@ const AuthBtnMobile = () => {
           {user ? (
             <>
               <span style={{ borderRadius: '50%' }}>
-                <Image src="/static/temp/gamer.png" width={25} height={25} />
+                <img
+                  src={`https://avatars.dicebear.com/api/micah/${Math.floor(
+                    Math.random() * 1000,
+                  )}.svg?facialHairProbability=0&mouth[]=smile&scale=100&hair[]=fonze,full,pixie`}
+                />
               </span>
 
               <span>{user?.firstName}</span>

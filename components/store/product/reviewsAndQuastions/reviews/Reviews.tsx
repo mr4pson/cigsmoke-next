@@ -148,7 +148,15 @@ const Review = () => {
               >
                 <ReviewReplyContent>
                   <UserImageWrapper>
-                    <img src="/static/temp/gamer.png" alt="profile" />
+                    <div className="user-profile-img">
+                      <img
+                        src={`https://avatars.dicebear.com/api/micah/${Math.floor(
+                          Math.random() * 1000,
+                        )}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
+                        alt="profile"
+                      />
+                    </div>
+                    <div className="side-line"></div>
                   </UserImageWrapper>
                   <ReviewReplyItem>
                     <div className="review-header">
@@ -254,7 +262,15 @@ const Review = () => {
                   >
                     <ReviewReplyContent>
                       <UserImageWrapper>
-                        <img src="/static/temp/gamer.png" alt="profile" />
+                        <div className="user-profile-img">
+                          <img
+                            src={`https://avatars.dicebear.com/api/micah/${Math.floor(
+                              Math.random() * 1000,
+                            )}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
+                            alt="profile"
+                          />
+                        </div>
+                        <div className="side-line"></div>
                       </UserImageWrapper>
                       <ReviewReplyItem>
                         <div className="review-header">

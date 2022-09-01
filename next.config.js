@@ -3,4 +3,7 @@ module.exports = {
     locales: ['ru'],
     defaultLocale: 'ru',
   },
+  images: {
+    domains: ['avatars.dicebear.com'],
+  },
 };
