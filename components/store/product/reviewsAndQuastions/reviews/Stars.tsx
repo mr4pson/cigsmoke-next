@@ -15,54 +15,62 @@ const Stars = () => {
   const totalReviews = getTotalReviewsNumber(product?.rating);
 
   return (
-    <StarsContainer>
-      <StarWrapper
-        custom={0.1}
-        initial="init"
-        whileInView="animate"
-        viewport={{ once: true }}
-        variants={variants.fadInSlideUp}
-      >
-        <Rating value={product?.rating?.avg} size="large" readOnly />
-        <span>{`${product?.rating?.avg ?? 0}/5`}</span>
-      </StarWrapper>
-      {Object.entries(product?.rating ?? {})
-        .reverse()
-        .map(([key, number], index) => {
-          return (
-            <React.Fragment key={`stars-${index}`}>
-              {!isNaN(Number(key)) && (
-                <ProgressBarContaier
-                  key={`progress-bar-${index}`}
-                  custom={index * 0.05}
-                  initial="init"
-                  whileInView="animate"
-                  viewport={{ once: true }}
-                  variants={variants.fadInSlideUp}
-                >
-                  <span>
-                    {6 - index}
-                    {index == 0 ? ' звезд' : index == 4 ? ' звезда' : ' звезды'}
-                  </span>
-                  <ProgressBarWrapper>
-                    <span id="progress-bg"></span>
-                    <ProgressBar
-                      initial={{ width: '0%', opacity: 0 }}
-                      whileInView={{
-                        width: `${progressBarCalc(totalReviews, number)}%`,
-                        opacity: 1,
-                      }}
+    <>
+      {!!product?.rating && (
+        <StarsContainer>
+          <StarWrapper
+            custom={0.1}
+            initial="init"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={variants.fadInSlideUp}
+          >
+            <Rating value={product?.rating?.avg} size="large" readOnly />
+            <span>{`${product?.rating?.avg ?? 0}/5`}</span>
+          </StarWrapper>
+          {Object.entries(product?.rating ?? {})
+            .reverse()
+            .map(([key, number], index) => {
+              return (
+                <React.Fragment key={`stars-${index}`}>
+                  {!isNaN(Number(key)) && (
+                    <ProgressBarContaier
+                      key={`progress-bar-${index}`}
+                      custom={index * 0.05}
+                      initial="init"
+                      whileInView="animate"
                       viewport={{ once: true }}
-                      transition={{ delay: index * 0.15 }}
-                    ></ProgressBar>
-                  </ProgressBarWrapper>
-                  <span style={{ fontFamily: 'intro' }}>{number}</span>
-                </ProgressBarContaier>
-              )}
-            </React.Fragment>
-          );
-        })}
-    </StarsContainer>
+                      variants={variants.fadInSlideUp}
+                    >
+                      <span>
+                        {6 - index}
+                        {index == 0
+                          ? ' звезд'
+                          : index == 4
+                          ? ' звезда'
+                          : ' звезды'}
+                      </span>
+                      <ProgressBarWrapper>
+                        <span id="progress-bg"></span>
+                        <ProgressBar
+                          initial={{ width: '0%', opacity: 0 }}
+                          whileInView={{
+                            width: `${progressBarCalc(totalReviews, number)}%`,
+                            opacity: 1,
+                          }}
+                          viewport={{ once: true }}
+                          transition={{ delay: index * 0.15 }}
+                        ></ProgressBar>
+                      </ProgressBarWrapper>
+                      <span style={{ fontFamily: 'intro' }}>{number}</span>
+                    </ProgressBarContaier>
+                  )}
+                </React.Fragment>
+              );
+            })}
+        </StarsContainer>
+      )}
+    </>
   );
 };
 

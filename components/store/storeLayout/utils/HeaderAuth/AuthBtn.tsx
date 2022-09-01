@@ -41,7 +41,15 @@ const AuthBtn: React.FC<Props> = ({
           animate={isSignedIn ? 'animate' : 'exit'}
           variants={variants.fadeInSlideIn}
         >
-          <span style={{ borderRadius: '50%' }}>
+          <span
+            style={{
+              borderRadius: '50%',
+              width: '28px',
+              height: '28px',
+              backgroundColor: '#000',
+              display: 'block',
+            }}
+          >
             <img
               src={`https://avatars.dicebear.com/api/micah/${user?.firstName}.svg?facialHairProbability=0&mouth[]=smile&scale=100&hair[]=fonze,full,pixie`}
               width={25}
