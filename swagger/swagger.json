@@ -1843,39 +1843,6 @@
         }
       }
     },
-    "/foryou/by-history": {
-      "get": {
-        "tags": ["userHistory"],
-        "summary": "Get products based on user histroy in database",
-        "description": "",
-        "operationId": "getUserHistory",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "histroyDTO": {
-      "type": "array",
-      "properties": [
-        {
-          "id": {
-            "type": "string"
-          }
-        }
-      ]
-    },
     "/foryou": {
       "get": {
         "tags": ["userHistoryInDB"],
@@ -3516,15 +3483,11 @@
     },
     "/reviews/reaction": {
       "post": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Create a review reaction",
         "description": "",
         "operationId": "createReviewReaction",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -3566,15 +3529,11 @@
     },
     "/reviews/reaction/{reactionId}": {
       "delete": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Deletes review reaction",
         "description": "",
         "operationId": "deleteReviewReaction",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "reactionId",
@@ -3615,15 +3574,11 @@
     },
     "/comments": {
       "post": {
-        "tags": [
-          "comment"
-        ],
+        "tags": ["comment"],
         "summary": "Create a comment",
         "description": "",
         "operationId": "createComment",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -3665,15 +3620,11 @@
     },
     "/comments/{commentId}": {
       "delete": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Deletes comment",
         "description": "",
         "operationId": "deleteComment",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "commentId",
@@ -3714,15 +3665,11 @@
     },
     "/comments/reaction": {
       "post": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Create a comment reaction",
         "description": "",
         "operationId": "createCommentReaction",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "type": "string",
@@ -3764,15 +3711,11 @@
     },
     "/comments/reaction/{reactionId}": {
       "delete": {
-        "tags": [
-          "review"
-        ],
+        "tags": ["review"],
         "summary": "Deletes comment reaction",
         "description": "",
         "operationId": "deleteCommentReaction",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "reactionId",

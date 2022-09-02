@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MutableRefObject, useState } from 'react';
+import { MutableRefObject, useEffect, useState } from 'react';
 import {
   Container,
   Wrapper,
