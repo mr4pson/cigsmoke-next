@@ -94,7 +94,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
           </ItemRow>
         </Content>
       </Wrapper>
-      <Wrapper>
+      {/* <Wrapper>
         <ItemRow>
           <span className="disount-svg">
             <DiscountSVG />
@@ -139,7 +139,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
         >
           {promoMessage}
         </span>
-      </Wrapper>
+      </Wrapper> */}
     </Container>
   );
 };

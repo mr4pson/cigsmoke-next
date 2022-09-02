@@ -21,6 +21,7 @@ import {
   createQuestionComment,
   deleteQuestion,
   deleteQuestionComment,
+  sortQuestions,
 } from 'redux/slicers/store/productInfoSlicer';
 import { Reaction } from 'common/enums/reaction.enum';
 import { getReactionNumber } from '../reviews/helpers';
@@ -94,12 +95,17 @@ const Quastion = ({ product }) => {
         [questionId]: false,
       }));
     };
+
+  const handleSortChange = (option) => {
+    setFilterValue(option);
+    dispatch(sortQuestions(option));
+  };
   return (
     <>
       <Filters
         options={quastionsDropdownOption}
         value={filterValue}
-        setValue={setFilterValue}
+        setValue={handleSortChange}
       />
       <ReviewContainer>
         {product?.questions?.map((question) => {
