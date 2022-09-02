@@ -65,11 +65,17 @@ const AuthBtnMobile = () => {
 };
 
 const BtnWrapper = styled.a`
-  height: 85%;
+  height: 100%;
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  span {
+    width: 100%;
+    img {
+      width: 100%;
+    }
+  }
   @media ${devices.mobileL} {
     display: flex;
   }

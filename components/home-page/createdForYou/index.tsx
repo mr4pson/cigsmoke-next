@@ -13,52 +13,81 @@ import { TAuthState } from 'redux/types';
 import { useAppSelector } from 'redux/hooks';
 import {
   Product,
-  // ProductService,
+  ProductService,
   ForyouProductsService,
-  UserHistoryService,
   UserHistoryInDbService,
 } from 'swagger/services';
 import ProductGrid from '../../../ui-kit/products/productGrid';
 import Subscription from './subscription';
 
 const Section = () => {
-  const { user } = useAppSelector<TAuthState>((state) => state.auth);
+  // const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const [url, setUrl] = useState('');
   useEffect(() => {
-    const history = localStorage.getItem('histroy');
+    const user = localStorage.getItem('accessToken');
+    const history: any = localStorage.getItem('history');
+    let randomPruduct: any;
     (async () => {
       setLoading(true);
-      const userHistoryInDB = await UserHistoryInDbService.getUserHistory();
       let products: any = [];
       if (!history) {
-        products = await ForyouProductsService.getProducts();
+        randomPruduct = await ForyouProductsService.getProducts();
+        products = (await ProductService.getProducts({
+          limit: 12,
+          categories: [randomPruduct?.category.url],
+        })) as unknown as { rows: Product[]; length: number };
+        setUrl(`/catalog?categories=${products.rows[0].category?.parent.url}`);
+        setLoading(false);
+        setProducts(products.rows);
       }
-      if (history && !user && !userHistoryInDB) {
-        products = await UserHistoryService.getUserHistory({
-          body: { history: JSON.parse(history) },
+      if (history && !user) {
+        const deStringified = JSON.parse(history);
+
+        randomPruduct = await ProductService.findProductById({
+          productId: `${
+            deStringified[Math.floor(Math.random() * deStringified.length - 1)]
+          }`,
         });
+        products = (await ProductService.getProducts({
+          limit: 12,
+          categories: [randomPruduct?.category.url],
+        })) as unknown as { rows: Product[]; length: number };
+        setUrl(`/catalog?categories=${products.rows[0].category?.parent.url}`);
+        setLoading(false);
+        setProducts(products.rows);
       }
-      if (history && user && !userHistoryInDB) {
-        await UserHistoryInDbService.createUserHistory({
-          body: { history: JSON.parse(history) },
+      if (history && user) {
+        const hasHistory = await UserHistoryInDbService.getUserHistory();
+        if (!hasHistory) {
+          await UserHistoryInDbService.createUserHistory({
+            body: { history: JSON.parse(history) },
+          });
+        }
+      }
+      if (history && user) {
+        const hasHistory = await UserHistoryInDbService.getUserHistory();
+        if (hasHistory) {
+          await UserHistoryInDbService.updateUserHistory({
+            body: { history: JSON.parse(history) },
+          });
+        }
+        randomPruduct = await ProductService.findProductById({
+          productId: `${
+            hasHistory[Math.floor(Math.random() * hasHistory.length - 1)]
+          }`,
         });
+
+        products = (await ProductService.getProducts({
+          limit: 12,
+          categories: [randomPruduct?.category.url],
+        })) as unknown as { rows: Product[]; length: number };
+        setUrl(`/catalog?categories=${products.rows[0].category?.parent.url}`);
+        setLoading(false);
+        setProducts(products.rows);
       }
-      if (history && user && userHistoryInDB) {
-        await UserHistoryInDbService.updateUserHistory({
-          body: { history: JSON.parse(history) },
-        });
-        products = await UserHistoryInDbService.getUserHistory();
-      }
-      // (
-      //   await ProductService.getProducts({
-      //     limit: 8,
-      //   }),
-      // ) as unknown as { rows: Product[] };
-      setLoading(false);
-      setProducts(products.rows);
     })();
   }, []);
 
@@ -124,7 +153,7 @@ const Section = () => {
                 вашей деятельностью на нашем веб-сайте, не стесняйтесь проверить
                 их все, ура!
               </p>
-              <Link href={`/catalog/id`}>
+              <Link href={url}>
                 <motion.a
                   whileHover="hover"
                   whileTap="tap"
@@ -140,7 +169,7 @@ const Section = () => {
     </Container>
   );
 };
-// подобранные товары для вас
+
 const ContentInner = styled.div`
   width: 100%;
   display: flex;
