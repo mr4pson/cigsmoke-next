@@ -37,12 +37,14 @@ const Reviews = () => {
   return (
     <ContentContainer>
       <ContentWrapper style={{ alignItems: 'flex-start' }}>
-        <UserImagesThumbnail
-          setOpen={setReveiwsOpen}
-          setDisplay={setReveiwsDisplay}
-          thumbnails={thumbnails}
-          title={'Фото покупателей'}
-        />
+        {!!thumbnails?.length && (
+          <UserImagesThumbnail
+            setOpen={setReveiwsOpen}
+            setDisplay={setReveiwsDisplay}
+            thumbnails={thumbnails}
+            title={'Фото покупателей'}
+          />
+        )}
         <UserImagesSlider
           setSelectedIndex={setSelectedIndex}
           selectedIndex={selectedIndex}

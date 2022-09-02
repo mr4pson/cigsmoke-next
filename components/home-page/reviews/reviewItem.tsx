@@ -34,7 +34,7 @@ const ReviewItem: React.FC<Props> = ({ index, review }) => {
         <Rating value={review.rating} size="small" readOnly />
       </StarWrapper>
       <h3>{review.product?.name}</h3>
-      <p>{review.comment}</p>
+      <div>{review.text?.substring(0, 100)}</div>
       <div id="user">
         <span>{moment(review.createdAt).format('DD.MM.YYYY')}</span>
         <span>
@@ -52,7 +52,7 @@ const ReviewItem: React.FC<Props> = ({ index, review }) => {
             src={`/api/images/${images[0]}`}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
-              currentTarget.src = '/assets/images/img_error.png';
+              currentTarget.src = '/assets/images/no_photo.png';
             }}
           />
         </a>
@@ -62,7 +62,7 @@ const ReviewItem: React.FC<Props> = ({ index, review }) => {
 };
 
 const ItemContainer = styled(motion.li)`
-  min-width: 270px;
+  width: 270px;
   height: 320px;
   background-color: ${color.textPrimary};
   border-radius: 20px;

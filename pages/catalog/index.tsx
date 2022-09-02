@@ -39,7 +39,6 @@ const CatalogPage = () => {
     page,
   } = useAppSelector<TCatalogState>((state) => state.catalog);
   const dispatch = useAppDispatch();
-  const router = useRouter();
   const [category, setCategory] = useState<Category | undefined>();
 
   const handleLocationChange = onLocationChange(dispatch);

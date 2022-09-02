@@ -17,6 +17,7 @@ import Quastions from './quastions';
 import { HeaderWrapper } from '../common';
 import { useAppDispatch } from 'redux/hooks';
 import { Product } from 'swagger/services';
+import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 
 type Props = {
   reviewRef: MutableRefObject<null>;
@@ -30,7 +31,7 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const [tab, setTab] = useState(0);
-  const [content, setContent] = useState(false);
+  const user = getUserInfo();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
   };
@@ -64,7 +65,7 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
             style={{ position: 'relative' }}
           >
             <h3>Отзывы и вопросы о товаре</h3>
-            <TotalReviews>{`1457`}</TotalReviews>
+            <TotalReviews>{product?.reviews?.length}</TotalReviews>
           </HeaderWrapper>
 
           <Box
@@ -91,22 +92,10 @@ const ReveiwsAndQuastions: React.FC<Props> = ({
               </Tabs>
             </Box>
             <TabPanel value={tab} index={0}>
-              {!product?.reviews?.length ? (
-                <NoContent>
-                  <h3>Отзывов пока нет</h3>
-                </NoContent>
-              ) : (
-                <Reviews />
-              )}
+              <Reviews />
             </TabPanel>
             <TabPanel value={tab} index={1}>
-              {!product?.reviews?.length ? (
-                <NoContent>
-                  <h3>Пока нет вопросов</h3>
-                </NoContent>
-              ) : (
-                <Quastions />
-              )}
+              <Quastions productId={product?.id} userId={user?.id!} />
             </TabPanel>
           </Box>
         </Content>

@@ -118,6 +118,7 @@ const Review = () => {
         setValue={setFilterValue}
       />
       <ReviewContainer>
+        {!product?.reviews?.length && <div>Отзывов пока нет.</div>}
         {product?.reviews?.map((review, key) => {
           const isReviewLiked = !!review.reactions?.find(
             (reaction) =>

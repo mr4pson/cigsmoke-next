@@ -1,19 +1,28 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import Quastion from './Quastions';
+import QuastionList from './Quastions';
 import AuthorizeQuastionBtn from '../AuthorizeBtn';
 import AskQuastion from './askQuastion';
-const Quastions = () => {
+import { useAppSelector } from 'redux/hooks';
+import { TProductInfoState } from 'redux/types';
+const Quastions = ({ productId, userId }) => {
   const [isAuthorized, setAuthorized] = useState(false);
+  const { product } = useAppSelector<TProductInfoState>(
+    (state) => state.productInfo,
+  );
 
   return (
     <ContentContainer>
       <ContentWrapper style={{ alignItems: 'flex-start' }}>
-        <Quastion />
+        {product?.questions?.length ? (
+          <QuastionList product={product} />
+        ) : (
+          <div>Здесь пока нет вопросов.</div>
+        )}
       </ContentWrapper>
       <ContentWrapper>
         {isAuthorized ? (
-          <AskQuastion />
+          <AskQuastion productId={productId} userId={userId} />
         ) : (
           <AuthorizeQuastionBtn
             text="Задайте вопрос"
