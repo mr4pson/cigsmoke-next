@@ -5,15 +5,16 @@ import variants from 'components/store/lib/variants';
 import { handleConfirmationEmail, handleSignout } from './helpers';
 import { useState, useEffect } from 'react';
 import { getUserInfo } from 'common/helpers/jwtToken.helpers';
+import { useAppDispatch } from 'redux/hooks';
 
 const UserInfo = (props: any) => {
-  const { isVerified, setAuthorized, setStep } = props;
+  const { isVerified, setAuthorized, setStep, user } = props;
   const [serverResponse, setServerResponse] = useState(undefined);
   const [counter, setCoutner] = useState(30);
   const [iteration, setItration] = useState(0);
   const [counterStart, setCounterStart] = useState(false);
-  const user = getUserInfo();
-
+  // const user = getUserInfo();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     setTimeout(() => {
       if (counter == 0) {
@@ -24,17 +25,20 @@ const UserInfo = (props: any) => {
       if (counterStart) setCoutner(counter - 1);
     }, 1000);
   }, [counter, counterStart]);
+
   return (
     <Wrapper>
       <img
         src={`https://avatars.dicebear.com/api/micah/${user?.id}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
         alt="profile"
       />
-      <h1>Rishad Moammadi</h1>
-      <span style={{ color: isVerified ? color.textSecondary : color.hover }}>
-        email@mail.com
+      <h1>{`${user.firstName} ${user.lastName}`}</h1>
+      <span
+        style={{ color: user.isVerified ? color.textSecondary : color.hover }}
+      >
+        {user.email}
       </span>
-      {!isVerified ? (
+      {!user.isVerified ? (
         <>
           <Err
             initial="init"
@@ -89,7 +93,9 @@ const UserInfo = (props: any) => {
       ) : (
         ''
       )}
-      <SignoutBtn onClick={() => handleSignout(setAuthorized, setStep)}>
+      <SignoutBtn
+        onClick={() => handleSignout(setAuthorized, setStep, dispatch)}
+      >
         выход
       </SignoutBtn>
     </Wrapper>

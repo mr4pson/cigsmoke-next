@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import color from 'components/store/lib/ui.colors';
-
+import { UserService } from 'swagger/services';
 const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -23,4 +23,28 @@ const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-export { InputsTooltip };
+const handleEmailChange = async ({ user, email, setServerResponse }) => {
+  try {
+    await UserService.updateUser({ userId: user.id, body: { email } });
+    setServerResponse(200);
+  } catch (error: any) {
+    setServerResponse(error.response.status);
+    setTimeout(() => {
+      setServerResponse(undefined);
+    }, 1000);
+  }
+};
+
+const handleDataChange = async ({ user, payload, setServerResponse }) => {
+  try {
+    await UserService.updateUser({ userId: user.id, body: payload });
+    setServerResponse(200);
+  } catch (error: any) {
+    setServerResponse(error.response.status);
+    setTimeout(() => {
+      setServerResponse(undefined);
+    }, 1000);
+  }
+};
+
+export { InputsTooltip, handleEmailChange, handleDataChange };

@@ -15,9 +15,11 @@ import {
 import { InputsTooltip } from 'components/store/checkout/helpers';
 import { paginateTo } from './constant';
 import ConfirmPsw from './ConfirmPsw';
-
+import { clearServerErr } from 'redux/slicers/authSlicer';
+import { useAppDispatch } from 'redux/hooks';
 const SignUp = (props: any) => {
   const { direction, authType, paginate, serverErr, setServerErr } = props;
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [lastName, setlastName] = useState('');
@@ -182,6 +184,7 @@ const SignUp = (props: any) => {
               }}
               onChange={(e) => {
                 setEmail(e.target.value.toLowerCase());
+                dispatch(clearServerErr());
                 setServerErr(undefined);
                 setInputsErr([
                   nameInput ? true : false,
@@ -238,6 +241,7 @@ const SignUp = (props: any) => {
             bgcolor={color.textTertiary}
             onClick={() => {
               setServerErr(undefined);
+              dispatch(clearServerErr());
               setInputsErr([false, false, false]);
               paginate(paginateTo.back, 'selection');
             }}

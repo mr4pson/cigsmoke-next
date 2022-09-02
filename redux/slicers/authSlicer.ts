@@ -48,7 +48,8 @@ export const userSignin = createAsyncThunk<
 
       return response;
     } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
+      // return rejectWithValue(getErrorMassage(error.response.status));
+      return rejectWithValue(error.response.status);
     }
   },
 );
@@ -70,7 +71,8 @@ export const signup = createAsyncThunk<
 
     return repsonse;
   } catch (error: any) {
-    return rejectWithValue(getErrorMassage(error.response.status));
+    // return rejectWithValue(getErrorMassage(error.response.status));
+    return rejectWithValue(error.response.status);
   }
 });
 

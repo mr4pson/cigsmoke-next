@@ -8,11 +8,12 @@ import { devices } from 'components/store/lib/Devices';
 import { PopupContainer } from '../common';
 import { InputsTooltip } from './helpers';
 import CloseSVG from '../../../../assets/close_black.svg';
-
+import { handleDataChange } from './helpers';
 const UserData = (props: any) => {
-  const { isOpen, setOpen } = props;
-  const [firstName, setFirstName] = useState('Rishad');
-  const [lastName, setLastName] = useState('Mohammadi');
+  const { isOpen, setOpen, user } = props;
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [serverResponse, setServerResponse] = useState(undefined);
   const [phoneNumber, setPhoneNumber] = useState('+7999999999');
   const [address, setAddress] = useState('some adress');
   const [
@@ -20,6 +21,10 @@ const UserData = (props: any) => {
     setInputsErr,
   ] = useState([false, false, false, false]);
   const [success, setSuccess] = useState(false);
+  const payload = {
+    firstName,
+    lastName,
+  };
   return (
     <PopupContainer style={{ display: isOpen ? 'flex' : 'none' }}>
       <UserDataContainer
@@ -234,7 +239,8 @@ const UserData = (props: any) => {
           }
           onClick={(e) => {
             e.preventDefault();
-            setSuccess(true);
+            handleDataChange({ user, payload, setServerResponse });
+            setSuccess(serverResponse == 200 ? true : false);
             setTimeout(() => {
               setSuccess(false);
             }, 800);
@@ -243,6 +249,11 @@ const UserData = (props: any) => {
           Сохранить изменения
         </SaveBtn>
         <span className="success">{success ? 'Изменения сохранены' : ''}</span>
+        <span style={{ color: color.hover }}>
+          {serverResponse != 200 && serverResponse != undefined
+            ? 'Ошибка сервера'
+            : ''}
+        </span>
       </UserDataContainer>
     </PopupContainer>
   );
