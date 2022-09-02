@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Reaction } from 'common/enums/reaction.enum';
+import { quastionsDropdownOption, reviewDropdownOption } from 'components/store/product/constants';
 import { TProductInfoState } from 'redux/types';
 import { Comment, CommentReaction, CommentService, CreateCommentDTO, CreateQuestionCommentDTO, Product, ProductResponse, ProductService, Question, QuestionComment, QuestionDTO, QuestionService, ReactionQuestion, Review, ReviewDTO, ReviewReaction, ReviewService } from 'swagger/services';
 import {
@@ -378,7 +379,107 @@ const productInfoSlicer = createSlice({
     },
     clearProductsWithQuestions(state) {
       state.products = [];
-    }
+    },
+    sortReviews(state, action) {
+      console.log(action.payload)
+      if (action.payload === reviewDropdownOption[0] && state.product?.reviews) {
+        state.product.reviews = state.product?.reviews?.sort((a, b) => {
+          if (new Date(a.createdAt!) > new Date(b.createdAt!)) {
+            return -1;
+          }
+          if (new Date(a.createdAt!) < new Date(b.createdAt!)) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (action.payload === reviewDropdownOption[1] && state.product?.reviews) {
+        state.product.reviews = state.product?.reviews?.sort((a, b) => {
+          if (a.comments?.length! > b.comments?.length!) {
+            return -1;
+          }
+          if (a.comments?.length! < b.comments?.length!) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (action.payload === reviewDropdownOption[2] && state.product?.reviews) {
+        state.product.reviews = state.product?.reviews?.sort((a, b) => {
+          if (a.rating! > b.rating!) {
+            return -1;
+          }
+          if (a.rating! < b.rating!) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (action.payload === reviewDropdownOption[3] && state.product?.reviews) {
+        state.product.reviews = state.product?.reviews?.sort((a, b) => {
+          if (a.rating! < b.rating!) {
+            return -1;
+          }
+          if (a.rating! > b.rating!) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+    },
+
+    sortQuestions(state, action) {
+      if (action.payload === quastionsDropdownOption[0] && state.product?.questions) {
+        state.product.questions = state.product?.questions?.sort((a, b) => {
+          if (new Date(a.createdAt!) > new Date(b.createdAt!)) {
+            return -1;
+          }
+          if (new Date(a.createdAt!) < new Date(b.createdAt!)) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (action.payload === quastionsDropdownOption[1] && state.product?.questions) {
+        state.product.questions = state.product?.questions?.sort((a, b) => {
+          if (a.comments?.length! > b.comments?.length!) {
+            return -1;
+          }
+          if (a.comments?.length! < b.comments?.length!) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (action.payload === quastionsDropdownOption[2] && state.product?.questions) {
+        state.product.questions = state.product?.questions?.sort((a, b) => {
+          if (a.comments?.length! > b.comments?.length!) {
+            return -1;
+          }
+          if (a.comments?.length! < b.comments?.length!) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+
+      if (action.payload === quastionsDropdownOption[3] && state.product?.questions) {
+        state.product.questions = state.product?.questions?.sort((a, b) => {
+          if (a.comments?.length! < b.comments?.length!) {
+            return -1;
+          }
+          if (a.comments?.length! > b.comments?.length!) {
+            return 1;
+          }
+          return 0;
+        });
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -648,6 +749,6 @@ const productInfoSlicer = createSlice({
   },
 });
 
-export const { clearProductInfo, clearProductsWithQuestions } = productInfoSlicer.actions;
+export const { clearProductInfo, clearProductsWithQuestions, sortReviews, sortQuestions } = productInfoSlicer.actions;
 
 export default productInfoSlicer.reducer;

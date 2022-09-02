@@ -13,6 +13,7 @@ import {
   createComment,
   deleteComment,
   deleteReview,
+  sortReviews,
 } from 'redux/slicers/store/productInfoSlicer';
 import { TProductInfoState } from 'redux/types';
 import styled from 'styled-components';
@@ -110,12 +111,17 @@ const Review = () => {
       }));
     };
 
+  const handleSortChange = (option) => {
+    setFilterValue(option);
+    dispatch(sortReviews(option));
+  };
+
   return (
     <>
       <Filters
         options={reviewDropdownOption}
         value={filterValue}
-        setValue={setFilterValue}
+        setValue={handleSortChange}
       />
       <ReviewContainer>
         {!product?.reviews?.length && <div>Отзывов пока нет.</div>}
