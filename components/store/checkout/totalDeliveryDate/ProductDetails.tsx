@@ -34,7 +34,7 @@ const ProductDetails = () => {
         variants={variants.fadInSlideUp}
       >
         {cart?.orderProducts?.map((orderProduct) => {
-          const { price } = orderProduct?.productVariant!;
+          const { price } = orderProduct?.productVariant ?? {};
 
           const images = getProductVariantsImages(
             orderProduct.product?.productVariants,
