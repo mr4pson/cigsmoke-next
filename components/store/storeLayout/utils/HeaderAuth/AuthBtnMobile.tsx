@@ -27,9 +27,7 @@ const AuthBtnMobile = () => {
             <>
               <span style={{ borderRadius: '50%' }}>
                 <img
-                  src={`https://avatars.dicebear.com/api/micah/${Math.floor(
-                    Math.random() * 1000,
-                  )}.svg?facialHairProbability=0&mouth[]=smile&scale=100&hair[]=fonze,full,pixie`}
+                  src={`https://avatars.dicebear.com/api/micah/${user.firstName}.svg?facialHairProbability=0&mouth[]=smile&scale=100&hair[]=fonze,full,pixie`}
                 />
               </span>
 
@@ -66,11 +64,17 @@ const AuthBtnMobile = () => {
 };
 
 const BtnWrapper = styled.a`
-  height: 85%;
+  height: 100%;
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  span {
+    width: 100%;
+    img {
+      width: 100%;
+    }
+  }
   @media ${devices.mobileL} {
     display: flex;
   }

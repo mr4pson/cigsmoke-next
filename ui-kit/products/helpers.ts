@@ -112,15 +112,26 @@ const checkIfItemInWishlist = (
   wishlist: Wishlist | undefined,
 ) => !!wishlist?.items?.find((item) => item.productId == product?.id);
 
-const handleHistory = (productId) => {
+const handleHistory = (productId: any) => {
   const history = localStorage.getItem('history');
+
   if (history) {
     const historyDestringefied = JSON.parse(history);
-    const newHistory = [productId, ...historyDestringefied];
-    localStorage.setItem('history', JSON.stringify(newHistory));
+    const newHistory: any = [];
+    for (let i = 0; i < historyDestringefied.length; i++) {
+      if (productId != historyDestringefied[i]) {
+        newHistory[0] = productId;
+      }
+      if (newHistory[0] != historyDestringefied[i]) {
+        newHistory.push(historyDestringefied[i]);
+      }
+    }
+    console.log(newHistory);
+
+    localStorage.setItem('history', JSON.stringify([...newHistory]));
   }
   if (!history) {
-    localStorage.setItem('history', JSON.stringify(history));
+    localStorage.setItem('history', JSON.stringify([productId]));
   }
 };
 
