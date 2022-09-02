@@ -149,6 +149,8 @@ type TAnalyticsState = {
 
 type TProductInfoState = {
   product?: Product;
+  products: Product[];
+  productsLength: number;
   loading: boolean;
   saveLoading: boolean;
 };

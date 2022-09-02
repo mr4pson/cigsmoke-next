@@ -4,6 +4,7 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { handleConfirmationEmail, handleSignout } from './helpers';
 import { useState, useEffect } from 'react';
+import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 
 const UserInfo = (props: any) => {
   const { isVerified, setAuthorized, setStep } = props;
@@ -11,6 +12,7 @@ const UserInfo = (props: any) => {
   const [counter, setCoutner] = useState(30);
   const [iteration, setItration] = useState(0);
   const [counterStart, setCounterStart] = useState(false);
+  const user = getUserInfo();
 
   useEffect(() => {
     setTimeout(() => {
@@ -25,9 +27,7 @@ const UserInfo = (props: any) => {
   return (
     <Wrapper>
       <img
-        src={`https://avatars.dicebear.com/api/micah/${Math.floor(
-          Math.random() * 1000,
-        )}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
+        src={`https://avatars.dicebear.com/api/micah/${user?.id}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
         alt="profile"
       />
       <h1>Rishad Moammadi</h1>

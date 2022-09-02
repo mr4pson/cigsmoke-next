@@ -48,7 +48,7 @@ const Profile: React.FC<Props> = ({
           <Link href="/profile">
             <a>
               <motion.img
-                src={`https://avatars.dicebear.com/api/micah/${user?.firstName}.svg?facialHairProbability=0&mouth[]=smile&scale=100&hair[]=fonze,full,pixie`}
+                src={`https://avatars.dicebear.com/api/micah/${user?.id}.svg?facialHairProbability=0&mouth[]=smile&scale=100&hair[]=fonze,full,pixie`}
                 alt="profile"
               />
             </a>

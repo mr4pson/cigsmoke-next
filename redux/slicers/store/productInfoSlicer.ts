@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Reaction } from 'common/enums/reaction.enum';
 import { TProductInfoState } from 'redux/types';
-import { Comment, CommentReaction, CommentService, CreateCommentDTO, CreateQuestionCommentDTO, Product, ProductService, Question, QuestionComment, QuestionDTO, QuestionService, ReactionQuestion, Review, ReviewDTO, ReviewReaction, ReviewService } from 'swagger/services';
+import { Comment, CommentReaction, CommentService, CreateCommentDTO, CreateQuestionCommentDTO, Product, ProductResponse, ProductService, Question, QuestionComment, QuestionDTO, QuestionService, ReactionQuestion, Review, ReviewDTO, ReviewReaction, ReviewService } from 'swagger/services';
 import {
   getErrorMassage, handleChangePending, handleError, handlePending
 } from '../../../common/helpers';
@@ -341,8 +341,30 @@ export const deleteQuestionCommentReaction = createAsyncThunk<
   },
 );
 
+export const fetchProductsWithQuestions = createAsyncThunk<
+  ProductResponse,
+  { offset: string, limit: number },
+  { rejectValue: string }
+>(
+  'productInfo/fetchProductsWithQuestions',
+  async function ({ offset, limit }, { rejectWithValue }): Promise<any> {
+    try {
+      const response = await ProductService.getProducts({
+        offset,
+        limit,
+      });
+
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 const initialState: TProductInfoState = {
   product: undefined,
+  products: [],
+  productsLength: 0,
   loading: false,
   saveLoading: false,
 };
@@ -354,6 +376,9 @@ const productInfoSlicer = createSlice({
     clearProductInfo(state) {
       state.product = undefined;
     },
+    clearProductsWithQuestions(state) {
+      state.products = [];
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -607,9 +632,22 @@ const productInfoSlicer = createSlice({
         },
       )
       .addCase(deleteQuestionCommentReaction.rejected, handleError)
+      //fetchProductsWithQuestions
+      .addCase(fetchProductsWithQuestions.pending, handlePending)
+      .addCase(
+        fetchProductsWithQuestions.fulfilled,
+        (state, action) => {
+          state.products = action.payload.rows!;
+          state.productsLength = action.payload.length!;
+
+          state.loading = false;
+          console.log('fulfilled');
+        },
+      )
+      .addCase(fetchProductsWithQuestions.rejected, handleError)
   },
 });
 
-export const { clearProductInfo } = productInfoSlicer.actions;
+export const { clearProductInfo, clearProductsWithQuestions } = productInfoSlicer.actions;
 
 export default productInfoSlicer.reducer;

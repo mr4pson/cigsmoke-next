@@ -1,17 +1,27 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import QuastionList from './Quastions';
-import AuthorizeQuastionBtn from '../AuthorizeBtn';
-import AskQuastion from './askQuastion';
-import { useAppSelector } from 'redux/hooks';
-import { TProductInfoState } from 'redux/types';
+import AdminLayout from 'components/admin/adminLayout/layout';
 import { devices } from 'components/store/lib/Devices';
+import AskQuastion from 'components/store/product/reviewsAndQuastions/quastions/askQuastion';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { fetchProduct } from 'redux/slicers/store/productInfoSlicer';
+import { TProductInfoState } from 'redux/types';
+import styled from 'styled-components';
+import QuastionList from '../../../components/store/product/reviewsAndQuastions/quastions/Quastions';
+import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 
-const Quastions = ({ productId, userId }) => {
-  const [isAuthorized, setAuthorized] = useState(false);
+const ProductQuestionsPage = () => {
   const { product } = useAppSelector<TProductInfoState>(
     (state) => state.productInfo,
   );
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.id) {
+      dispatch(fetchProduct(router.query.id as string));
+    }
+  }, [router.query]);
 
   return (
     <ContentContainer>
@@ -20,16 +30,6 @@ const Quastions = ({ productId, userId }) => {
           <QuastionList product={product} />
         ) : (
           <div>Здесь пока нет вопросов.</div>
-        )}
-      </ContentWrapper>
-      <ContentWrapper>
-        {isAuthorized ? (
-          <AskQuastion productId={productId} userId={userId} />
-        ) : (
-          <AuthorizeQuastionBtn
-            text="Задайте вопрос"
-            setAuthorized={setAuthorized}
-          />
         )}
       </ContentWrapper>
     </ContentContainer>
@@ -69,4 +69,6 @@ const ContentWrapper = styled.div`
   }
 `;
 
-export default Quastions;
+ProductQuestionsPage.PageLayout = AdminLayout;
+
+export default ProductQuestionsPage;

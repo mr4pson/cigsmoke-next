@@ -151,9 +151,7 @@ const Review = () => {
                   <UserImageWrapper>
                     <div className="user-profile-img">
                       <img
-                        src={`https://avatars.dicebear.com/api/micah/${Math.floor(
-                          Math.random() * 1000,
-                        )}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
+                        src={`https://avatars.dicebear.com/api/micah/${review.user?.id}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
                         alt="profile"
                       />
                     </div>
@@ -265,9 +263,7 @@ const Review = () => {
                       <UserImageWrapper>
                         <div className="user-profile-img">
                           <img
-                            src={`https://avatars.dicebear.com/api/micah/${Math.floor(
-                              Math.random() * 1000,
-                            )}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
+                            src={`https://avatars.dicebear.com/api/micah/${comment.user?.id}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
                             alt="profile"
                           />
                         </div>
