@@ -27,9 +27,8 @@ const AuthBtnMobile = () => {
             <>
               <span style={{ borderRadius: '50%' }}>
                 <img
-                  src={`https://avatars.dicebear.com/api/micah/${Math.floor(
-                    Math.random() * 1000,
-                  )}.svg?facialHairProbability=0&mouth[]=smile&scale=100&hair[]=fonze,full,pixie`}
+                  style={{ width: '28px' }}
+                  src={`https://avatars.dicebear.com/api/micah/${user.id}.svg?facialHairProbability=0&mouth[]=smile&scale=100&hair[]=fonze,full,pixie`}
                 />
               </span>
 

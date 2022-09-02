@@ -133,7 +133,7 @@ const Quastion = ({ product }) => {
                   <UserImageWrapper>
                     <div className="user-profile-img">
                       <img
-                        src={`https://avatars.dicebear.com/api/micah/${question?.user?.firstName}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
+                        src={`https://avatars.dicebear.com/api/micah/${question?.user?.id}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
                         alt="profile"
                       />
                     </div>

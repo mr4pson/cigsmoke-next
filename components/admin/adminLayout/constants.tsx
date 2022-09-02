@@ -9,6 +9,7 @@ import {
   ReconciliationOutlined,
   LineChartOutlined,
   MinusOutlined,
+  QuestionCircleOutlined,
   FundProjectionScreenOutlined,
 } from '@ant-design/icons';
 import { Page, paths } from 'routes/constants';
@@ -23,6 +24,7 @@ export const items: TMenuItem[] = [
   getItem('Бренды', paths[Page.ADMIN_BRANDS], <HeatMapOutlined />),
   getItem('Теги', paths[Page.ADMIN_TAGS], <TagsOutlined />),
   getItem('Отзывы', paths[Page.ADMIN_REVIEWS], <CommentOutlined />),
+  getItem('Вопросы', paths[Page.ADMIN_QUESTIONS], <QuestionCircleOutlined />),
   getItem('Заказы', paths[Page.ADMIN_CHECKOUTS], <ReconciliationOutlined />),
   getItem(
     'Баннеры',
@@ -67,6 +69,7 @@ export const pathWords: PathWords = {
   'tags/create-tag': 'Создание тега',
   'tags/[id]': 'Редактирование тега',
   reviews: 'Отзывы',
+  questions: 'Вопросы',
   checkouts: 'Заказы',
   analytics: 'Аналитика',
   'analytics/categories': 'Категории',
