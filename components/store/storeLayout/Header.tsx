@@ -17,10 +17,38 @@ import { devices } from '../lib/Devices';
 import { useEffect, useState } from 'react';
 import NavWrapMobile from './NavWrapMobile';
 import AuthBtnMobile from './utils/HeaderAuth/AuthBtnMobile';
+import { useRouter } from 'next/router';
+import ReactGA from 'react-ga';
 
 const Header = () => {
   const [boxShadow, setBoxShadow] = useState('');
+  ReactGA.initialize('G-LGRKY05W0C');
+  const router = useRouter();
 
+  useEffect(() => {
+    const handleRouteChange = (url, { shallow }) => {
+      // REACTGA
+      // Send pageview with a custom path
+      ReactGA.send({ hitType: 'pageview', page: url });
+
+      console.log(
+        `App is changing to ${url} ${
+          shallow ? 'with' : 'without'
+        } shallow routing`,
+      );
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, []);
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
   useEffect(() => {
     window.addEventListener('scroll', function () {
       let scroll = this.scrollY;
