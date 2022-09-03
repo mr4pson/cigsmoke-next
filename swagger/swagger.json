@@ -410,99 +410,6 @@
         }
       }
     },
-
-    "/users/changepsw/{userId}": {
-      "put": {
-        "tags": ["changeUserPsw"],
-        "summary": "change user password",
-        "operationId": "changePassword",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "type": "string",
-            "name": "authorization",
-            "required": true,
-            "in": "header",
-            "description": "admin token or user-token from user owner"
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "id of user to change password",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation"
-          },
-          "400": {
-            "description": "Invalid id supplied"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "User not found"
-          },
-          "409": {
-            "description": "Conflict"
-          },
-          "500": {
-            "description": "Internal"
-          }
-        }
-      }
-    },
-    "/users/email-confirmation/": {
-      "get": {
-        "tags": ["userVerification"],
-        "summary": "send user verification email",
-        "operationId": "sendVerificationEmail",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "type": "string",
-            "name": "authorization",
-            "required": true,
-            "in": "header",
-            "description": "admin token or user-token from user owner"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation"
-          },
-          "400": {
-            "description": "Invalid id supplied"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "User not found"
-          },
-          "500": {
-            "description": "Internal"
-          }
-        }
-      }
-    },
     "/users/user/{userId}": {
       "get": {
         "tags": ["user"],
@@ -657,6 +564,98 @@
           },
           "404": {
             "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/changepsw/{userId}": {
+      "put": {
+        "tags": ["changeUserPsw"],
+        "summary": "change user password",
+        "operationId": "changePassword",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token or user-token from user owner"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "id of user to change password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        }
+      }
+    },
+    "/users/email-confirmation/": {
+      "get": {
+        "tags": ["userVerification"],
+        "summary": "send user verification email",
+        "operationId": "sendVerificationEmail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token or user-token from user owner"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal"
           }
         }
       }
@@ -1938,6 +1937,39 @@
           }
         }
       }
+    },
+    "/foryou/by-history": {
+      "get": {
+        "tags": ["userHistory"],
+        "summary": "Get products based on user histroy in database",
+        "description": "",
+        "operationId": "getUserHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "histroyDTO": {
+      "type": "array",
+      "properties": [
+        {
+          "id": {
+            "type": "string"
+          }
+        }
+      ]
     },
     "/foryou": {
       "get": {
@@ -4009,12 +4041,12 @@
         }
       }
     },
-    "/comments": {
+    "/question-comments": {
       "post": {
-        "tags": ["comment"],
-        "summary": "Create a comment",
+        "tags": ["question"],
+        "summary": "Create a question comment",
         "description": "",
-        "operationId": "createComment",
+        "operationId": "createQuestionComment",
         "produces": ["application/json"],
         "parameters": [
           {
@@ -4057,10 +4089,10 @@
     },
     "/question-comments/{commentId}": {
       "delete": {
-        "tags": ["review"],
-        "summary": "Deletes comment",
+        "tags": ["question"],
+        "summary": "Deletes question comment",
         "description": "",
-        "operationId": "deleteComment",
+        "operationId": "deleteQuestionComment",
         "produces": ["application/json"],
         "parameters": [
           {
@@ -4102,10 +4134,10 @@
     },
     "/question-comments/reaction": {
       "post": {
-        "tags": ["review"],
-        "summary": "Create a comment reaction",
+        "tags": ["question"],
+        "summary": "Create a question comment reaction",
         "description": "",
-        "operationId": "createCommentReaction",
+        "operationId": "createQuestionCommentReaction",
         "produces": ["application/json"],
         "parameters": [
           {
@@ -4148,10 +4180,10 @@
     },
     "/question-comments/reaction/{reactionId}": {
       "delete": {
-        "tags": ["review"],
-        "summary": "Deletes comment reaction",
+        "tags": ["question"],
+        "summary": "Deletes question comment reaction",
         "description": "",
-        "operationId": "deleteCommentReaction",
+        "operationId": "deleteQuestionCommentReaction",
         "produces": ["application/json"],
         "parameters": [
           {
@@ -5970,6 +6002,9 @@
         },
         "userId": {
           "type": "string"
+        },
+        "showOnMain": {
+          "type": "boolean"
         }
       }
     },
