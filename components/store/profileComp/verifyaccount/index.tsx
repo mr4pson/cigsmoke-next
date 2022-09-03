@@ -7,20 +7,21 @@ import color from 'components/store/lib/ui.colors';
 
 const VerifyAcountByToken = () => {
   const [serverResponse, setServerResponse] = useState(undefined);
-  const routre = useRouter();
+  const router = useRouter();
   useEffect(() => {
-    handleVerification(routre, setServerResponse);
+    handleVerification(router, setServerResponse);
   }, []);
   const [counter, setCounter] = useState(10);
   useEffect(() => {
     setTimeout(() => setCounter(counter - 1), 1000);
   });
+
   return (
     <>
       {serverResponse == 401 ? <Err>Ключ не найден</Err> : ''}
       {serverResponse == 403 ? <Err>Срок действия ключа истек</Err> : ''}
       {serverResponse == 408 ? <Err>Уже проверено</Err> : ''}
-      {serverResponse == 500 ? (
+      {serverResponse == 500 || serverResponse == 504 ? (
         <Err>Что-то пошло не так, нам очень жаль</Err>
       ) : (
         ''
