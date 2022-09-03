@@ -9,6 +9,8 @@ import Reveiws from './reveiws';
 import Changepsw from './changepsw';
 import Settings from './settings';
 import { devices } from '../lib/Devices';
+import { useAppSelector } from 'redux/hooks';
+import { TAuthState } from 'redux/types';
 
 const ProfileComp = (props: any) => {
   const { setActive } = props;
@@ -17,6 +19,7 @@ const ProfileComp = (props: any) => {
   const [serverErr, setServerErr] = useState(undefined);
   const [isLoading, setLoading] = useState(true);
   const [isVerified, setIsverified] = useState(undefined);
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   useEffect(() => {
     handleFirstLoad(
       setAuthorized,
@@ -24,8 +27,9 @@ const ProfileComp = (props: any) => {
       setLoading,
       setIsverified,
       setStep,
+      user,
     );
-  });
+  }, []);
 
   const userInfoRef = useRef(null);
   const reveiwsRef = useRef<any>(null);
@@ -38,7 +42,7 @@ const ProfileComp = (props: any) => {
         <>loading...</>
       ) : (
         <>
-          {isAuthorized ? (
+          {user ? (
             <Container>
               <SideBar
                 userInfoRef={userInfoRef}
@@ -48,6 +52,7 @@ const ProfileComp = (props: any) => {
                 isVerified={isVerified}
                 setAuthorized={setAuthorized}
                 setStep={setStep}
+                user={user}
                 {...props}
               />
               <Wrapper>
@@ -55,11 +60,12 @@ const ProfileComp = (props: any) => {
                   settingsRef={settingsRef}
                   userInfoRef={userInfoRef}
                   setActive={setActive}
+                  user={user}
                   {...props}
                 />
                 <Reveiws {...props} reveiwsRef={reveiwsRef} />
-                <Changepsw {...props} changePswRef={changePswRef} />
-                <Settings {...props} settingsRef={settingsRef} />
+                <Changepsw {...props} changePswRef={changePswRef} user={user} />
+                <Settings {...props} settingsRef={settingsRef} user={user} />
               </Wrapper>
             </Container>
           ) : (

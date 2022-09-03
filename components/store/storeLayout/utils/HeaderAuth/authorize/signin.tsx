@@ -19,15 +19,6 @@ import variants from 'components/store/lib/variants';
 import color from 'components/store/lib/ui.colors';
 import { InputsTooltip } from 'components/store/checkout/helpers';
 import { useAppDispatch } from 'redux/hooks';
-import { PopupDisplay } from '../../../constants';
-
-// TODO SET THE NOT VERIFIED USERS STATUS TO FORBIDDEN
-//  if (!user.isVerified) {
-//    resp
-//      .status(HttpStatus.FORBIDDEN)
-//      .json({ message: 'Account is not not verified' });
-//    return;
-//  }
 
 type Props = {
   direction: number;

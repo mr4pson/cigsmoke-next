@@ -18,15 +18,7 @@ import { InputsTooltip } from 'components/store/checkout/helpers';
 import PswShow from '../../assets/pswshow.svg';
 import PswHide from '../../assets/pswhide.svg';
 import Link from 'next/link';
-
-// TODO SET THE NOT VERIFIED USERS STATUS TO FORBIDDEN
-//  if (!user.isVerified) {
-//    resp
-//      .status(HttpStatus.FORBIDDEN)
-//      .json({ message: 'Account is not not verified' });
-//    return;
-//  }
-
+import { useAppDispatch } from 'redux/hooks';
 const SignIn = (props: any) => {
   const {
     direction,
@@ -46,7 +38,7 @@ const SignIn = (props: any) => {
   const [pswErr, setPswErr] = useState(false);
   const [confidentiality, setConfidentiality] = useState('password');
   const [secret, setSecret] = useState(0);
-
+  const dispatch = useAppDispatch();
   const payLoad = {
     setStep,
     email,
@@ -54,7 +46,9 @@ const SignIn = (props: any) => {
     setLoading,
     setServerErr,
     setAuthorized,
+    dispatch,
   };
+
   return (
     <Content
       drag="x"
@@ -239,7 +233,7 @@ const SignIn = (props: any) => {
           variants={variants.fadInSlideUp}
           bgcolor={color.textTertiary}
           onClick={() =>
-            handleBack(paginate, setEmailErr, setPswErr, setServerErr)
+            handleBack(paginate, setEmailErr, setPswErr, setServerErr, dispatch)
           }
         >
           Назад

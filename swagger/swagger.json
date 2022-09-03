@@ -410,7 +410,100 @@
         }
       }
     },
-    "/users/{userId}": {
+
+    "/users/changepsw/{userId}": {
+      "put": {
+        "tags": ["changeUserPsw"],
+        "summary": "change user password",
+        "operationId": "changePassword",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token or user-token from user owner"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "id of user to change password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        }
+      }
+    },
+    "/users/email-confirmation/": {
+      "get": {
+        "tags": ["userVerification"],
+        "summary": "send user verification email",
+        "operationId": "sendVerificationEmail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "authorization",
+            "required": true,
+            "in": "header",
+            "description": "admin token or user-token from user owner"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal"
+          }
+        }
+      }
+    },
+    "/users/user/{userId}": {
       "get": {
         "tags": ["user"],
         "summary": "Find user by id",
@@ -451,6 +544,9 @@
           },
           "404": {
             "description": "User not found"
+          },
+          "500": {
+            "description": "Internal"
           }
         }
       },

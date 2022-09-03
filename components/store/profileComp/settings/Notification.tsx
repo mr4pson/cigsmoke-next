@@ -7,10 +7,11 @@ import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
 import { useState } from 'react';
 import MailSVg from '../../../../assets/mail.svg';
-
-const Notifactions = () => {
+import { handleEmailChange } from './helpers';
+const Notifactions = ({ user }) => {
   const [editNotify, setEditNotify] = useState(false);
-  const [email, setEmail] = useState('email@mail.ru');
+  const [email, setEmail] = useState(user.email);
+  const [serverResponse, setServerResponse] = useState(undefined);
   return (
     <NotifactionWrapper>
       <span className="mail-icon">
@@ -22,6 +23,7 @@ const Notifactions = () => {
           Изменив почта, вам также нужно будет подтвердить свой адрес
           электронной почты.
         </span>
+        <span>{serverResponse !== 200 ? 'Ошибка сервера' : 'Успех'}</span>
         <div className="input-wrapper">
           <span style={{ color: color.textSecondary }}>Получать на адрес</span>
           {editNotify ? (
@@ -35,6 +37,7 @@ const Notifactions = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
               <motion.button
+                className="change-email-btn"
                 whileHover="hover"
                 whileTap="tap"
                 variants={variants.boxShadow}
@@ -45,15 +48,28 @@ const Notifactions = () => {
                       : color.btnPrimary,
                 }}
                 disabled={isEmpty(email) || !isEmail(email) ? true : false}
-                onClick={() => setEditNotify(false)}
+                onClick={() => {
+                  setEditNotify(false);
+                  handleEmailChange({ user, email, setServerResponse });
+                }}
               >
                 Сохранить
+              </motion.button>
+              <motion.button
+                className="change-email-btn"
+                whileHover="hover"
+                whileTap="tap"
+                variants={variants.boxShadow}
+                onClick={() => setEditNotify(false)}
+              >
+                Отмена
               </motion.button>
             </div>
           ) : (
             <div className="notify-email-wrapper">
               <motion.span>{email}</motion.span>
               <motion.button
+                className="change-email-btn"
                 whileHover="hover"
                 whileTap="tap"
                 variants={variants.boxShadow}
@@ -167,6 +183,7 @@ const Notifaction = styled.div`
       justify-content: flex-start;
       align-items: center;
       gap: 20px;
+
       input {
         width: 300px;
         height: 50px;
@@ -185,6 +202,25 @@ const Notifaction = styled.div`
       }
     }
   }
+  @media ${devices.laptopS} {
+    .input-wrapper {
+      flex-direction: column;
+      gap: 10px;
+      span {
+        width: 100%;
+      }
+      .notify-email-wrapper {
+        width: 100%;
+        flex-direction: column;
+        .change-email-btn {
+          width: 100%;
+        }
+        input {
+          width: 100%;
+        }
+      }
+    }
+  }
   @media ${devices.mobileL} {
     .input-wrapper {
       flex-direction: column;
@@ -195,7 +231,9 @@ const Notifaction = styled.div`
       .notify-email-wrapper {
         width: 100%;
         flex-direction: column;
-        button,
+        .change-email-btn {
+          width: 100%;
+        }
         input {
           width: 100%;
         }

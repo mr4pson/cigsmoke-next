@@ -12,7 +12,7 @@ import PswHide from '../../../../assets/pswhide.svg';
 import React, { useState, useMemo, useEffect } from 'react';
 
 const Changepsw = (props: any) => {
-  const { changePswRef, setActive } = props;
+  const { changePswRef, setActive, user } = props;
   const [serverResponse, setServerResponse] = useState(undefined);
   const [isCap, setCap] = useState(false);
   const [psw, setPsw] = useState('');
@@ -27,7 +27,7 @@ const Changepsw = (props: any) => {
     false,
   ]);
   const payload = {
-    oldPsw,
+    user,
     psw,
     setServerResponse,
   };
@@ -54,6 +54,7 @@ const Changepsw = (props: any) => {
       <Wrapper>
         <span className="errors">
           {repeatPsw !== psw ? 'Новый пароль не подходит' : ''}
+          {serverResponse == 404 ? 'Пользователь не найден' : ''}
           {serverResponse == 409
             ? 'Нельзя использовать тот же пароль, что и предыдущий'
             : ''}

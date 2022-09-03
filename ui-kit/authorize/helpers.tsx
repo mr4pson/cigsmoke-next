@@ -2,7 +2,8 @@ import { useState } from 'react';
 import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
 import { paginateTo } from './constant';
-import axios from 'axios';
+
+import { signup, userSignin, clearServerErr } from 'redux/slicers/authSlicer';
 
 type signIn = {
   setStep: any;
@@ -11,6 +12,7 @@ type signIn = {
   setLoading: any;
   setServerErr: any;
   setAuthorized: any;
+  dispatch: any;
 };
 
 type signUp = {
@@ -23,6 +25,7 @@ type signUp = {
   setServerErr: any;
   setStep: any;
   setAuthorized: any;
+  dispatch: any;
 };
 
 const UsePagination = () => {
@@ -37,56 +40,46 @@ const UsePagination = () => {
   return [direction, authType, paginate];
 };
 
-const handleBack = (paginate, emailErr, pswErr, serverErr) => {
+const handleBack = (paginate, emailErr, pswErr, serverErr, dispatch) => {
   paginate(paginateTo.back, 'selection');
   emailErr(false);
   pswErr(false);
   serverErr(undefined);
+  dispatch(clearServerErr());
 };
 
-const handleSignIn = ({
+const handleSignIn = async ({
   setStep,
   email,
   psw,
   setLoading,
   setServerErr,
   setAuthorized,
+  dispatch,
 }: signIn) => {
   if (isEmail(email) && !isEmpty(psw)) {
     setLoading(true);
-    const options = {
-      url: 'http://localhost:4001/auth/signin',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      data: {
-        email,
-        password: psw,
-      },
+    const payload = {
+      email,
+      password: psw,
     };
 
-    axios(options)
-      .then((response) => {
-        if (response.status === 200) {
-          setStep(1);
-          setServerErr(undefined);
-          setLoading(false);
-          setAuthorized(true);
-          localStorage.setItem('accessToken', response.data.accessToken);
-          localStorage.setItem('refreshToken', response.data.accessToken);
-          console.log(response.data);
-        }
-      })
-      .catch((error) => {
-        setServerErr(error.response.status);
-        setLoading(false);
-      });
+    const resp: any = await dispatch(userSignin(payload));
+
+    if (!resp.error) {
+      setStep(1);
+      setServerErr(undefined);
+      setLoading(false);
+      setAuthorized(true);
+    }
+    if (resp.error) {
+      setServerErr(resp.payload);
+      setLoading(false);
+    }
   }
 };
 
-const handleSignUp = ({
+const handleSignUp = async ({
   firstName,
   lastName,
   email,
@@ -96,44 +89,29 @@ const handleSignUp = ({
   setServerErr,
   setStep,
   setAuthorized,
+  dispatch,
 }: signUp) => {
   if (isEmail(email)) {
     setLoading(true);
-    const options = {
-      url: 'http://localhost:4001/auth/signup',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      data: {
-        firstName,
-        lastName,
-        email,
-        password,
-      },
+    const payload = {
+      firstName,
+      lastName,
+      email,
+      password,
     };
-
-    axios(options)
-      .then((response) => {
-        if (response.status === 201) {
-          setLoading(false);
-          setStep(1);
-          setAuthorized(true);
-          localStorage.setItem('accessToken', response.data.accessToken);
-          localStorage.setItem('refreshToken', response.data.accessToken);
-          console.log(response.data);
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          setLoading(false);
-          setAuthorized(false);
-          setServerErr(error.response.status);
-          paginate(paginateTo.back, 'signup');
-          console.log(error.response.data.message);
-        }
-      });
+    const resp: any = await dispatch(signup(payload));
+    if (!resp.error) {
+      setLoading(false);
+      setStep(1);
+      setServerErr(undefined);
+      setAuthorized(true);
+    }
+    if (resp.error) {
+      setLoading(false);
+      setAuthorized(false);
+      setServerErr(resp.payload);
+      paginate(paginateTo.back, 'signup');
+    }
   }
 };
 

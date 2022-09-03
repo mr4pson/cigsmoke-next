@@ -1,39 +1,31 @@
-import axios from 'axios';
-
+import { UserService } from 'swagger/services';
 const handleFirstLoad = async (
   setAuthorized,
   setServerErr,
   setLoading,
   setVerified,
   setStep,
+  user,
 ) => {
   setStep(0);
   const token = localStorage.getItem('accessToken');
-  if (token == 'undefined') {
+  if (token == 'undefined' || !user) {
     setAuthorized(false);
+    setLoading(false);
     return;
   }
-  const options = {
-    url: `http://localhost:4001/users/user`,
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;charset=UTF-8',
-      Authorization: `bearer ${token}`,
-    },
-  };
-  await axios(options)
-    .then((response) => {
-      setAuthorized(true);
-      setLoading(false);
-      setVerified(response.data.isVerified);
-      console.log(response.data);
-    })
-    .catch((error) => {
-      setAuthorized(false);
-      setServerErr(error.response.status);
-      setLoading(false);
-    });
+  try {
+    await UserService.findUserById(user?.id);
+    setServerErr(200);
+    setLoading(false);
+    setVerified(user?.isVerified);
+    setAuthorized(true);
+  } catch (error: any) {
+    setLoading(false);
+    setServerErr(error.response.status);
+    setStep(0);
+    setAuthorized(false);
+  }
 };
 
 export { handleFirstLoad };

@@ -17,6 +17,7 @@ import { InputsTooltip } from 'components/store/checkout/helpers';
 import PswShow from '../../assets/pswshow.svg';
 import PswHide from '../../assets/pswhide.svg';
 import { paginateTo } from './constant';
+import { useAppDispatch } from 'redux/hooks';
 const ConfirmPsw = (props: any) => {
   const {
     direction,
@@ -32,6 +33,7 @@ const ConfirmPsw = (props: any) => {
     setCap,
     setAuthorized,
   } = props;
+  const dispatch = useAppDispatch();
   const [psw, setPsw] = useState('');
   const [repeatPsw, setRepeatPsw] = useState('');
   const [confidentiality, setConfidentiality] = useState('password');
@@ -47,6 +49,7 @@ const ConfirmPsw = (props: any) => {
     setServerErr,
     setStep,
     setAuthorized,
+    dispatch,
   };
   return (
     <Content

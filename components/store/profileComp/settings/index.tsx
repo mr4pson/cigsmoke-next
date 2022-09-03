@@ -6,8 +6,9 @@ import { Container, Header } from '../common';
 import { useEffect, useMemo, useState } from 'react';
 import Notifactions from './Notification';
 import UserData from './userData';
+
 const Settings = (props: any) => {
-  const { settingsRef, setActive } = props;
+  const { settingsRef, setActive, user } = props;
   const [isOpen, setOpen] = useState(false);
   const observer = useMemo(
     () =>
@@ -27,7 +28,7 @@ const Settings = (props: any) => {
   return (
     <Container id="settings" ref={settingsRef}>
       <Header>Настройки</Header>
-      <Notifactions />
+      <Notifactions {...props} />
       <Header>Изменить личные данные</Header>
       <ChangeDataBtn
         whileHover="hover"
@@ -37,7 +38,7 @@ const Settings = (props: any) => {
       >
         Изменить данные
       </ChangeDataBtn>
-      <UserData isOpen={isOpen} setOpen={setOpen} />
+      <UserData isOpen={isOpen} setOpen={setOpen} {...props} />
     </Container>
   );
 };
