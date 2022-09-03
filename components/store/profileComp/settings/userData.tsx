@@ -36,7 +36,7 @@ const UserData = (props: any) => {
         <span onClick={() => setOpen(false)} className="close-btn">
           <CloseSVG />
         </span>
-        <h2>личные данные</h2>
+        <h2>Личные данные</h2>
         <InputsDvider>
           <InputsWrapper>
             <label htmlFor="user-firstname">
@@ -129,7 +129,7 @@ const UserData = (props: any) => {
             />
           </InputsWrapper>
         </InputsDvider>
-        <InputsWrapper>
+        {/* <InputsWrapper>
           <label htmlFor="user-phonenumber">
             <b>
               <span>Телефон</span>
@@ -173,8 +173,8 @@ const UserData = (props: any) => {
               ]);
             }}
           />
-        </InputsWrapper>
-        <InputsWrapper>
+        </InputsWrapper> */}
+        {/* <InputsWrapper>
           <label htmlFor="user-address">
             <b>
               <span>Адресс</span>
@@ -218,7 +218,7 @@ const UserData = (props: any) => {
               ]);
             }}
           />
-        </InputsWrapper>
+        </InputsWrapper> */}
         <SaveBtn
           style={{
             backgroundColor:
@@ -288,7 +288,7 @@ const UserDataContainer = styled(motion.form)`
 const InputsDvider = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   gap: 30px;

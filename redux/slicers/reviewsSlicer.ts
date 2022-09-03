@@ -21,7 +21,8 @@ export const fetchReviews = createAsyncThunk<
     try {
       return await ReviewService.getReviews({
         limit: payload?.limit,
-        offset: payload?.offset
+        offset: payload?.offset,
+        merge: 'true'
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -29,6 +30,29 @@ export const fetchReviews = createAsyncThunk<
   },
 );
 
+export const changeShowOnMain = createAsyncThunk<
+  Review,
+  { review: Review, showOnMain: boolean },
+  { rejectValue: string }
+>(
+  'reviews/changeShowOnMain',
+  async function ({ review, showOnMain }, { rejectWithValue }): Promise<any> {
+    try {
+      return await ReviewService.updateReview({
+        reviewId: review.id!, body: {
+          rating: review.rating,
+          text: review.text,
+          images: review.images,
+          productId: review.product?.id,
+          userId: review.user?.id,
+          showOnMain,
+        }
+      });
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
 
 
 export const deleteReview = createAsyncThunk<
@@ -59,8 +83,8 @@ const reviewsSlicer = createSlice({
     clearReviews(state) {
       state.reviews = [];
     },
-},
-    extraReducers: (builder) => {
+  },
+  extraReducers: (builder) => {
     builder
       //fetchReviews
       .addCase(fetchReviews.pending, handlePending)
