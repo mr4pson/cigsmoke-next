@@ -3,7 +3,7 @@ import { ColumnGroupType, ColumnType } from 'antd/lib/table/interface';
 import { AppContext } from 'common/context/AppContext';
 import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
-import { columns } from 'components/admin/reviews/constants';
+import { getColumns } from 'components/admin/reviews/helpers';
 import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
@@ -22,15 +22,18 @@ const ReviewsPage = () => {
   const isLoading = useAppSelector((state) => state.reviews.loading);
 
   const dataSource = reviews?.map(
-    ({ id, rating, text, product, user, ...rest }) => ({
+    ({ id, rating, text, product, user, showOnMain, ...rest }) => ({
       key: id,
       id,
       rating,
       text,
       product: product.name,
-      email: user.email,
+      user,
+      showOnMain,
     }),
   ) as unknown as DataType[];
+
+  console.log(dataSource);
 
   useEffect(() => {
     dispatch(
@@ -64,7 +67,10 @@ const ReviewsPage = () => {
               current: currentPage,
             }}
             columns={
-              columns as (ColumnGroupType<DataType> | ColumnType<DataType>)[]
+              getColumns(dispatch) as (
+                | ColumnGroupType<DataType>
+                | ColumnType<DataType>
+              )[]
             }
             dataSource={dataSource}
             onChange={(event) => {
