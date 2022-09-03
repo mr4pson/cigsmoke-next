@@ -59,6 +59,9 @@ const SignIn = (props: any) => {
     >
       <FormWrapper>
         <h4>Введите свой Логен и Пароль, чтобы войти</h4>
+        <span style={{ color: color.hover }}>
+          {serverErr >= 500 ? 'Нам очень жаль, что что-то пошло не так 😔' : ''}
+        </span>
         <AuthInputsWrapper>
           <label htmlFor="signin-mail">
             <b>
@@ -78,11 +81,6 @@ const SignIn = (props: any) => {
                     }}
                   >
                     Эл. адрес должна быть подтверждена для входа
-                  </span>
-                  <span>
-                    {serverErr == 403
-                      ? 'Проверьте свой почтовый ящик на наличие письма с подтверждением'
-                      : ''}
                   </span>
                 </React.Fragment>
               }
@@ -121,6 +119,7 @@ const SignIn = (props: any) => {
               }`,
             }}
             onChange={(e) => {
+              setServerErr(undefined);
               setEmail(e.target.value.toLowerCase());
               setEmailErr(isEmail(e.target.value) ? false : true);
             }}
@@ -166,6 +165,7 @@ const SignIn = (props: any) => {
               }`,
             }}
             onChange={(e) => {
+              setServerErr(undefined);
               setPsw(e.target.value);
               setPswErr(isEmpty(e.target.value) ? true : false);
             }}

@@ -1,35 +1,22 @@
-import axios from 'axios';
-
+import { AuthService } from 'swagger/services';
 const handleResetClick = async (
   userPassword: any,
   router: any,
   setServerResponse: any,
 ) => {
-  const token = router.asPath.slice(29, router.asPath.length);
-
-  const options = {
-    url: `http://localhost:4001/auth/update-password`,
-    method: 'PUT',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
-    data: {
-      token,
-      userPassword,
-    },
-  };
-
-  await axios(options)
-    .then((response) => {
-      setServerResponse(response.status);
-      localStorage.setItem('accessToken', response.data.accessToken);
-      setTimeout(() => router.push('/profile'), 2000);
-      console.log(response.data);
-    })
-    .catch((error) => {
-      setServerResponse(error.response.status);
+  const regEx = /[^\/]+$/; // get everything after last /
+  const token = router.asPath.match(regEx);
+  try {
+    const response = await AuthService.updatePwd({
+      body: { token, password: userPassword },
     });
+    localStorage.setItem('accessToken', response.accessToken);
+    localStorage.setItem('refreshToken', response.refreshToken);
+    setTimeout(() => router.push('/profile'), 2000);
+    setServerResponse(200);
+  } catch (error: any) {
+    setServerResponse(error.response.status);
+  }
 };
 
 export { handleResetClick };

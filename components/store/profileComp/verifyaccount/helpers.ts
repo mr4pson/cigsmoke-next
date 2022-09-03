@@ -1,31 +1,23 @@
-import axios from 'axios';
-
+import { AuthService } from 'swagger/services';
 const handleVerification = async (router: any, setServerResponse) => {
   const regEx = /[^\/]+$/; // get everything after last /
   const token = router.asPath.match(regEx);
-  const options = {
-    url: `http://localhost:4001/auth/authorize/${token}`,
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
-  };
+  console.log(token[0]);
 
-  await axios(options)
-    .then((response) => {
-      setTimeout(() => {
-        router.push('/profile');
-      }, 10000);
-      setServerResponse(response.status);
-      console.log(response.data);
-    })
-    .catch((error) => {
-      setServerResponse(error.response.status);
-      setTimeout(() => {
-        router.push('/profile');
-      }, 10000);
-    });
+  try {
+    const response = await AuthService.confirmEmailByToken({ token });
+    setServerResponse(200);
+    localStorage.setItem('accessToken', response.accessToken);
+    localStorage.setItem('refreshToken', response.refreshToken);
+    setTimeout(() => {
+      router.push('/profile');
+    }, 10000);
+  } catch (error: any) {
+    setServerResponse(error.response.status);
+    setTimeout(() => {
+      router.push('/profile');
+    }, 10000);
+  }
 };
 
 export { handleVerification };

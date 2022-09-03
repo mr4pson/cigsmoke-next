@@ -1,25 +1,11 @@
-import axios from 'axios';
-
+import { AuthService } from 'swagger/services';
 const handleResetClick = async (email: any, setServerResponse) => {
-  const options = {
-    url: `http://localhost:4001/auth/reset`,
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
-    data: {
-      email,
-    },
-  };
-
-  await axios(options)
-    .then((response) => {
-      setServerResponse(response.status);
-    })
-    .catch((error) => {
-      setServerResponse(error.response.status);
-    });
+  try {
+    await AuthService.resetPwd({ body: { email } });
+    setServerResponse(200);
+  } catch (error: any) {
+    setServerResponse(error.response.status);
+  }
 };
 
 export { handleResetClick };

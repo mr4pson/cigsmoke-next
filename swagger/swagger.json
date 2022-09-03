@@ -224,48 +224,43 @@
         }
       }
     },
-    "/auth/authorize/:token": {
+    "/auth/authorize/{token}": {
       "get": {
         "tags": ["auth"],
-        "summary": "Authorize by email ",
+        "summary": "Verify email by token",
         "description": "",
-        "operationId": "Auth",
+        "operationId": "confirmEmailByToken",
         "produces": ["application/json"],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "",
+            "name": "token",
+            "in": "path",
+            "description": "token to confirm user email",
             "required": true,
-            "schema": {
-              "type": "object",
-              "required": ["token"],
-              "properties": {
-                "token": {
-                  "type": "string",
-                  "description": "token that has send to email"
-                }
-              }
-            }
+            "type": "string"
           }
         ],
         "responses": {
-          "201": {
-            "description": "Successful created",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              }
-            }
+          "200": {
+            "description": "Successful operation"
           },
           "400": {
-            "description": "Invalid User request"
+            "description": "Invalid id supplied"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Token not found"
+          },
+          "408": {
+            "description": "Reqest timed out"
+          },
+          "500": {
+            "description": "Internal"
           }
         }
       }
@@ -503,6 +498,7 @@
         }
       }
     },
+
     "/users/user/{userId}": {
       "get": {
         "tags": ["user"],
