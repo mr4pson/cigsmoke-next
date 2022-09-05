@@ -6,7 +6,6 @@ import UserImagesSlider from './UserImagesSlider';
 import Review from './Reviews';
 import AuthorizeReviewBtn from '../AuthorizeBtn';
 import AddReview from './AddReview';
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { useAppSelector } from 'redux/hooks';
 import { TAuthState, TProductInfoState } from 'redux/types';
 import { devices } from 'components/store/lib/Devices';
@@ -20,7 +19,6 @@ const Reviews = () => {
   const [reviewsOpen, setReveiwsOpen] = useState(false);
   const [reviewDisplay, setReveiwsDisplay] = useState('none');
   const [selectedIndex, setSelectedIndex] = useState(0);
-
   const isReviewAlreadyPublished = !!product?.reviews?.find(
     (review) => review.user?.id == user?.id,
   );
@@ -66,6 +64,7 @@ const Reviews = () => {
         ) : (
           <AuthorizeReviewBtn
             text="Написать отзыв"
+            alertSignIn="Войдите, чтобы добавить отзыв"
             setAuthorized={setAuthorized}
           />
         )}

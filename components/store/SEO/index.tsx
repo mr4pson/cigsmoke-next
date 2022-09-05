@@ -56,17 +56,17 @@ const socialTags = ({
 };
 
 const SEO = ({ product, images }) => {
-  const url = `https://www.wuluxe.ru/prodcut/${product?.url}`;
+  const url = `https://wuluxe.ru/prodcut/${product?.url}`;
   const image: any = [];
   for (let i = 0; i < images?.length; i++) {
-    image.push(`http://194.58.90.236:4010/api/images/${images[i]}`);
+    image.push(`https://wuluxe.ru/api/images/${images[i]}`);
   }
   return (
     <Head>
       <title>{product?.name} | Wuluxe</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={product?.name} />
-      <meta name="description" content={product?.desc} />
+      <meta name="description" content={product?.desc.slice(0, 200)} />
       <meta name="image" content={image[0]} />
       <meta name="keywords" content={product?.tags} />
       {socialTags({
@@ -91,18 +91,18 @@ const SEO = ({ product, images }) => {
             image: image,
             brand: {
               '@type': 'Brand',
-              name: product?.brand,
+              name: product?.brand.name,
             },
             aggregateRating: {
               '@type': 'AggregateRating',
-              ratingValue: product?.rating?.avg,
+              ratingValue: product?.rating?.avg || 0,
               reviewCount: product?.reviews?.length,
             },
             offers: {
               '@type': 'Offer',
               url: url,
               priceCurrency: 'RUB',
-              price: product?.productVariants[0],
+              price: product?.productVariants[0]?.price,
               itemCondition: 'https://schema.org/NewCondition',
               availability: 'https://schema.org/InStock',
             },

@@ -15,6 +15,7 @@ type Props = {
   direction: number;
   page: number;
   paginateImage: any;
+  alt: any;
 };
 
 const Slider: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const Slider: React.FC<Props> = ({
   direction,
   page,
   paginateImage,
+  alt,
 }) => {
   const [lensDisplay, setLensDisplay] = useState('none');
   const [imgRef, lensRef, setMagnifiedImage] = MagnifieHelper(
@@ -54,6 +56,7 @@ const Slider: React.FC<Props> = ({
           ref={imgRef}
           key={page}
           src={`/api/images/${images[selectedIndex]}`}
+          alt={alt}
           custom={direction}
           variants={variants.slider}
           initial="enter"

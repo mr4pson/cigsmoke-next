@@ -61,7 +61,7 @@ const Header = () => {
       setBoxShadow('');
     });
   }, []);
-  useEffect(() => overrideDefaultIOSZoom(), []);
+  useEffect(() => overrideDefaultIOSZoom());
   return (
     <>
       <Head>

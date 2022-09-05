@@ -1,4 +1,3 @@
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import styled from 'styled-components';
 import { Checkout } from 'swagger/services';
 import { devices } from '../lib/Devices';

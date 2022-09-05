@@ -23,7 +23,7 @@ import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
 import { Category } from 'swagger/services';
 import ProductGrid from 'ui-kit/products/productGrid';
-
+import SEOstatic from 'components/store/SEO/SEOstatic';
 const PAGE_ITEMS_LIMIT = 12;
 
 const CatalogPage = () => {
@@ -78,12 +78,19 @@ const CatalogPage = () => {
   const handlePageChange = (page: number) => {
     pushQueryParams([{ name: 'page', value: page }]);
   };
+  const router = useRouter();
 
   return (
     <>
-      <Head>
-        <title>Каталог | wuluxe</title>
-      </Head>
+      <SEOstatic
+        page={{
+          name: category?.name || 'Каталог',
+          url: `https://wuluxe.ru${router.asPath}`,
+          desc: `Интернет-магазин Wuluxe - ${category?.name}`,
+          keywords: '',
+        }}
+        image={`https://wuluxe.ru/api/images/${category?.image}`}
+      />
       <Container
         variants={variants.fadInOut}
         key="header"

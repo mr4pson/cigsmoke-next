@@ -7,17 +7,21 @@ import {
   Content,
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
-
-import Head from 'next/head';
 import styled from 'styled-components';
 import Link from 'next/link';
-
+import SEOstatic from 'components/store/SEO/SEOstatic';
 const Copyrights = () => {
   return (
     <>
-      <Head>
-        <title>Правила использования контента сайта | Wuluxe</title>
-      </Head>
+      <SEOstatic
+        page={{
+          name: 'Правила использования контента сайта',
+          url: '/copyright-terms',
+          desc: 'Интернет-магазин Wuluxe',
+          keywords: 'some, keywords',
+        }}
+        image="https://wuluxe.ru/wuluxe.svg"
+      />
       <Container
         variants={variants.fadInOut}
         key="profile-page"

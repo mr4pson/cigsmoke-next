@@ -1,7 +1,7 @@
 const sizes = {
   mobileS: '320px',
   mobileM: '375px',
-  mobileL: '390px',
+  mobileL: '320px',
   tablet: '768px',
   laptopS: '1024px',
   laptopM: '1240px',

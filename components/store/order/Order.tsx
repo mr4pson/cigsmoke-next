@@ -1,6 +1,4 @@
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import styled from 'styled-components';
 import color from '../lib/ui.colors';
 import variants from '../lib/variants';

@@ -1,14 +1,18 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { TAuthState } from 'redux/types';
+import { useAppSelector } from 'redux/hooks';
 
 const AuthorizeReviewBtn = (props: any) => {
   const [isSignedIn, setSignedIn] = useState(true);
   const [isPurchased, setPurchesed] = useState(true);
   const [signInAlert, setSignInAlert] = useState(false);
   const [purchasAlert, setPurchesedAlert] = useState(false);
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
+
   return (
     <>
       <AddReviewBtn
@@ -23,9 +27,8 @@ const AuthorizeReviewBtn = (props: any) => {
         viewport={{ once: true }}
         variants={variants.fadeOutSlideOut}
         onClick={() => {
-          setSignInAlert(!isSignedIn ? !signInAlert : false);
-          setPurchesedAlert(!isPurchased ? !purchasAlert : false);
-          props.setAuthorized(isPurchased && isPurchased ? true : false);
+          setSignInAlert(user ? false : true);
+          props.setAuthorized(isPurchased && user ? true : false);
           setTimeout(() => {
             setSignInAlert(false);
             setPurchesedAlert(false);
@@ -42,7 +45,7 @@ const AuthorizeReviewBtn = (props: any) => {
           variants={variants.fadeOutSlideOut}
           style={{ color: color.hover, textAlign: 'center', width: '100%' }}
         >
-          Пожалуйста, войдите, чтобы добавить отзыв
+          {props.alertSignIn}
         </motion.span>
       ) : (
         ''

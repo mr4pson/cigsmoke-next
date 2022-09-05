@@ -58,6 +58,7 @@ const Images: React.FC<Props> = ({
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
           paginateImage={paginateImage}
+          alt={product?.name}
         />
 
         <Slider
@@ -67,6 +68,7 @@ const Images: React.FC<Props> = ({
           direction={direction}
           page={page}
           paginateImage={paginateImage}
+          alt={product?.name}
         />
       </ImagesWrapper>
     </ImagesContainer>
