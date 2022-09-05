@@ -28,7 +28,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { updateCart } from 'redux/slicers/store/cartSlicer';
 import { devices } from 'components/store/lib/Devices';
 import { TCartState } from 'redux/types';
-
+import { TProductInfoState } from 'redux/types';
 type Props = {
   images: string[];
   product?: Product;
@@ -88,6 +88,10 @@ const Details: React.FC<Props> = ({
     setCurVariant(curVariant);
   }, [variant, product]);
 
+  //   const { product } = useAppSelector<TProductInfoState>(
+  //   (state) => state.productInfo,
+  // );
+
   return (
     <DetailsContainer>
       <ShareToSocial
@@ -145,7 +149,7 @@ const Details: React.FC<Props> = ({
                 questionRef.current.scrollIntoView();
               }}
             >
-              <span>31 вопрос</span>
+              <span>{product?.questions?.length} вопрос(ов)</span>
             </span>
           </ConvoWrappers>
         </ConvoContainer>

@@ -7,16 +7,21 @@ import {
   Content,
 } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
-
-import Head from 'next/head';
+import SEOstatic from 'components/store/SEO/SEOstatic';
 import AddressContactUs from 'components/store/addressContactUs';
 
 const ContactUsAndAddress = () => {
   return (
     <>
-      <Head>
-        <title>Правила использования контента сайта | Wuluxe</title>
-      </Head>
+      <SEOstatic
+        page={{
+          name: 'Адрес и свяжитесь с нами',
+          url: '/address-contact-us',
+          desc: 'Интернет-магазин Wuluxe',
+          keywords: 'some, keywords',
+        }}
+        image="https://wuluxe.ru/wuluxe.svg"
+      />
       <Container
         variants={variants.fadInOut}
         key="profile-page"

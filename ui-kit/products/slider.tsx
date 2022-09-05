@@ -69,6 +69,7 @@ const Slider: React.FC<Props> = ({
                 )}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 1 }}
+                alt={product.name}
                 src={
                   images[imageIndex]
                     ? `/api/images/${images[imageIndex]}`

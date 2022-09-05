@@ -5,11 +5,11 @@ const settings = {
   meta: {
     rootUrl: 'http://www.wuluxe.ru',
     title: 'Wuluxe',
-    description: 'The app description goes here.',
+    description: 'Wuluxe, где вы найдете удовольствие',
     social: {
       graphic:
         'https://cheatcode-assets.s3.amazonaws.com/default-social-graphic.png',
-      twitter: '@cheatcodetuts',
+      twitter: '@wuluxe',
     },
   },
   routes: {

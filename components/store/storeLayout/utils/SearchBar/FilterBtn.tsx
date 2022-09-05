@@ -36,7 +36,6 @@ const FilterBtn: React.FC<Props> = ({
   return (
     <>
       <FilterSelected
-        id="filter-btn"
         animate={selectedCategory ? 'animate' : 'init'}
         variants={variants.fadeInSlideIn}
         color={selectedCategory ? color.btnPrimary : ''}
@@ -65,7 +64,6 @@ const FilterBtn: React.FC<Props> = ({
       </FilterSelected>
       <Button
         ref={btnNode}
-        id="filter-btn"
         animate={!selectedCategory ? 'animate' : 'init'}
         variants={variants.fadeOutSlideOut}
         onClick={(e) => {

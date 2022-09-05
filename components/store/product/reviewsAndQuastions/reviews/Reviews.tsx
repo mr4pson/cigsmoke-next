@@ -1,7 +1,6 @@
 import { Rating } from '@mui/material';
 import { Modal } from 'antd';
 import { Reaction } from 'common/enums/reaction.enum';
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';

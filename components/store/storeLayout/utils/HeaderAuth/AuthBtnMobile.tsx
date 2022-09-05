@@ -5,7 +5,6 @@ import { Btns } from '../../common';
 import { PathCircle } from '../paths';
 import { useState } from 'react';
 import { devices } from 'components/store/lib/Devices';
-import Image from 'next/image';
 import { TAuthState } from 'redux/types';
 import { useAppSelector } from 'redux/hooks';
 

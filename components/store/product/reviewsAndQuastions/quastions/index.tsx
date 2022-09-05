@@ -28,6 +28,7 @@ const Quastions = ({ productId, userId }) => {
         ) : (
           <AuthorizeQuastionBtn
             text="Задайте вопрос"
+            alertSignIn="Войдите, чтобы задать вопрос"
             setAuthorized={setAuthorized}
           />
         )}

@@ -3,14 +3,20 @@ import Banners from 'components/home-page/banners';
 import Bestsellers from 'components/home-page/bestsellers';
 import CreatedForYou from 'components/home-page/createdForYou';
 import Reviews from 'components/home-page/reviews';
-import Head from 'next/head';
+import SEOstatic from 'components/store/SEO/SEOstatic';
 
 const IndexPage = (): JSX.Element => {
   return (
     <>
-      <Head>
-        <title>Главный | Wuluxe</title>
-      </Head>
+      <SEOstatic
+        page={{
+          name: 'Главный',
+          url: '',
+          desc: 'Интернет-магазин Wuluxe',
+          keywords: 'some, keywords',
+        }}
+        image="https://wuluxe.ru/wuluxe.svg"
+      />
       <Banners />
       <Bestsellers />
       <CreatedForYou />

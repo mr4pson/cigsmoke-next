@@ -12,13 +12,14 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="shortcut icon" href="/static/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon.svg" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
             crossOrigin=""
           />
+
           <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet"
@@ -27,11 +28,11 @@ class MyDocument extends Document {
           {/* <script src="https://static.yoomoney.ru/checkout-js/v1/checkout.js"></script> */}
         </Head>
         <body>
-          {/* <div
+          <div
             dangerouslySetInnerHTML={{
-              __html: YandexMetrics() + GoogleAnalytics(),
+              __html: GoogleAnalytics(),
             }}
-          /> */}
+          />
           <Main />
           <NextScript />
         </body>

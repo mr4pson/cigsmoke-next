@@ -7,7 +7,6 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { styleProps } from 'components/store/lib/types';
 import Arrow from '../../../../../assets/arrow.svg';
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { handlePaginate } from './helpers';
 
 type Props = {
@@ -15,6 +14,7 @@ type Props = {
   selectedIndex: number;
   setSelectedIndex: Dispatch<SetStateAction<number>>;
   paginateImage: Dispatch<SetStateAction<number>>;
+  alt: any;
 };
 
 const Pagination: React.FC<Props> = ({
@@ -22,6 +22,7 @@ const Pagination: React.FC<Props> = ({
   selectedIndex,
   setSelectedIndex,
   paginateImage,
+  alt,
 }) => {
   const [
     setRefType,
@@ -106,6 +107,7 @@ const Pagination: React.FC<Props> = ({
                   custom={index * 0.09}
                   variants={variants.slideInFromRigh}
                   src={`/api/images/${image}`}
+                  alt={alt}
                 />
               </ThumbnailItem>
             );
