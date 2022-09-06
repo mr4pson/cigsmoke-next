@@ -9,59 +9,44 @@ const handleGetSlideImage = (slideNum, images) => {
 }
 
 const handleSlidesDataFormatter = (form, images) => {
-    return [
-        {
-           image: handleGetSlideImage(1, images),
-           link: form.link1
-        },
-        {
-           image: handleGetSlideImage(2, images),
-           link: form.link2
-        },
-        {
-           image: handleGetSlideImage(3, images),
-           link: form.link3
-        },
-        {
-           image: handleGetSlideImage(4, images),
-           link: form.link4
-        },
-        {
-           image: handleGetSlideImage(5, images),
-           link: form.link5
-        },
-    ]
+    const result = Object.values(form).reduce((accum: any[], link, index) => {
+        return accum.concat({
+            image: handleGetSlideImage(index + 1, images),
+            link
+        });
+    }, []);
+
+    return result;
 }
 
 export const handleFormSubmitBanner =
-  (router: NextRouter, 
-    dispatch: AppDispatch, 
-    image: any, 
-    bannerIs: string,
-    id?: number
+    (router: NextRouter,
+        dispatch: AppDispatch,
+        image: any,
+        bannerIs: string,
+        id?: number
     ) => async (form) => {
-        console.log(form)
-        // let isSaved: any
-        // switch(bannerIs) {
-        //     case 'advertisement':
-        //         isSaved = dispatch(updateAdvertisement({
-        //             ...form,
-        //             image: image[0]?.url?.split('/api/images/')[1],
-        //             id
-        //         }))
-        //         break
-        //     case 'slide':
-        //         const slidesData = handleSlidesDataFormatter(form, image)
-        //         console.log(slidesData)
-        //         isSaved = dispatch(updateSlides(slidesData))
-        //         break
-        // }
-        // if (!isSaved.error) {
-        //     navigateTo(router, Page.ADMIN_BANNERS)();
-        // }
-        //
+        let isSaved: any
+        switch (bannerIs) {
+            case 'advertisement':
+                isSaved = await dispatch(updateAdvertisement({
+                    ...form,
+                    image: image[0]?.url?.split('/api/images/')[1],
+                    id
+                }))
+                break
+            case 'slide':
+                const slidesData = await handleSlidesDataFormatter(form, image)
+                console.log(slidesData)
+                isSaved = dispatch(updateSlides(slidesData))
+                break
+        }
+        if (!isSaved.error) {
+            navigateTo(router, Page.ADMIN_BANNERS)();
+        }
 
-  };
+
+    };
 
 export const handleGetImage = (uid: number, imageList): {
     name: string,
@@ -70,7 +55,7 @@ export const handleGetImage = (uid: number, imageList): {
 }[] | [] => {
     // console.log(imageList)
     const image = imageList.filter((image) => image.uid === uid)
-    if(image) {
+    if (image) {
         return image
     }
     return []
