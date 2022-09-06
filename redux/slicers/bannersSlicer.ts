@@ -90,6 +90,12 @@ const bannersSlicer = createSlice({
   name: 'banners',
   initialState,
   reducers: {
+    addSlide(state, action) {
+      state.slides.push(action.payload);
+    },
+    removeSlide(state, action) {
+      state.slides.splice(action.payload, 1);
+    },
     clearBanners(state) {
       state.advertisement = [];
       state.slides = [];
@@ -135,6 +141,6 @@ const bannersSlicer = createSlice({
   },
 });
 
-export const { clearBanners } = bannersSlicer.actions;
+export const { clearBanners, addSlide, removeSlide } = bannersSlicer.actions;
 
 export default bannersSlicer.reducer;

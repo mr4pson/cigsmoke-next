@@ -44,7 +44,6 @@ const imageSlicer = createSlice({
   initialState,
   reducers: {
     setDefaultImageList(state, action) {
-      console.log(action)
       if (action.payload.slideNum) {
         state.imageList = [...state.imageList, { name: action.payload.file.name as string, uid: action.payload.slideNum as number }];
       } else {

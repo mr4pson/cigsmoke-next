@@ -2,7 +2,7 @@ import { Button, Form, Input, Spin } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { navigateTo } from 'common/helpers';
 import { useRouter } from 'next/router';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   clearImageList,
@@ -16,7 +16,7 @@ import ImageUpload from '../generalComponents/ImageUpload';
 import { handleFormSubmitBanner } from './helpers';
 import styles from './index.module.scss';
 import { ManageAdvertisementFields } from './manageAdvertisementFields';
-import {handleFalsyValuesCheck} from "../../../common/helpers/handleFalsyValuesCheck.helper";
+import { handleFalsyValuesCheck } from '../../../common/helpers/handleFalsyValuesCheck.helper';
 
 interface Props {
   isLoading: boolean;
@@ -28,8 +28,8 @@ const AdvertisementForm = ({ isLoading, isSaveLoading }: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const [desc, setDesc] = useState<string>()
-  const [link, setLink] = useState<string>()
+  const [desc, setDesc] = useState<string>();
+  const [link, setLink] = useState<string>();
 
   const advertisement: Advertisement = useAppSelector<Advertisement[]>(
     (state) => state.banners.advertisement,
@@ -43,11 +43,11 @@ const AdvertisementForm = ({ isLoading, isSaveLoading }: Props) => {
   };
 
   useEffect(() => {
-    if(advertisement) {
-      setDesc(advertisement?.description)
-      setLink(advertisement?.link)
+    if (advertisement) {
+      setDesc(advertisement?.description);
+      setLink(advertisement?.link);
     }
-  }, [advertisement])
+  }, [advertisement]);
 
   useEffect(() => {
     if (advertisement) {
@@ -63,7 +63,7 @@ const AdvertisementForm = ({ isLoading, isSaveLoading }: Props) => {
     };
   }, [isLoading]);
 
-  const isDisabled: boolean = handleFalsyValuesCheck(desc, link, imageList)
+  const isDisabled: boolean = handleFalsyValuesCheck(desc, link, imageList);
 
   return (
     <>
@@ -92,15 +92,19 @@ const AdvertisementForm = ({ isLoading, isSaveLoading }: Props) => {
                   rows={4}
                   required={true}
                   placeholder="Введите описание баннера"
-                  onChange={e => setDesc(e.target.value)}
+                  onChange={(e) => setDesc(e.target.value)}
                 />
               }
             />
             <FormItem
               option={ManageAdvertisementFields.Link}
-              children={<Input required={true} placeholder="Введите ссылку"
-                               onChange={e => setLink(e.target.value)}
-              />}
+              children={
+                <Input
+                  required={true}
+                  placeholder="Введите ссылку"
+                  onChange={(e) => setLink(e.target.value)}
+                />
+              }
             />
             <FormItem
               option={ManageAdvertisementFields.Image}
