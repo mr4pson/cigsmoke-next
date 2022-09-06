@@ -162,7 +162,7 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
 const SlideItem = styled.div`
   position: relative;
 
-  svg {
+  > svg {
     position: absolute;
     top: 0;
     right: 0;
