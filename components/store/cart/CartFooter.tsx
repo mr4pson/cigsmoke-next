@@ -2,7 +2,16 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { Basket } from 'swagger/services';
 import { devices } from '../lib/Devices';
-import { getTotalDiscount, getTotalPrice, getTotalQuantity } from './helpers';
+import { motion } from 'framer-motion';
+import { getDiscount } from '../checkout/totalDeliveryDate/helpers';
+import {
+  getTotalDiscount,
+  getTotalPrice,
+  getTotalQuantity,
+  findTotalWheight,
+} from './helpers';
+import color from 'components/store/lib/ui.colors';
+import variants from '../lib/variants';
 
 type Props = {
   cart: Basket | null;
@@ -20,7 +29,10 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
           <ProductInfo>
             {cart?.orderProducts!.length} вида товаров /
           </ProductInfo>
-          <ProductInfo>14, 288 кг общий вес</ProductInfo>
+          <ProductInfo>
+            {findTotalWheight(cart).totalWeight.toFixed(2)}{' '}
+            {findTotalWheight(cart).in == 'gram' ? 'гр' : 'кг'} общий вес
+          </ProductInfo>
         </CartColBody>
       </CartCol>
       <CartCol>
@@ -29,13 +41,20 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
         <CartDiscount>
           <DiscountTitle>Скидка</DiscountTitle>
           <DiscountPrice>
-            {getTotalDiscount(cart?.orderProducts!)} ₽
+            {/* {getTotalDiscount(cart?.orderProducts!)} ₽ */}
+            {`- ${getDiscount(cart)}`} ₽
           </DiscountPrice>
         </CartDiscount>
       </CartCol>
       <CartCol>
         <Link href={'/checkout'}>
-          <CheckoutBtn>Перейти к оформлению</CheckoutBtn>
+          <CheckoutBtn
+            whileHover="hover"
+            whileTap="tap"
+            variants={variants.boxShadow}
+          >
+            Перейти к оформлению
+          </CheckoutBtn>
         </Link>
       </CartCol>
     </Wrapper>
@@ -115,13 +134,13 @@ const DiscountTitle = styled.span`
 
 const DiscountPrice = styled.span`
   font-size: 14px;
-  color: #ff0000;
+  color: ${color.ok};
   margin-left: 10px;
 `;
 
-const CheckoutBtn = styled.button`
-  background: #ffc54d;
-  color: #000;
+const CheckoutBtn = styled(motion.button)`
+  background: ${color.btnPrimary};
+  color: ${color.textPrimary};
   font-size: 18px;
   padding: 12px 81px;
   border-radius: 8px;

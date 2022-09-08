@@ -82,11 +82,11 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
             <span>2-5 рабочих дней</span>
           </DeleveryInfoItems>
           <DeleveryInfoItems borderbottom="1px solid" borderright="1px solid">
-            <span className="prices-delever">500₽</span>
+            <span className="prices-delever">150₽</span>
             {/* TODO add dynamic pricing */}
           </DeleveryInfoItems>
           <DeleveryInfoItems borderbottom="1px solid">
-            <span className="prices-delever">10000₽</span>
+            <span className="prices-delever">5000₽</span>
             {/* TODO add dynamic pricing */}
           </DeleveryInfoItems>
           <DeleveryInfoItems borderright="1px solid">
@@ -96,11 +96,11 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
             <span>2-3 рабочих дня</span>
           </DeleveryInfoItems>
           <DeleveryInfoItems borderright="1px solid">
-            <span className="prices-delever">2500₽</span>
+            <span className="prices-delever">500₽</span>
             {/* TODO add dynamic pricing */}
           </DeleveryInfoItems>
           <DeleveryInfoItems>
-            <span className="prices-delever">15000₽</span>
+            <span className="prices-delever">10000₽</span>
             {/* TODO add dynamic pricing */}
           </DeleveryInfoItems>
         </DeleveryInfoContaiener>
@@ -117,6 +117,38 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
           импортных пошлин и налогов является обязанностью покупателя.
           Пожалуйста, свяжитесь с местной таможней для получения дополнительной
           информации.
+        </span>
+      </InfoDropdown>
+      <InfoDropdown title="Информация о возврате">
+        <h2>Как работает возврат?</h2>
+        <span style={{ fontSize: '1rem' }}>
+          Наши продукты тестируются и проверяются по заводским стандартам, хотя
+          в некоторых случаях могут быть некоторые дефекты, и в этом случае мы
+          даем нашим клиентам возможность проверить свой товар при получении
+          товара, если клиенты увидят какие-либо дефекты на товар, они могут
+          отказаться от получения доставленного товара и вернуть его нам, и мы
+          вышлем покупателю замену этого товара. также клиент может отменить
+          свой заказ до того, как он получит свой заказ (
+          <span style={{ color: color.yellow }}>
+            кнопка отмены заказа будет доступна для пользователя на странице
+            заказов в течение 24 часов после оплаты, через 24 часов кнопка
+            исчезнет, и отменить заказ будет невозможно
+          </span>
+          )
+        </span>
+        <h2>Каковы правила возврата?</h2>
+        <span style={{ fontSize: '1rem' }}>
+          1: Для клиентов, которые получили товар и проверили его состояние,
+          возврат товара невозможен.
+        </span>
+        <span style={{ fontSize: '1rem' }}>
+          2: Если клиент запрашивает возврат средств вместо замены товара после
+          получения дефектного товара, клиент несет ответственность за оплату
+          стоимости доставки и получит возмещение после оплаты стоимости
+          доставки.
+        </span>
+        <span style={{ fontSize: '1rem' }}>
+          3: Изменение заказа после получения заказа невозможно
         </span>
       </InfoDropdown>
     </InfoContainer>

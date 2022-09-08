@@ -16,8 +16,9 @@ const BuyTogether = ({ product }) => {
       const response = (await ProductService.getProducts({
         limit: 8,
         brands: [product?.brand.url],
+        tags: product?.tags?.map((tag: any) => tag.url),
       })) as unknown as { rows: Product[]; length: number };
-      setProducts(response.rows);
+      setProducts(response.rows.filter((item) => item.id != product.id));
     })();
   }, []);
   const [

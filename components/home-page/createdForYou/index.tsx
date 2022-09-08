@@ -9,77 +9,38 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { TAuthState } from 'redux/types';
-import { useAppSelector } from 'redux/hooks';
-import {
-  Product,
-  ProductService,
-  ForyouProductsService,
-  UserHistoryInDbService,
-} from 'swagger/services';
+
+import { BrandService, Product, ProductService } from 'swagger/services';
 import ProductGrid from '../../../ui-kit/products/productGrid';
 import Subscription from './subscription';
 
 const Section = () => {
-  // const { user } = useAppSelector<TAuthState>((state) => state.auth);
-
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState('');
   useEffect(() => {
-    const user = localStorage.getItem('accessToken');
+    setLoading(true);
     const history: any = localStorage.getItem('history');
     let randomPruduct: any;
     (async () => {
-      setLoading(true);
       let products: any = [];
       if (!history) {
-        randomPruduct = await ForyouProductsService.getProducts();
-        products = (await ProductService.getProducts({
+        const brands = await BrandService.getBrands();
+
+        const products = (await ProductService.getProducts({
           limit: 12,
-          categories: [randomPruduct?.category.url],
-        })) as unknown as { rows: Product[]; length: number };
-        setUrl(`/catalog?categories=${products.rows[0].category?.parent.url}`);
+          brands: brands.rows?.map((brand: any) => brand.url).reverse(),
+        })) as unknown as { rows: Product[] };
         setLoading(false);
         setProducts(products.rows);
       }
-      if (history && !user) {
+      if (history) {
         const deStringified = JSON.parse(history);
-
         randomPruduct = await ProductService.findProductById({
           productId: `${
-            deStringified[Math.floor(Math.random() * deStringified.length - 1)]
+            deStringified[Math.floor(Math.random() * deStringified.length)]
           }`,
         });
-        products = (await ProductService.getProducts({
-          limit: 12,
-          categories: [randomPruduct?.category.url],
-        })) as unknown as { rows: Product[]; length: number };
-        setUrl(`/catalog?categories=${products.rows[0].category?.parent.url}`);
-        setLoading(false);
-        setProducts(products.rows);
-      }
-      if (history && user) {
-        const hasHistory = await UserHistoryInDbService.getUserHistory();
-        if (!hasHistory) {
-          await UserHistoryInDbService.createUserHistory({
-            body: { history: JSON.parse(history) },
-          });
-        }
-      }
-      if (history && user) {
-        const hasHistory = await UserHistoryInDbService.getUserHistory();
-        if (hasHistory) {
-          await UserHistoryInDbService.updateUserHistory({
-            body: { history: JSON.parse(history) },
-          });
-        }
-        randomPruduct = await ProductService.findProductById({
-          productId: `${
-            hasHistory[Math.floor(Math.random() * hasHistory.length - 1)]
-          }`,
-        });
-
         products = (await ProductService.getProducts({
           limit: 12,
           categories: [randomPruduct?.category.url],

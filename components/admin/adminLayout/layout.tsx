@@ -82,7 +82,7 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
             <div className={styles['site-layout__content']}>{children}</div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Cigsmoke ©2022 Created by The Best Studio
+            Wuluxe ©2022 Created by The Best Studio
           </Footer>
         </Layout>
       </Layout>

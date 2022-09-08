@@ -39,12 +39,14 @@ const getFormatedDate = (date: Date): string => {
     12: 'декабря',
   };
 
-  return `${date.getDay()} ${months[date.getMonth()]}`;
+  return `${date.getDay() + 5} ${months[date.getMonth() + 1]}`;
 };
 
 const getOldPrice = (cart: Basket | null): number => {
   return cart?.orderProducts?.reduce((accum, item) => {
-    accum += item.productVariant?.oldPrice ?? item.productPrice!;
+    accum +=
+      Number(item.qty) *
+      Number(item.productVariant?.oldPrice ?? item.productPrice!);
     return accum;
   }, 0)!;
 };
@@ -53,7 +55,7 @@ const getDiscount = (cart: Basket | null) => {
   const oldPrice = getOldPrice(cart);
 
   const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
-    return accum + item.productPrice!;
+    return accum + Number(item.qty) * Number(item.productPrice!);
   }, 0)!;
 
   return oldPrice - totalAmount;
@@ -61,10 +63,27 @@ const getDiscount = (cart: Basket | null) => {
 
 const getTotalPrice = (cart: Basket | null) => {
   const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
-    return accum + item.productPrice!;
+    return accum + Number(item.qty) * Number(item.productPrice!);
   }, 0)!;
 
   return totalAmount + 300;
+};
+
+const findTotalWheight = (cart: any) => {
+  let totalWeight = 0;
+  cart?.orderProducts?.map((product: any) =>
+    product.product?.parameterProducts?.map((item: any) => {
+      if (item.value?.match(/(?:^|\W)гр(?:$|\W)/)) {
+        totalWeight =
+          totalWeight + parseInt(item.value.match(/\d+/g)) * product.qty;
+      }
+    }),
+  );
+  if (totalWeight > 999) {
+    totalWeight = 0.001 * totalWeight;
+    return { totalWeight, in: 'kilo' };
+  }
+  return { totalWeight, in: 'gram' };
 };
 
 export {
@@ -73,4 +92,5 @@ export {
   getOldPrice,
   getDiscount,
   getTotalPrice,
+  findTotalWheight,
 };

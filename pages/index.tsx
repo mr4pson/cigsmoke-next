@@ -13,7 +13,8 @@ const IndexPage = (): JSX.Element => {
           name: 'Главный',
           url: '',
           desc: 'Интернет-магазин Wuluxe',
-          keywords: 'some, keywords',
+          keywords:
+            'wuluxe, wuluxe.ru, волюкс, одноразовые, одноразовые сигареты, купить одноразовые, одноразовые электронные, одноразовые электронные сигареты, одноразовые сигареты купить',
         }}
         image="https://wuluxe.ru/wuluxe.svg"
       />

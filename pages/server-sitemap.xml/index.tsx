@@ -1,15 +1,15 @@
 import { GetServerSideProps } from 'next';
 import { getServerSideSitemap, ISitemapField } from 'next-sitemap';
+import { Product, ProductService } from 'swagger/services';
 
 export const getSErverSideProps: GetServerSideProps = async (ctx) => {
-  // TODO fetch api categories and products and add thier id here
-  const response = await fetch('https://fakestoreapi.com/products');
+  const response = (await ProductService.getProducts()) as unknown as {
+    rows: Product[];
+  };
 
-  const data: any[] = await response.json();
-
-  const fields: ISitemapField[] = data.map((item) => ({
-    loc: `https://www.wuluxe.ru/product/${item.id}`,
-    lastmod: new Date().toISOString(),
+  const fields: ISitemapField[] = response?.rows?.map((item) => ({
+    loc: `https://wuluxe.ru/product/${item?.url}`,
+    lastmod: item.updatedAt,
   }));
 
   return getServerSideSitemap(ctx, fields);

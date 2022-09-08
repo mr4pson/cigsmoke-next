@@ -103,7 +103,7 @@ const ActionBtns: React.FC<Props> = ({
         </CounterAndGotoCartWrapper>
       )}
       <Link href="/checkout">
-        <a style={{ justifySelf: 'flex-end' }}>
+        <a onClick={handleCartClick} style={{ justifySelf: 'flex-end' }}>
           <ActionBtn
             whileHover="hover"
             whileTap="tap"
