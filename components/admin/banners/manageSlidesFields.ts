@@ -1,5 +1,6 @@
 export enum ManageSlidesFields {
   Image = 'image',
+  Link = 'link',
   Link0 = 'link1',
   Link1 = 'link2',
   Link2 = 'link3',

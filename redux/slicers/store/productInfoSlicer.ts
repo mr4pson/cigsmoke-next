@@ -381,7 +381,6 @@ const productInfoSlicer = createSlice({
       state.products = [];
     },
     sortReviews(state, action) {
-      console.log(action.payload)
       if (action.payload === reviewDropdownOption[0] && state.product?.reviews) {
         state.product.reviews = state.product?.reviews?.sort((a, b) => {
           if (new Date(a.createdAt!) > new Date(b.createdAt!)) {

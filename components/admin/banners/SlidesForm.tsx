@@ -1,6 +1,7 @@
-import { Button, Form, Spin, Input } from 'antd';
+import { Button, Form, Input, Spin } from 'antd';
 import { navigateTo } from 'common/helpers';
 import { useRouter } from 'next/router';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
@@ -8,16 +9,16 @@ import {
   setDefaultImageList,
 } from 'redux/slicers/imagesSlicer';
 import { Page } from 'routes/constants';
-import { Category, Image, Slide } from 'swagger/services';
+import styled from 'styled-components';
+import { Image, Slide } from 'swagger/services';
 import FormItem from '../generalComponents/FormItem';
 import ImageUpload from '../generalComponents/ImageUpload';
-import {
-  handleCheckFalsyValues,
-  handleFormSubmitBanner,
-  handleGetImage,
-} from './helpers';
+import { handleFormSubmitBanner, handleGetImage } from './helpers';
 import styles from './index.module.scss';
 import { ManageSlidesFields } from './manageSlidesFields';
+import CloseSVG from '../../../assets/close_black.svg';
+import { TBannerState } from 'redux/types';
+import { addSlide, removeSlide } from 'redux/slicers/bannersSlicer';
 
 interface Props {
   isLoading: boolean;
@@ -25,28 +26,12 @@ interface Props {
 }
 
 const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
-  const [link1, setLink1] = useState<string>();
-  const [link2, setLink2] = useState<string>();
-  const [link3, setLink3] = useState<string>();
-  const [link4, setLink4] = useState<string>();
-  const [link5, setLink5] = useState<string>();
-
+  const dispatch = useAppDispatch();
+  const [links, setLinks] = useState<any>({});
   const [form] = Form.useForm();
   const router = useRouter();
-  const dispatch = useAppDispatch();
-
-  const slides = useAppSelector<Slide[]>((state) => state.banners.slides);
-
+  const { slides } = useAppSelector<TBannerState>((state) => state.banners);
   const imageList = useAppSelector<Image[]>((state) => state.images.imageList);
-
-  const isDisabled = handleCheckFalsyValues(
-    imageList,
-    link1,
-    link2,
-    link3,
-    link4,
-    link5,
-  );
 
   const initialValues = {
     link1: slides[0]?.link,
@@ -57,11 +42,12 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
   };
 
   useEffect(() => {
-    setLink1(slides[0]?.link);
-    setLink2(slides[1]?.link);
-    setLink3(slides[2]?.link);
-    setLink4(slides[3]?.link);
-    setLink5(slides[4]?.link);
+    const linksMap = slides?.reduce((accum, slide, index) => {
+      accum[index] = slide.link;
+      return accum;
+    }, {});
+
+    setLinks(linksMap);
   }, [slides]);
 
   useEffect(() => {
@@ -80,6 +66,21 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
       dispatch(clearImageList());
     };
   }, [isLoading]);
+
+  const handleLinkChange = (index: number) => (e) => {
+    setLinks({
+      ...links,
+      [index]: e.target.value,
+    });
+  };
+
+  const handleAddSlide = () => {
+    dispatch(addSlide({ link: '' }));
+  };
+
+  const handleRemove = (index) => () => {
+    dispatch(removeSlide(index));
+  };
 
   return (
     <>
@@ -100,111 +101,40 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
               'slide',
             )}
           >
-            {/*----------------1----------------*/}
-            <FormItem
-              option={ManageSlidesFields.Link0}
-              children={
-                <Input
-                  onChange={(e) => setLink1(e.target.value)}
-                  required={true}
-                  placeholder="Введите ссылку"
+            {slides.map((slide, index) => (
+              <SlideItem key={`slides-${index + 1}`}>
+                {index + 1}
+                <FormItem
+                  option={`${ManageSlidesFields.Link}${index + 1}`}
+                  children={
+                    <Input
+                      onChange={handleLinkChange(index + 1)}
+                      required={true}
+                      placeholder="Введите ссылку"
+                    />
+                  }
                 />
-              }
-            />
-            <FormItem
-              option={undefined}
-              children={
-                <ImageUpload
-                  fileList={handleGetImage(1, imageList)}
-                  isProduct={false}
-                  slideNum={1}
+                <FormItem
+                  option={undefined}
+                  children={
+                    <ImageUpload
+                      fileList={handleGetImage(index + 1, imageList)}
+                      isProduct={false}
+                      slideNum={index + 1}
+                    />
+                  }
                 />
-              }
-            />
-            {/*----------------2----------------*/}
-            <FormItem
-              option={ManageSlidesFields.Link1}
-              children={
-                <Input
-                  onChange={(e) => setLink2(e.target.value)}
-                  required={true}
-                  placeholder="Введите ссылку"
-                />
-              }
-            />
-            <FormItem
-              option={undefined}
-              children={
-                <ImageUpload
-                  fileList={handleGetImage(2, imageList)}
-                  isProduct={false}
-                  slideNum={2}
-                />
-              }
-            />
-            {/*----------------3----------------*/}
-            <FormItem
-              option={ManageSlidesFields.Link2}
-              children={
-                <Input
-                  onChange={(e) => setLink3(e.target.value)}
-                  required={true}
-                  placeholder="Введите ссылку"
-                />
-              }
-            />
-            <FormItem
-              option={undefined}
-              children={
-                <ImageUpload
-                  fileList={handleGetImage(3, imageList)}
-                  isProduct={false}
-                  slideNum={3}
-                />
-              }
-            />
-            {/*----------------4----------------*/}
-            <FormItem
-              option={ManageSlidesFields.Link3}
-              children={
-                <Input
-                  onChange={(e) => setLink4(e.target.value)}
-                  required={true}
-                  placeholder="Введите ссылку"
-                />
-              }
-            />
-            <FormItem
-              option={undefined}
-              children={
-                <ImageUpload
-                  fileList={handleGetImage(4, imageList)}
-                  isProduct={false}
-                  slideNum={4}
-                />
-              }
-            />
-            {/*----------------5----------------*/}
-            <FormItem
-              option={ManageSlidesFields.Link4}
-              children={
-                <Input
-                  onChange={(e) => setLink5(e.target.value)}
-                  required={true}
-                  placeholder="Введите ссылку"
-                />
-              }
-            />
-            <FormItem
-              option={undefined}
-              children={
-                <ImageUpload
-                  fileList={handleGetImage(5, imageList)}
-                  isProduct={false}
-                  slideNum={5}
-                />
-              }
-            />
+                <CloseSVG onClick={handleRemove(index)} />
+              </SlideItem>
+            ))}
+            <Button
+              onClick={handleAddSlide}
+              type="primary"
+              disabled={slides.length === 5}
+              style={{ marginBottom: '20px' }}
+            >
+              Добавить слайд
+            </Button>
             {/*--------------THE END--------------*/}
             <Form.Item className={styles.updateBannerForm__buttonsStack}>
               <Button
@@ -212,7 +142,6 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
                 htmlType="submit"
                 className={styles.updateBannerForm__buttonsStack__submitButton}
                 loading={isSaveLoading}
-                disabled={isDisabled}
               >
                 Сохранить
               </Button>
@@ -229,5 +158,16 @@ const SlidesForm = ({ isLoading, isSaveLoading }: Props) => {
     </>
   );
 };
+
+const SlideItem = styled.div`
+  position: relative;
+
+  > svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+  }
+`;
 
 export default SlidesForm;
