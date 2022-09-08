@@ -40,8 +40,8 @@ const Subscription = () => {
               variants={variants.boxShadow}
               onClick={(e) => {
                 e.preventDefault();
-                setNews(!news);
-                setTimeout(() => setNews(false), 1000);
+                // setNews(!news);
+                // setTimeout(() => setNews(false), 1000);
               }}
             >
               <span>

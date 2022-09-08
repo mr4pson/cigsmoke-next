@@ -111,6 +111,7 @@ const DiscountWrapper = styled(motion.div)`
     font-weight: 700;
     font-size: 1.5rem;
     margin: 0;
+    font-family: 'intro';
   }
   p {
     width: 160px;

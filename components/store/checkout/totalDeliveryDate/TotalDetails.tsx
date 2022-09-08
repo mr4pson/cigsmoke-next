@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import color from '../../lib/ui.colors';
 import variants from '../../lib/variants';
@@ -10,7 +10,12 @@ import DiscountSVG from '../../../../assets/discount.svg';
 import ArrowRight from '../../../../assets/arrow_right.svg';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { TCartState } from 'redux/types';
-import { getDiscount, getOldPrice, getTotalPrice } from './helpers';
+import {
+  getDiscount,
+  getOldPrice,
+  getTotalPrice,
+  findTotalWheight,
+} from './helpers';
 import { formatNumber } from 'common/helpers/number.helper';
 import { NextRouter, useRouter } from 'next/router';
 import { setOrderInfo } from 'redux/slicers/store/checkoutSlicer';
@@ -33,6 +38,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
     dispatch(setOrderInfo(payload));
     router.push('/checkout/payment');
   };
+
   return (
     <Container>
       <h3 className="total-header">Ваша сумма</h3>
@@ -64,19 +70,32 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
             <ItemRow>
               <h3>Ваш заказ</h3>
               <span className="product-wheight">
-                {cart?.orderProducts?.length} товар(ов) • {`400`} гр
+                {cart?.orderProducts?.length} товар(ов) •{' '}
+                {findTotalWheight(cart).totalWeight.toFixed(2)}{' '}
+                {findTotalWheight(cart).in == 'gram' ? 'гр' : 'кг'}
               </span>
             </ItemRow>
-            <ItemRow>
-              <span>Товары</span>
-              <b>
-                <span>{formatNumber(getOldPrice(cart))} ₽</span>
-              </b>
-            </ItemRow>
+            {cart?.orderProducts?.map((product: any) => {
+              return (
+                <ItemRow>
+                  <span>{product.product?.name?.slice(0, 15)}..</span>
+                  <b>
+                    <span>{product.qty} шт</span> *{'  '}
+                    <span>{product.productPrice} ₽</span>
+                    {'  '}
+                    <span>=</span>
+                    {'  '}
+                    <span style={{ whiteSpace: 'nowrap' }}>
+                      {product.productPrice * product.qty} ₽
+                    </span>
+                  </b>
+                </ItemRow>
+              );
+            })}
             <ItemRow>
               <span>Скидка</span>
               <b>
-                <span style={{ color: color.hover }}>
+                <span style={{ color: color.ok }}>
                   {`- ${formatNumber(getDiscount(cart))}`} ₽
                 </span>
               </b>
@@ -84,7 +103,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
             <ItemRow>
               <span>Стоимость доставки</span>
               <b>
-                <span>{`300`} ₽</span>
+                <span>{`150`} ₽</span>
               </b>
             </ItemRow>
           </ItemRowWrapper>

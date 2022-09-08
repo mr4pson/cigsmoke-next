@@ -2,15 +2,16 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from '../../lib/ui.colors';
 import variants from '../../lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import { Wrapper } from './common';
-import { getFormatedDate } from './helpers';
+import { getFormatedDate, findTotalWheight } from './helpers';
 import { TCartState } from 'redux/types';
 import { useAppSelector } from 'redux/hooks';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 
 const ProductDetails = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-
+  const currentYear = new Date().getFullYear();
   return (
     <Wrapper style={{ gap: '20px' }}>
       <ProudctHeaderWrapper
@@ -20,10 +21,12 @@ const ProductDetails = () => {
         viewport={{ once: true }}
         variants={variants.fadInSlideUp}
       >
-        <h3>Доставка курьером {getFormatedDate(new Date())}</h3>
+        <h3>Доставка курьером до {getFormatedDate(new Date())}</h3>
         <span>
-          Склад Тренды 2022 (Московская обл.) • {cart?.orderProducts?.length}{' '}
-          товар(ов) • 300 гр
+          Склад Тренды {currentYear} (Московская обл.) •{' '}
+          {cart?.orderProducts?.length} товар(ов) •{' '}
+          {findTotalWheight(cart).totalWeight.toFixed(2)}{' '}
+          {findTotalWheight(cart).in == 'gram' ? 'гр' : 'кг'}
         </span>
       </ProudctHeaderWrapper>
       <ProductWrapper
@@ -51,7 +54,8 @@ const ProductDetails = () => {
                 />
               </ProductImageWrapper>
               <div>
-                {orderProduct.product?.name} <b>— {price} ₽</b>
+                {orderProduct.product?.name}{' '}
+                <b style={{ whiteSpace: 'nowrap' }}>— {price} ₽</b>
               </div>
             </Product>
           );
@@ -79,9 +83,17 @@ const ProudctHeaderWrapper = styled(motion.div)`
 `;
 
 const ProductWrapper = styled(motion.div)`
-  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   flex-wrap: wrap;
+  @media ${devices.laptopS} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media ${devices.mobileL} {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const Product = styled.div`
@@ -94,19 +106,22 @@ const Product = styled.div`
   width: 150px;
 
   div {
-    text-align: center;
+    text-align: start;
+    user-select: none;
   }
 `;
 
 const ProductImageWrapper = styled.div`
   display: flex;
   width: 100%;
+  max-height: 130px;
   align-items: center;
 `;
 
 const ProductImage = styled.img`
   width: 100%;
-  height: fit-content;
+  height: 100%;
+  object-fit: contain;
 `;
 // TODO: featurs will be adde for picking the date of delivery
 

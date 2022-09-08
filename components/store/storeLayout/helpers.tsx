@@ -127,26 +127,23 @@ const overrideDefaultIOSZoom = () => {
 
   const disableIosTextFieldZoom = addMaximumScaleToMetaViewport;
 
-  const checkIsIOS = () => {
-    var iosQuirkPresent = function () {
-      var audio = new Audio();
+  const isIphone = () => {
+    if (typeof window === `undefined` || typeof navigator === `undefined`)
+      return false;
 
-      audio.volume = 0.5;
-      return audio.volume === 1; // volume cannot be changed from "1" on iOS 12 and below
-    };
-
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    var isAppleDevice = navigator.userAgent.includes('Macintosh');
-    var isTouchScreen = navigator.maxTouchPoints >= 1; // true for iOS 13 (and hopefully beyond)
-
-    return isIOS || (isAppleDevice && (isTouchScreen || iosQuirkPresent()));
+    return /iPhone/i.test(
+      navigator.userAgent ||
+        navigator.vendor ||
+        (window.opera && opera.toString() === `[object Opera]`),
+    );
   };
 
-  if (checkIsIOS()) {
+  if (isIphone()) {
     disableIosTextFieldZoom();
   }
 };
-
+declare const window: any;
+declare const opera: any;
 export {
   paginateHandler,
   UseImagePaginat,

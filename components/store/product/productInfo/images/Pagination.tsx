@@ -72,7 +72,7 @@ const Pagination: React.FC<Props> = ({
           <Arrow />
         </ArrowSpan>
       </ArrowBtns>
-      <div>
+      <div className="thumbnail-content">
         <ThumbnailWrapper
           ref={widthOrHeightRef}
           drag="y"
@@ -125,7 +125,7 @@ const ThumbnailContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   position: relative;
-  div {
+  .thumbnail-content {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -149,6 +149,7 @@ const ThumbnailWrapper = styled(motion.ul)`
 const ThumbnailItem = styled(motion.li)`
   width: 100px;
   min-height: 100px;
+  min-width: 100px;
   background-color: ${color.textPrimary};
   border-radius: 15px;
   display: flex;

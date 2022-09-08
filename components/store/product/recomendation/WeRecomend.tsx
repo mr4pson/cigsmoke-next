@@ -16,9 +16,9 @@ const WeRecomend = ({ product }) => {
       const response = (await ProductService.getProducts({
         limit: 8,
         parent: product?.category.parent?.url,
-        tags: [product?.tags.url],
       })) as unknown as { rows: Product[]; length: number };
-      setProducts(response.rows);
+
+      setProducts(response.rows.filter((item) => item.id != product.id));
     })();
   }, []);
   const [

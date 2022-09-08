@@ -129,7 +129,7 @@ const Copyrights = () => {
               права, сообщите об этом, направив электронное письмо на адрес{' '}
               <Link href="mailto:help@wuluxe.ru">
                 <a>
-                  <Links>help@ozon.ru</Links>
+                  <Links>help@wuluxe.ru</Links>
                 </a>
               </Link>{' '}
               с обязательным указанием следующей информации:

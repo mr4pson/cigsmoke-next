@@ -29,7 +29,6 @@ const Reviews = () => {
   ] = paginateHandler();
 
   useEffect(() => {
-    // widthRef is not updating when reviews lenght is 0 need to use react suspenses
     setRefType('width');
     dispatch(fetchReviews());
     setSlideAmount(150);
@@ -55,7 +54,7 @@ const Reviews = () => {
         >
           <Header>
             <h4>Пусть клиенты</h4>
-            <h3>Говорит за нас</h3>
+            <h3>Говорят за нас</h3>
           </Header>
 
           <FlexWrapper>

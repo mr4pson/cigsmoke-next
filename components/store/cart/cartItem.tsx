@@ -1,4 +1,3 @@
-import { generateArrayOfNumbers } from 'common/helpers/array.helper';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
 import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
@@ -9,8 +8,8 @@ import FilterCheckbox from 'ui-kit/FilterCheckbox';
 import { FilterCheckboxSize } from 'ui-kit/FilterCheckbox/types';
 import ItemCounter from 'ui-kit/ItemCounter';
 import CloseSVG from '../../../assets/close_black.svg';
-import StarSVG from '../../../assets/star.svg';
 import { devices } from '../lib/Devices';
+import { Rating } from '@mui/material';
 
 type Props = {
   item: OrderProduct;
@@ -84,11 +83,9 @@ const CartItem: React.FC<Props> = ({
           />
         </ItemDetailDivider>
         <RateWrapper>
-          {generateArrayOfNumbers(5).map((num) => (
-            <StarSVG color="#FED42D" />
-          ))}
+          <Rating value={item.product?.rating?.avg} size="medium" readOnly />
         </RateWrapper>
-        <ReviewsNumber>56 отзывов</ReviewsNumber>
+        <ReviewsNumber>{item.product?.reviews?.length} отзывов</ReviewsNumber>
       </ItemDetails>
       <motion.button
         custom={1.1}
@@ -114,9 +111,10 @@ const Item = styled.li`
   position: relative;
 
   img {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     min-width: 70px;
+    object-fit: contain;
   }
   button {
     justify-self: flex-end;
@@ -141,7 +139,7 @@ const ImageWrapper = styled.div`
   border-radius: 20px;
   cursor: pointer;
   margin-right: 30px;
-
+  padding: 25px;
   @media ${devices.mobileL} {
     margin-right: 0;
     min-width: 140px;
