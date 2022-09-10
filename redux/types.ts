@@ -101,6 +101,7 @@ type TCartState = {
   cart: Basket | null;
   variant: ProductVariant | null;
   loading: boolean;
+  countLoading: boolean;
 };
 
 type TFilters = {
@@ -204,6 +205,7 @@ type TOrderInfo = {
 type TStoreCheckoutState = {
   checkouts: Checkout[];
   loading: boolean;
+  saveLoading: boolean;
   deliveryInfo: TDeliveryInfo | null;
   orderInfo: TOrderInfo | null;
 };
