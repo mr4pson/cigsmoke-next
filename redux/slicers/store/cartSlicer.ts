@@ -51,6 +51,7 @@ const initialState: TCartState = {
   cart: null,
   variant: null,
   loading: false,
+  countLoading: false,
 };
 
 const cartSlicer = createSlice({
@@ -77,14 +78,20 @@ const cartSlicer = createSlice({
       //createCart
       .addCase(createCart.pending, handlePending)
       .addCase(createCart.fulfilled, (state, action) => {
-        state.cart = action.payload;
+        state.cart = {
+          ...action.payload,
+          orderProducts: []
+        };
         localStorage.setItem('basketId', action.payload.id!);
         state.loading = false;
         console.log('fulfilled');
       })
       .addCase(createCart.rejected, handleError)
       //updateCart
-      .addCase(updateCart.pending, handlePending)
+      .addCase(updateCart.pending, (state: { countLoading: boolean }) => {
+        state.countLoading = true;
+        console.log('pending')
+      })
       .addCase(updateCart.fulfilled, (state, action) => {
         state.cart = action.payload;
         localStorage.setItem('basketId', action.payload.id!);

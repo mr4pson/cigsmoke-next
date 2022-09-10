@@ -1,143 +1,153 @@
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
-import color from '../lib/ui.colors';
-import variants from '../lib/variants';
-import { useEffect, useState } from 'react';
-import { Checkout } from 'swagger/services';
-import moment from 'moment';
+import { Modal } from 'antd';
 import { CheckoutStatus } from 'common/enums/checkoutStatus.enum';
 import { formatNumber } from 'common/helpers/number.helper';
+import { motion } from 'framer-motion';
+import moment from 'moment';
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { cancelCheckout } from 'redux/slicers/store/checkoutSlicer';
+import { TStoreCheckoutState } from 'redux/types';
+import styled from 'styled-components';
+import { Checkout } from 'swagger/services';
+import Loading from 'ui-kit/Loading';
 import { getTotalPrice } from '../cart/helpers';
-import ProductItem from './ProductItem';
 import { devices } from '../lib/Devices';
-import { timeCheck, getFormatedDate } from './helpers';
-import axios from 'axios';
-import { Refund } from '@a2seven/yoo-checkout';
+import color from '../lib/ui.colors';
+import variants from '../lib/variants';
+import { getFormatedDate, timeCheck } from './helpers';
+import ProductItem from './ProductItem';
+
 type Props = {
   checkout: Checkout;
   index: number;
 };
 
-declare module 'axios' {
-  export interface AxiosRequestConfig {
-    pyamentId: any;
-  }
-}
 const Orders: React.FC<Props> = ({ checkout, index }) => {
-  const [isDeliverFree, setDeliveryFree] = useState(false);
-  const [serverResponse, setServerResponse] = useState(false);
-  useEffect(() => {
-    setDeliveryFree(true);
-  }, []);
+  const orderDate = checkout.createdAt!;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { saveLoading } = useAppSelector<TStoreCheckoutState>(
+    (state) => state.storeCheckout,
+  );
+  const dispatch = useAppDispatch();
+  // const [isDeliverFree, setDeliveryFree] = useState(false);
+  // useEffect(() => {
+  //   setDeliveryFree(true);
+  // }, []);
 
-  const cancelOrder = async () => {
-    try {
-      const response = await axios.delete<Refund>('/api/payments', {
-        pyamentId: checkout.paymentId,
-      });
-      console.log(response);
-    } catch (error: any) {
-      if (error) setServerResponse(true);
-      setTimeout(() => {
-        setServerResponse(false);
-      }, 2000);
-    }
+  const onRemoveClick = () => () => {
+    setIsModalVisible(true);
   };
-  const orderDate: any = checkout.createdAt;
+
+  const handleRemove = (paymentId: string) => () => {
+    setIsModalVisible(false);
+    dispatch(cancelCheckout(paymentId));
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
-    <Items
-      key={index}
-      custom={index * 0.05}
-      initial="init"
-      animate="animate"
-      exit={{
-        y: -60,
-        opacity: 0,
-        transition: { delay: index * 0.05 },
-      }}
-      variants={variants.fadInSlideUp}
-    >
-      <div className="order-status-wrapper">
-        <span>Заказ № {checkout.id}</span>
-        <div className="order-status">
-          <span
-            style={{
-              backgroundColor:
-                checkout.status !== CheckoutStatus.Completed
-                  ? color.yellow
-                  : color.ok,
-            }}
-          ></span>
-          <h2>
-            {/* {` Мы товар собрали и упаковали (order status text is chagable in
+    <React.Fragment key={index}>
+      <Items
+        custom={index * 0.05}
+        initial="init"
+        animate="animate"
+        exit={{
+          y: -60,
+          opacity: 0,
+          transition: { delay: index * 0.05 },
+        }}
+        variants={variants.fadInSlideUp}
+      >
+        <div className="order-status-wrapper">
+          <Header>
+            Заказ № {checkout.id}.{' '}
+            <Price>{(checkout as any)?.totalAmount} ₽</Price>
+          </Header>
+          <div className="order-status">
+            <span
+              style={{
+                backgroundColor:
+                  checkout.status !== CheckoutStatus.Completed
+                    ? color.yellow
+                    : color.ok,
+              }}
+            ></span>
+            <h2>
+              {/* {` Мы товар собрали и упаковали (order status text is chagable in
                     the admin panel)`} */}
-            {checkout.status === CheckoutStatus.New && 'Новый заказ'}
-            {checkout.status === CheckoutStatus.InDelivery && 'В пути'}
-            {checkout.status === CheckoutStatus.Completed && 'Завершен'}
-          </h2>
-        </div>
-        {checkout.status !== CheckoutStatus.Completed ? (
-          <span>
-            Заказ будет у вас до {getFormatedDate(new Date(orderDate))}
-          </span>
-        ) : (
-          ''
-        )}
-      </div>
-      <div className="order-details-wrapper">
-        <div className="product-wrapper">
-          {checkout.basket?.orderProducts?.map((orderProduct, index) => (
-            <ProductItem key={`product-${index}`} orderProduct={orderProduct} />
-          ))}
-        </div>
-        <div className="order-full-info-wrapper">
-          <div className="order-placed-date">
-            <div className="order-key-value">
-              <span className="key">Дата оформления:</span>
-              <span className="value">
-                {moment(checkout.createdAt).format('DD.MM.YYYY')}
-              </span>
-            </div>
-            <span>При получении может потребоваться паспорт</span>
-          </div>
-          <h3 className="order-key-value-header">Способ оплаты</h3>
-          <div className="order-key-value">
-            <span className="key">Картой онлайн:</span>
-            <span className="value">
-              {formatNumber(getTotalPrice(checkout.basket?.orderProducts!))} ₽,
-              оплачено
-            </span>
-          </div>
-          <h3 className="order-key-value-header">Способ получения</h3>
-          <div className="order-key-value">
-            <span className="key">Адрес доставки:</span>
-            <span className="value">
-              {`${checkout.address?.address}, `}
-              {checkout.address?.door ?? `${checkout.address?.door} подъезд, `}
-              {checkout.address?.floor ?? `${checkout.address?.floor} этаж, `}
-              {checkout.address?.rignBell ??
-                `${checkout.address?.rignBell} домофон, `}
-            </span>
-          </div>
-          <div className="order-key-value">
-            <span className="key">Получатель:</span>
-            <span className="value">
-              {checkout.address?.receiverName}, тел.{' '}
-              {checkout.address?.receiverPhone}
-            </span>
+              {checkout.status === CheckoutStatus.New && 'Новый заказ'}
+              {checkout.status === CheckoutStatus.InDelivery && 'В пути'}
+              {checkout.status === CheckoutStatus.Completed && 'Завершен'}
+            </h2>
           </div>
           {checkout.status !== CheckoutStatus.Completed ? (
-            <div className="order-key-value">
-              <span className="key">Дата доставки:</span>
-              <span className="value">
-                До {getFormatedDate(new Date(orderDate))}
-              </span>
-            </div>
+            <span>
+              Заказ будет у вас до {getFormatedDate(new Date(orderDate))}
+            </span>
           ) : (
             ''
           )}
+        </div>
+        <div className="order-details-wrapper">
+          <div className="product-wrapper">
+            {checkout.basket?.orderProducts?.map((orderProduct, index) => (
+              <ProductItem
+                key={`product-${index}`}
+                orderProduct={orderProduct}
+              />
+            ))}
+          </div>
+          <div className="order-full-info-wrapper">
+            <div className="order-placed-date">
+              <div className="order-key-value">
+                <span className="key">Дата оформления:</span>
+                <span className="value">
+                  {moment(checkout.createdAt).format('DD.MM.YYYY')}
+                </span>
+              </div>
+              <span>При получении может потребоваться паспорт</span>
+            </div>
+            <h3 className="order-key-value-header">Способ оплаты</h3>
+            <div className="order-key-value">
+              <span className="key">Картой онлайн:</span>
+              <span className="value">
+                {formatNumber(getTotalPrice(checkout.basket?.orderProducts!))}{' '}
+                ₽, оплачено
+              </span>
+            </div>
+            <h3 className="order-key-value-header">Способ получения</h3>
+            <div className="order-key-value">
+              <span className="key">Адрес доставки:</span>
+              <span className="value">
+                {`${checkout.address?.address}, `}
+                {checkout.address?.door ??
+                  `${checkout.address?.door} подъезд, `}
+                {checkout.address?.floor ?? `${checkout.address?.floor} этаж, `}
+                {checkout.address?.rignBell ??
+                  `${checkout.address?.rignBell} домофон, `}
+              </span>
+            </div>
+            <div className="order-key-value">
+              <span className="key">Получатель:</span>
+              <span className="value">
+                {checkout.address?.receiverName}, тел.{' '}
+                {checkout.address?.receiverPhone}
+              </span>
+            </div>
+            {checkout.status !== CheckoutStatus.Completed ? (
+              <div className="order-key-value">
+                <span className="key">Дата доставки:</span>
+                <span className="value">
+                  До {getFormatedDate(new Date(orderDate))}
+                </span>
+              </div>
+            ) : (
+              ''
+            )}
 
-          {/* <div className="order-key-value">
+            {/* <div className="order-key-value">
             <span className="key">Стоимость доставки:</span>
             <span
               style={{
@@ -148,32 +158,32 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               {`150 ₽`}
             </span>
           </div> */}
-          <div className="order-action-btns">
-            {checkout.status !== CheckoutStatus.Completed ||
-            !timeCheck(checkout.createdAt) ? (
-              <motion.button
-                whileHover="hover"
-                whileTap="tap"
-                variants={variants.boxShadow}
-                className="danger"
-                onClick={() => cancelOrder()}
-              >
-                Отменить заказ
-              </motion.button>
-            ) : (
-              <></>
-            )}
-            {serverResponse ? (
-              <span style={{ color: color.hover }}>
-                Что-то пошло не так, нам очень жаль 😢
-              </span>
-            ) : (
-              ''
-            )}
+            <div className="order-action-btns">
+              {checkout.status !== CheckoutStatus.Completed ||
+              !timeCheck(checkout.createdAt) ? (
+                <motion.button
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={variants.boxShadow}
+                  className="danger"
+                  onClick={onRemoveClick()}
+                >
+                  Отменить заказ {saveLoading && <Loading />}
+                </motion.button>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </Items>
+      </Items>
+      <Modal
+        title={'Вы действительно хотите удалить этот отзыв?'}
+        visible={isModalVisible}
+        onOk={handleRemove(checkout.paymentId!)}
+        onCancel={handleCancel}
+      ></Modal>
+    </React.Fragment>
   );
 };
 
@@ -387,6 +397,18 @@ const Items = styled(motion.li)`
       }
     }
   }
+`;
+
+const Header = styled.span`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`;
+
+const Price = styled.span`
+  font-weight: bold;
+  font-size: 1.1rem !important;
+  color: #000 !important;
 `;
 
 export default Orders;

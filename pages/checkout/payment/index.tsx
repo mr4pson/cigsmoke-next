@@ -14,10 +14,7 @@ import {
 import { TAuthState, TCartState, TStoreCheckoutState } from 'redux/types';
 import { useAppSelector } from 'redux/hooks';
 import { getTotalPrice } from 'components/store/checkout/totalDeliveryDate/helpers';
-import { formatNumber } from 'common/helpers/number.helper';
-import InputMask from 'react-input-mask';
-import axios from 'axios';
-import { devices } from 'components/store/lib/Devices';
+import { axiosInstance } from 'common/axios.instance';
 
 const Product = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
@@ -27,13 +24,9 @@ const Product = () => {
     (state) => state.storeCheckout,
   );
 
-  // useEffect(() => {
-  //   !user ? router.push('/') : '';
-  // }, []);
-
   useEffect(() => {
     (async () => {
-      const response = await axios.post('/api/payments', {
+      const response = await axiosInstance.post('/payments', {
         value: `${getTotalPrice(cart)}.0`,
       });
 

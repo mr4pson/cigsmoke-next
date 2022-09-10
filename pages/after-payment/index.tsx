@@ -1,5 +1,6 @@
 import { Payment } from '@a2seven/yoo-checkout';
 import axios from 'axios';
+import { axiosInstance } from 'common/axios.instance';
 import { PaymentStatus } from 'common/enums/paymentStatus.enum';
 import { openErrorNotification } from 'common/helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
@@ -15,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { TCartState, TDeliveryInfo, TOrderInfo } from 'redux/types';
-import { AddressService, CheckoutService } from 'swagger/services';
+import { AddressService, CheckoutService, CheckoutDTO } from 'swagger/services';
 import Loading from 'ui-kit/Loading';
 
 const AfterPaymentPage = () => {
@@ -35,8 +36,8 @@ const AfterPaymentPage = () => {
       );
 
       if (router.query.paymentId && deliveryInfo && orderInfo && cart) {
-        const response = await axios.get<Payment>(
-          `/api/payments/${router.query.paymentId}`,
+        const response = await axiosInstance.get<Payment>(
+          `/payments/${router.query.paymentId}`,
         );
 
         if (response.data?.status !== PaymentStatus.succeeded) {
@@ -69,7 +70,7 @@ const AfterPaymentPage = () => {
               totalAmount: cart.totalAmount,
               comment: orderInfo.comment,
               leaveNearDoor: orderInfo.leaveNearDoor,
-            },
+            } as CheckoutDTO,
           });
 
           await dispatch(createCart());

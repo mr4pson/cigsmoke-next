@@ -1,5 +1,8 @@
+import { Refund } from '@a2seven/yoo-checkout';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getErrorMassage, handleError, handlePending } from 'common/helpers';
+import { axiosInstance } from 'common/axios.instance';
+import { getErrorMassage, handleChangeError, handleChangePending, handleError, handlePending } from 'common/helpers';
+import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { TDeliveryInfo, TOrderInfo, TStoreCheckoutState } from 'redux/types';
 import { Checkout, CheckoutService } from 'swagger/services';
 
@@ -19,11 +22,32 @@ export const fetchCheckouts = createAsyncThunk<
   },
 );
 
+export const cancelCheckout = createAsyncThunk<
+  any,
+  string,
+  { rejectValue: string }
+>(
+  'checkout/cancelCheckout',
+  async function (paymentId, { rejectWithValue }): Promise<any> {
+    try {
+      const response = await axiosInstance.delete<Refund>('/payments', {
+        data: {
+          paymentId,
+        },
+      } as any);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 const initialState: TStoreCheckoutState = {
   checkouts: [],
   deliveryInfo: null,
   orderInfo: null,
   loading: false,
+  saveLoading: false,
 };
 
 const storeCheckoutSlicer = createSlice({
@@ -50,6 +74,16 @@ const storeCheckoutSlicer = createSlice({
         console.log('fulfilled');
       })
       .addCase(fetchCheckouts.rejected, handleError)
+    builder
+      // fetchCheckouts
+      .addCase(cancelCheckout.pending, handleChangePending)
+      .addCase(cancelCheckout.fulfilled, (state, action) => {
+        state.checkouts = state.checkouts.filter(checkout => checkout.paymentId !== action.payload.payment_id);
+        state.saveLoading = false;
+        openSuccessNotification('Ваш Заказ успешно отменен');
+        console.log('fulfilled');
+      })
+      .addCase(cancelCheckout.rejected, handleChangeError)
   },
 });
 

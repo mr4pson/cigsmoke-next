@@ -34,7 +34,7 @@ export const columns: ColumnsType<Product> = [
             }}
           >
             <Carousel effect="fade">
-              {(images as unknown as string[]).map((image) => {
+              {(images as unknown as string[])?.map((image) => {
                 if (image) {
                   return (
                     <div>

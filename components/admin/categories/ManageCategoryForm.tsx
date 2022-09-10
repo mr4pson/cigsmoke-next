@@ -20,7 +20,7 @@ import {
   handleRemoveParameter,
 } from './helpers';
 import { ManageCategoryFields } from './ManageCategoryFields.enum';
-import {handleFalsyValuesCheck} from "../../../common/helpers/handleFalsyValuesCheck.helper";
+import { handleFalsyValuesCheck } from '../../../common/helpers/handleFalsyValuesCheck.helper';
 
 const { Option } = Select;
 
@@ -54,15 +54,15 @@ const ManageCategoryForm = ({
     parent: category?.parent?.id?.toString(),
   };
 
-  const [name, setName] = useState<string>()
-  const [url, setUrl] = useState<string>()
+  const [name, setName] = useState<string>();
+  const [url, setUrl] = useState<string>();
 
   useEffect(() => {
-    if(category) {
-      setName(category?.name)
-      setUrl(category?.url)
+    if (category) {
+      setName(category?.name);
+      setUrl(category?.url);
     }
-  }, [category])
+  }, [category]);
 
   useEffect(() => {
     dispatch(clearImageList());
@@ -81,7 +81,7 @@ const ManageCategoryForm = ({
     setParameters(category?.parameters! ? [...category?.parameters!] : []);
   }, [category]);
 
-  const isDisabled: boolean = handleFalsyValuesCheck(name, url, imageList)
+  // const isDisabled: boolean = handleFalsyValuesCheck(name, url, imageList)
 
   return (
     <>
@@ -102,16 +102,20 @@ const ManageCategoryForm = ({
           <FormItem
             option={ManageCategoryFields.Name}
             children={
-              <Input required={true} placeholder="Введите имя категории"
-              onChange={e => setName(e.target.value)}
+              <Input
+                required={true}
+                placeholder="Введите имя категории"
+                onChange={(e) => setName(e.target.value)}
               />
             }
           />
           <FormItem
             option={ManageCategoryFields.Url}
             children={
-              <Input required={true} placeholder="Введите URL категории"
-                     onChange={e => setUrl(e.target.value)}
+              <Input
+                required={true}
+                placeholder="Введите URL категории"
+                onChange={(e) => setUrl(e.target.value)}
               />
             }
           />
@@ -180,7 +184,7 @@ const ManageCategoryForm = ({
               htmlType="submit"
               className={styles.createCategoryForm__buttonsStack__submitButton}
               loading={isSaveLoading}
-              disabled={isDisabled}
+              // disabled={isDisabled}
             >
               {category ? 'Сохранить' : 'Создать'}
             </Button>
