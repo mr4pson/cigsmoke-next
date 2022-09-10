@@ -10,18 +10,40 @@ import { formatNumber } from 'common/helpers/number.helper';
 import { getTotalPrice } from '../cart/helpers';
 import ProductItem from './ProductItem';
 import { devices } from '../lib/Devices';
-
+import { timeCheck, getFormatedDate } from './helpers';
+import axios from 'axios';
+import { Refund } from '@a2seven/yoo-checkout';
 type Props = {
   checkout: Checkout;
   index: number;
 };
+
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    pyamentId: any;
+  }
+}
 const Orders: React.FC<Props> = ({ checkout, index }) => {
   const [isDeliverFree, setDeliveryFree] = useState(false);
-
+  const [serverResponse, setServerResponse] = useState(false);
   useEffect(() => {
     setDeliveryFree(true);
   }, []);
 
+  const cancelOrder = async () => {
+    try {
+      const response = await axios.delete<Refund>('/api/payments', {
+        pyamentId: checkout.paymentId,
+      });
+      console.log(response);
+    } catch (error: any) {
+      if (error) setServerResponse(true);
+      setTimeout(() => {
+        setServerResponse(false);
+      }, 2000);
+    }
+  };
+  const orderDate: any = checkout.createdAt;
   return (
     <Items
       key={index}
@@ -54,7 +76,13 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             {checkout.status === CheckoutStatus.Completed && 'Завершен'}
           </h2>
         </div>
-        <span>Заказ будет у вас до пятницу, 12 августа</span>
+        {checkout.status !== CheckoutStatus.Completed ? (
+          <span>
+            Заказ будет у вас до {getFormatedDate(new Date(orderDate))}
+          </span>
+        ) : (
+          ''
+        )}
       </div>
       <div className="order-details-wrapper">
         <div className="product-wrapper">
@@ -87,7 +115,6 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               {`${checkout.address?.address}, `}
               {checkout.address?.door ?? `${checkout.address?.door} подъезд, `}
               {checkout.address?.floor ?? `${checkout.address?.floor} этаж, `}
-              {checkout.address?.floor ?? `${checkout.address?.floor} этаж, `}
               {checkout.address?.rignBell ??
                 `${checkout.address?.rignBell} домофон, `}
             </span>
@@ -99,11 +126,18 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               {checkout.address?.receiverPhone}
             </span>
           </div>
-          <div className="order-key-value">
-            <span className="key">Дата доставки:</span>
-            <span className="value">До пятницу, 12 августа</span>
-          </div>
-          <div className="order-key-value">
+          {checkout.status !== CheckoutStatus.Completed ? (
+            <div className="order-key-value">
+              <span className="key">Дата доставки:</span>
+              <span className="value">
+                До {getFormatedDate(new Date(orderDate))}
+              </span>
+            </div>
+          ) : (
+            ''
+          )}
+
+          {/* <div className="order-key-value">
             <span className="key">Стоимость доставки:</span>
             <span
               style={{
@@ -111,23 +145,32 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               }}
               className="value"
             >
-              {`бесплатно`}
+              {`150 ₽`}
             </span>
-          </div>
-          {/* <div className="order-action-btns">
-            {checkout.status !== CheckoutStatus.Completed ? (
+          </div> */}
+          <div className="order-action-btns">
+            {checkout.status !== CheckoutStatus.Completed ||
+            !timeCheck(checkout.createdAt) ? (
               <motion.button
                 whileHover="hover"
                 whileTap="tap"
                 variants={variants.boxShadow}
                 className="danger"
+                onClick={() => cancelOrder()}
               >
                 Отменить заказ
               </motion.button>
             ) : (
               <></>
             )}
-          </div> */}
+            {serverResponse ? (
+              <span style={{ color: color.hover }}>
+                Что-то пошло не так, нам очень жаль 😢
+              </span>
+            ) : (
+              ''
+            )}
+          </div>
         </div>
       </div>
     </Items>
