@@ -1,4 +1,4 @@
-const siteUrl = 'https://www.wuluxe.ru';
+const siteUrl = 'https://wuluxe.ru';
 
 module.exports = {
   siteUrl,

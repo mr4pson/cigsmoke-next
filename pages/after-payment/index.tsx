@@ -66,6 +66,7 @@ const AfterPaymentPage = () => {
               paymentId: router.query.paymentId as string,
               address: response.id,
               basket: cart?.id,
+              totalAmount: cart.totalAmount,
               comment: orderInfo.comment,
               leaveNearDoor: orderInfo.leaveNearDoor,
             },

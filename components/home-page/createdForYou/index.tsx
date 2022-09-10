@@ -79,7 +79,7 @@ const Section = () => {
             viewport={{ once: true }}
             variants={variants.fadInSlideUp}
           >
-            <h2>Создано для тебе</h2>
+            <h2>Создано для тебя</h2>
           </Header>
 
           <ContentInner>

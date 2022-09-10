@@ -9,7 +9,9 @@ export const getSErverSideProps: GetServerSideProps = async (ctx) => {
 
   const fields: ISitemapField[] = response?.rows?.map((item) => ({
     loc: `https://wuluxe.ru/product/${item?.url}`,
+    changefreq: 'daily',
     lastmod: item.updatedAt,
+    priority: 0.7,
   }));
 
   return getServerSideSitemap(ctx, fields);

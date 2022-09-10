@@ -5962,6 +5962,10 @@
         },
         "leaveNearDoor": {
           "type": "boolean"
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "Total payment"
         }
       }
     },
