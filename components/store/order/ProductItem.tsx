@@ -23,8 +23,8 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
         <img src={`/api/images/${images ? images[0] : ''}`} alt="" />
       </div>
       <div className="product-image-column">
-        <Link href={`/product/${orderProduct.product!.url}`}>
-          <a>{orderProduct.product!.name}</a>
+        <Link href={`/product/${orderProduct.product?.url}`}>
+          <a>{orderProduct.product?.name}</a>
         </Link>
         <b>
           <span>{formatNumber(curVariant.price)} ₽</span>

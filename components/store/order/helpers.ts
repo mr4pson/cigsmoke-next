@@ -33,8 +33,7 @@ const getFormatedDate = (date: Date): string => {
       JSON.parse(localDelivery) - currentDate.getDate(),
     );
   }
-  return `${deliveryDueIntial.getDate()} ${
-    months[deliveryDueIntial.getMonth() + 1]
-  }`;
+  return `${deliveryDueIntial.getDate()} ${months[deliveryDueIntial.getMonth() + 1]
+    }`;
 };
 export { timeCheck, getFormatedDate };
