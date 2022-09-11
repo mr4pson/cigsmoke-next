@@ -159,7 +159,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             </span>
           </div> */}
             <div className="order-action-btns">
-              {checkout.status !== CheckoutStatus.Completed ||
+              {checkout.status === CheckoutStatus.Completed ||
               !timeCheck(checkout.createdAt) ? (
                 <motion.button
                   whileHover="hover"
