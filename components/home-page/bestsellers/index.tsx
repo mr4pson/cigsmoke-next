@@ -15,13 +15,15 @@ import ProductGrid from 'ui-kit/products/productGrid';
 const Bestsellers = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const [url, setUrl] = useState('');
   useEffect(() => {
     (async () => {
       setLoading(true);
       const products = (await ProductService.getProducts({
         limit: 8,
+        tags: ['bestseller'],
       })) as unknown as { rows: Product[] };
+      setUrl(`/catalog?categories=${products.rows[0].category?.url}`);
       setLoading(false);
       setProducts(products.rows);
     })();
@@ -55,7 +57,7 @@ const Bestsellers = () => {
             variants={variants.fadInSlideUp}
           >
             <h3>Бестселлер этой недели</h3>
-            <Link href={`/catalog/id`}>
+            <Link href={url}>
               <motion.a
                 whileHover="hover"
                 whileTap="tap"
