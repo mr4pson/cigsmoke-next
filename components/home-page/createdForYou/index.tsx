@@ -30,7 +30,8 @@ const Section = () => {
         const products = (await ProductService.getProducts({
           limit: 12,
           brands: brands.rows?.map((brand: any) => brand.url).reverse(),
-        })) as unknown as { rows: Product[] };
+        })) as unknown as { rows: Product[]; length: number };
+        setUrl(`/catalog?categories=${products.rows[0].category?.url}`);
         setLoading(false);
         setProducts(products.rows);
       }
