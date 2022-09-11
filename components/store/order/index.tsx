@@ -19,7 +19,7 @@ const MyOrders: React.FC<Props> = ({ checkouts }) => {
             <Order key={`order-${index}`} checkout={checkout} index={index} />
           ))}
         </OrdersWrapper>
-        <AskQuastion />
+        {/* <AskQuastion /> */}
       </Content>
     </Wrapper>
   );

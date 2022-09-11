@@ -9,7 +9,8 @@ export const getRefreshToken = () => {
 };
 
 export const getUserInfo = (): (User & { iat: number }) | null => {
+  const { NEXT_PUBLIC_ACCESS_SECRET_TOKEN } = process.env;
   const accessToken = localStorage.getItem('accessToken');
 
-  return jwt.decode<User>(accessToken ?? '', '12345');
+  return jwt.decode<User>(accessToken ?? '', NEXT_PUBLIC_ACCESS_SECRET_TOKEN ?? '');
 };
