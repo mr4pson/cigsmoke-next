@@ -83,9 +83,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             </h2>
           </div>
           {checkout.status !== CheckoutStatus.Completed ? (
-            <span>
-              Заказ будет у вас до {getFormatedDate(new Date(orderDate))}
-            </span>
+            <span>Заказ будет у вас до {getFormatedDate(orderDate)}</span>
           ) : (
             ''
           )}

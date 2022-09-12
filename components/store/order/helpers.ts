@@ -4,6 +4,7 @@ const timeCheck = (orderDate: any) => {
   const dateOnDB = new Date(orderDate).getTime() + oneDay;
   return currentDate >= dateOnDB;
 };
+
 const getFormatedDate = (date: any) => {
   const months = {
     1: 'января',
@@ -23,8 +24,7 @@ const getFormatedDate = (date: any) => {
   let deliveryDueIntial = new Date(date);
   deliveryDueIntial.setDate(deliveryDueIntial.getDate() + 5);
 
-  return `${deliveryDueIntial.getDate()} ${
-    months[deliveryDueIntial.getMonth() + 1]
-  }`;
+  return `${deliveryDueIntial.getDate()} ${months[deliveryDueIntial.getMonth() + 1]
+    }`;
 };
 export { timeCheck, getFormatedDate };
