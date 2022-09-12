@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 import {
   clearCheckouts,
-  fetchCheckouts,
+  fetchCheckoutsAll,
 } from '../../../redux/slicers/checkoutsSlicer';
 import styles from './index.module.scss';
 
@@ -35,7 +35,7 @@ const CheckoutsPage = () => {
 
   useEffect(() => {
     dispatch(
-      fetchCheckouts({
+      fetchCheckoutsAll({
         offset: String(offset),
         limit: '20',
       }),
@@ -56,7 +56,7 @@ const CheckoutsPage = () => {
       ) : (
         <Table
           scroll={{
-            x: 1366,
+            // x: 1366,
             y: 768,
           }}
           pagination={{
@@ -71,7 +71,7 @@ const CheckoutsPage = () => {
             const newOffset = ((event.current as number) - 1) * 20;
             setOffset(newOffset);
             dispatch(
-              fetchCheckouts({
+              fetchCheckoutsAll({
                 offset: String(newOffset),
                 limit: '20',
               }),
@@ -87,3 +87,4 @@ const CheckoutsPage = () => {
 CheckoutsPage.PageLayout = AdminLayout;
 
 export default CheckoutsPage;
+

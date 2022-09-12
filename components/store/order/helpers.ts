@@ -4,7 +4,7 @@ const timeCheck = (orderDate: any) => {
   const dateOnDB = new Date(orderDate).getTime() + oneDay;
   return currentDate >= dateOnDB;
 };
-const getFormatedDate = (date: Date): string => {
+const getFormatedDate = (date:any) => {
   const months = {
     1: 'января',
     2: 'февраля',
@@ -22,17 +22,7 @@ const getFormatedDate = (date: Date): string => {
 
   let deliveryDueIntial = new Date(date);
   deliveryDueIntial.setDate(deliveryDueIntial.getDate() + 5);
-  let deliveryDue: any = deliveryDueIntial.getDate();
-  const localDelivery = localStorage.getItem('deliveryDue');
-  if (!localDelivery) {
-    localStorage.setItem('deliveryDue', deliveryDue);
-  }
-  if (localDelivery) {
-    let currentDate = new Date();
-    deliveryDueIntial.setDate(
-      JSON.parse(localDelivery) - currentDate.getDate(),
-    );
-  }
+
   return `${deliveryDueIntial.getDate()} ${months[deliveryDueIntial.getMonth() + 1]
     }`;
 };

@@ -23,7 +23,7 @@ const DeliveryTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const getFormatedDate = (date: Date): string => {
+const getFormatedDate = () => {
   const months = {
     1: 'января',
     2: 'февраля',
@@ -38,24 +38,11 @@ const getFormatedDate = (date: Date): string => {
     11: 'ноября',
     12: 'декабря',
   };
-  try {
-    localStorage.removeItem('deliveryDue');
-  } catch (error) {
-    console.log(error);
-  }
-  let deliveryDueIntial = new Date(date);
+  
+  let deliveryDueIntial = new Date();
   deliveryDueIntial.setDate(deliveryDueIntial.getDate() + 5);
-  let deliveryDue: any = deliveryDueIntial.getDate();
-  const localDelivery = localStorage.getItem('deliveryDue');
-  if (!localDelivery) {
-    localStorage.setItem('deliveryDue', deliveryDue);
-  }
-  if (localDelivery) {
-    let currentDate = new Date();
-    deliveryDueIntial.setDate(
-      JSON.parse(localDelivery) - currentDate.getDate(),
-    );
-  }
+
+
   return `${deliveryDueIntial.getDate()} ${
     months[deliveryDueIntial.getMonth() + 1]
   }`;
