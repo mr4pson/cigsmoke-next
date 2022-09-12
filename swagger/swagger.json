@@ -3047,11 +3047,7 @@
         }
       }
     },
-<<<<<<< HEAD
-     "/checkouts/all": {
-=======
     "/checkouts/all": {
->>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
       "get": {
         "tags": ["checkoutAll"],
         "summary": "Get array of checkouts",
@@ -3067,30 +3063,17 @@
             "required": false,
             "type": "string"
           },
-<<<<<<< HEAD
-	  {
-            "name": "userId",
-            "in": "query",
-            "description": "Filtering checkouts by userId",
-=======
           {
             "name": "basketId",
             "in": "query",
             "description": "Filtering checkouts by basketId",
->>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
             "required": false,
             "type": "string"
           },
           {
-<<<<<<< HEAD
-            "name": "basketId",
-            "in": "query",
-            "description": "Filtering checkouts by basketId",
-=======
             "name": "userId",
             "in": "query",
             "description": "Filtering checkouts by userId",
->>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
             "required": false,
             "type": "string"
           },

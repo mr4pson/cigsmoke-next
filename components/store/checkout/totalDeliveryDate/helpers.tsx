@@ -38,18 +38,10 @@ const getFormatedDate = () => {
     11: 'ноября',
     12: 'декабря',
   };
-<<<<<<< HEAD
-  
-  let deliveryDueIntial = new Date();
-  deliveryDueIntial.setDate(deliveryDueIntial.getDate() + 5);
-
-
-=======
 
   let deliveryDueIntial = new Date();
   deliveryDueIntial.setDate(deliveryDueIntial.getDate() + 5);
 
->>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
   return `${deliveryDueIntial.getDate()} ${
     months[deliveryDueIntial.getMonth() + 1]
   }`;

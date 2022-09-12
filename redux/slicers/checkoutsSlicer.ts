@@ -7,15 +7,11 @@ import {
   handleChangeError,
 } from '../../common/helpers';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
-<<<<<<< HEAD
-import { FetchPayload, RequestResponse, TCheckoutState } from '../../redux/types';
-=======
 import {
   FetchPayload,
   RequestResponse,
   TCheckoutState,
 } from '../../redux/types';
->>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
 import {
   Checkout,
   CheckoutService,
@@ -42,11 +38,7 @@ export const fetchCheckouts = createAsyncThunk<
 );
 
 export const fetchCheckoutsAll = createAsyncThunk<
-<<<<<<< HEAD
- RequestResponse,
-=======
   RequestResponse,
->>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
   FetchPayload,
   { rejectValue: string }
 >(
@@ -119,4 +111,3 @@ const checkoutsSlicer = createSlice({
 export const { clearCheckouts } = checkoutsSlicer.actions;
 
 export default checkoutsSlicer.reducer;
-

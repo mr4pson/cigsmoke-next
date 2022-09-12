@@ -2,38 +2,22 @@ import { deleteCheckout, fetchCheckouts } from 'redux/slicers/checkoutsSlicer';
 import { AppDispatch } from 'redux/store';
 import { Page, paths } from 'routes/constants';
 import { NextRouter } from 'next/router';
-<<<<<<< HEAD
 
- const handleDeleteCheckout = (id: string, dispatch: AppDispatch, setVisible: any, offset: number) => async () => {
-  const isSaved: any = await dispatch(deleteCheckout(id));
-  if (!isSaved.error) {
-    dispatch(fetchCheckouts({
-        offset: String(offset),
-        limit: '20'
-      }));
-    setVisible(prev => !prev);
-  }
-};
-
-
-
-=======
 const handleDeleteCheckout =
   (id: string, dispatch: AppDispatch, setVisible: any, offset: number) =>
-  async () => {
-    const isSaved: any = await dispatch(deleteCheckout(id));
-    if (!isSaved.error) {
-      dispatch(
-        fetchCheckouts({
-          offset: String(offset),
-          limit: '20',
-        }),
-      );
-      setVisible((prev) => !prev);
-    }
-  };
+    async () => {
+      const isSaved: any = await dispatch(deleteCheckout(id));
+      if (!isSaved.error) {
+        dispatch(
+          fetchCheckouts({
+            offset: String(offset),
+            limit: '20',
+          }),
+        );
+        setVisible((prev) => !prev);
+      }
+    };
 
->>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
 const handleRedirectCheckout = (id: string, router: NextRouter) => () => {
   router.push(`${paths[Page.ADMIN_CHECKOUTS]}/${id}`);
 };
@@ -57,9 +41,8 @@ const getFormatedDate = (date: any) => {
   let deliveryDueIntial = new Date(date);
   deliveryDueIntial.setDate(deliveryDueIntial.getDate() + 5);
 
-  return `${deliveryDueIntial.getDate()} ${
-    months[deliveryDueIntial.getMonth() + 1]
-  }`;
+  return `${deliveryDueIntial.getDate()} ${months[deliveryDueIntial.getMonth() + 1]
+    }`;
 };
 
 export { handleRedirectCheckout, handleDeleteCheckout, getFormatedDate };

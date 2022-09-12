@@ -1,11 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
 import ActionButtons from '../generalComponents/ActionButtons';
 import { CheckoutsData } from './CheckoutsData.interface';
-<<<<<<< HEAD
-import { handleDeleteCheckout, handleRedirectCheckout  } from './helpers';
-=======
 import { handleDeleteCheckout, handleRedirectCheckout } from './helpers';
->>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
 
 interface CheckoutsTableData {
   id: string;
@@ -64,11 +60,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
         <ActionButtons
           id={record.id as string}
           handleDelete={handleDeleteCheckout}
-<<<<<<< HEAD
-	  handleRedirect={handleRedirectCheckout}
-=======
           handleRedirect={handleRedirectCheckout}
->>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
           option={'checkouts'}
           title="заказ"
         />
