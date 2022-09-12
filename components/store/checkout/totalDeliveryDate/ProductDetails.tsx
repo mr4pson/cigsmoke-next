@@ -11,6 +11,7 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 
 const ProductDetails = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
+
   const currentYear = new Date().getFullYear();
   return (
     <Wrapper style={{ gap: '20px' }}>

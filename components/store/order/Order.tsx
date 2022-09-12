@@ -139,9 +139,13 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             {checkout.status !== CheckoutStatus.Completed ? (
               <div className="order-key-value">
                 <span className="key">Дата доставки:</span>
+<<<<<<< HEAD
                 <span className="value">
                   До {getFormatedDate(orderDate)}
                 </span>
+=======
+                <span className="value">До {getFormatedDate(orderDate)}</span>
+>>>>>>> a3b870ac267315925a1e7a45966114e5a6529ddf
               </div>
             ) : (
               ''
