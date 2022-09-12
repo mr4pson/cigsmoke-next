@@ -3047,6 +3047,82 @@
         }
       }
     },
+    "/checkouts/all": {
+      "get": {
+        "tags": ["checkoutAll"],
+        "summary": "Get array of checkouts",
+        "description": "",
+        "operationId": "getCheckoutsAll",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "addressId",
+            "in": "query",
+            "description": "Filtering checkouts by addressId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "basketId",
+            "in": "query",
+            "description": "Filtering checkouts by basketId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Filtering checkouts by userId",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Sorting checkouts by property",
+            "default": "basket",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "description": "Ordering results. ASC | DESC",
+            "default": "DESC",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "default": 0,
+            "description": "qty rows to skip for pagination"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "default": 10,
+            "description": "qty rows to take for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CheckoutResponse"
+              }
+            }
+          }
+        }
+      }
+    },
     "/checkouts": {
       "get": {
         "tags": ["checkout"],
@@ -3202,10 +3278,7 @@
             "in": "body",
             "name": "body",
             "description": "",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CheckoutDTO"
-            }
+            "required": true
           }
         ],
         "responses": {

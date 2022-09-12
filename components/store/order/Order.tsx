@@ -139,9 +139,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             {checkout.status !== CheckoutStatus.Completed ? (
               <div className="order-key-value">
                 <span className="key">Дата доставки:</span>
-                <span className="value">
-                  До {getFormatedDate(new Date(orderDate))}
-                </span>
+                <span className="value">До {getFormatedDate(orderDate)}</span>
               </div>
             ) : (
               ''
@@ -159,8 +157,8 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             </span>
           </div> */}
             <div className="order-action-btns">
-              {checkout.status === CheckoutStatus.Completed ||
-              !timeCheck(checkout.createdAt) ? (
+              {checkout.status !== CheckoutStatus.Completed ||
+              timeCheck(checkout.createdAt) ? (
                 <motion.button
                   whileHover="hover"
                   whileTap="tap"

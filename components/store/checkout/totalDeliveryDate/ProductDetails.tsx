@@ -11,6 +11,7 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 
 const ProductDetails = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
+
   const currentYear = new Date().getFullYear();
   return (
     <Wrapper style={{ gap: '20px' }}>
@@ -21,7 +22,7 @@ const ProductDetails = () => {
         viewport={{ once: true }}
         variants={variants.fadInSlideUp}
       >
-        <h3>Доставка курьером до {getFormatedDate(new Date())}</h3>
+        <h3>Доставка курьером до {getFormatedDate()}</h3>
         <span>
           Склад Тренды {currentYear} (Московская обл.) •{' '}
           {cart?.orderProducts?.length} товар(ов) •{' '}
