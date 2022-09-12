@@ -1,7 +1,7 @@
 import { ColumnsType } from 'antd/lib/table';
 import ActionButtons from '../generalComponents/ActionButtons';
 import { CheckoutsData } from './CheckoutsData.interface';
-import { handleDeleteCheckout } from './helpers';
+import { handleDeleteCheckout, handleRedirectCheckout } from './helpers';
 
 interface CheckoutsTableData {
   id: string;
@@ -12,7 +12,7 @@ interface CheckoutsTableData {
 
 const columns: ColumnsType<CheckoutsTableData> = [
   {
-    title: 'Id',
+    title: 'Заказ №',
     dataIndex: 'id',
     width: '10%',
   },
@@ -22,7 +22,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
     render: (_, record) => {
       return (
         <p>
-          {record.user?.firstName}, {record.user?.email}
+          {record.user?.firstName}, {record.user.email}
         </p>
       );
     },
@@ -60,6 +60,7 @@ const columns: ColumnsType<CheckoutsTableData> = [
         <ActionButtons
           id={record.id as string}
           handleDelete={handleDeleteCheckout}
+          handleRedirect={handleRedirectCheckout}
           option={'checkouts'}
           title="заказ"
         />

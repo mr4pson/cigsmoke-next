@@ -23,7 +23,7 @@ const Bestsellers = () => {
         limit: 8,
         tags: ['bestseller'],
       })) as unknown as { rows: Product[] };
-      setUrl(`/catalog?categories=${products.rows[0].category?.url}`);
+      setUrl(`/catalog?catalog?tags=bestseller`);
       setLoading(false);
       setProducts(products.rows);
     })();
