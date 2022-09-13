@@ -15,7 +15,7 @@ const handleFirstLoad = async (
     return;
   }
   try {
-    await UserService.findUserById(user?.id);
+    await UserService.findUserById({userId:user?.id});
     setServerErr(200);
     setLoading(false);
     setVerified(user?.isVerified);

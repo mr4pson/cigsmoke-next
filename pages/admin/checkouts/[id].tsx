@@ -177,17 +177,29 @@ const CheckoutsPage = () => {
                         Способ получения
                       </h3>
                       <div className="order-key-value">
-                        <span className="key">Адрес доставки:</span>
-                        <span className="value">
-                          {`${checkout.address?.address}, `}
-                          {checkout.address?.door ??
-                            `${checkout.address?.door} подъезд, `}
-                          {checkout.address?.floor ??
-                            `${checkout.address?.floor} этаж, `}
-                          {checkout.address?.rignBell ??
-                            `${checkout.address?.rignBell} домофон, `}
-                        </span>
-                      </div>
+              <span className="key">Адрес доставки:</span>
+              <span className="value">{`${checkout.address?.address}`}</span>
+            </div>
+            <div className="order-key-value">
+              <span className="key">подъезд</span>
+              <span className="value">
+                {checkout.address?.door ??
+                  `${checkout.address?.door} подъезд, `}
+              </span>
+            </div>
+            <div className="order-key-value">
+              <span className="key">этаж</span>
+              <span className="value">
+                {checkout.address?.floor ?? `${checkout.address?.floor} этаж, `}
+              </span>
+            </div>
+            <div className="order-key-value">
+              <span className="key">домофон</span>
+              <span className="value">
+                {checkout.address?.rignBell ??
+                  `${checkout.address?.rignBell} домофон, `}
+              </span>
+            </div>
                       <div className="order-key-value">
                         <span className="key">Получатель:</span>
                         <span className="value">

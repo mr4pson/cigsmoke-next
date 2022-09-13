@@ -34,11 +34,11 @@ const UserInfo = (props: any) => {
       />
       <h1>{`${user.firstName} ${user.lastName}`}</h1>
       <span
-        style={{ color: user.isVerified ? color.textSecondary : color.hover }}
+        style={{ color: isVerified ? color.textSecondary : color.hover }}
       >
         {user.email}
       </span>
-      {!user.isVerified ? (
+      {!isVerified ? (
         <>
           <Err
             initial="init"

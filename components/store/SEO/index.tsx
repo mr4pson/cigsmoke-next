@@ -61,6 +61,9 @@ const SEO = ({ product, images }) => {
   for (let i = 0; i < images?.length; i++) {
     image.push(`https://wuluxe.ru/api/images/${images[i]}`);
   }
+const keywords = () => {
+    return product?.tags?.map((item) => item.name) ?? '';
+  };
   return (
     <Head>
       <title>{product?.name} | Wuluxe</title>
@@ -68,7 +71,7 @@ const SEO = ({ product, images }) => {
       <meta name="title" content={product?.name} />
       <meta name="description" content={product?.desc.slice(0, 200)} />
       <meta name="image" content={image[0]} />
-      <meta name="keywords" content={product?.tags} />
+      <meta name="keywords" content={keywords()} />
       {socialTags({
         openGraphType: 'product',
         url: url,
