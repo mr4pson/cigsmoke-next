@@ -93,7 +93,7 @@ export const fetchBrands = createAsyncThunk<
   'global/fetchBrands',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const response = await BrandService.getBrands(payload);
+      const response = await BrandService.getBrands({ ...payload, limit: '1000' });
       return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
