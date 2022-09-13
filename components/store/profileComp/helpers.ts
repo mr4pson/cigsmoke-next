@@ -15,10 +15,12 @@ const handleFirstLoad = async (
     return;
   }
   try {
-    await UserService.findUserById(user?.id);
+    const userInDb = await UserService.findUserById({ userId: user.id });
+    setVerified(userInDb?.isVerified);
+
     setServerErr(200);
     setLoading(false);
-    setVerified(user?.isVerified);
+
     setAuthorized(true);
   } catch (error: any) {
     setLoading(false);

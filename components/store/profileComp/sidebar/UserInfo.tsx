@@ -4,7 +4,6 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { handleConfirmationEmail, handleSignout } from './helpers';
 import { useState, useEffect } from 'react';
-import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 import { useAppDispatch } from 'redux/hooks';
 
 const UserInfo = (props: any) => {
@@ -33,12 +32,10 @@ const UserInfo = (props: any) => {
         alt="profile"
       />
       <h1>{`${user.firstName} ${user.lastName}`}</h1>
-      <span
-        style={{ color: user.isVerified ? color.textSecondary : color.hover }}
-      >
+      <span style={{ color: isVerified ? color.textSecondary : color.hover }}>
         {user.email}
       </span>
-      {!user.isVerified ? (
+      {!isVerified ? (
         <>
           <Err
             initial="init"
