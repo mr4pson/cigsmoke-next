@@ -41,6 +41,8 @@ const CatalogPage = () => {
   const dispatch = useAppDispatch();
   const [category, setCategory] = useState<Category | undefined>();
 
+  console.log(categories);
+
   const handleLocationChange = onLocationChange(dispatch);
   const onCategoryChange = () => {
     const queryParams = convertQueryParams(

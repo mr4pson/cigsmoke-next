@@ -21,7 +21,7 @@ export const fetchParentCategories = createAsyncThunk<
   'catalog/fetchParentCategories',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      const response = await CategoryService.getCategories();
+      const response = await CategoryService.getCategories({ limit: '1000' });
       return response.rows?.filter((category) => !category.parent);
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -39,6 +39,7 @@ export const fetchSubCategories = createAsyncThunk<
     try {
       const response = (await CategoryService.getCategories({
         parent: categoryUrl,
+        limit: '1000'
       })) as unknown as { rows: Category[] };
       return response.rows;
     } catch (error: any) {
@@ -55,7 +56,7 @@ export const fetchBrands = createAsyncThunk<
   'catalog/fetchBrands',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const response = await BrandService.getBrands(payload);
+      const response = await BrandService.getBrands({ ...payload, limit: '1000' });
       return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -71,7 +72,7 @@ export const fetchColors = createAsyncThunk<
   'catalog/fetchColors',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const response = (await ColorService.getColors(payload)) as unknown as {
+      const response = (await ColorService.getColors({ ...payload, limit: '1000' })) as unknown as {
         rows: Color[];
       };
       return response.rows;

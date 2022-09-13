@@ -14,7 +14,7 @@ export const fetchCheckouts = createAsyncThunk<
   'checkout/fetchCheckouts',
   async function (_, { rejectWithValue }): Promise<any> {
     try {
-      const response = await CheckoutService.getCheckouts() as unknown as { rows: Checkout[] };
+      const response = await CheckoutService.getCheckouts({ limit: '1000' }) as unknown as { rows: Checkout[] };
       return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
