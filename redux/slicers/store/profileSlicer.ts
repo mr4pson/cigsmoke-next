@@ -13,7 +13,7 @@ export const fetchUserReviews = createAsyncThunk<
   'profile/fetchUserReviews',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      return await ReviewService.getReviews({ userId: payload }) as unknown as { rows: Review[] };
+      return await ReviewService.getReviews({ userId: payload, limit: '1000' }) as unknown as { rows: Review[] };
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
     }
