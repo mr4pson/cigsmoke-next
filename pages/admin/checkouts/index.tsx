@@ -87,3 +87,4 @@ const CheckoutsPage = () => {
 CheckoutsPage.PageLayout = AdminLayout;
 
 export default CheckoutsPage;
+

@@ -24,6 +24,7 @@ const AfterPaymentPage = () => {
   const [loading, setLoading] = useState(true);
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const router = useRouter();
+  const [error, setError] = useState();
 
   useEffect(() => {
     (async () => {
@@ -85,13 +86,14 @@ const AfterPaymentPage = () => {
         } catch (error) {
           openErrorNotification('Ваш Заказ не прошел оплату');
           console.log(error);
+          setError(error as any);
           setLoading(false);
         }
 
         return;
       }
 
-      router.push('/');
+      // router.push('/');
     })();
   }, [router.query, cart]);
 
@@ -112,6 +114,7 @@ const AfterPaymentPage = () => {
           flex_direction="column"
         >
           {!loading ? <></> : <Loading />}
+          {JSON.stringify(error)}
         </Content>
       </Wrapper>
     </Container>
