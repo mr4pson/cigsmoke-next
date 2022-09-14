@@ -62,7 +62,7 @@ const SEO = ({ product, images }) => {
     image.push(`https://wuluxe.ru/api/images/${images[i]}`);
   }
   const keywords = () => {
-    return product?.tags?.map((item) => item.name) ?? '';
+    return product.parameterProducts?.map((item) => item.value) ?? '';
   };
   return (
     <Head>

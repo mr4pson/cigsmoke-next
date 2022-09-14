@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useEffect } from 'react';
 import color from '../../lib/ui.colors';
 import TextField from '@mui/material/TextField';
 import variants from 'components/store/lib/variants';
@@ -8,6 +8,7 @@ import Close from '../../../../assets/close_black.svg';
 
 const UserCommment = (props: any) => {
   const { comment, setComment, setIsOpen } = props;
+
   return (
     <CommentContainer
       custom={0.2}
@@ -32,13 +33,15 @@ const UserCommment = (props: any) => {
             rows={4}
             value={comment}
             defaultValue=""
-            onChange={(e) => setComment(e.target.value)}
+            onChange={(e: any) => setComment(e.target.value)}
           />
           <motion.button
             whileHover="hover"
             whileTap="tap"
             variants={variants.boxShadow}
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setIsOpen(false);
+            }}
           >
             Сохранить комментарий
           </motion.button>

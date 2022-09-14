@@ -38,6 +38,8 @@ const ColorPicker: React.FC<Props> = ({
       paginateImage: (index: number) => void,
     ) =>
     () => {
+      localStorage.setItem('userChoice', JSON.stringify(variant.color?.name));
+
       dispatch(setVariant(variant));
       setSelectedIndex(index);
 
