@@ -32,21 +32,25 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
           <SpecsKeyValueWrapper>
             {parameterProducts?.map((item, index) => {
               return (
-                <li key={`parameter-product-label-${index}`}>
+                <li
+                  className="wrapper-key-vlaue"
+                  key={`parameter-product-label-${index}`}
+                >
                   <span id="key-specs">{item.parameter?.name}: </span>
+                  <span id="value-specs">{item.value}</span>
                 </li>
               );
             })}
           </SpecsKeyValueWrapper>
-          <SpecsKeyValueWrapper>
+          {/* <SpecsKeyValueWrapper>
             {parameterProducts?.map((item, index) => {
               return (
                 <li key={`parameter-product-value-${index}`}>
-                  <span>{item.value}</span>
+                  <span id='value-specs' >{item.value}</span>
                 </li>
               );
             })}
-          </SpecsKeyValueWrapper>
+          </SpecsKeyValueWrapper> */}
         </SpecsContainer>
       </InfoDropdown>
       <InfoDropdown title="Информация о доставке">
@@ -178,17 +182,30 @@ const SpecsContainer = styled.div`
 `;
 
 const SpecsKeyValueWrapper = styled.ul`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 15px;
-  span {
-    font-size: 0.875rem;
-  }
-  #key-specs {
-    font-family: 'intro';
-    color: ${color.textSecondary};
+  gap: 30px;
+  .wrapper-key-vlaue {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    span {
+      font-size: 0.875rem;
+    }
+    #key-specs {
+      white-space: nowrap;
+      font-family: 'intro';
+      color: ${color.textSecondary};
+    }
+    #value-specs {
+      width: 60%;
+    }
   }
 `;
 
