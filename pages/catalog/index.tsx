@@ -41,8 +41,6 @@ const CatalogPage = () => {
   const dispatch = useAppDispatch();
   const [category, setCategory] = useState<Category | undefined>();
 
-  console.log(categories);
-
   const handleLocationChange = onLocationChange(dispatch);
   const onCategoryChange = () => {
     const queryParams = convertQueryParams(
@@ -81,7 +79,10 @@ const CatalogPage = () => {
     pushQueryParams([{ name: 'page', value: page }]);
   };
   const router = useRouter();
-
+  const [catalogTitle, setCatalogTitle] = useState('Каталог');
+  useEffect(() => {
+    setCatalogTitle(`${category?.name ?? 'Каталог'}`);
+  }, [category?.name]);
   return (
     <>
       <SEOstatic
@@ -120,7 +121,7 @@ const CatalogPage = () => {
               exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
               variants={variants.fadInSlideUp}
             >
-              {category?.name ?? 'Каталог'}
+              {catalogTitle}
             </CategoryTitle>
             <Products>
               <ProductGrid
