@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import variants from '../lib/variants';
-import { Brand, Category, Color, PriceRange } from 'swagger/services';
+import { Brand, Category, Color, PriceRange, Tag } from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
@@ -25,6 +25,7 @@ type Props = {
   subCategories: Category[];
   brands: Brand[];
   colors: Color[];
+  tags: Tag[];
   priceRange: PriceRange;
 };
 
@@ -33,6 +34,7 @@ const FilterBar: React.FC<Props> = ({
   subCategories,
   brands,
   colors,
+  tags,
   priceRange,
 }) => {
   const router = useRouter();
@@ -45,6 +47,7 @@ const FilterBar: React.FC<Props> = ({
       colors,
       priceRange,
       filters,
+      tags,
     }),
   );
   const [expanded, setExpanded] = useState(false);
@@ -72,14 +75,16 @@ const FilterBar: React.FC<Props> = ({
         colors,
         priceRange,
         filters,
+        tags,
       }),
     );
-  }, [categories, subCategories, brands, colors, priceRange]);
+  }, [categories, subCategories, brands, colors, priceRange, tags]);
 
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));
   }, [filtersConfig]);
   useEffect(() => handleExpantionChange(), []);
+
   return (
     <FilterBarContent expanded={expanded}>
       <FiltersWrapper>

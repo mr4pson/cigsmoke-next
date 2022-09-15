@@ -123,6 +123,7 @@ type TCatalogState = {
   subCategories: Category[];
   brands: Brand[];
   colors: Color[];
+  tags: Tag[];
   priceRange: PriceRange;
   products: Product[];
   productsLength: number;

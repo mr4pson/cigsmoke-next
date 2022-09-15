@@ -14,19 +14,26 @@ import variants from 'components/store/lib/variants';
 import { Container, Wrapper } from 'components/store/storeLayout/common';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import { motion } from 'framer-motion';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchParentCategories } from 'redux/slicers/store/catalogSlicer';
+import {
+  fetchParentCategories,
+  fetchTags,
+} from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
 import { Category } from 'swagger/services';
 import ProductGrid from 'ui-kit/products/productGrid';
 import SEOstatic from 'components/store/SEO/SEOstatic';
+
 const PAGE_ITEMS_LIMIT = 12;
 
 const CatalogPage = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [category, setCategory] = useState<Category | undefined>();
+  const [catalogTitle, setCatalogTitle] = useState('Каталог');
   const {
     products,
     productsLength,
@@ -34,16 +41,14 @@ const CatalogPage = () => {
     subCategories,
     brands,
     colors,
+    tags,
     priceRange,
     loading,
     page,
   } = useAppSelector<TCatalogState>((state) => state.catalog);
-  const dispatch = useAppDispatch();
-  const [category, setCategory] = useState<Category | undefined>();
-
-  console.log(categories);
 
   const handleLocationChange = onLocationChange(dispatch);
+
   const onCategoryChange = () => {
     const queryParams = convertQueryParams(
       getQueryParams(window.location.search),
@@ -58,6 +63,10 @@ const CatalogPage = () => {
     setCategory(category);
   };
 
+  const handlePageChange = (page: number) => {
+    pushQueryParams([{ name: 'page', value: page }]);
+  };
+
   useEffect(() => {
     localStorage.removeItem('location');
     window.addEventListener('locationChange', () => {
@@ -68,6 +77,7 @@ const CatalogPage = () => {
 
     (async () => {
       await dispatch(fetchParentCategories());
+      await dispatch(fetchTags());
       await handleLocationChange();
       onCategoryChange();
     })();
@@ -77,17 +87,9 @@ const CatalogPage = () => {
     };
   }, []);
 
-  const handlePageChange = (page: number) => {
-    pushQueryParams([{ name: 'page', value: page }]);
-  };
-  const router = useRouter();
-   const [catalogTitle, setCatalogTitle] = useState('Каталог');
   useEffect(() => {
-    setCatalogTitle(
-      `${category?.name ?? 'Каталог'}`,
-    );
+    setCatalogTitle(`${category?.name ?? 'Каталог'}`);
   }, [category?.name]);
-
 
   return (
     <>
@@ -118,6 +120,7 @@ const CatalogPage = () => {
             brands={brands}
             colors={colors}
             priceRange={priceRange}
+            tags={tags}
           />
           <Content>
             <CategoryTitle

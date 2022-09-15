@@ -15,6 +15,7 @@ const getFilters = ({
   subSectionOptions,
   brandOptions,
   colorOptions,
+  tagOptions,
   minPrice,
   maxPrice,
 }: {
@@ -22,6 +23,7 @@ const getFilters = ({
   subSectionOptions: FilterOption[];
   brandOptions: FilterOption[];
   colorOptions: FilterOption[];
+  tagOptions: FilterOption[];
   minPrice: number;
   maxPrice: number;
 }): Filter[] => {
@@ -83,6 +85,17 @@ const getFilters = ({
 
         pushQueryParams([
           { name: 'colors', value: colors },
+          { name: 'page', value: 1 },
+        ]);
+      },
+    },
+    {
+      title: 'Теги',
+      options: cloneDeep(tagOptions),
+      type: FilterType.SINGLE_SELECTION,
+      onChange: (selectedOption: FilterOption | undefined) => {
+        pushQueryParams([
+          { name: 'tags', value: [selectedOption?.url] },
           { name: 'page', value: 1 },
         ]);
       },

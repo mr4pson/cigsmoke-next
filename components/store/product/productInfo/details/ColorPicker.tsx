@@ -38,7 +38,8 @@ const ColorPicker: React.FC<Props> = ({
       paginateImage: (index: number) => void,
     ) =>
     () => {
-	localStorage.setItem('userChoice', JSON.stringify(variant.color?.name));
+      localStorage.setItem('userChoice', JSON.stringify(variant.color?.name));
+
       dispatch(setVariant(variant));
       setSelectedIndex(index);
 
@@ -59,11 +60,14 @@ const ColorPicker: React.FC<Props> = ({
         exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
         variants={variants.fadInSlideUp}
       >
-	{variantColor?.url != '_'?(
-        <ColorWrapper>
-          <span>Цвет:</span>
-          <ColorItem backgroundColor={variantColor?.code!} />
-        </ColorWrapper>): ('')}
+        {variantColor?.url != '_' ? (
+          <ColorWrapper>
+            <span>Цвет:</span>
+            <ColorItem backgroundColor={variantColor?.code!} />
+          </ColorWrapper>
+        ) : (
+          ''
+        )}
       </ColorPickerNameWrapper>
       <ColorPickerList>
         {variantImages?.map((variant, colIndex) => (
@@ -102,6 +106,7 @@ const ColorPicker: React.FC<Props> = ({
                 ) : (
                   ''
                 )}
+
                 {!variant.available ? (
                   <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
                 ) : (

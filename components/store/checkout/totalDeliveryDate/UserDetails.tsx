@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import React, {useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import color from '../../lib/ui.colors';
 import variants from '../../lib/variants';
 import { DeliveryTooltip } from './helpers';
@@ -33,12 +33,13 @@ const UserDetails = (props: any) => {
     setBacktoFinal(true);
   };
 
- const userChoice: any = localStorage.getItem('userChoice');
+  const userChoice: any = localStorage.getItem('userChoice');
   useEffect(() => {
-	if(userChoice)setComment(`${comment} ${isOpen ? '' : JSON.parse(userChoice)}`);
+    if (userChoice)
+      setComment(`${comment} ${isOpen ? '' : JSON.parse(userChoice)}`);
   }, [isOpen]);
   useEffect(() => {
-   if(userChoice)setComment(`${comment} цвет:${JSON.parse(userChoice)}`);
+    if (userChoice) setComment(`${comment} цвет:${JSON.parse(userChoice)}`);
   }, []);
 
   return (
