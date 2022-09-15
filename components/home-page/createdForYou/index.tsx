@@ -31,7 +31,7 @@ const Section = () => {
           limit: 12,
           brands: brands.rows?.map((brand: any) => brand.url).reverse(),
         })) as unknown as { rows: Product[]; length: number };
-        setUrl(`/catalog?categories=${products.rows[0].category?.url}`);
+        setUrl(`/catalog?categories=${products.rows[0]?.category?.url}`);
         setLoading(false);
         setProducts(products.rows);
       }
