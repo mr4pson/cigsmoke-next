@@ -92,10 +92,12 @@ const getFilters = ({
     {
       title: 'Теги',
       options: cloneDeep(tagOptions),
-      type: FilterType.SINGLE_SELECTION,
-      onChange: (selectedOption: FilterOption | undefined) => {
+      type: FilterType.MULTIPLE_SELECTION,
+      onChange: (selectedOptions: FilterOption[] | undefined) => {
+        const tags = selectedOptions?.map((option) => option.url);
+
         pushQueryParams([
-          { name: 'tags', value: [selectedOption?.url] },
+          { name: 'tags', value: tags },
           { name: 'page', value: 1 },
         ]);
       },
