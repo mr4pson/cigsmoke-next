@@ -38,6 +38,7 @@ const ColorPicker: React.FC<Props> = ({
       paginateImage: (index: number) => void,
     ) =>
     () => {
+	localStorage.setItem('userChoice', JSON.stringify(variant.color?.name));
       dispatch(setVariant(variant));
       setSelectedIndex(index);
 
@@ -58,10 +59,11 @@ const ColorPicker: React.FC<Props> = ({
         exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
         variants={variants.fadInSlideUp}
       >
+	{variantColor?.url != '_'?(
         <ColorWrapper>
           <span>Цвет:</span>
           <ColorItem backgroundColor={variantColor?.code!} />
-        </ColorWrapper>
+        </ColorWrapper>): ('')}
       </ColorPickerNameWrapper>
       <ColorPickerList>
         {variantImages?.map((variant, colIndex) => (
@@ -86,12 +88,20 @@ const ColorPicker: React.FC<Props> = ({
                     width: '100%',
                   }}
                 />
-                <ColorPickerSpan
-                  style={{ display: 'flex', gap: '10px', alignItems: 'center' }}
-                >
-                  <span>Цвет:</span>
-                  <ColorItem backgroundColor={variant.color.code!} />
-                </ColorPickerSpan>
+                {variantColor?.url != '_' ? (
+                  <ColorPickerSpan
+                    style={{
+                      display: 'flex',
+                      gap: '10px',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span>Цвет:</span>
+                    <ColorItem backgroundColor={variant.color.code!} />
+                  </ColorPickerSpan>
+                ) : (
+                  ''
+                )}
                 {!variant.available ? (
                   <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
                 ) : (
@@ -187,6 +197,7 @@ const ColorPickerItems = styled(motion.li)`
   img {
     width: 50px;
     height: 50px;
+    object-fit: contain;
   }
   div {
     width: 100%;

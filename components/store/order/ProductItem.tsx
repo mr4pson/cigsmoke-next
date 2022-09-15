@@ -27,7 +27,7 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
           <a>{orderProduct.product?.name}</a>
         </Link>
         <b>
-          <span>{formatNumber(curVariant.price)} ₽</span>
+          <span>{formatNumber(curVariant.price)} ₽ - {orderProduct.qty}шт</span>
           {curVariant.oldPrice && (
             <span className="discount">
               {formatNumber(curVariant.oldPrice)} ₽

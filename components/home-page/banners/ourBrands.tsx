@@ -37,7 +37,7 @@ const OurBrands = () => {
         exit="exit"
         variants={variants.fadInSlideUp}
       >
-        НАШИ БРЕНДЫ
+        Выберай свой любимый бренд
       </motion.h3>
 
       <BrandsWrapper>
