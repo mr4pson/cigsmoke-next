@@ -32,6 +32,7 @@ const UserDetails = (props: any) => {
     setHasAddress(false);
     setBacktoFinal(true);
   };
+
   const userChoice: any = localStorage.getItem('userChoice');
   useEffect(() => {
     if (userChoice)
@@ -40,6 +41,7 @@ const UserDetails = (props: any) => {
   useEffect(() => {
     if (userChoice) setComment(`${comment} цвет:${JSON.parse(userChoice)}`);
   }, []);
+
   return (
     <>
       <Wrapper
