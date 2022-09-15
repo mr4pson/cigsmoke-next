@@ -89,7 +89,7 @@ const SEO = ({ product, images }) => {
           __html: JSON.stringify({
             '@context': 'http://schema.org',
             '@type': 'Product',
-            name: product?.title,
+            name: product?.name,
             description: product?.desc,
             image: image,
             brand: {
@@ -99,7 +99,7 @@ const SEO = ({ product, images }) => {
             aggregateRating: {
               '@type': 'AggregateRating',
               ratingValue: product?.rating?.avg || 0,
-              reviewCount: product?.reviews?.length,
+              reviewCount: product?.reviews?.length || 0,
             },
             offers: {
               '@type': 'Offer',
