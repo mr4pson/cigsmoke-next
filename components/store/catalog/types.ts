@@ -1,5 +1,5 @@
 import { TFilters } from "redux/types";
-import { Brand, Category, Color, PriceRange } from "swagger/services";
+import { Brand, Category, Color, PriceRange, Tag } from "swagger/services";
 import { FilterOption } from "ui-kit/FilterCheckbox/types";
 import { FilterType } from "./constants";
 
@@ -21,6 +21,7 @@ export type TFiltersConfig = {
   subCategories: Category[],
   brands: Brand[],
   colors: Color[],
+  tags: Tag[],
   priceRange: PriceRange,
   filters: TFilters,
 }

@@ -11,6 +11,8 @@ import {
   PriceRange,
   Product,
   ProductService,
+  Tag,
+  TagService,
 } from 'swagger/services';
 
 export const fetchParentCategories = createAsyncThunk<
@@ -115,11 +117,28 @@ export const fetchPriceRange = createAsyncThunk<
   },
 );
 
+export const fetchTags = createAsyncThunk<
+  Tag[],
+  undefined,
+  { rejectValue: string }
+>(
+  'catalog/fetchTags',
+  async function (_, { rejectWithValue }): Promise<any> {
+    try {
+      const response = await TagService.getTags({ limit: '1000' }) as unknown as { rows: Tag[] };
+      return response.rows;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 const initialState: TCatalogState = {
   categories: [],
   subCategories: [],
   brands: [],
   colors: [],
+  tags: [],
   priceRange: {
     minPrice: 0,
     maxPrice: 0,
@@ -198,7 +217,15 @@ const cartSlicer = createSlice({
         state.loading = false;
         console.log('fulfilled');
       })
-      .addCase(fetchProducts.rejected, handleError);
+      .addCase(fetchProducts.rejected, handleError)
+      //fetchTags
+      .addCase(fetchTags.pending, handlePending)
+      .addCase(fetchTags.fulfilled, (state, action) => {
+        state.tags = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
+      .addCase(fetchTags.rejected, handleError);
   },
 });
 
