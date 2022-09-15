@@ -77,6 +77,7 @@ const Item = styled.li`
     width: 80px;
     height: 80px;
     min-width: 70px;
+    object-fit: contain;
   }
   button {
     justify-self: flex-end;
