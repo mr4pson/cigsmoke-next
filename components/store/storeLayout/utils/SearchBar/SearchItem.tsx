@@ -26,35 +26,29 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
         whileTap="tap"
         variants={variants.grow}
       >
-        <AnimatePresence>
-          <Item
-            custom={index * 0.2}
-            initial="init"
-            animate="animate"
-            exit="exit"
-            variants={variants.fadInSlideUp}
-            onClick={handleSearchItemClick(dispatch)}
-          >
-            <ItemDividerY>
-              <ItemWrapperY>
-                <Image
-                  src={`/api/images/${images[0]}`}
-                  width="60"
-                  height="60"
-                />
-                <ItemDividerX>
-                  <span>{product.name}</span>
-                  <span>
-                    {product.category?.name}/{product.category?.parent?.name}
-                  </span>
-                </ItemDividerX>
-              </ItemWrapperY>
-              <span>
-                <ArrowSVG />
-              </span>
-            </ItemDividerY>
-          </Item>
-        </AnimatePresence>
+        <Item
+          custom={index * 0.2}
+          initial="init"
+          animate="animate"
+          exit="exit"
+          variants={variants.fadInSlideUp}
+          onClick={handleSearchItemClick(dispatch)}
+        >
+          <ItemDividerY>
+            <ItemWrapperY>
+              <img src={`/api/images/${images[0]}`} />
+              <ItemDividerX>
+                <span>{product.name}</span>
+                <span>
+                  {product.category?.name}/{product.category?.parent?.name}
+                </span>
+              </ItemDividerX>
+            </ItemWrapperY>
+            <span>
+              <ArrowSVG />
+            </span>
+          </ItemDividerY>
+        </Item>
       </motion.a>
     </Link>
   );
@@ -62,7 +56,6 @@ const SearchItem: React.FC<Props> = ({ product, index }) => {
 
 const Item = styled(motion.li)`
   width: 100%;
-  height: 70px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -74,6 +67,10 @@ const ItemWrapperY = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
+  img {
+    width: 60px;
+    object-fit: contain;
+  }
 `;
 
 const ItemDividerY = styled.div`
