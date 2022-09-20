@@ -90,7 +90,9 @@ const CatalogPage = () => {
   useEffect(() => {
     setCatalogTitle(`${products[0]?.category?.parent?.name ?? 'Каталог'}`);
   });
+
   const randomProduct = Math.floor(Math.random() * products?.length);
+
   return (
     <>
       <SEOstatic
