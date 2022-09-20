@@ -18,7 +18,7 @@ const PrivacyNotic = () => {
           name: 'Условиями продажи',
           url: '/privacy',
           desc: 'Интернет-магазин Wuluxe',
-          keywords: '',
+          keywords: 'Интернет-магазин Wuluxe',
         }}
         image="https://wuluxe.ru/wuluxe.svg"
       />

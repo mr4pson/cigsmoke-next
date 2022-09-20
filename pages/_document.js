@@ -33,6 +33,11 @@ class MyDocument extends Document {
               __html: GoogleAnalytics(),
             }}
           />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: YandexMetrics(),
+            }}
+          />
           <Main />
           <NextScript />
         </body>

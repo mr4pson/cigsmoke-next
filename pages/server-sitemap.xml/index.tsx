@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //import { GetServerSideProps } from 'next';
 //import { getServerSideSitemap, ISitemapField } from 'next-sitemap';
 //import { Product, ProductService } from 'swagger/services';
@@ -22,6 +23,10 @@
 
 import { getServerSideSitemap } from 'next-sitemap';
 
+=======
+import { getServerSideSitemap } from 'next-sitemap';
+
+>>>>>>> fd9f9ebfe7f051c477365202d5a20ab0243460ac
 export const getServerSideProps = async (ctx) => {
   let posts: any = await fetch('http://localhost:4010/products?limit=10000');
   posts = await posts.json();

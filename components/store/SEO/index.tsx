@@ -69,7 +69,7 @@ const SEO = ({ product, images }) => {
       <title>{product?.name} | Wuluxe</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={product?.name} />
-      <meta name="description" content={product?.desc.slice(0, 200)} />
+      <meta name="description" content={product?.desc.slice(0, 160)} />
       <meta name="image" content={image[0]} />
       <meta name="keywords" content={keywords()} />
       {socialTags({
