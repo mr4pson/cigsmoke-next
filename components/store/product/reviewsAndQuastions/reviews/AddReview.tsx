@@ -102,6 +102,7 @@ const AddReview: React.FC<Props> = ({ product }) => {
           type="file"
           name="img"
           multiple
+          accept="image/png, image/gif, image/jpeg"
           onChange={(evt) => handleFileChange(evt, setSrc, dispatch)}
         />
         <motion.button

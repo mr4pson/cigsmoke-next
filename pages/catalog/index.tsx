@@ -88,19 +88,27 @@ const CatalogPage = () => {
   }, []);
 
   useEffect(() => {
-    setCatalogTitle(`${category?.name ?? 'Каталог'}`);
-  }, [category?.name]);
-
+    setCatalogTitle(`${products[0]?.category?.parent?.name ?? 'Каталог'}`);
+  });
+  const randomProduct = Math.floor(Math.random() * products?.length);
   return (
     <>
       <SEOstatic
         page={{
-          name: category?.name || 'Каталог',
+          name: `Wuluxe ${catalogTitle}` || 'Каталог',
           url: `https://wuluxe.ru${router.asPath}`,
-          desc: `Интернет-магазин Wuluxe - ${category?.name}`,
-          keywords: '',
+          desc: `Интернет-магазин Wuluxe - ${catalogTitle} - ${products[
+            randomProduct
+          ]?.desc?.slice(0, 160)}`,
+          keywords: `${products[randomProduct]?.parameterProducts?.map(
+            (item) => item.value,
+          )}`,
+          createdAt: products[randomProduct]?.createdAt,
+          updatedAt: products[randomProduct]?.updatedAt,
         }}
-        image={`https://wuluxe.ru/api/images/${category?.image}`}
+        image={`https://wuluxe.ru/api/images/${
+          products[0]?.category?.parent?.image ?? 'Каталог'
+        }`}
       />
       <Container
         variants={variants.fadInOut}

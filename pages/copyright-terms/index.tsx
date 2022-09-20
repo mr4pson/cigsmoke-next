@@ -18,7 +18,7 @@ const Copyrights = () => {
           name: 'Правила использования контента сайта',
           url: '/copyright-terms',
           desc: 'Интернет-магазин Wuluxe',
-          keywords: 'some, keywords',
+          keywords: 'Интернет-магазин Wuluxe',
         }}
         image="https://wuluxe.ru/wuluxe.svg"
       />

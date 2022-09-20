@@ -102,7 +102,12 @@ const SearchBar: React.FC<Props> = () => {
         >
           <>
             {!!products.length && focused && !productsLoading ? (
-              <Content>
+              <Content
+                style={{
+                  height: products.length > 3 ? '45vh' : '',
+                  overflowY: products.length > 3 ? 'scroll' : 'unset',
+                }}
+              >
                 {products.map((product, index: number) => {
                   return (
                     <SearchItem
@@ -249,12 +254,27 @@ const Content = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flext-start;
+  align-items: flex-start;
   border-radius: 0 0 25px 25px;
   padding: 10px 15px;
+  gap: 15px;
+  transition: 300ms;
   a {
+    background-color: ${color.textPrimary};
+    padding: 10px;
+    border-radius: 10px;
     &:hover {
       color: ${color.hover};
+      box-shadow: 0px 2px 5px -3px #000;
+    }
+  }
+  @media ${devices.laptopS} {
+    gap: 25px;
+  }
+  @media ${devices.mobileL} {
+    gap: 30px;
+    a {
+      box-shadow: 0px 2px 5px -3px #000;
     }
   }
 `;
