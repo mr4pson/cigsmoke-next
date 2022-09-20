@@ -90,16 +90,12 @@ const CatalogPage = () => {
   useEffect(() => {
     setCatalogTitle(`${products[0]?.category?.parent?.name ?? 'Каталог'}`);
   });
-<<<<<<< HEAD
 
-   const randomProduct = Math.floor(Math.random() * products?.length);
-
-=======
   const randomProduct = Math.floor(Math.random() * products?.length);
->>>>>>> fd9f9ebfe7f051c477365202d5a20ab0243460ac
+
   return (
     <>
-        <SEOstatic
+      <SEOstatic
         page={{
           name: `Wuluxe ${catalogTitle}` || 'Каталог',
           url: `https://wuluxe.ru${router.asPath}`,
