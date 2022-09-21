@@ -10,7 +10,7 @@ import { PopupDisplay } from '../../constants';
 import AuthBtn from './AuthBtn';
 import Authorization from './authorize';
 import { UsePagination } from './authorize/helpers';
-import { handleAfterAuthorized } from './helpers';
+import { handleAfterAuthorized, handleSession } from './helpers';
 import { Profile } from './Profile';
 
 const Authorize = () => {
@@ -37,6 +37,10 @@ const Authorize = () => {
       setDisplay,
     ),
   );
+
+  useEffect(() => {
+    handleSession();
+  }, []);
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   return (
