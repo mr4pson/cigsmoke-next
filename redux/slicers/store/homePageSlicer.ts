@@ -40,7 +40,7 @@ export const fetchBrands = createAsyncThunk<
     try {
       const response = await BrandService.getBrands({
         showOnMain: true,
-        limit: '8',
+        limit: '20',
       });
 
       return response;
