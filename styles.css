@@ -111,10 +111,10 @@ h6 {
   top: 0px;
 }
 
-.ant-carousel .slick-list .slick-slide>div>div {
+.ant-carousel .slick-list .slick-slide > div > div {
   text-align: center;
 }
 
-a {
-  color: #000 !important;
+a span {
+  color: #000;
 }
