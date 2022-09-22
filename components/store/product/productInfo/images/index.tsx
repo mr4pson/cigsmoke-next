@@ -34,7 +34,11 @@ const Images: React.FC<Props> = ({
       <NavWrapper>
         {!!product?.category?.parent && (
           <Link href={`/catalog?categories=${product?.category?.parent.url}`}>
-            <a>{product?.category?.parent?.name}</a>
+            <a title={product?.category?.parent?.name}>
+              {product?.category?.parent?.name?.length! > 16
+                ? `${product?.category?.parent?.name?.slice(0, 16)}..`
+                : product?.category?.parent?.name}
+            </a>
           </Link>
         )}
         <span>
@@ -44,13 +48,27 @@ const Images: React.FC<Props> = ({
           <Link
             href={`/catalog?categories=${product?.category?.parent?.url}&subCategories=${product?.category?.url}`}
           >
-            <a>{product?.category?.name}</a>
+            <a title={product?.category?.name}>
+              {product?.category?.name?.length! > 20
+                ? `${product?.category?.name?.slice(0, 20)}..`
+                : product?.category?.name}
+            </a>
           </Link>
         )}
         <span>
           <ArrowGray />
         </span>
-        <a>{product?.name}</a>
+        {!!product?.brand && (
+          <Link
+            href={`/catalog?categories=${product?.category?.parent?.url}&subCategories=${product?.category?.url}&&brands=${product?.brand?.url}`}
+          >
+            <a title={product?.brand?.name}>
+              {product?.brand?.name?.length! > 20
+                ? `${product?.brand?.name?.slice(0, 20)}..`
+                : product?.brand?.name}
+            </a>
+          </Link>
+        )}
       </NavWrapper>
       <ImagesWrapper>
         <Pagination

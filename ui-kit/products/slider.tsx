@@ -88,6 +88,7 @@ const Slider: React.FC<Props> = ({
           variants={isWish ? variants.fadeInSlideIn : variants.fadeOutSlideOut}
           top="15px"
           right="15px"
+          topMobile="15px"
           position="absolute"
           bgcolor="transparent;"
           boxshadow={color.textPrimary}
@@ -103,6 +104,7 @@ const Slider: React.FC<Props> = ({
           variants={variants.grow}
           top="210px"
           right="15px"
+          topMobile="195px"
           position="absolute"
           bgcolor={color.textPrimary}
           boxshadow={color.boxShadowBtn}
@@ -118,6 +120,7 @@ const Slider: React.FC<Props> = ({
           custom={1.2}
           variants={variants.grow}
           top="270px"
+          topMobile="260px"
           right="15px"
           position="absolute"
           bgcolor={color.textPrimary}
@@ -159,7 +162,7 @@ const ImageSliderWrapper = styled(motion.div)`
 const ImageSlider = styled(motion.img)`
   width: 100%;
   height: 100%;
-  padding: 70px;
+  padding: 10px;
   position: absolute;
   object-fit: contain;
   left: 0;

@@ -5,10 +5,11 @@ import variants from 'components/store/lib/variants';
 import { styleProps } from 'components/store/lib/types';
 import InfoDropdown from './DropDownsParrent';
 import DeleveryBox from '../../../../../assets/deleveryBox.svg';
+import { devices } from 'components/store/lib/Devices';
 import { ParameterProduct } from 'swagger/services';
 
 type Props = {
-  description?: string;
+  description?: any;
   parameterProducts?: ParameterProduct[];
 };
 
@@ -25,7 +26,11 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
       margintop="-35px"
     >
       <InfoDropdown title="Описание">
-        <span>{description}</span>
+        <section
+          dangerouslySetInnerHTML={{
+            __html: description,
+          }}
+        />
       </InfoDropdown>
       <InfoDropdown title="Характеристики">
         <SpecsContainer>
@@ -199,7 +204,6 @@ const SpecsKeyValueWrapper = styled.ul`
       font-size: 0.875rem;
     }
     #key-specs {
-      white-space: nowrap;
       font-family: 'intro';
       color: ${color.textSecondary};
     }

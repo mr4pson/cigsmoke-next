@@ -17,6 +17,7 @@ type styleProps = {
   width?: string;
   justifycontent?: string;
   display?: string;
+  topMobile?: string;
 };
 
 export type { styleProps };
