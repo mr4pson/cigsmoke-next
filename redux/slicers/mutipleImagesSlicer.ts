@@ -9,11 +9,7 @@ import {
   handlePending,
 } from '../../common/helpers';
 
-export const createImage = createAsyncThunk<
-  any,
-  any,
-  { rejectValue: string }
->(
+export const createImage = createAsyncThunk<any, any, { rejectValue: string }>(
   'multipleImages/createImage1',
   async function (
     payload: PayloadCreateImage,

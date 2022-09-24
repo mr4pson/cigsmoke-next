@@ -1,9 +1,13 @@
-import { Form, Input, Select, Switch } from 'antd';
+import { Button, Form, Input, Select, Switch } from 'antd';
 import { Color, Image } from 'swagger/services';
 import { ManageProductFields } from './ManageProductsFields.enum';
 import styles from './products.module.scss';
 import CloseSVG from '../../../assets/close_black.svg';
 import MultipleImageUpload from '../generalComponents/MultipleImageUpload';
+import { InsertRowLeftOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import DatabaseImages from './databaseImages';
 
 const { Option } = Select;
 
@@ -27,7 +31,7 @@ const ProductVariant: React.FC<Props> = ({
       return array;
     });
   };
-
+  const [isOpen, setOpen] = useState(false);
   return (
     <div className={styles['product-variant']}>
       <h2 className={styles['product-variant__title']}>Вариант №{index + 1}</h2>
@@ -87,9 +91,27 @@ const ProductVariant: React.FC<Props> = ({
           isProduct={true}
           index={index}
         />
+        <ButtonDevider>
+          <Button
+            onClick={() => setOpen(true)}
+            icon={<InsertRowLeftOutlined />}
+          >
+            Выбрать из базы данных
+          </Button>
+        </ButtonDevider>
+        {isOpen ? <DatabaseImages setOpen={setOpen} /> : ''}
       </Form.Item>
     </div>
   );
 };
+
+const ButtonDevider = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
+`;
 
 export default ProductVariant;

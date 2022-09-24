@@ -96,7 +96,9 @@ const ActionBtns: React.FC<Props> = ({
                 whileTap="tap"
                 variants={variants.boxShadow}
               >
-                <span>Перейти в корзину</span>
+                <span style={{ color: color.textPrimary }}>
+                  Перейти в корзину
+                </span>
               </ActionBtn>
             </GoToCartLink>
           </Link>
