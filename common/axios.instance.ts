@@ -35,6 +35,7 @@ axiosInstance.interceptors.request.use(async function (config) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         console.log('session endded relogin');
+        return;
       }
       localStorage.setItem('accessToken', response.data.accessToken);
       token = response.data.accessToken;
