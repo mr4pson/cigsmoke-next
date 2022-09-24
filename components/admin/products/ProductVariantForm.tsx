@@ -91,13 +91,16 @@ const ProductVariant: React.FC<Props> = ({
           isProduct={true}
           index={index}
         />
+        <ButtonDevider>
+          <Button
+            onClick={() => setOpen(true)}
+            icon={<InsertRowLeftOutlined />}
+          >
+            Выбрать из базы данных
+          </Button>
+        </ButtonDevider>
+        {isOpen ? <DatabaseImages setOpen={setOpen} /> : ''}
       </Form.Item>
-      <ButtonDevider>
-        <Button onClick={() => setOpen(true)} icon={<InsertRowLeftOutlined />}>
-          Выбрать из базы данных
-        </Button>
-      </ButtonDevider>
-      {isOpen ? <DatabaseImages setOpen={setOpen} /> : ''}
     </div>
   );
 };

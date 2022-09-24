@@ -30,7 +30,9 @@ const DatabaseImages = ({ setOpen }) => {
     setImages(resp.data);
     setLoaded(true);
   };
-  const handlePagination = (start, end) => {
+  const handlePagination = (start, end, e) => {
+    e.preventDefault();
+    // e.stopPropagation();
     setLoaded(false);
     setOnView(images.slice(start, end));
     setPagination([start, end]);
@@ -83,7 +85,7 @@ const DatabaseImages = ({ setOpen }) => {
                             ? color.hover
                             : color.btnPrimary,
                       }}
-                      onClick={() => handlePagination(index - 12, index)}
+                      onClick={(e) => handlePagination(index - 12, index, e)}
                     >
                       <button>
                         {index - 12} - {index}
@@ -95,8 +97,8 @@ const DatabaseImages = ({ setOpen }) => {
             : 'loading...'}
           {isLoaded ? (
             <li
-              onClick={() =>
-                handlePagination(images.length - 12, images.length)
+              onClick={(e) =>
+                handlePagination(images.length - 12, images.length, e)
               }
             >
               <button>
