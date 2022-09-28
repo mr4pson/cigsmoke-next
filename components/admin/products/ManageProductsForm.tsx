@@ -151,6 +151,25 @@ const ManageProductForm = ({
               />
             }
           />
+          {/* ----------------------SHORT DESCRIPTION---------------------- */}
+          <FormItem
+            option={ManageProductFields.ShortDesc}
+            children={
+              <TextArea
+                required={true}
+                rows={4}
+                placeholder="short description"
+              />
+            }
+          />
+
+          {/* ----------------------KEYWORDS---------------------- */}
+          <FormItem
+            option={ManageProductFields.Keywords}
+            children={
+              <TextArea required={true} rows={4} placeholder="keywords" />
+            }
+          />
 
           {/* ----------------------CATEGORIES---------------------- */}
           <Form.Item label="Категория" name="category" required>

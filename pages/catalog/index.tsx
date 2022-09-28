@@ -101,10 +101,8 @@ const CatalogPage = () => {
           url: `https://wuluxe.ru${router.asPath}`,
           desc: `Интернет-магазин Wuluxe - ${catalogTitle} - ${products[
             randomProduct
-          ]?.desc?.slice(0, 160)}`,
-          keywords: `${products[randomProduct]?.parameterProducts?.map(
-            (item) => item.value,
-          )}`,
+          ]?.shortDesc?.slice(0, 160)}`,
+          keywords: `${products[randomProduct]?.keywords}`,
           createdAt: products[randomProduct]?.createdAt,
           updatedAt: products[randomProduct]?.updatedAt,
         }}
