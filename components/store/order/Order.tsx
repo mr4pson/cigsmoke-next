@@ -169,7 +169,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
           </div> */}
             <div className="order-action-btns">
               {checkout.status !== CheckoutStatus.Completed ||
-              timeCheck(checkout.createdAt) ? (
+              !timeCheck(checkout.createdAt) ? (
                 <motion.button
                   whileHover="hover"
                   whileTap="tap"
@@ -187,7 +187,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
         </div>
       </Items>
       <Modal
-        title={'Вы действительно хотите удалить этот отзыв?'}
+        title={'Вы уверены, что хотите отменить этот заказ?'}
         visible={isModalVisible}
         onOk={handleRemove(checkout.paymentId!)}
         onCancel={handleCancel}

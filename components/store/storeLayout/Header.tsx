@@ -177,7 +177,7 @@ const NavWrap = styled.div`
   display: flex;
   width: 294px;
   justify-content: space-between;
-
+  align-self: flex-end;
   @media ${devices.mobileL} {
     display: none;
   }

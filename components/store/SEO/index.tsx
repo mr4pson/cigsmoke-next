@@ -61,22 +61,20 @@ const SEO = ({ product, images }) => {
   for (let i = 0; i < images?.length; i++) {
     image.push(`https://wuluxe.ru/api/images/${images[i]}`);
   }
-  const keywords = () => {
-    return product.parameterProducts?.map((item) => item.value) ?? '';
-  };
+
   return (
     <Head>
       <title>{product?.name} | Wuluxe</title>
       <meta name="robots" content="index, follow" />
       <meta name="title" content={product?.name} />
-      <meta name="description" content={product?.desc.slice(0, 160)} />
+      <meta name="description" content={product?.shortDesc.slice(0, 160)} />
       <meta name="image" content={image[0]} />
-      <meta name="keywords" content={keywords()} />
+      <meta name="keywords" content={product?.keywords} />
       {socialTags({
         openGraphType: 'product',
         url: url,
         title: product?.name,
-        description: product?.desc,
+        description: product?.shortDesc,
         image: image[0],
         createdAt: product?.createdAt,
         updatedAt: product?.updatedAt,
@@ -90,7 +88,7 @@ const SEO = ({ product, images }) => {
             '@context': 'http://schema.org',
             '@type': 'Product',
             name: product?.name,
-            description: product?.desc,
+            description: product?.shortDesc,
             image: image,
             brand: {
               '@type': 'Brand',

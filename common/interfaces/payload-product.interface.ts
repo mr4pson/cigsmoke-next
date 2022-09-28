@@ -11,6 +11,8 @@ export interface PayloadProduct {
   parameterProducts: ParameterProductsDTO[];
   url: string;
   desc?: string;
+  shortDesc?: string;
+  keywords?: string;
   images?: string;
   tags?: string[];
   id?: string | undefined;

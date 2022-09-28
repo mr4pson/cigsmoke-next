@@ -5491,6 +5491,12 @@
         "desc": {
           "type": "string"
         },
+        "shortDesc": {
+          "type": "string"
+        },
+        "keywords": {
+          "type": "string"
+        },
         "createdAt": {
           "type": "string",
           "readOnly": true
@@ -5620,6 +5626,12 @@
           "type": "string"
         },
         "desc": {
+          "type": "string"
+        },
+        "shortDesc": {
+          "type": "string"
+        },
+        "keywords": {
           "type": "string"
         },
         "createdAt": {
