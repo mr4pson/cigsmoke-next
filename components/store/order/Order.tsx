@@ -46,6 +46,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  console.log(checkout.status);
 
   return (
     <React.Fragment key={index}>
@@ -168,17 +169,20 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             </span>
           </div> */}
             <div className="order-action-btns">
-              {checkout.status !== CheckoutStatus.Completed ||
-              !timeCheck(checkout.createdAt) ? (
-                <motion.button
-                  whileHover="hover"
-                  whileTap="tap"
-                  variants={variants.boxShadow}
-                  className="danger"
-                  onClick={onRemoveClick()}
-                >
-                  Отменить заказ {saveLoading && <Loading />}
-                </motion.button>
+              {!timeCheck(checkout.createdAt) ? (
+                checkout.status !== CheckoutStatus.Completed ? (
+                  <motion.button
+                    whileHover="hover"
+                    whileTap="tap"
+                    variants={variants.boxShadow}
+                    className="danger"
+                    onClick={onRemoveClick()}
+                  >
+                    Отменить заказ {saveLoading && <Loading />}
+                  </motion.button>
+                ) : (
+                  <></>
+                )
               ) : (
                 <></>
               )}
