@@ -46,7 +46,6 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  console.log(checkout.status);
 
   return (
     <React.Fragment key={index}>
