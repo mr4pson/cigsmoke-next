@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { Rating } from '@mui/material'; // docs: https://mui.com/material-ui/api/rating/ *** https://mui.com/material-ui/react-rating/
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import { Review } from 'swagger/services';
 import moment from 'moment';
 import Link from 'next/link';
@@ -101,6 +102,9 @@ const ItemContainer = styled(motion.li)`
       width: 80px;
       height: 80px;
     }
+  }
+  @media ${devices.mobileL} {
+    min-width: 270px;
   }
 `;
 
