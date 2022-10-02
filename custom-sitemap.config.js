@@ -62,6 +62,10 @@ module.exports = {
         disallow: '/after-payment/*',
       },
       {
+        userAgen: '*',
+        disallow: '/rekvizity-ooo-internet-resheniya',
+      },
+      {
         userAgent: '*',
         allow: '/',
       },
@@ -86,5 +90,6 @@ module.exports = {
     '/wishlist/*',
     '/after-payment',
     '/after-payment/*',
+    '/rekvizity-ooo-internet-resheniya',
   ],
 };
