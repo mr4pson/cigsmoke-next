@@ -76,7 +76,7 @@ const ShareToSocial: React.FC<Props> = ({
 
   const shareData = {
     title: title,
-    text: description,
+    // text: description,
     url: `${baseUrl}${router.asPath}`,
   };
 

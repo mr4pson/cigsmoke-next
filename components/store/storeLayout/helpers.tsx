@@ -142,6 +142,22 @@ const overrideDefaultIOSZoom = () => {
     disableIosTextFieldZoom();
   }
 };
+
+const acceptedCookies = (setOpen: any) => {
+  const isAgree = localStorage.getItem('agree-cookies');
+  if (isAgree && JSON.parse(isAgree) === 1) {
+    setOpen(false);
+  }
+  if (!isAgree || JSON.parse(isAgree) === 0) {
+    setOpen(true);
+  }
+};
+
+const handleCookiesClick = (setOpen: any) => {
+  localStorage.setItem('agree-cookies', '1');
+  setOpen(false);
+};
+
 declare const window: any;
 declare const opera: any;
 export {
@@ -151,4 +167,6 @@ export {
   handleDragEnd,
   handleMenuState,
   overrideDefaultIOSZoom,
+  acceptedCookies,
+  handleCookiesClick,
 };
