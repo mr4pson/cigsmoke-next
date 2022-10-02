@@ -30,7 +30,7 @@ const InfoDelivery = () => {
           justify_content="flex-start"
           gap="30px"
         >
-          <h1>Реквизиты ООО «Интернет Решения»</h1>
+          <h1>Реквизиты ИП «Зиаудин Д.»</h1>
           <h2>Основные реквизиты</h2>
           <TableWrapper>
             <thead>

@@ -196,8 +196,7 @@ const Footer = (): JSX.Element => {
                   </SocialWrapper>
                   <Link href="/copyright-terms">
                     <a id="copyright">
-                      © {copyRighYear} ООО «Интернет Решения». Все права
-                      защищены.
+                      © {copyRighYear} «Wuluxe». Все права защищены.
                     </a>
                   </Link>
                 </Sections_content>
