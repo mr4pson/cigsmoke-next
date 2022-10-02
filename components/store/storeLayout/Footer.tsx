@@ -112,6 +112,13 @@ const Footer = (): JSX.Element => {
                       </a>
                     </Link>
                   </Sections_item>
+                  <Sections_item>
+                    <Link href="/rekvizity-ooo-internet-resheniya">
+                      <a>
+                        <span>Реквизиты</span>
+                      </a>
+                    </Link>
+                  </Sections_item>
                 </Sections_content>
               </Sections_wrapper>
               <Sections_wrapper>
