@@ -273,12 +273,11 @@ const WrapperBrands = styled.ul`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   justify-content: center;
   align-items: flex-start;
   padding: 20px 0;
   overflow-y: scroll;
-  row-gap: 25px;
   a {
     display: flex;
     flex-directio: row;
