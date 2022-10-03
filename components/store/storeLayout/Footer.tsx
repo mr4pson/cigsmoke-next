@@ -196,8 +196,7 @@ const Footer = (): JSX.Element => {
                   </SocialWrapper>
                   <Link href="/copyright-terms">
                     <a id="copyright">
-                      © {copyRighYear} ООО «Интернет Решения». Все права
-                      защищены.
+                      © {copyRighYear} «Wuluxe». Все права защищены.
                     </a>
                   </Link>
                 </Sections_content>
@@ -321,7 +320,6 @@ const SocialWrapper = styled.li`
 
 const CookiesNotification = styled.div`
   width: 100%;
-  height: 100px;
   background-color: ${color.textPrimary};
   position: sticky;
   bottom: 0;
@@ -331,6 +329,7 @@ const CookiesNotification = styled.div`
   align-items: center;
   z-index: 99999;
   box-shadow: 0 -1px 3px -2px #000;
+  padding: 0 0 20px 0;
   .close-cookies {
     width: 100%;
     display: flex;
@@ -359,6 +358,22 @@ const CookiesNotification = styled.div`
       border-radius: 10px;
       background-color: ${color.btnPrimary};
       color: ${color.textPrimary};
+      white-space: nowrap;
+    }
+  }
+  @media ${devices.laptopM} {
+    .notification-cookies {
+      flex-direction: column;
+    }
+  }
+  @media ${devices.laptopS} {
+    .notification-cookies {
+      flex-direction: column;
+    }
+  }
+  @media ${devices.mobileL} {
+    .notification-cookies {
+      flex-direction: column;
     }
   }
 `;

@@ -12,9 +12,7 @@ const Footer = () => {
       <Wrapper>
         <Link href="/copyright-terms">
           <a>
-            <span>
-              © {copyRighYear} ООО «Интернет Решения». Все права защищены.
-            </span>
+            <span>© {copyRighYear} «Wuluxe». Все права защищены.</span>
           </a>
         </Link>
         <SocialWrapper>
