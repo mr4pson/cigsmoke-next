@@ -273,10 +273,12 @@ const WrapperBrands = styled.ul`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   align-items: flex-start;
   padding: 20px 0;
+  overflow-y: scroll;
+  row-gap: 25px;
   a {
     display: flex;
     flex-directio: row;
@@ -292,7 +294,7 @@ const WrapperBrands = styled.ul`
 
 const BrandImage = styled.div`
   width: 190px;
-  height: 85px;
+  height: 95px;
   border-radius: 15px;
   background-size: cover;
   background-position: center;
