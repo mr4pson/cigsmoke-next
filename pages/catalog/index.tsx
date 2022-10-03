@@ -99,9 +99,7 @@ const CatalogPage = () => {
         page={{
           name: `Wuluxe ${catalogTitle}` || 'Каталог',
           url: `https://wuluxe.ru${router.asPath}`,
-          desc: `Интернет-магазин Wuluxe - ${catalogTitle} - ${products[
-            randomProduct
-          ]?.shortDesc?.slice(0, 160)}`,
+          desc: `Интернет-магазин Wuluxe - ${catalogTitle} - ${products[randomProduct]?.shortDesc}`,
           keywords: `${products[randomProduct]?.keywords}`,
           createdAt: products[randomProduct]?.createdAt,
           updatedAt: products[randomProduct]?.updatedAt,
