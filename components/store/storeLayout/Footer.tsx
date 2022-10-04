@@ -171,6 +171,9 @@ const Footer = (): JSX.Element => {
                       Вы также можете оплатить покупки наличными при получении
                     </span>
                   </Sections_item>
+                  <span>
+                    <b>Присоединяйтесь к нашим социальным сетям</b>
+                  </span>
                   <SocialWrapper>
                     <Link href="https://vk.com/wuluxe">
                       <a target="_blank" rel="noopener noreferrer">
