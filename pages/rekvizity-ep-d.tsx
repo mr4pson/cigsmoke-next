@@ -36,9 +36,7 @@ const InfoDelivery = () => {
             <thead>
               <tr>
                 <th className="key-header">Полное наименование</th>
-                <th className="value-header">
-                  Общество с ограниченной ответственностью «Интернет Решения»
-                </th>
+                <th className="value-header">Карточка Организации</th>
               </tr>
             </thead>
             <tbody>

@@ -145,7 +145,12 @@ const CatalogModal: React.FC<Props> = ({
             return (
               <Link
                 key={index}
-                href={`/catalog?categories=${curCategory?.url}&subCategories=${curSubCategory?.url}&brands=${brand.url}`}
+                href={
+                  curCategory?.url == undefined ||
+                  curSubCategory?.url == undefined
+                    ? `/catalog?brands=${brand.url}`
+                    : `/catalog?categories=${curCategory?.url}&subCategories=${curSubCategory?.url}&brands=${brand.url}`
+                }
               >
                 <a>
                   <AnimatePresence>
@@ -277,6 +282,8 @@ const WrapperBrands = styled.ul`
   justify-content: center;
   align-items: flex-start;
   padding: 20px 0;
+  overflow-y: scroll;
+  grid-row-gap: 25px;
   a {
     display: flex;
     flex-directio: row;
@@ -292,7 +299,7 @@ const WrapperBrands = styled.ul`
 
 const BrandImage = styled.div`
   width: 190px;
-  height: 85px;
+  height: 95px;
   border-radius: 15px;
   background-size: cover;
   background-position: center;

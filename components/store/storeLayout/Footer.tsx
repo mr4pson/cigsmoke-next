@@ -113,7 +113,7 @@ const Footer = (): JSX.Element => {
                     </Link>
                   </Sections_item>
                   <Sections_item>
-                    <Link href="/rekvizity-ooo-internet-resheniya">
+                    <Link href="/rekvizity-ep-d">
                       <a>
                         <span>Реквизиты</span>
                       </a>
@@ -171,6 +171,9 @@ const Footer = (): JSX.Element => {
                       Вы также можете оплатить покупки наличными при получении
                     </span>
                   </Sections_item>
+                  <span>
+                    <b>Присоединяйтесь к нашим социальным сетям</b>
+                  </span>
                   <SocialWrapper>
                     <Link href="https://vk.com/wuluxe">
                       <a target="_blank" rel="noopener noreferrer">

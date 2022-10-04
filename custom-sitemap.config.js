@@ -63,7 +63,7 @@ module.exports = {
       },
       {
         userAgen: '*',
-        disallow: '/rekvizity-ooo-internet-resheniya',
+        disallow: '/rekvizity-ep-d',
       },
       {
         userAgent: '*',
@@ -90,6 +90,6 @@ module.exports = {
     '/wishlist/*',
     '/after-payment',
     '/after-payment/*',
-    '/rekvizity-ooo-internet-resheniya',
+    '/rekvizity-ep-d',
   ],
 };
