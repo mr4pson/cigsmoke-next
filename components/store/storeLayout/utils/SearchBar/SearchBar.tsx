@@ -260,6 +260,7 @@ const Content = styled.ul`
   gap: 15px;
   transition: 300ms;
   a {
+    width: 100%;
     background-color: ${color.textPrimary};
     padding: 10px;
     border-radius: 10px;
