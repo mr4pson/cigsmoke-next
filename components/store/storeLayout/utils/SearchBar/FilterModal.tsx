@@ -1,5 +1,6 @@
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
@@ -67,12 +68,14 @@ const FilterModal: React.FC<Props> = ({
                   key={index}
                   onClick={handleSelect(category)}
                 >
-                  <Image
-                    src={`/api/images/${category.image}`}
-                    width="20"
-                    height="20"
-                  />
-                  <span>{category.name}</span>
+                  <span className="catalog-icon">
+                    <img
+                      src={`/api/images/${category.image}`}
+                      alt={category.name}
+                    />
+                  </span>
+
+                  <span className="catalog-name">{category.name}</span>
                 </motion.li>
               );
             })}
@@ -98,8 +101,7 @@ const PopupWrapper = styled.div`
 `;
 
 const Content = styled(motion.div)`
-  width: 485px;
-  min-height: 340px;
+  padding: 30px;
   background-color: ${color.textPrimary};
   border-radius: 25px;
   margin-top: 5rem;
@@ -110,20 +112,41 @@ const Content = styled(motion.div)`
   position: relative;
   button {
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 10px;
+    right: 15px;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  @media ${devices.mobileL} {
+    width: 485px;
+    min-height: 340px;
+    padding: 0;
+    button {
+      top: -50px;
+      right: 0px;
+      background-color: ${color.textPrimary};
+      border-radius: 50%;
+      cursor: pointer;
+      width: 45px;
+      height: 45px;
+    }
   }
 `;
 
 const ContentInner = styled.ul`
-  width: 85%;
-  height: 95%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
+
   li {
     display: flex;
     flex-direction: row;
@@ -132,9 +155,32 @@ const ContentInner = styled.ul`
     gap: 15px;
     cursor: pointer;
     padding: 5px 5px 5px 0;
+    .catalog-icon {
+      width: 25px;
+      height: 25px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .catalog-name {
+      white-space: nowrap;
+    }
     &:hover {
       color: ${color.hover};
     }
+  }
+  @media ${devices.mobileL} {
+    width: 85%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 `;
 
