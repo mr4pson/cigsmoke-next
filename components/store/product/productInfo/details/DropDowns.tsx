@@ -37,25 +37,24 @@ const DropDowns: React.FC<Props> = ({ description, parameterProducts }) => {
           <SpecsKeyValueWrapper>
             {parameterProducts?.map((item, index) => {
               return (
-                <li
-                  className="wrapper-key-vlaue"
-                  key={`parameter-product-label-${index}`}
-                >
-                  <span id="key-specs">{item.parameter?.name}: </span>
-                  <span id="value-specs">{item.value}</span>
-                </li>
+                <>
+                  {item.value == '_' ||
+                  item.value == '-' ||
+                  item.value == '' ? (
+                    ''
+                  ) : (
+                    <li
+                      className="wrapper-key-vlaue"
+                      key={`parameter-product-label-${index}`}
+                    >
+                      <span id="key-specs">{item.parameter?.name}: </span>
+                      <span id="value-specs">{item.value}</span>
+                    </li>
+                  )}
+                </>
               );
             })}
           </SpecsKeyValueWrapper>
-          {/* <SpecsKeyValueWrapper>
-            {parameterProducts?.map((item, index) => {
-              return (
-                <li key={`parameter-product-value-${index}`}>
-                  <span id='value-specs' >{item.value}</span>
-                </li>
-              );
-            })}
-          </SpecsKeyValueWrapper> */}
         </SpecsContainer>
       </InfoDropdown>
       <InfoDropdown title="Информация о доставке">
@@ -208,7 +207,7 @@ const SpecsKeyValueWrapper = styled.ul`
       color: ${color.textSecondary};
     }
     #value-specs {
-      width: 60%;
+      width: 50%;
     }
   }
 `;
