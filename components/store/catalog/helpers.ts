@@ -3,11 +3,13 @@ import {
   clearBrands,
   clearColors,
   clearSubCategories,
+  clearTags,
   fetchBrands,
   fetchColors,
   fetchPriceRange,
   fetchProducts,
   fetchSubCategories,
+  fetchTags,
   setPage,
 } from 'redux/slicers/store/catalogSlicer';
 import { AppDispatch } from 'redux/store';
@@ -40,11 +42,7 @@ const convertQueryParams = (query: {
       ? colors
       : [colors]
     : undefined;
-  const tagsArray = tags
-    ? Array.isArray(tags)
-      ? tags
-      : [tags]
-    : undefined;
+  const tagsArray = tags ? (Array.isArray(tags) ? tags : [tags]) : undefined;
 
   return {
     categories: categoriesArray,
@@ -150,10 +148,12 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
       await dispatch(fetchSubCategories(category));
       await dispatch(fetchBrands({ parent: category }));
       await dispatch(fetchColors({ parent: category }));
+      await dispatch(fetchTags({ parent: category }));
     } else {
       await dispatch(clearSubCategories());
       await dispatch(clearBrands());
       await dispatch(clearColors());
+      await dispatch(clearTags());
     }
     setPriceRange(dispatch);
   }

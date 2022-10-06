@@ -77,7 +77,7 @@ const CatalogPage = () => {
 
     (async () => {
       await dispatch(fetchParentCategories());
-      await dispatch(fetchTags());
+      // await dispatch(fetchTags());
       await handleLocationChange();
       onCategoryChange();
     })();
