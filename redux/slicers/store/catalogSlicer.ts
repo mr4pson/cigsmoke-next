@@ -41,7 +41,7 @@ export const fetchSubCategories = createAsyncThunk<
     try {
       const response = (await CategoryService.getCategories({
         parent: categoryUrl,
-        limit: '1000'
+        limit: '1000',
       })) as unknown as { rows: Category[] };
       return response.rows;
     } catch (error: any) {
@@ -58,7 +58,10 @@ export const fetchBrands = createAsyncThunk<
   'catalog/fetchBrands',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const response = await BrandService.getBrands({ ...payload, limit: '1000' });
+      const response = await BrandService.getBrands({
+        ...payload,
+        limit: '1000',
+      });
       return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -74,7 +77,10 @@ export const fetchColors = createAsyncThunk<
   'catalog/fetchColors',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const response = (await ColorService.getColors({ ...payload, limit: '1000' })) as unknown as {
+      const response = (await ColorService.getColors({
+        ...payload,
+        limit: '1000',
+      })) as unknown as {
         rows: Color[];
       };
       return response.rows;
@@ -85,7 +91,7 @@ export const fetchColors = createAsyncThunk<
 );
 
 export const fetchProducts = createAsyncThunk<
-  { rows: Product[], length: number },
+  { rows: Product[]; length: number },
   TFilters,
   { rejectValue: string }
 >(
@@ -94,7 +100,7 @@ export const fetchProducts = createAsyncThunk<
     try {
       const response = (await ProductService.getProducts(
         payload,
-      )) as unknown as { rows: Product[], length: number };
+      )) as unknown as { rows: Product[]; length: number };
       return response;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -119,13 +125,16 @@ export const fetchPriceRange = createAsyncThunk<
 
 export const fetchTags = createAsyncThunk<
   Tag[],
-  undefined,
+  { category?: string; parent?: string },
   { rejectValue: string }
 >(
   'catalog/fetchTags',
-  async function (_, { rejectWithValue }): Promise<any> {
+  async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      const response = await TagService.getTags({ limit: '1000' }) as unknown as { rows: Tag[] };
+      const response = (await TagService.getTags({
+        ...payload,
+        limit: '1000',
+      })) as unknown as { rows: Tag[] };
       return response.rows;
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -162,6 +171,9 @@ const cartSlicer = createSlice({
     },
     clearColors(state) {
       state.colors = initialState.colors;
+    },
+    clearTags(state) {
+      state.tags = initialState.tags;
     },
     setPage(state, action) {
       state.page = action.payload;
@@ -229,7 +241,12 @@ const cartSlicer = createSlice({
   },
 });
 
-export const { clearSubCategories, clearBrands, clearColors, setPage } =
-  cartSlicer.actions;
+export const {
+  clearSubCategories,
+  clearBrands,
+  clearColors,
+  clearTags,
+  setPage,
+} = cartSlicer.actions;
 
 export default cartSlicer.reducer;

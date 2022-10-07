@@ -2162,6 +2162,12 @@
             "required": false
           },
           {
+            "type": "string",
+            "in": "query",
+            "name": "parent",
+            "required": false
+          },
+          {
             "type": "array",
             "items": {
               "type": "string"
