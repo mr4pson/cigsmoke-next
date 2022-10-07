@@ -5,7 +5,7 @@ const IndexPage = (): JSX.Element => {
   return (
     <>
       <Head>
-        <title>cigsmoke | Admin</title>
+        <title>Wuluxe | Admin</title>
         <meta name="description" content="Test description" />
       </Head>
       Main page

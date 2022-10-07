@@ -15,5 +15,6 @@ export interface PayloadProduct {
   keywords?: string;
   images?: string;
   tags?: string[];
+  sizes?: string[];
   id?: string | undefined;
 }

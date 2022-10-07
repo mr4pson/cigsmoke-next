@@ -27,7 +27,7 @@ const findTotalWheight = (cart: any) => {
   let totalWeight = 0;
   cart?.orderProducts?.map((product: any) =>
     product.product?.parameterProducts?.map((item: any) => {
-      if (item.value?.match(/(?:^|\W)гр(?:$|\W)/)) {
+      if (item?.parameter?.name.match(/(?:^|\W)вес(?:$|\W)/)) {
         totalWeight =
           totalWeight + parseInt(item.value.match(/\d+/g)) * product.qty;
       }

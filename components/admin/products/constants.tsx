@@ -1,12 +1,13 @@
 import { Carousel, Image } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { imageFallback } from 'common/constants';
-import { Product, Tag } from 'swagger/services';
+import { Product, Size, Tag } from 'swagger/services';
 import { handleRedirectBrands } from '../brands/helpers';
 import { handleRedirectCategory } from '../categories/helpers';
 
 import ActionButtons from '../generalComponents/ActionButtons';
 import { handleRedirectTags } from '../tags/helpers';
+import { handleRedirectSizes } from '../sizes/helpers';
 import { handleDeleteProduct, handleRedirectProducts } from './helpers';
 import styles from './products.module.scss';
 import TableLink from './TableLink';
@@ -94,6 +95,7 @@ export const columns: ColumnsType<Product> = [
   {
     title: 'URL',
     dataIndex: 'url',
+    width: '7.5%',
   },
   {
     title: 'Теги',
@@ -107,6 +109,26 @@ export const columns: ColumnsType<Product> = [
                 id={tag!.id as string}
                 name={tag!.name as string}
                 handleRedirect={handleRedirectTags}
+              />
+            </li>
+          ))}
+        </ul>
+      );
+    },
+    width: '7.5%',
+  },
+  {
+    title: 'Размер',
+    dataIndex: 'sizes',
+    render: (_, record) => {
+      return (
+        <ul>
+          {(record?.sizes as Size[]).map((size) => (
+            <li key={size.id}>
+              <TableLink
+                id={size!.id as string}
+                name={size!.name as string}
+                handleRedirect={handleRedirectSizes}
               />
             </li>
           ))}

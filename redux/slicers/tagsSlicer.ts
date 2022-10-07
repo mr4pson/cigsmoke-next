@@ -22,7 +22,7 @@ export const fetchTags = createAsyncThunk<
     try {
       return await TagService.getTags({
         limit: payload?.limit,
-        offset: payload?.offset
+        offset: payload?.offset,
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -30,11 +30,7 @@ export const fetchTags = createAsyncThunk<
   },
 );
 
-export const fetchTag = createAsyncThunk<
-  Tag,
-  string,
-  { rejectValue: string }
->(
+export const fetchTag = createAsyncThunk<Tag, string, { rejectValue: string }>(
   'tags/fetchTag',
   async function (id, { rejectWithValue }): Promise<any> {
     try {
@@ -57,7 +53,7 @@ export const createTag = createAsyncThunk<
         body: {
           name: payload.name,
           url: payload.url,
-        }
+        },
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -70,14 +66,15 @@ export const editTag = createAsyncThunk<
   PayloadTag,
   { rejectValue: string }
 >(
-  'tags/editTags',
+  'tags/editTag',
   async function (payload: PayloadTag, { rejectWithValue }): Promise<any> {
     try {
       return await TagService.updateTag({
-        tagId: payload.id as string, body: {
+        tagId: payload.id as string,
+        body: {
           name: payload.name,
           url: payload.url,
-        }
+        },
       });
     } catch (error: any) {
       return rejectWithValue(getErrorMassage(error.response.status));
@@ -89,16 +86,13 @@ export const deleteTag = createAsyncThunk<
   string,
   string,
   { rejectValue: string }
->(
-  'tags/deleteTag',
-  async function (id, { rejectWithValue }): Promise<any> {
-    try {
-      return await TagService.deleteTag({ tagId: id });
-    } catch (error: any) {
-      return rejectWithValue(getErrorMassage(error.response.status));
-    }
-  },
-);
+>('tags/deleteTag', async function (id, { rejectWithValue }): Promise<any> {
+  try {
+    return await TagService.deleteTag({ tagId: id });
+  } catch (error: any) {
+    return rejectWithValue(getErrorMassage(error.response.status));
+  }
+});
 
 const initialState: TTagState = {
   tags: [],
@@ -122,43 +116,32 @@ const tagsSlicer = createSlice({
     builder
       //fetchTags
       .addCase(fetchTags.pending, handlePending)
-      .addCase(
-        fetchTags.fulfilled,
-        (state, action) => {
-          state.tags = handlePaginationDataFormatter(action);
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
+      .addCase(fetchTags.fulfilled, (state, action) => {
+        state.tags = handlePaginationDataFormatter(action);
+        state.loading = false;
+        console.log('fulfilled');
+      })
       .addCase(fetchTags.rejected, handleError)
       //fetchTag
       .addCase(fetchTag.pending, handlePending)
-      .addCase(
-        fetchTag.fulfilled,
-        (state, action) => {
-          state.tag = action.payload;
-          state.loading = false;
-          console.log('fulfilled');
-        },
-      )
+      .addCase(fetchTag.fulfilled, (state, action) => {
+        state.tag = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
       .addCase(fetchTag.rejected, handleError)
       //createTag
       .addCase(createTag.pending, handleChangePending)
-      .addCase(
-        createTag.fulfilled,
-        (state) => {
-          state.saveLoading = false;
-          openSuccessNotification('Тег успешно создан');
-          console.log('fulfilled');
-        },
-      )
+      .addCase(createTag.fulfilled, (state) => {
+        state.saveLoading = false;
+        openSuccessNotification('Тег успешно создан');
+        console.log('fulfilled');
+      })
       .addCase(createTag.rejected, handleChangeError)
       //editTag
       .addCase(editTag.pending, handleChangePending)
       .addCase(editTag.fulfilled, (state, action) => {
-        let tag = state.tags.find(
-          (tag) => tag.id === action.payload.id,
-        );
+        let tag = state.tags.find((tag) => tag.id === action.payload.id);
         tag = {
           ...tag,
           ...action.payload,
@@ -171,9 +154,7 @@ const tagsSlicer = createSlice({
       //deleteTag
       .addCase(deleteTag.pending, handleChangePending)
       .addCase(deleteTag.fulfilled, (state, action) => {
-        state.tags = state.tags.filter(
-          (item) => item.id !== action.payload,
-        );
+        state.tags = state.tags.filter((item) => item.id !== action.payload);
         state.saveLoading = false;
         openSuccessNotification('Тег успешно удален');
         console.log('fulfilled');

@@ -42,6 +42,7 @@ const CatalogPage = () => {
     brands,
     colors,
     tags,
+    sizes,
     priceRange,
     loading,
     page,
@@ -127,6 +128,7 @@ const CatalogPage = () => {
             colors={colors}
             priceRange={priceRange}
             tags={tags}
+            sizes={sizes}
           />
           <Content>
             <CategoryTitle

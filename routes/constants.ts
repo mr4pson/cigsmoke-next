@@ -1,4 +1,4 @@
-import { PathWords } from "components/admin/adminLayout/types";
+import { PathWords } from 'components/admin/adminLayout/types';
 
 export enum Page {
   HOME,
@@ -19,6 +19,9 @@ export enum Page {
   ADMIN_TAGS,
   ADMIN_CREATE_TAG,
   ADMIN_EDIT_TAG,
+  ADMIN_SIZES,
+  ADMIN_CREATE_SIZE,
+  ADMIN_EDIT_SIZE,
   ADMIN_REVIEWS,
   ADMIN_CHECKOUTS,
   ADMIN_ANALYTICS_CATEGORIES,
@@ -31,8 +34,8 @@ export enum Page {
 }
 
 export const paths = {
-  [Page.HOME]: "/",
-  [Page.ADMIN_LOGIN]: "/admin/login",
+  [Page.HOME]: '/',
+  [Page.ADMIN_LOGIN]: '/admin/login',
   [Page.ADMIN_CATEGORIES]: '/admin/categories',
   [Page.ADMIN_CREATE_CATEGORY]: '/admin/categories/create-category',
   [Page.ADMIN_EDIT_CATEGORY]: '/admin/categories/[id]',
@@ -49,6 +52,9 @@ export const paths = {
   [Page.ADMIN_TAGS]: '/admin/tags',
   [Page.ADMIN_CREATE_TAG]: '/admin/tags/create-tag',
   [Page.ADMIN_EDIT_TAG]: '/admin/tags/[id]',
+  [Page.ADMIN_SIZES]: '/admin/sizes',
+  [Page.ADMIN_CREATE_SIZE]: '/admin/sizes/create-size',
+  [Page.ADMIN_EDIT_SIZE]: '/admin/sizes/[id]',
   [Page.ADMIN_REVIEWS]: '/admin/reviews',
   [Page.ADMIN_CHECKOUTS]: '/admin/checkouts',
   [Page.ADMIN_ANALYTICS_CATEGORIES]: '/admin/analytics/categories',

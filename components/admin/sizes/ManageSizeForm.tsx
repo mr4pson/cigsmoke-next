@@ -4,10 +4,10 @@ import { navigateTo } from 'common/helpers/navigateTo.helper';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from 'redux/hooks';
 import { Page } from 'routes/constants';
-import { Tag } from 'swagger/services';
-import styles from './tags.module.scss';
+import { Size } from 'swagger/services';
+import styles from './sizes.module.scss';
 import { handleFormSubmit } from './helpers';
-import { ManageTagFields } from './ManageTagFields.enum';
+import { ManageSizeFields } from './ManageSizeFields.enum';
 import FormItem from '../generalComponents/FormItem';
 import { useEffect, useState } from 'react';
 import { handleFalsyValuesCheck } from '../../../common/helpers/handleFalsyValuesCheck.helper';
@@ -15,16 +15,16 @@ import { handleFalsyValuesCheck } from '../../../common/helpers/handleFalsyValue
 const { Option } = Select;
 
 type Props = {
-  tag?: Tag;
+  size?: Size;
   title: string;
   isLoading: boolean;
   isSaveLoading: boolean;
   editMode: boolean;
 };
 
-const ManageTagForm = ({
+const ManageSizeForm = ({
   title,
-  tag,
+  size,
   isLoading,
   isSaveLoading,
   editMode,
@@ -33,28 +33,28 @@ const ManageTagForm = ({
   const [url, setUrl] = useState<string>();
 
   useEffect(() => {
-    if (tag) {
-      setName(tag?.name);
-      setUrl(tag?.url);
+    if (size) {
+      setName(size?.name);
+      setUrl(size?.url);
     }
-  }, [tag]);
+  }, [size]);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [form] = Form.useForm();
   const initialValues = {
-    name: tag?.name,
-    url: tag?.url,
+    name: size?.name,
+    url: size?.url,
   };
 
   const isDisabled: boolean = handleFalsyValuesCheck(name, url);
 
   return (
     <>
-      <div className={styles.createTagHeader}>
-        <h1 className={styles.createTagHeader__title}>{title}</h1>
+      <div className={styles.createSizeHeader}>
+        <h1 className={styles.createSizeHeader__title}>{title}</h1>
       </div>
-      {(isLoading || !tag) && editMode ? (
+      {(isLoading || !size) && editMode ? (
         <Spin className={styles.spinner} size="large" />
       ) : (
         <Form
@@ -63,41 +63,41 @@ const ManageTagForm = ({
           form={form}
           initialValues={initialValues}
           requiredMark={true}
-          className={styles.createTagForm}
+          className={styles.createSizeForm}
         >
           <FormItem
-            option={ManageTagFields.Name}
+            option={ManageSizeFields.Name}
             children={
               <Input
                 required={true}
-                placeholder="Введите имя тега"
+                placeholder="Введите имя Размер"
                 onChange={(e) => setName(e.target.value)}
               />
             }
           />
           <FormItem
-            option={ManageTagFields.Url}
+            option={ManageSizeFields.Url}
             children={
               <Input
                 required={true}
-                placeholder="Введите URL тега"
+                placeholder="Введите URL Размер"
                 onChange={(e) => setUrl(e.target.value)}
               />
             }
           />
-          <Form.Item className={styles.createTagForm__buttonsStack}>
+          <Form.Item className={styles.createSizeForm__buttonsStack}>
             <Button
               type="primary"
               htmlType="submit"
-              className={styles.createTagForm__buttonsStack__submitButton}
+              className={styles.createSizeForm__buttonsStack__submitButton}
               loading={isSaveLoading}
               disabled={isDisabled}
             >
-              {tag ? 'Сохранить' : 'Создать'}
+              {size ? 'Сохранить' : 'Создать'}
             </Button>
             <Button
               type="primary"
-              onClick={navigateTo(router, Page.ADMIN_TAGS)}
+              onClick={navigateTo(router, Page.ADMIN_SIZES)}
             >
               Вернуться назад
             </Button>
@@ -108,4 +108,4 @@ const ManageTagForm = ({
   );
 };
 
-export default ManageTagForm;
+export default ManageSizeForm;
