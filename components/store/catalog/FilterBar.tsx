@@ -232,7 +232,7 @@ const ShowBtn = styled.button`
   }
 
   @media ${devices.mobileL} {
-    display: block;
+    display: flex;
   }
 `;
 
@@ -242,7 +242,11 @@ const CloseBtn = styled.button`
   right: 20px;
   top: 20px;
   cursor: pointer;
-
+  width: 40px;
+  height: 40px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   @media ${devices.mobileL} {
     display: block;
   }
