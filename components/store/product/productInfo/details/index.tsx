@@ -29,6 +29,8 @@ import { updateCart } from 'redux/slicers/store/cartSlicer';
 import { devices } from 'components/store/lib/Devices';
 import { TCartState } from 'redux/types';
 import { TProductInfoState } from 'redux/types';
+import SizePicker from './SizePicker';
+import Arrow from '../../../../../assets/arrow.svg';
 type Props = {
   images: string[];
   product?: Product;
@@ -87,11 +89,12 @@ const Details: React.FC<Props> = ({
 
     setCurVariant(curVariant);
   }, [variant, product]);
+  const [selectedSize, setSelectedSize] = useState(0);
+  const [sizeIsOpen, setOpen] = useState(false);
 
-  //   const { product } = useAppSelector<TProductInfoState>(
-  //   (state) => state.productInfo,
-  // );
-
+  const handleSizePickerBtn = (setOpen) => {
+    setOpen(!sizeIsOpen);
+  };
   return (
     <DetailsContainer>
       <ShareToSocial
@@ -173,7 +176,42 @@ const Details: React.FC<Props> = ({
           setSelectedIndex={setSelectedIndex}
           paginateImage={paginateImage}
         />
+        {product?.sizes?.length == 0 ? (
+          ''
+        ) : (
+          <SizePickerWrapper>
+            <div className="info-size-wrapper">
+              <span className="title">Выберите размер:</span>
+            </div>
+            <SizeBtn
+              whileHover="hover"
+              whileTap="tap"
+              variants={variants.boxShadow}
+              onClick={() => handleSizePickerBtn(setOpen)}
+            >
+              <span className="size-value">
+                {product?.sizes ? product?.sizes[selectedSize].name : ''}
+              </span>
+              <motion.span
+                animate={sizeIsOpen ? 'open' : 'close'}
+                variants={variants.rotate}
+                className="size-icon"
+              >
+                <Arrow />
+              </motion.span>
+            </SizeBtn>
+            <SizeItemsParent>
+              <SizePicker
+                sizeIsOpen={sizeIsOpen}
+                sizes={product?.sizes}
+                setSelectedSize={setSelectedSize}
+                setOpen={setOpen}
+              />
+            </SizeItemsParent>
+          </SizePickerWrapper>
+        )}
       </UserSelectWrapper>
+
       <ActionBtns
         orderProduct={orderProduct}
         isInCart={checkIfItemInCart(product, cart)}
@@ -252,6 +290,55 @@ const PriceItem = styled.span`
     text-decoration-color: ${color.hover};
     color: ${color.textSecondary};
   }
+`;
+
+const SizePickerWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px 0;
+  .info-size-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .title {
+      color: ${color.textSecondary};
+    }
+  }
+`;
+
+const SizeBtn = styled(motion.button)`
+  width: 100%;
+  height: 50px;
+  border: 1px solid ${color.btnPrimary};
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: ${color.textPrimary};
+  padding: 0 25px;
+  user-select: none;
+  .size-value {
+    overflow-x: hidden;
+    font-family: 'intro';
+  }
+  .size-icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const SizeItemsParent = styled.div`
+  width: 100%;
+  position: relative;
 `;
 
 export default Details;

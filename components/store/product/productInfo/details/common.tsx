@@ -11,7 +11,6 @@ const UserSelectWrapper = styled.div`
   gap: 20px;
   border-radius: 15px;
   padding: 15px;
-  overflow: hidden;
   background-color: ${color.textPrimary};
   box-shadow: 0px 2px 6px ${color.boxShadowBtn};
   margin-top: ${(P: styleProps) => P.margintop};

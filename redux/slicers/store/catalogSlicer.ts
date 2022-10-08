@@ -13,6 +13,8 @@ import {
   ProductService,
   Tag,
   TagService,
+  Size,
+  SizeService,
 } from 'swagger/services';
 
 export const fetchParentCategories = createAsyncThunk<
@@ -142,12 +144,32 @@ export const fetchTags = createAsyncThunk<
   },
 );
 
+export const fetchSizes = createAsyncThunk<
+  Size[],
+  { category?: string; parent?: string },
+  { rejectValue: string }
+>(
+  'catalog/fetchSizes',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      const response = (await SizeService.getSizes({
+        ...payload,
+        limit: '1000',
+      })) as unknown as { rows: Size[] };
+      return response.rows;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMassage(error.response.status));
+    }
+  },
+);
+
 const initialState: TCatalogState = {
   categories: [],
   subCategories: [],
   brands: [],
   colors: [],
   tags: [],
+  sizes: [],
   priceRange: {
     minPrice: 0,
     maxPrice: 0,
@@ -174,6 +196,9 @@ const cartSlicer = createSlice({
     },
     clearTags(state) {
       state.tags = initialState.tags;
+    },
+    clearSizes(state) {
+      state.sizes = initialState.sizes;
     },
     setPage(state, action) {
       state.page = action.payload;
@@ -237,7 +262,15 @@ const cartSlicer = createSlice({
         state.loading = false;
         console.log('fulfilled');
       })
-      .addCase(fetchTags.rejected, handleError);
+      .addCase(fetchTags.rejected, handleError)
+      //fetchSizes
+      .addCase(fetchSizes.pending, handlePending)
+      .addCase(fetchSizes.fulfilled, (state, action) => {
+        state.sizes = action.payload;
+        state.loading = false;
+        console.log('fulfilled');
+      })
+      .addCase(fetchSizes.rejected, handleError);
   },
 });
 
@@ -246,6 +279,7 @@ export const {
   clearBrands,
   clearColors,
   clearTags,
+  clearSizes,
   setPage,
 } = cartSlicer.actions;
 

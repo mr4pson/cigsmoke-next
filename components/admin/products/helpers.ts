@@ -16,13 +16,16 @@ import cloneDeep from 'lodash/cloneDeep';
 import { ManageProductFields } from './ManageProductsFields.enum';
 
 const handleDeleteProduct =
-  (id: string, dispatch: AppDispatch, setVisible: any, offset: number) => async () => {
+  (id: string, dispatch: AppDispatch, setVisible: any, offset: number) =>
+  async () => {
     const isSaved: any = await dispatch(deleteProduct(id));
     if (!isSaved.error) {
-      dispatch(fetchProducts({
-        offset: String(offset),
-        limit: '20'
-      }));
+      dispatch(
+        fetchProducts({
+          offset: String(offset),
+          limit: '20',
+        }),
+      );
       setVisible((prev) => !prev);
     }
   };
@@ -47,7 +50,8 @@ const handleDataConvertation = (
     const id: string = form[`id[${index}]`];
     const price: number = form[`${ManageProductFields.Price}[${index}]`];
     const oldPrice: number = form[`${ManageProductFields.OldPrice}[${index}]`];
-    const available: boolean = form[`${ManageProductFields.Available}[${index}]`];
+    const available: boolean =
+      form[`${ManageProductFields.Available}[${index}]`];
     const color: number = form[`${ManageProductFields.Color}[${index}]`];
     const payload = {
       id,
@@ -55,7 +59,7 @@ const handleDataConvertation = (
       oldPrice,
       available,
       color,
-      images: null
+      images: null,
     };
     const images = imagesMap[index];
 
@@ -83,35 +87,35 @@ const handleFormSubmitProduct =
     parameterProducts: ParameterProduct[],
     variantsLength: number,
   ) =>
-    async (form) => {
-      const convertedForm = handleDataConvertation(
-        form,
-        imagesMap,
-        parameterProducts,
-        variantsLength,
+  async (form) => {
+    const convertedForm = handleDataConvertation(
+      form,
+      imagesMap,
+      parameterProducts,
+      variantsLength,
+    );
+
+    if (router.query.id) {
+      const isSaved: any = await dispatch(
+        editProduct({
+          ...convertedForm,
+          id: router.query.id,
+        }),
       );
-
-      if (router.query.id) {
-        const isSaved: any = await dispatch(
-          editProduct({
-            ...convertedForm,
-            id: router.query.id,
-          }),
-        );
-
-        if (!isSaved.error) {
-          navigateTo(router, Page.ADMIN_PRODUCTS)();
-        }
-
-        return;
-      }
-
-      const isSaved: any = await dispatch(createProduct(convertedForm));
 
       if (!isSaved.error) {
         navigateTo(router, Page.ADMIN_PRODUCTS)();
       }
-    };
+
+      return;
+    }
+
+    const isSaved: any = await dispatch(createProduct(convertedForm));
+
+    if (!isSaved.error) {
+      navigateTo(router, Page.ADMIN_PRODUCTS)();
+    }
+  };
 
 const handleRedirectProducts = (id: string, router: NextRouter) => () => {
   router.push(`${paths[Page.ADMIN_PRODUCTS]}/${id}`);
@@ -153,6 +157,7 @@ const initialValuesConverter = (product: Product) => {
 
   // newProduct.colors = multipleItemsConverter(newProduct.colors);
   newProduct.tags = multipleItemsConverter(newProduct.tags);
+  newProduct.sizes = multipleItemsConverter(newProduct.sizes);
 
   // newProduct.images = imagesConverter(newProduct.images);
   for (let index = 0; index < product?.productVariants?.length!; index++) {
@@ -160,7 +165,8 @@ const initialValuesConverter = (product: Product) => {
     newProduct[`id[${index}]`] = variant.id;
     newProduct[`${ManageProductFields.Price}[${index}]`] = variant.price;
     newProduct[`${ManageProductFields.OldPrice}[${index}]`] = variant.oldPrice;
-    newProduct[`${ManageProductFields.Available}[${index}]`] = variant.available;
+    newProduct[`${ManageProductFields.Available}[${index}]`] =
+      variant.available;
     newProduct[`${ManageProductFields.Color}[${index}]`] = variant.color?.id;
     newProduct[index] = imagesConverter(variant.images);
   }
@@ -173,15 +179,15 @@ const handleParameterChange =
     index: number,
     setParameterProducts: Dispatch<SetStateAction<ParameterProduct[]>>,
   ) =>
-    (e) => {
-      setParameterProducts((prev) => {
-        const parameterProducts = cloneDeep(prev);
+  (e) => {
+    setParameterProducts((prev) => {
+      const parameterProducts = cloneDeep(prev);
 
-        parameterProducts[index].value = e.target.value;
+      parameterProducts[index].value = e.target.value;
 
-        return parameterProducts;
-      });
-    };
+      return parameterProducts;
+    });
+  };
 
 const handleCategoryChange =
   (
@@ -189,16 +195,16 @@ const handleCategoryChange =
     setCurCategory: Dispatch<SetStateAction<Category | undefined>>,
     setParameterProducts: Dispatch<SetStateAction<ParameterProduct[]>>,
   ) =>
-    (id: string) => {
-      const category = categories.find((category) => category.id === id)!;
-      setCurCategory(category);
-      setParameterProducts(
-        category?.parameters?.map((parameter) => ({
-          parameter: parameter,
-          value: '',
-        }))!,
-      );
-    };
+  (id: string) => {
+    const category = categories.find((category) => category.id === id)!;
+    setCurCategory(category);
+    setParameterProducts(
+      category?.parameters?.map((parameter) => ({
+        parameter: parameter,
+        value: '',
+      }))!,
+    );
+  };
 
 export {
   handleDeleteProduct,

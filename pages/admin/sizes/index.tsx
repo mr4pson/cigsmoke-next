@@ -4,87 +4,56 @@ import { AppContext } from 'common/context/AppContext';
 import { navigateTo } from 'common/helpers';
 import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
-import { columns } from 'components/admin/products/constants';
+// import { columns } from 'components/admin/tags/constants';
+import { columns } from 'components/admin/sizes/constants';
+import { handleTableChange } from 'components/admin/tags/helpers';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Page } from 'routes/constants';
 
-import {
-  clearProducts,
-  fetchProducts,
-} from '../../../redux/slicers/productsSlicer';
+import { clearSizes, fetchSizes } from 'redux/slicers/sizesSlicer';
 import styles from './index.module.scss';
 
-const ProductsPage = () => {
+const SizesPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { offset, setOffset } = useContext(AppContext);
 
   const dispatch = useAppDispatch();
-  const products = useAppSelector((state) => state.products.products);
-  const isLoading = useAppSelector((state) => state.products.loading);
+  const sizes = useAppSelector((state) => state.sizes.sizes);
+  const isLoading = useAppSelector((state) => state.sizes.loading);
   const router = useRouter();
-
-  const dataSource = products?.map(
-    ({
-      id,
-      name,
-      price,
-      oldPrice,
-      desc,
-      available,
-      colors,
-      category,
-      images,
-      brand,
-      tags,
-      sizes,
-      url,
-      productVariants,
-      ...rest
-    }) => ({
-      key: id,
-      id,
-      name,
-      oldPrice,
-      price,
-      desc,
-      available: available ? 'Да' : 'Нет',
-      colors,
-      category,
-      images: (images as string)?.split(','),
-      brand,
-      tags,
-      sizes,
-      url,
-      productVariants,
-    }),
-  ) as unknown as DataType[];
+  const dataSource = sizes?.map(({ id, name, url }) => ({
+    key: id,
+    id,
+    name,
+    url,
+  })) as unknown as DataType[];
 
   useEffect(() => {
     dispatch(
-      fetchProducts({
+      fetchSizes({
         offset: String(offset),
         limit: '20',
       }),
     );
 
     return () => {
-      dispatch(clearProducts());
+      dispatch(clearSizes());
       setOffset(0);
     };
   }, []);
 
   return (
     <>
-      <div className={styles.productsHeader}>
-        <h1 className={styles.productsHeader__title}>Продукты</h1>
+      <div className={styles.sizesHeader}>
+        <h1 className={styles.sizesHeader__title}>Размер</h1>
         <Button
-          className={styles.productsHeader__createProductButton}
+          className={styles.sizesHeader__createSizeButton}
           type="primary"
-          onClick={navigateTo(router, Page.ADMIN_CREATE_PRODUCT)}
+          onClick={navigateTo(router, Page.ADMIN_CREATE_SIZE)}
         >
-          Создать новый продукт
+          Создать новый Размер
         </Button>
       </div>
       {isLoading ? (
@@ -107,7 +76,7 @@ const ProductsPage = () => {
             const newOffset = ((event.current as number) - 1) * 20;
             setOffset(newOffset);
             dispatch(
-              fetchProducts({
+              fetchSizes({
                 offset: String(newOffset),
                 limit: '20',
               }),
@@ -120,6 +89,6 @@ const ProductsPage = () => {
   );
 };
 
-ProductsPage.PageLayout = AdminLayout;
+SizesPage.PageLayout = AdminLayout;
 
-export default ProductsPage;
+export default SizesPage;

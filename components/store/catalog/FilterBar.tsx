@@ -13,7 +13,14 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import variants from '../lib/variants';
-import { Brand, Category, Color, PriceRange, Tag } from 'swagger/services';
+import {
+  Brand,
+  Category,
+  Color,
+  PriceRange,
+  Size,
+  Tag,
+} from 'swagger/services';
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
@@ -26,6 +33,7 @@ type Props = {
   brands: Brand[];
   colors: Color[];
   tags: Tag[];
+  sizes: Size[];
   priceRange: PriceRange;
 };
 
@@ -35,6 +43,7 @@ const FilterBar: React.FC<Props> = ({
   brands,
   colors,
   tags,
+  sizes,
   priceRange,
 }) => {
   const router = useRouter();
@@ -48,6 +57,7 @@ const FilterBar: React.FC<Props> = ({
       priceRange,
       filters,
       tags,
+      sizes,
     }),
   );
   const [expanded, setExpanded] = useState(false);
@@ -76,6 +86,7 @@ const FilterBar: React.FC<Props> = ({
         priceRange,
         filters,
         tags,
+        sizes,
       }),
     );
   }, [categories, subCategories, brands, colors, priceRange, tags]);

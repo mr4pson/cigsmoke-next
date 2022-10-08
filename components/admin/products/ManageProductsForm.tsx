@@ -18,6 +18,7 @@ import {
   Image,
   ParameterProduct,
   Product,
+  Size,
   Tag,
 } from 'swagger/services';
 
@@ -44,6 +45,7 @@ type Props = {
   isSaveLoading: boolean;
   editMode: boolean;
   tags: Tag[];
+  sizes: Size[];
   colors: Color[];
   categories: Category[];
   brands: Brand[];
@@ -57,6 +59,7 @@ const ManageProductForm = ({
   isSaveLoading,
   editMode,
   tags,
+  sizes,
   colors,
   categories,
   brands,
@@ -213,6 +216,19 @@ const ManageProductForm = ({
               placeholder={`Пожалуйста, выберите теги`}
             >
               {tags?.map((item) => (
+                <Option key={item.id} value={item.id}>{`${item.name}`}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          {/* ----------------------SIZES---------------------- */}
+          <Form.Item label="Размер" name="sizes">
+            <Select
+              mode="multiple"
+              allowClear
+              style={{ width: '100%' }}
+              placeholder={`Пожалуйста, выберите Размер`}
+            >
+              {sizes?.map((item) => (
                 <Option key={item.id} value={item.id}>{`${item.name}`}</Option>
               ))}
             </Select>

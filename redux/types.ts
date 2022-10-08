@@ -1,4 +1,10 @@
-import { AnalyticsBrand, AnalyticsCategory, AnalyticsProduct, AnalyticsUser, DynamicData } from 'common/interfaces/data-analytics.interfaces';
+import {
+  AnalyticsBrand,
+  AnalyticsCategory,
+  AnalyticsProduct,
+  AnalyticsUser,
+  DynamicData,
+} from 'common/interfaces/data-analytics.interfaces';
 import {
   Advertisement,
   Basket,
@@ -14,6 +20,7 @@ import {
   Review,
   Slide,
   Tag,
+  Size,
   User,
   Wishlist,
 } from 'swagger/services';
@@ -53,8 +60,8 @@ type TProductState = {
 };
 
 interface SlideImage {
-  name?: string,
-  uid?: number
+  name?: string;
+  uid?: number;
 }
 
 type TImageState = {
@@ -77,6 +84,13 @@ interface PayloadCreateImage {
 interface TTagState {
   tags: Tag[];
   tag: Tag | null;
+  loading: boolean;
+  saveLoading: boolean;
+}
+
+interface TSizeState {
+  sizes: Size[];
+  size: Size | null;
   loading: boolean;
   saveLoading: boolean;
 }
@@ -116,6 +130,7 @@ type TFilters = {
   parent?: string | undefined;
   brands?: string[];
   tags?: string[];
+  sizes?: string[];
 };
 
 type TCatalogState = {
@@ -124,6 +139,7 @@ type TCatalogState = {
   brands: Brand[];
   colors: Color[];
   tags: Tag[];
+  sizes: Size[];
   priceRange: PriceRange;
   products: Product[];
   productsLength: number;
@@ -139,15 +155,15 @@ type TCheckoutState = {
 };
 
 type TAnalyticsState = {
-  analyticsData: DynamicData[] |
-  AnalyticsCategory[] |
-  AnalyticsBrand[] |
-  AnalyticsProduct[] |
-  AnalyticsUser[] |
-  User[],
-  loading: boolean,
-}
-
+  analyticsData:
+    | DynamicData[]
+    | AnalyticsCategory[]
+    | AnalyticsBrand[]
+    | AnalyticsProduct[]
+    | AnalyticsUser[]
+    | User[];
+  loading: boolean;
+};
 
 type TProductInfoState = {
   product?: Product;
@@ -158,21 +174,29 @@ type TProductInfoState = {
 };
 
 type TBannerState = {
-  advertisement: Advertisement[],
-  slides: Slide[],
-  loading: boolean,
-  saveLoading: boolean
-}
+  advertisement: Advertisement[];
+  slides: Slide[];
+  loading: boolean;
+  saveLoading: boolean;
+};
 
 interface FetchPayload {
   limit: string;
   offset: string;
-  available?: boolean
+  available?: boolean;
 }
 
 interface RequestResponse {
-  data: Category[] | Brand[] | Checkout[] | Color[] | Product[] | Review[] | Tag[] | User[]
-  length: number
+  data:
+    | Category[]
+    | Brand[]
+    | Checkout[]
+    | Color[]
+    | Product[]
+    | Review[]
+    | Tag[]
+    | User[];
+  length: number;
 }
 
 interface Banner {
@@ -236,6 +260,7 @@ export type {
   TImageState,
   PayloadCreateImage,
   TTagState,
+  TSizeState,
   TReviewState,
   TGlobalState,
   TCartState,

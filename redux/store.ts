@@ -14,6 +14,7 @@ import productsReducer from './slicers/productsSlicer';
 import imagesReducer from './slicers/imagesSlicer';
 import multipleImagesSlicer from './slicers/mutipleImagesSlicer';
 import tagsReducer from './slicers/tagsSlicer';
+import sizesReducer from './slicers/sizesSlicer';
 import reviewsReducer from './slicers/reviewsSlicer';
 import globalSlicer from './slicers/store/globalSlicer';
 import checkoutsReducer from './slicers/checkoutsSlicer';
@@ -36,6 +37,7 @@ const combinedReducer = combineReducers({
   images: imagesReducer,
   multipleImages: multipleImagesSlicer,
   tags: tagsReducer,
+  sizes: sizesReducer,
   reviews: reviewsReducer,
   checkouts: checkoutsReducer,
   analytics: analyticsReducer,

@@ -2,12 +2,14 @@ import { getQueryParams } from 'common/helpers/manageQueryParams.helper';
 import {
   clearBrands,
   clearColors,
+  clearSizes,
   clearSubCategories,
   clearTags,
   fetchBrands,
   fetchColors,
   fetchPriceRange,
   fetchProducts,
+  fetchSizes,
   fetchSubCategories,
   fetchTags,
   setPage,
@@ -21,7 +23,7 @@ const PAGE_ITEMS_LIMIT = 12;
 const convertQueryParams = (query: {
   [k: string]: string | string[] | undefined;
 }) => {
-  const { categories, subCategories, brands, colors, tags } = query;
+  const { categories, subCategories, brands, colors, tags, sizes } = query;
   const categoriesArray = categories
     ? Array.isArray(categories)
       ? categories
@@ -43,6 +45,11 @@ const convertQueryParams = (query: {
       : [colors]
     : undefined;
   const tagsArray = tags ? (Array.isArray(tags) ? tags : [tags]) : undefined;
+  const sizesArray = sizes
+    ? Array.isArray(sizes)
+      ? sizes
+      : [sizes]
+    : undefined;
 
   return {
     categories: categoriesArray,
@@ -50,6 +57,7 @@ const convertQueryParams = (query: {
     brands: brandsArray,
     colors: colorsArray,
     tags: tagsArray,
+    sizes: sizesArray,
   };
 };
 
@@ -61,6 +69,7 @@ const getFiltersConfig = ({
   priceRange,
   filters,
   tags,
+  sizes,
 }: TFiltersConfig) => {
   return {
     sectionOptions: categories.map(({ id, name, url }) => ({
@@ -96,6 +105,12 @@ const getFiltersConfig = ({
       url,
       checked: !!filters.tags?.find((tagUrl) => tagUrl === url),
     })) as FilterOption[],
+    sizeOptions: sizes.map(({ id, name, url }) => ({
+      id,
+      name,
+      url,
+      checked: !!filters.sizes?.find((sizeUrl) => sizeUrl === url),
+    })) as FilterOption[],
     minPrice: priceRange.minPrice!,
     maxPrice: priceRange.maxPrice!,
   };
@@ -115,12 +130,13 @@ const setPriceRange = (dispatch: AppDispatch) => {
 const onLocationChange = (dispatch: AppDispatch) => async () => {
   const queryParams = getQueryParams(window.location.search);
   const { minPrice, maxPrice, name, page } = queryParams;
-  const { categories, subCategories, brands, colors, tags } =
+  const { categories, subCategories, brands, colors, tags, sizes } =
     convertQueryParams(queryParams);
   const payload = {
     brands,
     colors,
     tags,
+    sizes,
     name,
     parent: categories ? categories[0] : undefined,
     categories: subCategories,
@@ -149,11 +165,13 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
       await dispatch(fetchBrands({ parent: category }));
       await dispatch(fetchColors({ parent: category }));
       await dispatch(fetchTags({ parent: category }));
+      await dispatch(fetchSizes({ parent: category }));
     } else {
       await dispatch(clearSubCategories());
       await dispatch(clearBrands());
       await dispatch(clearColors());
       await dispatch(clearTags());
+      await dispatch(clearSizes());
     }
     setPriceRange(dispatch);
   }

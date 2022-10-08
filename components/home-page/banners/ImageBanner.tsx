@@ -143,7 +143,7 @@ const Slider = styled(motion.img)`
   position: absolute;
   left: 0;
   top: 0;
-
+  object-fit: cover;
   @media ${devices.mobileL} {
     height: auto;
   }

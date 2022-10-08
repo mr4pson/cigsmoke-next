@@ -34,12 +34,22 @@ const UserDetails = (props: any) => {
   };
 
   const userChoice: any = localStorage.getItem('userChoice');
+  const selectedSize: any = localStorage.getItem('selectedSize');
   useEffect(() => {
-    if (userChoice)
-      setComment(`${comment} ${isOpen ? '' : JSON.parse(userChoice)}`);
+    if (userChoice || (selectedSize && isOpen === false))
+      setComment(
+        `${comment} ${isOpen ? '' : JSON.parse(userChoice)} ${JSON.parse(
+          selectedSize,
+        )}`,
+      );
   }, [isOpen]);
   useEffect(() => {
-    if (userChoice) setComment(`${comment} цвет:${JSON.parse(userChoice)}`);
+    if (userChoice || selectedSize)
+      setComment(
+        `${comment} цвет:${JSON.parse(userChoice)} Размер:${JSON.parse(
+          selectedSize,
+        )}`,
+      );
   }, []);
 
   return (

@@ -43,7 +43,7 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
             setCollapsed(!collapsed);
           }}
         >
-          <div className={styles['logo']}>{collapsed ? 'Cig' : 'Cigsmoke'}</div>
+          <div className={styles['logo']}>{collapsed ? 'Wu' : 'Wuluxe'}</div>
           <Menu
             onSelect={handleSelect(router)}
             theme="dark"

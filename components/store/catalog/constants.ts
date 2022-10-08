@@ -16,6 +16,7 @@ const getFilters = ({
   brandOptions,
   colorOptions,
   tagOptions,
+  sizeOptions,
   minPrice,
   maxPrice,
 }: {
@@ -24,6 +25,7 @@ const getFilters = ({
   brandOptions: FilterOption[];
   colorOptions: FilterOption[];
   tagOptions: FilterOption[];
+  sizeOptions: FilterOption[];
   minPrice: number;
   maxPrice: number;
 }): Filter[] => {
@@ -40,7 +42,6 @@ const getFilters = ({
           { name: 'subCategories', value: [] },
           { name: 'brands', value: [] },
           { name: 'colors', value: [] },
-          // { name: 'tags', value: [] },
           { name: 'minPrice', value: null },
           { name: 'maxPrice', value: null },
           { name: 'page', value: 1 },
@@ -58,7 +59,6 @@ const getFilters = ({
           { name: 'subCategories', value: subCategories },
           { name: 'brands', value: [] },
           { name: 'colors', value: [] },
-          // { name: 'tags', value: [] },
           { name: 'minPrice', value: null },
           { name: 'maxPrice', value: null },
           { name: 'page', value: 1 },
@@ -100,6 +100,19 @@ const getFilters = ({
 
         pushQueryParams([
           { name: 'tags', value: tags },
+          { name: 'page', value: 1 },
+        ]);
+      },
+    },
+    {
+      title: 'Размеры',
+      options: cloneDeep(sizeOptions),
+      type: FilterType.MULTIPLE_SELECTION,
+      onChange: (selectedOptions: FilterOption[] | undefined) => {
+        const sizes = selectedOptions?.map((option) => option.url);
+
+        pushQueryParams([
+          { name: 'sizes', value: sizes },
           { name: 'page', value: 1 },
         ]);
       },
