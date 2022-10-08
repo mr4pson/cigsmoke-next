@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react';
 import { axiosInstance } from 'common/axios.instance';
 import Delete from '../../../assets/delete.svg';
 import CloseSVG from '../../../assets/close_black.svg';
-const DatabaseImages = ({ setOpen }) => {
+import { useAppDispatch } from 'redux/hooks';
+import { setDefaultImageList } from 'redux/slicers/mutipleImagesSlicer';
+
+const DatabaseImages = ({ setOpen, index }) => {
+  const dispatch = useAppDispatch();
   const [images, setImages] = useState([]);
   const [onView, setOnView] = useState([]);
   const [isLoaded, setLoaded] = useState(false);
@@ -39,6 +43,16 @@ const DatabaseImages = ({ setOpen }) => {
     setSelectedIndex(end);
     setLoaded(true);
   };
+  const handleClick = (item) => () => {
+    console.log(item);
+    dispatch(
+      setDefaultImageList({
+        file: { name: item.filename, url: `/api/images/${item.filename}` },
+        index,
+      }),
+    );
+    setOpen(false);
+  };
   return (
     <Contaienr>
       <Wrapper>
@@ -53,6 +67,7 @@ const DatabaseImages = ({ setOpen }) => {
                     <img
                       src={`/api/images/${item.filename}`}
                       alt={item.filename}
+                      onClick={handleClick(item)}
                     />
                     <div className="title-wrapper">
                       <span>{item.filename}</span>
