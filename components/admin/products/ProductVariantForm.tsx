@@ -99,7 +99,7 @@ const ProductVariant: React.FC<Props> = ({
             Выбрать из базы данных
           </Button>
         </ButtonDevider>
-        {isOpen ? <DatabaseImages setOpen={setOpen} /> : ''}
+        {isOpen ? <DatabaseImages setOpen={setOpen} index={index} /> : ''}
       </Form.Item>
     </div>
   );
