@@ -89,7 +89,7 @@ const FilterBar: React.FC<Props> = ({
         sizes,
       }),
     );
-  }, [categories, subCategories, brands, colors, priceRange, tags]);
+  }, [categories, subCategories, brands, colors, priceRange, tags, sizes]);
 
   useEffect(() => {
     setLocalFilters(getFilters(filtersConfig));

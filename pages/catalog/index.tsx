@@ -23,7 +23,7 @@ import {
 } from 'redux/slicers/store/catalogSlicer';
 import { TCatalogState } from 'redux/types';
 import styled from 'styled-components';
-import { Category } from 'swagger/services';
+import { Category, Size } from 'swagger/services';
 import ProductGrid from 'ui-kit/products/productGrid';
 import SEOstatic from 'components/store/SEO/SEOstatic';
 
@@ -93,6 +93,12 @@ const CatalogPage = () => {
   });
 
   const randomProduct = Math.floor(Math.random() * products?.length);
+  const filteredSizes: any = sizes.filter((size) => {
+    if (size.url?.match(/(?:^|\W)not-in-stock(?:$|\W)/)) {
+      return;
+    }
+    return size;
+  });
 
   return (
     <>
@@ -128,7 +134,7 @@ const CatalogPage = () => {
             colors={colors}
             priceRange={priceRange}
             tags={tags}
-            sizes={sizes}
+            sizes={filteredSizes.reverse()}
           />
           <Content>
             <CategoryTitle
