@@ -71,15 +71,18 @@ const Container = styled(motion.div)`
   left: 0;
   overflow: hidden;
   box-shadow: 0px 2px 6px ${color.boxShadowBtn};
+  z-index: 9;
 `;
 
 const Wrapper = styled.ul`
   width: 100%;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 15px;
+  overflow-y: scroll;
   li {
     width: 100%;
     padding: 20px;
