@@ -159,18 +159,19 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
     JSON.stringify(prevQueryParams.categories) !== JSON.stringify(categories)
   ) {
     const category = categories ? categories[0] : '';
+    // const subCategory = subCategories ? subCategories[0] : '';
 
     if (category) {
       await dispatch(fetchSubCategories(category));
       await dispatch(fetchBrands({ parent: category }));
       await dispatch(fetchColors({ parent: category }));
-      await dispatch(fetchTags({ parent: category }));
+      // await dispatch(fetchTags({ children: subCategory }));
       await dispatch(fetchSizes({ parent: category }));
     } else {
       await dispatch(clearSubCategories());
       await dispatch(clearBrands());
       await dispatch(clearColors());
-      await dispatch(clearTags());
+      // await dispatch(clearTags());
       await dispatch(clearSizes());
     }
     setPriceRange(dispatch);
@@ -180,9 +181,13 @@ const onLocationChange = (dispatch: AppDispatch) => async () => {
     JSON.stringify(prevQueryParams.subCategories) !==
     JSON.stringify(subCategories)
   ) {
+    const subCategory = subCategories ? subCategories[0] : '';
     if (subCategories) {
       await dispatch(fetchBrands({ category: subCategories[0] }));
       await dispatch(fetchColors({ category: subCategories[0] }));
+      await dispatch(fetchTags({ children: subCategory }));
+    } else {
+      await dispatch(clearTags());
     }
   }
 };

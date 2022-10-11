@@ -127,7 +127,7 @@ export const fetchPriceRange = createAsyncThunk<
 
 export const fetchTags = createAsyncThunk<
   Tag[],
-  { category?: string; parent?: string },
+  { category?: string; children?: string },
   { rejectValue: string }
 >(
   'catalog/fetchTags',

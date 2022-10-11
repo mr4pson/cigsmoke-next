@@ -2087,6 +2087,12 @@
             "required": false
           },
           {
+            "type": "string",
+            "in": "query",
+            "name": "children",
+            "required": false
+          },
+          {
             "type": "array",
             "items": {
               "type": "string"

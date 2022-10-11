@@ -79,6 +79,19 @@ const getFilters = ({
       },
     },
     {
+      title: 'Тип',
+      options: cloneDeep(tagOptions),
+      type: FilterType.MULTIPLE_SELECTION,
+      onChange: (selectedOptions: FilterOption[] | undefined) => {
+        const tags = selectedOptions?.map((option) => option.url);
+
+        pushQueryParams([
+          { name: 'tags', value: tags },
+          { name: 'page', value: 1 },
+        ]);
+      },
+    },
+    {
       title: 'Цвет',
       options: cloneDeep(colorOptions),
       type: FilterType.COLOR,
@@ -87,19 +100,6 @@ const getFilters = ({
 
         pushQueryParams([
           { name: 'colors', value: colors },
-          { name: 'page', value: 1 },
-        ]);
-      },
-    },
-    {
-      title: 'Теги',
-      options: cloneDeep(tagOptions),
-      type: FilterType.MULTIPLE_SELECTION,
-      onChange: (selectedOptions: FilterOption[] | undefined) => {
-        const tags = selectedOptions?.map((option) => option.url);
-
-        pushQueryParams([
-          { name: 'tags', value: tags },
           { name: 'page', value: 1 },
         ]);
       },
