@@ -29,7 +29,7 @@ const ProfileComp = (props: any) => {
       setStep,
       user,
     );
-  }, []);
+  });
 
   const userInfoRef = useRef(null);
   const reveiwsRef = useRef<any>(null);
