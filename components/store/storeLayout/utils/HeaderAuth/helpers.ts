@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { PopupDisplay } from '../../constants';
 import { AuthService } from 'swagger/services';
+import { signout } from 'redux/slicers/authSlicer';
 
 const handleAfterAuthorized =
   (
@@ -16,20 +17,18 @@ const handleAfterAuthorized =
     });
   };
 
-const handleSession = async () => {
+const handleSession = async (dispatch) => {
   const token = localStorage.getItem('refreshToken');
+  if (token === null) {
+    return;
+  }
   try {
     const accessToken: any = await AuthService.createToken({ body: { token } });
-    localStorage.setItem('accessToken', accessToken.accessToken);
   } catch (error: any) {
-    if (error.response.status == 401) {
-      console.log(error.response.data.message);
-      return;
-    }
-    if (error.response.status == 403) {
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('accessToken');
-      return;
+    if (error.response.status == 403 || error.response.status == 401) {
+      console.log('it s happend');
+
+      dispatch(signout());
     }
   }
 };

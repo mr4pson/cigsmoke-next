@@ -12,6 +12,7 @@ import Authorization from './authorize';
 import { UsePagination } from './authorize/helpers';
 import { handleAfterAuthorized, handleSession } from './helpers';
 import { Profile } from './Profile';
+import { useAppDispatch } from 'redux/hooks';
 
 const Authorize = () => {
   const [direction, authType, paginate] = UsePagination();
@@ -20,6 +21,7 @@ const Authorize = () => {
   const [menuRef, setMenuRef] = useState(null);
   const [btnRef, setBtnRef] = useState(null);
   const [listening, setListening] = useState(false);
+  const dispatch = useAppDispatch();
   const menuNode = useCallback((node: any) => {
     setMenuRef(node);
   }, []);
@@ -38,11 +40,10 @@ const Authorize = () => {
     ),
   );
 
-  useEffect(() => {
-    handleSession();
-  }, []);
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
-
+  useEffect(() => {
+    handleSession(dispatch);
+  });
   return (
     <>
       <AuthBtn
@@ -52,7 +53,6 @@ const Authorize = () => {
         setDisplay={setDisplay}
         paginate={paginate}
         btnNode={btnNode}
-        // avatar={} Todo pass the profile avatar
       />
       <PopupWrapper
         ref={menuNode}

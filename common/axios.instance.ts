@@ -18,25 +18,34 @@ export const axiosInstance = axios.create(defaultOptions);
 axiosInstance.interceptors.request.use(async function (config) {
   if (typeof window !== 'undefined') {
     let token = getAccessToken();
-    const userInfo = await getUserInfo();
+    const refreshToken = getRefreshToken();
+
+    if (token === null || refreshToken === null) {
+      return config;
+    }
+    const userInfo = getUserInfo();
     const creationDate = new Date(userInfo?.iat! * 1000);
     const expirationDate = new Date(
       creationDate.setTime(creationDate.getTime() + 2 * 60 * 60 * 1000),
     ); // plus 2 hours
     const now = new Date();
-
-    if (now > expirationDate) {
-      console.log('TOKEN EXPIRED! Refreshing', now, expirationDate);
-      const refreshToken = getRefreshToken();
-      const response = await axios.post(`/api/auth/token`, {
+    let response: any;
+    // check for refresh token session
+    try {
+      response = await axios.post(`/api/auth/token`, {
         token: refreshToken,
       });
-      if (response.status == 403) {
+    } catch (error: any) {
+      if (error.response.status === 403) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        console.log('session endded relogin');
-        return;
+        return config;
       }
+    }
+
+    // check for access token session if ended prolong it
+    if (now > expirationDate) {
+      console.log('TOKEN EXPIRED! Refreshing', now, expirationDate);
       localStorage.setItem('accessToken', response.data.accessToken);
       token = response.data.accessToken;
     }
