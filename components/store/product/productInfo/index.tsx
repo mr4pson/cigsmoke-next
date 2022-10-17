@@ -96,7 +96,7 @@ const ProductInfo: React.FC<Props> = ({
 const Grid = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 2fr 1.2fr;
+  grid-template-columns: 2fr 1.5fr;
   column-gap: 50px;
   user-select: none;
   padding-top: 90px;

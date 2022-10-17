@@ -26,6 +26,8 @@ import styled from 'styled-components';
 import { Category, Size } from 'swagger/services';
 import ProductGrid from 'ui-kit/products/productGrid';
 import SEOstatic from 'components/store/SEO/SEOstatic';
+import color from 'components/store/lib/ui.colors';
+import FiltersSVg from '../../assets/catalog-filters.svg';
 
 const PAGE_ITEMS_LIMIT = 12;
 
@@ -100,6 +102,14 @@ const CatalogPage = () => {
     return size;
   });
 
+  const filteredColors: any = colors.filter((color) => color.url != '_');
+
+  const [expanded, setExpanded] = useState(false);
+
+  const handleExpantionChange = () => {
+    setExpanded((prev) => !prev);
+  };
+
   return (
     <>
       <SEOstatic
@@ -131,11 +141,14 @@ const CatalogPage = () => {
             categories={categories}
             subCategories={subCategories}
             brands={brands}
-            colors={colors}
+            colors={filteredColors}
             priceRange={priceRange}
             tags={tags}
             sizes={filteredSizes.reverse()}
+            expanded={expanded}
+            handleExpantionChange={handleExpantionChange}
           />
+
           <Content>
             <CategoryTitle
               custom={0.1}
@@ -146,6 +159,30 @@ const CatalogPage = () => {
             >
               {catalogTitle}
             </CategoryTitle>
+            <FilterBtnWrapper>
+              <CategoryTitleMobile
+                custom={0.1}
+                initial="init"
+                animate="animate"
+                exit={{ y: -80, opacity: 0, transition: { delay: 0.1 } }}
+                variants={variants.fadInSlideUp}
+              >
+                {catalogTitle.length > 11
+                  ? catalogTitle.slice(0, 11)
+                  : catalogTitle}
+              </CategoryTitleMobile>
+              <motion.button
+                whileTap="tap"
+                whileInView="hover"
+                variants={variants.boxShadow}
+                onClick={handleExpantionChange}
+              >
+                <span>Фильтры</span>
+                <span>
+                  <FiltersSVg />
+                </span>
+              </motion.button>
+            </FilterBtnWrapper>
             <Products>
               <ProductGrid
                 gridStyle={{
@@ -182,7 +219,11 @@ CatalogPage.PageLayout = StoreLayout;
 const Content = styled.div`
   width: 100%;
   margin-left: 41px;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
   @media ${devices.mobileL} {
     margin-left: 0;
     padding: 10px 15px;
@@ -190,9 +231,20 @@ const Content = styled.div`
 `;
 
 const CategoryTitle = styled(motion.h1)`
-  font-size: 28px;
+  font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  @media ${devices.mobileL} {
+    display: none;
+  }
+`;
+
+const CategoryTitleMobile = styled(motion.h1)`
+  font-size: 1.25rem;
+  font-weight: bold;
+  display: none;
+  @media ${devices.mobileL} {
+    display: block;
+  }
 `;
 
 const Products = styled.div`
@@ -202,6 +254,42 @@ const Products = styled.div`
 
   @media ${devices.mobileL} {
     grid-template-columns: 1fr;
+  }
+`;
+
+const FilterBtnWrapper = styled.div`
+  width: 100%;
+  display: none;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  background-color: ${color.textPrimary};
+  border-radius: 15px;
+  padding: 15px;
+  top: 150px;
+  position: sticky;
+  z-index: 10;
+  @media ${devices.mobileL} {
+    display: flex;
+  }
+  button {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: ${color.btnPrimary};
+    span {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      color: ${color.textPrimary};
+      font-size: 1rem;
+    }
   }
 `;
 

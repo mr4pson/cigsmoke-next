@@ -36,7 +36,7 @@ const Pagination: React.FC<Props> = ({
   useEffect(() => {
     setRefType('height');
     setSlideAmount(120);
-  }, []);
+  });
 
   return (
     <ThumbnailContainer>
@@ -108,6 +108,10 @@ const Pagination: React.FC<Props> = ({
                   variants={variants.slideInFromRigh}
                   src={`/api/images/${image}`}
                   alt={alt}
+                  style={{
+                    width: index == selectedIndex ? '100%' : '50px',
+                    height: index == selectedIndex ? '100%' : '50px',
+                  }}
                 />
               </ThumbnailItem>
             );
@@ -168,6 +172,7 @@ const ThumbnailItem = styled(motion.li)`
     width: 50px;
     height: 50px;
     object-fit: contain;
+    border-radius: 10px;
   }
 `;
 

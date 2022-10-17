@@ -67,7 +67,7 @@ const Slider: React.FC<Props> = ({
 
 const SliderWrapper = styled(motion.div)`
   width: 100%;
-  height: 380px;
+  height: 290px;
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -90,8 +90,8 @@ const Slider: React.FC<Props> = ({
           right="15px"
           topMobile="15px"
           position="absolute"
-          bgcolor="transparent;"
-          boxshadow={color.textPrimary}
+          bgcolor={color.textPrimary}
+          boxshadow={color.boxShadow}
           onClick={handleWishBtnClick(product, setWish, onWishBtnClick)}
         >
           {isWish ? <HeartFull /> : <HeartEmpty />}
