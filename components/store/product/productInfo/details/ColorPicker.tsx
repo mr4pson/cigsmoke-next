@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
+import { devices } from 'components/store/lib/Devices';
 import { getFlatVariantImages, ImageTooltip } from './helpers';
 import React, { Dispatch, SetStateAction } from 'react';
 import { Color, ProductVariant } from 'swagger/services';
@@ -148,7 +149,14 @@ const ColorPicker: React.FC<Props> = ({
                 }`,
               }}
             >
-              <img src={`/api/images/${variant.image}`} alt="" />
+              <img
+                style={{
+                  width: selectedIndex == colIndex ? '100%' : '50px',
+                  height: selectedIndex == colIndex ? '100%' : '50px',
+                }}
+                src={`/api/images/${variant.image}`}
+                alt=""
+              />
               {!variant.available ? <div></div> : ''}
             </ColorPickerItems>
           </ImageTooltip>
@@ -186,6 +194,12 @@ const ColorPickerList = styled.ul`
   grid-template-columns: repeat(5, 1fr);
   grid-column-gap: 10px;
   grid-row-gap: 10px;
+  @media ${devices.laptopS} {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media ${devices.mobileL} {
+    grid-template-columns: repeat(4, 1fr);
+  }
 `;
 
 const ColorPickerItems = styled(motion.li)`
@@ -199,10 +213,12 @@ const ColorPickerItems = styled(motion.li)`
   border-radius: 5px;
   background-color: #e5f2ff;
   cursor: pointer;
+  overflow: hidden;
   img {
     width: 50px;
     height: 50px;
-    object-fit: contain;
+    object-fit: cover;
+    border-radius: 10px;
   }
   div {
     width: 100%;

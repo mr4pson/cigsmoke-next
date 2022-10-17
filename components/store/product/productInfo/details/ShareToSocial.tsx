@@ -243,7 +243,7 @@ const SocialParent = styled(motion.div)`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
   gap: 20px;
   position: relative;
@@ -265,6 +265,7 @@ const SocialParent = styled(motion.div)`
   }
   @media ${devices.mobileL} {
     margin-bottom: -40px;
+    justify-content: space-between;
     .share-btn-pc {
       display: none;
     }
@@ -287,7 +288,7 @@ const ShareToSocialWrapper = styled(motion.div)`
   justify-content: center;
   align-items: flex-start;
   top: 35px;
-  right: 65px;
+  right: 0;
   padding: 20px;
   border-radius: 15px;
   background-color: ${color.textPrimary};

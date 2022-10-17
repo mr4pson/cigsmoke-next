@@ -34,7 +34,7 @@ const Pagination: React.FC<Props> = ({
   useEffect(() => {
     setRefType('width');
     setSlideAmount(120);
-  }, []);
+  });
 
   return (
     <ThumbnailContainer>
@@ -42,7 +42,7 @@ const Pagination: React.FC<Props> = ({
         whileHover="hover"
         whileTap="tap"
         custom={1.2}
-        top="120px"
+        top="80px"
         left="0"
         position="absolute"
         variants={variants.grow}
@@ -58,7 +58,7 @@ const Pagination: React.FC<Props> = ({
         whileHover="hover"
         whileTap="tap"
         custom={1.2}
-        top="120px"
+        top="80px"
         left="70px"
         position="absolute"
         variants={variants.grow}
@@ -105,6 +105,10 @@ const Pagination: React.FC<Props> = ({
                   custom={index * 0.09}
                   variants={variants.slideInFromRigh}
                   src={`/api/images/${image}`}
+                  style={{
+                    width: index == selectedIndex ? '100%' : '50px',
+                    height: index == selectedIndex ? '100%' : '50px',
+                  }}
                 />
               </ThumbnailItem>
             );
@@ -143,9 +147,9 @@ const ThumbnailWrapper = styled(motion.ul)`
 `;
 
 const ThumbnailItem = styled(motion.li)`
-  width: 100px;
-  min-height: 100px;
-  min-width: 100px;
+  width: 50px;
+  min-height: 50px;
+  min-width: 50px;
   background-color: ${color.textPrimary};
   border-radius: 15px;
   display: flex;
@@ -164,6 +168,7 @@ const ThumbnailItem = styled(motion.li)`
     width: 50px;
     height: 50px;
     object-fit: contain;
+    border-radius: 10px;
   }
 `;
 

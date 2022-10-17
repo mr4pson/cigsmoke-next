@@ -35,6 +35,8 @@ type Props = {
   tags: Tag[];
   sizes: Size[];
   priceRange: PriceRange;
+  expanded: any;
+  handleExpantionChange: any;
 };
 
 const FilterBar: React.FC<Props> = ({
@@ -45,6 +47,8 @@ const FilterBar: React.FC<Props> = ({
   tags,
   sizes,
   priceRange,
+  expanded,
+  handleExpantionChange,
 }) => {
   const router = useRouter();
   const filters = convertQueryParams(router.query);
@@ -60,7 +64,7 @@ const FilterBar: React.FC<Props> = ({
       sizes,
     }),
   );
-  const [expanded, setExpanded] = useState(false);
+  // const [expanded, setExpanded] = useState(false);
   const [localFilters, setLocalFilters] = useState(getFilters(filtersConfig));
 
   const handleResetFilters = () => {
@@ -71,9 +75,9 @@ const FilterBar: React.FC<Props> = ({
     handleResetFilters();
   };
 
-  const handleExpantionChange = () => {
-    setExpanded((prev) => !prev);
-  };
+  // const handleExpantionChange = () => {
+  //   setExpanded((prev) => !prev);
+  // };
 
   useEffect(() => {
     const filters = convertQueryParams(getQueryParams(window.location.search));
@@ -163,11 +167,11 @@ const FilterBar: React.FC<Props> = ({
           <img src="assets/images/reset-icon.png" />
         </ResetButton>
       </FiltersWrapper>
-      {!expanded && (
+      {/* {!expanded && (
         <ShowBtn onClick={handleExpantionChange}>
           <ArrowRightSVG />
         </ShowBtn>
-      )}
+      )} */}
       <CloseBtn onClick={handleExpantionChange}>
         <CloseSVG />
       </CloseBtn>

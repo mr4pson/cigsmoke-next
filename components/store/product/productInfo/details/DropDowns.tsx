@@ -178,6 +178,7 @@ const InfoContainer = styled(motion.div)`
 `;
 
 const SpecsContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -203,6 +204,7 @@ const SpecsKeyValueWrapper = styled.ul`
       font-size: 0.875rem;
     }
     #key-specs {
+      width: 100%;
       font-family: 'intro';
       color: ${color.textSecondary};
     }
