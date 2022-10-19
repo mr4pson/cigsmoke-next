@@ -84,17 +84,28 @@ const Details: React.FC<Props> = ({
     const curVariant = variant
       ? variant
       : product?.productVariants![0]
-      ? product.productVariants![0]
+      ? product?.productVariants![0]
       : ({} as any);
-
     setCurVariant(curVariant);
   }, [variant, product]);
+  useEffect(() => {
+    setCurVariant(
+      product?.productVariants![0] ? product?.productVariants![0] : ({} as any),
+    );
+  }, []);
   const [selectedSize, setSelectedSize] = useState(0);
   const [sizeIsOpen, setOpen] = useState(false);
 
   const handleSizePickerBtn = (setOpen) => {
     setOpen(!sizeIsOpen);
   };
+
+  useEffect(() => {
+    if (product?.sizes?.length == 0) {
+      localStorage.removeItem('selectedSize');
+    }
+  }, []);
+
   return (
     <DetailsContainer>
       <ShareToSocial
@@ -216,7 +227,12 @@ const Details: React.FC<Props> = ({
         orderProduct={orderProduct}
         isInCart={checkIfItemInCart(product, cart)}
         isInWishlist={checkIfItemInWishlist(product, wishlist)}
-        onCartBtnClick={handleCartBtnClick(product, dispatch, curVariant, cart)}
+        onCartBtnClick={handleCartBtnClick(
+          product!,
+          dispatch,
+          curVariant!,
+          cart,
+        )}
         onWishBtnClick={handleWishBtnClick(product, dispatch, wishlist)}
         onCountChange={onCountChange}
       />
