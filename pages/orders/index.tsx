@@ -25,8 +25,6 @@ const Orders = () => {
     dispatch(fetchCheckouts());
   }, []);
 
-  console.log(checkouts);
-
   return (
     <>
       <Head>

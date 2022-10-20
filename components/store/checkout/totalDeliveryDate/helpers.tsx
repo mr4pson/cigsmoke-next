@@ -66,12 +66,29 @@ const getDiscount = (cart: Basket | null) => {
   return oldPrice - totalAmount;
 };
 
-const getTotalPrice = (cart: Basket | null) => {
+const getTotalPrice = (
+  cart: Basket | null,
+  withDliver: boolean | any,
+  promoCode: any,
+) => {
   const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
     return accum + Number(item.qty) * Number(item.productPrice!);
   }, 0)!;
 
-  return totalAmount + 150;
+  if (promoCode === 'wuluxeosen2022' && !withDliver) {
+    return totalAmount - (5 * totalAmount) / 100;
+  }
+
+  if (promoCode === 'wuluxeosen2022' && withDliver) {
+    return totalAmount + 150 - (5 * totalAmount) / 100;
+  }
+
+  if (!withDliver) {
+    return totalAmount;
+  }
+  if (withDliver) {
+    return totalAmount + 150;
+  }
 };
 
 const findTotalWheight = (cart: any) => {

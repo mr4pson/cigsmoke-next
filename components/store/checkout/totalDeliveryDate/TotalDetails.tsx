@@ -32,10 +32,17 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
   const router = useRouter();
   const [success, setSuccess] = useState(false);
   const [promoMessage, setPromoMessage] = useState('');
+  const [promoInput, setPormoInput] = useState('');
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
   const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
     (state) => state.storeCheckout,
   );
+  const [withDelivery, setWithDelivery] = useState(true);
+
+  const [totalUI, setTotalUI] = useState(
+    getTotalPrice(cart, withDelivery, discount),
+  );
+
   const handlePayClick = (router: NextRouter) => async () => {
     const payload = {
       comment,
@@ -43,19 +50,12 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
     };
 
     const response = await axiosInstance.post('/payments', {
-      value: `${getTotalPrice(cart)}.0`,
+      value: `${Math.floor(
+        Number(getTotalPrice(cart, withDelivery, discount)),
+      )}.0`,
     });
 
     if (response.data.id && deliveryInfo && payload && cart) {
-      // const response = await axiosInstance.get<Payment>(
-      //   `/payments/${router.query.paymentId}`,
-      // );
-
-      // if (response.data?.status !== PaymentStatus.succeeded) {
-      //   openErrorNotification('Ваш Заказ не прошел оплату');
-      //   return;
-      // }
-
       try {
         const responseAdress = await AddressService.createAddress({
           body: {
@@ -69,16 +69,13 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
             zipCode: deliveryInfo.postCode,
           },
         });
-        // setLoading(false);
-        // localStorage.removeItem('deliveryInfo');
-        // localStorage.removeItem('orderInfo');
 
         await CheckoutService.createCheckout({
           body: {
             paymentId: response.data.id as string,
             address: responseAdress.id,
             basket: cart?.id,
-            totalAmount: getTotalPrice(cart),
+            totalAmount: getTotalPrice(cart, withDelivery, discount),
             comment: payload.comment,
             leaveNearDoor: payload.leaveNearDoor,
           } as CheckoutDTO,
@@ -95,18 +92,15 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
         router.push('/orders');
       } catch (error) {
         openErrorNotification('Ваш Заказ не прошел');
-        console.log(error);
-        // setError(error as any);
-        // setLoading(false);
       }
 
       return;
     }
-
-    // dispatch(setOrderInfo(payload));
-    // router.push('/checkout/payment');
   };
 
+  useEffect(() => {
+    setTotalUI(getTotalPrice(cart, withDelivery, discount));
+  });
   return (
     <Container>
       <h3 className="total-header">Ваша сумма</h3>
@@ -169,19 +163,36 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
               </b>
             </ItemRow>
             <ItemRow>
-              <span>Стоимость доставки</span>
-              <b>
-                <span>{`150`} ₽</span>
-              </b>
+              <label className="self-pick-up" htmlFor="self-pick-up">
+                <input
+                  type="checkbox"
+                  onClick={(e: any) =>
+                    setWithDelivery(e.target.checked ? false : true)
+                  }
+                  id="self-pick-up"
+                  title="Самовывоз?"
+                />
+                <span>Самовывоз?</span>
+              </label>
             </ItemRow>
+            {withDelivery ? (
+              <ItemRow>
+                <span>Стоимость доставки</span>
+                <b>
+                  <span>{`150`} ₽</span>
+                </b>
+              </ItemRow>
+            ) : (
+              ''
+            )}
           </ItemRowWrapper>
           <ItemRow>
             <h3 className="total">Итого</h3>
-            <h3 className="total">{formatNumber(getTotalPrice(cart))} ₽</h3>
+            <h3 className="total">{formatNumber(totalUI)} ₽</h3>
           </ItemRow>
         </Content>
       </Wrapper>
-      {/* <Wrapper>
+      <Wrapper>
         <ItemRow>
           <span className="disount-svg">
             <DiscountSVG />
@@ -191,23 +202,26 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
             label="Промокод"
             multiline
             rows={1}
-            value={discount}
+            value={promoInput}
             defaultValue=""
-            onChange={(e) => setDiscount(e.target.value)}
+            onChange={(e) => setPormoInput(e.target.value)}
           />
           <motion.button
             whileHover="hover"
             whileTap="tap"
             variants={variants.boxShadow}
-            disabled={isEmpty(discount) ? true : false}
+            disabled={isEmpty(promoInput) ? true : false}
             style={{
-              backgroundColor: isEmpty(discount)
+              backgroundColor: isEmpty(promoInput)
                 ? color.textSecondary
                 : color.btnPrimary,
             }}
             onClick={() => {
-              setSuccess(true);
-              setPromoMessage('Успешно');
+              setDiscount(promoInput);
+              setSuccess(promoInput === 'wuluxeosen2022' ? true : false);
+              setPromoMessage(
+                promoInput === 'wuluxeosen2022' ? 'Успешно' : 'Не успешно',
+              );
               setTimeout(() => {
                 setSuccess(false);
                 setPromoMessage('');
@@ -226,7 +240,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
         >
           {promoMessage}
         </span>
-      </Wrapper> */}
+      </Wrapper>
     </Container>
   );
 };
@@ -329,6 +343,19 @@ const ItemRow = styled(motion.div)`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+  .self-pick-up {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    input {
+      cursor: pointer;
+    }
+  }
   h3 {
     font-size: 1rem;
     font-weight: 800;

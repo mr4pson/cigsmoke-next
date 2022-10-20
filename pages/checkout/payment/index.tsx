@@ -24,42 +24,42 @@ const Product = () => {
     (state) => state.storeCheckout,
   );
 
-  useEffect(() => {
-    (async () => {
-      const response = await axiosInstance.post('/payments', {
-        value: `${getTotalPrice(cart)}.0`,
-      });
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await axiosInstance.post('/payments', {
+  //       value: `${getTotalPrice(cart)}.0`,
+  //     });
 
-      if (deliveryInfo) {
-        localStorage.setItem('deliveryInfo', JSON.stringify(deliveryInfo));
-        localStorage.setItem('orderInfo', JSON.stringify(orderInfo));
+  //     if (deliveryInfo) {
+  //       localStorage.setItem('deliveryInfo', JSON.stringify(deliveryInfo));
+  //       localStorage.setItem('orderInfo', JSON.stringify(orderInfo));
 
-        const checkoutWidget = new (window as any).YooMoneyCheckoutWidget({
-          confirmation_token: response.data.confirmation.confirmation_token,
-          return_url: `${window.location.origin}/after-payment?paymentId=${response.data.id}`,
+  //       const checkoutWidget = new (window as any).YooMoneyCheckoutWidget({
+  //         confirmation_token: response.data.confirmation.confirmation_token,
+  //         return_url: `${window.location.origin}/after-payment?paymentId=${response.data.id}`,
 
-          //При необходимости можно изменить цвета виджета, подробные настройки см. в документации
-          //customization: {
-          //Настройка цветовой схемы, минимум один параметр, значения цветов в HEX
-          //colors: {
-          //Цвет акцентных элементов: кнопка Заплатить, выбранные переключатели, опции и текстовые поля
-          //control_primary: '#00BF96', //Значение цвета в HEX
+  //         //При необходимости можно изменить цвета виджета, подробные настройки см. в документации
+  //         //customization: {
+  //         //Настройка цветовой схемы, минимум один параметр, значения цветов в HEX
+  //         //colors: {
+  //         //Цвет акцентных элементов: кнопка Заплатить, выбранные переключатели, опции и текстовые поля
+  //         //control_primary: '#00BF96', //Значение цвета в HEX
 
-          //Цвет платежной формы и ее элементов
-          //background: '#F2F3F5' //Значение цвета в HEX
-          //}
-          //},
-          error_callback: function (error) {
-            debugger;
-            console.log(error);
-          },
-        });
+  //         //Цвет платежной формы и ее элементов
+  //         //background: '#F2F3F5' //Значение цвета в HEX
+  //         //}
+  //         //},
+  //         error_callback: function (error) {
+  //           debugger;
+  //           console.log(error);
+  //         },
+  //       });
 
-        //Отображение платежной формы в контейнере
-        checkoutWidget.render('payment-form');
-      }
-    })();
-  }, [deliveryInfo]);
+  //       //Отображение платежной формы в контейнере
+  //       checkoutWidget.render('payment-form');
+  //     }
+  //   })();
+  // }, [deliveryInfo]);
 
   return (
     <Container

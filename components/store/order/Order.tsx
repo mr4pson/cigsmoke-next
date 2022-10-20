@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { fetchCheckouts } from 'redux/slicers/store/checkoutSlicer';
 import { cancelCheckout } from 'redux/slicers/store/checkoutSlicer';
 import { TStoreCheckoutState } from 'redux/types';
 import styled from 'styled-components';
@@ -16,7 +17,7 @@ import color from '../lib/ui.colors';
 import variants from '../lib/variants';
 import { getFormatedDate, timeCheck } from './helpers';
 import ProductItem from './ProductItem';
-
+import { useRouter } from 'next/router';
 type Props = {
   checkout: Checkout;
   index: number;
@@ -29,10 +30,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
     (state) => state.storeCheckout,
   );
   const dispatch = useAppDispatch();
-  // const [isDeliverFree, setDeliveryFree] = useState(false);
-  // useEffect(() => {
-  //   setDeliveryFree(true);
-  // }, []);
+  const router = useRouter();
 
   const onRemoveClick = () => () => {
     setIsModalVisible(true);
@@ -41,6 +39,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
   const handleRemove = (paymentId: string) => () => {
     setIsModalVisible(false);
     dispatch(cancelCheckout(paymentId));
+    router.push('/');
   };
 
   const handleCancel = () => {
@@ -111,7 +110,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             <div className="order-key-value">
               <span className="key">Оплата при доставке:</span>
               <span className="value">
-                {formatNumber(getTotalPrice(checkout.basket?.orderProducts!))}{' '}
+                {(checkout as any)?.totalAmount}
                 ₽,{' '}
                 {checkout.status === CheckoutStatus.Completed
                   ? 'оплачено'
