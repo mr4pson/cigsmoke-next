@@ -30,6 +30,20 @@ const ConfirmResetPsw = () => {
         ) : (
           ''
         )}
+        {serverResponse == 500 ? (
+          <ServerErrResponses>
+            Нам очень жаль 😔, что-то пошло не так с нашим сервером
+          </ServerErrResponses>
+        ) : (
+          ''
+        )}
+        {serverResponse == 429 ? (
+          <ServerErrResponses>
+            Слишком много запросов 🚦, повторите попытку через 24 часа.
+          </ServerErrResponses>
+        ) : (
+          ''
+        )}
         {serverResponse == 401 ? (
           <ServerErrResponses>
             Неавторизованный: токен не найден

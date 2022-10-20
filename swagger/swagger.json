@@ -194,10 +194,11 @@
               "properties": {
                 "token": {
                   "type": "string",
-                  "description": "token that has send to email"
+                  "description": "token that has been send to email"
                 },
-                "password": {
-                  "type": "string"
+                "userPassword": {
+                  "type": "string",
+                  "description": "User new password"
                 }
               }
             }

@@ -133,10 +133,14 @@ const authSlicer = createSlice({
       //signup
       .addCase(signup.pending, handlePending)
       .addCase(signup.fulfilled, (state, action) => {
+        state.user = action.payload.user;
         state.loading = false;
+        localStorage.setItem('accessToken', action.payload.accessToken);
+        localStorage.setItem('refreshToken', action.payload.refreshToken);
         openSuccessNotification(
           'Письмо с подтверждение аккаунта отправлено вам на почту',
         );
+        openSuccessNotification('Вы успешно авторизованы!');
         state.serverErr = undefined;
         console.log('fulfilled');
       })

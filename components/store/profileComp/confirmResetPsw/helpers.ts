@@ -1,15 +1,18 @@
-import { AuthService } from 'swagger/services';
+import { AuthService, UserService } from 'swagger/services';
+
 const handleResetClick = async (
   userPassword: any,
   router: any,
   setServerResponse: any,
 ) => {
   const regEx = /[^\/]+$/; // get everything after last /
-  const token = router.asPath.match(regEx);
+  const token = router.asPath.match(regEx).toString();
+
   try {
     const response = await AuthService.updatePwd({
-      body: { token, password: userPassword },
+      body: { token, userPassword: userPassword },
     });
+
     localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
     setTimeout(() => router.push('/profile'), 2000);
