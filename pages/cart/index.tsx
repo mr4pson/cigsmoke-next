@@ -31,6 +31,7 @@ const CatalogPage = () => {
           .map((orderProduct) => ({
             productId: orderProduct.product?.id?.toString(),
             qty: orderProduct.qty,
+            productVariantId: orderProduct.productVariant?.id,
           })),
       }),
     );
@@ -45,6 +46,7 @@ const CatalogPage = () => {
           .map((orderProduct) => ({
             productId: orderProduct.product?.id,
             qty: orderProduct.qty,
+            productVariantId: orderProduct.productVariant?.id,
           })),
       }),
     );
@@ -75,7 +77,7 @@ const CatalogPage = () => {
   };
 
   const handleRemoveClick = () => () => {
-    selected.forEach(async (id) => {
+    selected.map(async (id) => {
       const orderProduct = cart?.orderProducts?.find((item) => item.id === id);
       await handleItemRemove(orderProduct?.product!);
     });

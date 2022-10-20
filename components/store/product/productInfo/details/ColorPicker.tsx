@@ -4,7 +4,7 @@ import color from 'components/store/lib/ui.colors';
 import variants from 'components/store/lib/variants';
 import { devices } from 'components/store/lib/Devices';
 import { getFlatVariantImages, ImageTooltip } from './helpers';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Color, ProductVariant } from 'swagger/services';
 import { useAppDispatch } from 'redux/hooks';
 import { setVariant } from 'redux/slicers/store/cartSlicer';
@@ -50,7 +50,20 @@ const ColorPicker: React.FC<Props> = ({
     };
 
   const variantImages = getFlatVariantImages(productVariants);
+  useEffect(() => {
+    if (variantImages) {
+      localStorage.setItem(
+        'userChoice',
+        JSON.stringify(variantImages[0].color?.name),
+      );
+    }
+  }, []);
 
+  useEffect(() => {
+    if (variantColor?.url === '_' || variantColor?.name === '_') {
+      localStorage.removeItem('userChoice');
+    }
+  });
   return (
     <ColorPickerContainer>
       <ColorPickerNameWrapper

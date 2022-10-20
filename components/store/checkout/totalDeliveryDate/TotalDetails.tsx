@@ -8,8 +8,9 @@ import isEmpty from 'validator/lib/isEmpty';
 import Link from 'next/link';
 import DiscountSVG from '../../../../assets/discount.svg';
 import ArrowRight from '../../../../assets/arrow_right.svg';
+import { Payment } from '@a2seven/yoo-checkout';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { TCartState } from 'redux/types';
+import { TCartState, TStoreCheckoutState } from 'redux/types';
 import {
   getDiscount,
   getOldPrice,
@@ -20,7 +21,11 @@ import { formatNumber } from 'common/helpers/number.helper';
 import { NextRouter, useRouter } from 'next/router';
 import { setOrderInfo } from 'redux/slicers/store/checkoutSlicer';
 import { devices } from 'components/store/lib/Devices';
-
+import { axiosInstance } from 'common/axios.instance';
+import { AddressService, CheckoutService, CheckoutDTO } from 'swagger/services';
+import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
+import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+import { openErrorNotification } from 'common/helpers';
 const TotalDetails = ({ comment, leaveNearDoor }) => {
   const dispatch = useAppDispatch();
   const [discount, setDiscount] = useState('');
@@ -28,15 +33,78 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
   const [success, setSuccess] = useState(false);
   const [promoMessage, setPromoMessage] = useState('');
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-
-  const handlePayClick = (router: NextRouter) => () => {
+  const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
+    (state) => state.storeCheckout,
+  );
+  const handlePayClick = (router: NextRouter) => async () => {
     const payload = {
       comment,
       leaveNearDoor,
     };
 
-    dispatch(setOrderInfo(payload));
-    router.push('/checkout/payment');
+    const response = await axiosInstance.post('/payments', {
+      value: `${getTotalPrice(cart)}.0`,
+    });
+
+    if (response.data.id && deliveryInfo && payload && cart) {
+      // const response = await axiosInstance.get<Payment>(
+      //   `/payments/${router.query.paymentId}`,
+      // );
+
+      // if (response.data?.status !== PaymentStatus.succeeded) {
+      //   openErrorNotification('Ваш Заказ не прошел оплату');
+      //   return;
+      // }
+
+      try {
+        const responseAdress = await AddressService.createAddress({
+          body: {
+            receiverName: deliveryInfo.fullName,
+            receiverPhone: deliveryInfo.phone,
+            address: deliveryInfo.address,
+            roomOrOffice: deliveryInfo.roomOrOffice,
+            door: deliveryInfo.door,
+            floor: deliveryInfo.floor,
+            rignBell: deliveryInfo.rignBell,
+            zipCode: deliveryInfo.postCode,
+          },
+        });
+        // setLoading(false);
+        // localStorage.removeItem('deliveryInfo');
+        // localStorage.removeItem('orderInfo');
+
+        await CheckoutService.createCheckout({
+          body: {
+            paymentId: response.data.id as string,
+            address: responseAdress.id,
+            basket: cart?.id,
+            totalAmount: getTotalPrice(cart),
+            comment: payload.comment,
+            leaveNearDoor: payload.leaveNearDoor,
+          } as CheckoutDTO,
+        });
+
+        await dispatch(createCart());
+
+        const basketId = localStorage.getItem('basketId') ?? '';
+
+        dispatch(fetchCart(basketId));
+
+        openSuccessNotification('Ваш Заказ успешно');
+
+        router.push('/orders');
+      } catch (error) {
+        openErrorNotification('Ваш Заказ не прошел');
+        console.log(error);
+        // setError(error as any);
+        // setLoading(false);
+      }
+
+      return;
+    }
+
+    // dispatch(setOrderInfo(payload));
+    // router.push('/checkout/payment');
   };
 
   return (
@@ -52,7 +120,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
                 variants={variants.boxShadow}
                 onClick={handlePayClick(router)}
               >
-                Оплатить онлайн
+                Завершить мой заказ
               </motion.button>
             </a>
             <span>

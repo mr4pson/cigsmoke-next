@@ -109,10 +109,13 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             </div>
             <h3 className="order-key-value-header">Способ оплаты</h3>
             <div className="order-key-value">
-              <span className="key">Картой онлайн:</span>
+              <span className="key">Оплата при доставке:</span>
               <span className="value">
                 {formatNumber(getTotalPrice(checkout.basket?.orderProducts!))}{' '}
-                ₽, оплачено
+                ₽,{' '}
+                {checkout.status === CheckoutStatus.Completed
+                  ? 'оплачено'
+                  : 'Не оплачено'}
               </span>
             </div>
             <h3 className="order-key-value-header">Способ получения</h3>

@@ -30,9 +30,9 @@ const getAnimationDelay = (length: number) => {
 
 const handleCartBtnClick =
   (
-    product: Product | undefined,
+    product: Product,
     dispatch: AppDispatch,
-    variant: ProductVariant | undefined,
+    variant: ProductVariant,
     cart?: Basket,
   ) =>
   async () => {
