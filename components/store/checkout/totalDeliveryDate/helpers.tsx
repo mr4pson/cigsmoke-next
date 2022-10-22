@@ -76,11 +76,11 @@ const getTotalPrice = (
   }, 0)!;
 
   if (promoCode === 'wuluxeosen2022' && !withDliver) {
-    return totalAmount - (5 * totalAmount) / 100;
+    return totalAmount - (10 * totalAmount) / 100;
   }
 
   if (promoCode === 'wuluxeosen2022' && withDliver) {
-    return totalAmount + 150 - (5 * totalAmount) / 100;
+    return totalAmount + 150 - (10 * totalAmount) / 100;
   }
 
   if (!withDliver) {
