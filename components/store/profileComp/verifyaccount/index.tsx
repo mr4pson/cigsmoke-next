@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
 import { handleVerification } from './helpers';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
@@ -8,8 +9,9 @@ import color from 'components/store/lib/ui.colors';
 const VerifyAcountByToken = () => {
   const [serverResponse, setServerResponse] = useState(undefined);
   const router = useRouter();
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    handleVerification(router, setServerResponse);
+    handleVerification(router, setServerResponse, dispatch);
   }, []);
   const [counter, setCounter] = useState(10);
   useEffect(() => {

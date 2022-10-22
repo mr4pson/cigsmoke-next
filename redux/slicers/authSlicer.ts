@@ -78,16 +78,36 @@ export const signup = createAsyncThunk<
 
 export const authorizeUser = createAsyncThunk<
   { user: User; accessToken: string; refreshToken: string },
-  {
-    token: string;
-  },
+  string,
   { rejectValue: string }
 >(
   'auth/authorizeUser',
-  async function (payload, { rejectWithValue }): Promise<any> {
+  async function (token, { rejectWithValue }): Promise<any> {
     try {
       const repsonse = await AuthService.confirmEmailByToken({
-        token: payload.token,
+        token,
+      });
+
+      return repsonse;
+    } catch (error: any) {
+      return rejectWithValue(error.response.status);
+    }
+  },
+);
+
+export const resetPswByToken = createAsyncThunk<
+  { user: User; accessToken: string; refreshToken: string },
+  {
+    token: string;
+    userPassword: string;
+  },
+  { rejectValue: string }
+>(
+  'auth/resetPswByToken',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      const repsonse = await AuthService.updatePwd({
+        body: payload,
       });
 
       return repsonse;
@@ -186,6 +206,25 @@ const authSlicer = createSlice({
       })
       .addCase(
         authorizeUser.rejected,
+        (state, action: PayloadAction<any, any, any, any>) => {
+          state.loading = false;
+          state.serverErr = action.payload;
+          console.log('rejected');
+        },
+      )
+      //reset password by token
+      .addCase(resetPswByToken.pending, handlePending)
+      .addCase(resetPswByToken.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.loading = false;
+        localStorage.setItem('accessToken', action.payload.accessToken);
+        localStorage.setItem('refreshToken', action.payload.refreshToken);
+        openSuccessNotification('Ваш пароль был сброшен!');
+        state.serverErr = undefined;
+        console.log('fulfilled');
+      })
+      .addCase(
+        resetPswByToken.rejected,
         (state, action: PayloadAction<any, any, any, any>) => {
           state.loading = false;
           state.serverErr = action.payload;
