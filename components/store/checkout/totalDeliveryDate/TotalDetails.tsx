@@ -204,7 +204,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
             rows={1}
             value={promoInput}
             defaultValue=""
-            onChange={(e) => setPormoInput(e.target.value)}
+            onChange={(e) => setPormoInput(e.target.value.toLowerCase())}
           />
           <motion.button
             whileHover="hover"

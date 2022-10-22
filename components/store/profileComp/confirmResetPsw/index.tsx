@@ -10,6 +10,7 @@ import PswShow from '../../../../assets/pswshow.svg';
 import PswHide from '../../../../assets/pswhide.svg';
 import { handleResetClick } from './helpers';
 import { useRouter } from 'next/router';
+import { useAppDispatch } from 'redux/hooks';
 const ConfirmResetPsw = () => {
   const [serverResponse, setServerResponse] = useState(undefined);
   const [psw, setPsw] = useState('');
@@ -20,6 +21,7 @@ const ConfirmResetPsw = () => {
   const [confidentiality, setConfidentiality] = useState('password');
   const [secret, setSecret] = useState(0);
   const router = useRouter();
+  const dispatch = useAppDispatch();
   return (
     <Wrapper>
       <Title>Сбросить пароль</Title>
@@ -27,6 +29,20 @@ const ConfirmResetPsw = () => {
         {isCap ? <ServerErrResponses>Капслок включен</ServerErrResponses> : ''}
         {repeatPsw !== psw ? (
           <ServerErrResponses>пароль не подходит</ServerErrResponses>
+        ) : (
+          ''
+        )}
+        {serverResponse == 500 ? (
+          <ServerErrResponses>
+            Нам очень жаль 😔, что-то пошло не так с нашим сервером
+          </ServerErrResponses>
+        ) : (
+          ''
+        )}
+        {serverResponse == 429 ? (
+          <ServerErrResponses>
+            Слишком много запросов 🚦, повторите попытку через 24 часа.
+          </ServerErrResponses>
         ) : (
           ''
         )}
@@ -214,7 +230,7 @@ const ConfirmResetPsw = () => {
         }
         onClick={(e) => {
           e.preventDefault();
-          handleResetClick(psw, router, setServerResponse);
+          handleResetClick(psw, router, setServerResponse, dispatch);
         }}
       >
         Изменить пароль
