@@ -76,6 +76,27 @@ export const signup = createAsyncThunk<
   }
 });
 
+export const authorizeUser = createAsyncThunk<
+  { user: User; accessToken: string; refreshToken: string },
+  {
+    token: string;
+  },
+  { rejectValue: string }
+>(
+  'auth/authorizeUser',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      const repsonse = await AuthService.confirmEmailByToken({
+        token: payload.token,
+      });
+
+      return repsonse;
+    } catch (error: any) {
+      return rejectWithValue(error.response.status);
+    }
+  },
+);
+
 const initialState: TAuthState = {
   user: null,
   loading: false,
@@ -146,6 +167,25 @@ const authSlicer = createSlice({
       })
       .addCase(
         signup.rejected,
+        (state, action: PayloadAction<any, any, any, any>) => {
+          state.loading = false;
+          state.serverErr = action.payload;
+          console.log('rejected');
+        },
+      )
+      //authorize user
+      .addCase(authorizeUser.pending, handlePending)
+      .addCase(authorizeUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.loading = false;
+        localStorage.setItem('accessToken', action.payload.accessToken);
+        localStorage.setItem('refreshToken', action.payload.refreshToken);
+        openSuccessNotification('Вы успешно авторизованы!');
+        state.serverErr = undefined;
+        console.log('fulfilled');
+      })
+      .addCase(
+        authorizeUser.rejected,
         (state, action: PayloadAction<any, any, any, any>) => {
           state.loading = false;
           state.serverErr = action.payload;
