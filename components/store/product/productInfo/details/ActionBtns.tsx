@@ -32,7 +32,7 @@ const ActionBtns: React.FC<Props> = ({
   onCountChange,
 }) => {
   const handleCartClick = () => {
-    onCartBtnClick();
+    !isInCart ? onCartBtnClick() : '';
   };
 
   return (

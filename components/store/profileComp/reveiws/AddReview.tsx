@@ -202,7 +202,7 @@ const AddReviewContainer = styled(motion.div)`
   background-color: ${color.textPrimary};
   box-shadow: 0px 2px 6px ${color.boxShadow};
   border-radius: 20px;
-  gap: 20px;
+  gap: 5px;
   position: relative;
   .close-btn {
     position: absolute;
@@ -270,7 +270,7 @@ const PreviewWrapper = styled.ul`
   user-select: none;
   padding: 5px;
   li {
-    width: 80px;
+    width: 60px;
     display: flex;
     flex-direction: column;
     justify-content: center;

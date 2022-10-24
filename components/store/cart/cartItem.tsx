@@ -10,7 +10,9 @@ import ItemCounter from 'ui-kit/ItemCounter';
 import CloseSVG from '../../../assets/close_black.svg';
 import { devices } from '../lib/Devices';
 import { Rating } from '@mui/material';
-
+import { useAppSelector } from 'redux/hooks';
+import { TAuthState } from 'redux/types';
+import { Role } from 'common/enums/roles.enum';
 type Props = {
   item: OrderProduct;
   selected?: boolean;
@@ -43,6 +45,7 @@ const CartItem: React.FC<Props> = ({
   const handleSelectCheck = () => {
     onSelect(item);
   };
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   return (
     <Item>
@@ -69,7 +72,12 @@ const CartItem: React.FC<Props> = ({
       <ItemDetails>
         <h4>{name}</h4>
         <ItemDetailDivider>
-          <h3>{curVariant.price}₽</h3>
+          <h3>
+            {user?.role === Role.SuperUser
+              ? curVariant.wholeSalePrice
+              : curVariant.price}
+            ₽
+          </h3>
           <ItemCounter
             qty={item.qty!}
             inputStyle={{

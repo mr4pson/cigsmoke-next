@@ -16,6 +16,7 @@ import {
   getOldPrice,
   getTotalPrice,
   findTotalWheight,
+  getTotalPriceSuperUser,
 } from './helpers';
 import { formatNumber } from 'common/helpers/number.helper';
 import { NextRouter, useRouter } from 'next/router';
@@ -26,6 +27,8 @@ import { AddressService, CheckoutService, CheckoutDTO } from 'swagger/services';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { openErrorNotification } from 'common/helpers';
+import { TAuthState } from 'redux/types';
+import { Role } from 'common/enums/roles.enum';
 const TotalDetails = ({ comment, leaveNearDoor }) => {
   const dispatch = useAppDispatch();
   const [discount, setDiscount] = useState('');
@@ -37,10 +40,13 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
   const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
     (state) => state.storeCheckout,
   );
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [withDelivery, setWithDelivery] = useState(true);
 
   const [totalUI, setTotalUI] = useState(
-    getTotalPrice(cart, withDelivery, discount),
+    user?.role === Role.SuperUser
+      ? getTotalPriceSuperUser(cart, withDelivery)
+      : getTotalPrice(cart, withDelivery, discount),
   );
 
   const handlePayClick = (router: NextRouter) => async () => {
@@ -75,7 +81,10 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
             // paymentId: response.data.id as string,
             address: responseAdress.id,
             basket: cart?.id,
-            totalAmount: getTotalPrice(cart, withDelivery, discount),
+            totalAmount:
+              user?.role === Role.SuperUser
+                ? getTotalPriceSuperUser(cart, withDelivery)
+                : getTotalPrice(cart, withDelivery, discount),
             comment: payload.comment,
             leaveNearDoor: payload.leaveNearDoor,
           } as CheckoutDTO,
@@ -99,7 +108,11 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
   };
 
   useEffect(() => {
-    setTotalUI(getTotalPrice(cart, withDelivery, discount));
+    setTotalUI(
+      user?.role === Role.SuperUser
+        ? getTotalPriceSuperUser(cart, withDelivery)
+        : getTotalPrice(cart, withDelivery, discount),
+    );
   });
   return (
     <Container>
@@ -192,55 +205,59 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
           </ItemRow>
         </Content>
       </Wrapper>
-      <Wrapper>
-        <ItemRow>
-          <span className="disount-svg">
-            <DiscountSVG />
-          </span>
-          <TextField
-            fullWidth
-            label="Промокод"
-            multiline
-            rows={1}
-            value={promoInput}
-            defaultValue=""
-            onChange={(e) => setPormoInput(e.target.value.toLowerCase())}
-          />
-          <motion.button
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            disabled={isEmpty(promoInput) ? true : false}
+      {user?.role === Role.SuperUser ? (
+        ''
+      ) : (
+        <Wrapper>
+          <ItemRow>
+            <span className="disount-svg">
+              <DiscountSVG />
+            </span>
+            <TextField
+              fullWidth
+              label="Промокод"
+              multiline
+              rows={1}
+              value={promoInput}
+              defaultValue=""
+              onChange={(e) => setPormoInput(e.target.value.toLowerCase())}
+            />
+            <motion.button
+              whileHover="hover"
+              whileTap="tap"
+              variants={variants.boxShadow}
+              disabled={isEmpty(promoInput) ? true : false}
+              style={{
+                backgroundColor: isEmpty(promoInput)
+                  ? color.textSecondary
+                  : color.btnPrimary,
+              }}
+              onClick={() => {
+                setDiscount(promoInput);
+                setSuccess(promoInput === 'wuluxeosen2022' ? true : false);
+                setPromoMessage(
+                  promoInput === 'wuluxeosen2022' ? 'Успешно' : 'Не успешно',
+                );
+                setTimeout(() => {
+                  setSuccess(false);
+                  setPromoMessage('');
+                }, 1000);
+              }}
+              className="promo-btn"
+            >
+              <ArrowRight />
+            </motion.button>
+          </ItemRow>
+          <span
+            className="promo-message"
             style={{
-              backgroundColor: isEmpty(promoInput)
-                ? color.textSecondary
-                : color.btnPrimary,
+              color: success ? color.ok : color.hover,
             }}
-            onClick={() => {
-              setDiscount(promoInput);
-              setSuccess(promoInput === 'wuluxeosen2022' ? true : false);
-              setPromoMessage(
-                promoInput === 'wuluxeosen2022' ? 'Успешно' : 'Не успешно',
-              );
-              setTimeout(() => {
-                setSuccess(false);
-                setPromoMessage('');
-              }, 1000);
-            }}
-            className="promo-btn"
           >
-            <ArrowRight />
-          </motion.button>
-        </ItemRow>
-        <span
-          className="promo-message"
-          style={{
-            color: success ? color.ok : color.hover,
-          }}
-        >
-          {promoMessage}
-        </span>
-      </Wrapper>
+            {promoMessage}
+          </span>
+        </Wrapper>
+      )}
     </Container>
   );
 };

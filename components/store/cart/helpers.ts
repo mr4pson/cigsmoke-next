@@ -1,26 +1,39 @@
-import { OrderProduct } from 'swagger/services';
-
+import { OrderProduct, User } from 'swagger/services';
+import { Role } from 'common/enums/roles.enum';
 const getTotalQuantity = (orderProducts: OrderProduct[]) => {
   return orderProducts?.reduce((accum, orderProduct) => {
     return accum + Number(orderProduct.qty);
   }, 0);
 };
 
-const getTotalPrice = (orderProducts: OrderProduct[]) => {
-  return orderProducts?.reduce((accum, orderProduct) => {
-    return accum + Number(orderProduct.qty) * Number(orderProduct.productPrice);
-  }, 0);
+const getTotalPrice = (orderProducts: OrderProduct[], user: User) => {
+  if (user.role === Role.SuperUser) {
+    return orderProducts?.reduce((accum, orderProduct) => {
+      return (
+        accum +
+        Number(orderProduct.qty) *
+          Number(orderProduct.productVariant![0].wholeSalePrice)
+      );
+    }, 0);
+  }
+  if (user.role !== Role.SuperUser) {
+    return orderProducts?.reduce((accum, orderProduct) => {
+      return (
+        accum + Number(orderProduct.qty) * Number(orderProduct.productPrice)
+      );
+    }, 0);
+  }
 };
 
 const getTotalDiscount = (orderProducts: OrderProduct[]) => {
-  const totalPrice = getTotalPrice(orderProducts);
+  // const totalPrice = getTotalPrice(orderProducts);
   const totalOldPrice = orderProducts?.reduce((accum, orderProduct) => {
     return (
       accum +
       Number(orderProduct.qty) * Number(orderProduct.productVariant?.price)
     );
   }, 0);
-  return totalPrice - totalOldPrice;
+  // return totalPrice - totalOldPrice;
 };
 
 const findTotalWheight = (cart: any) => {

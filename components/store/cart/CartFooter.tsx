@@ -12,12 +12,16 @@ import {
 } from './helpers';
 import color from 'components/store/lib/ui.colors';
 import variants from '../lib/variants';
+import { useAppSelector } from 'redux/hooks';
+import { TAuthState } from 'redux/types';
+import { Role } from 'common/enums/roles.enum';
 
 type Props = {
   cart: Basket | null;
 };
 
 const CartFooter: React.FC<Props> = ({ cart }) => {
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   return (
     <Wrapper>
       <CartCol>
@@ -37,12 +41,16 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
       </CartCol>
       <CartCol>
         <CartTitle>Общая сумма</CartTitle>
-        <CartTotalPrice>{getTotalPrice(cart?.orderProducts!)} ₽</CartTotalPrice>
+        <CartTotalPrice>
+          {getTotalPrice(cart?.orderProducts!, user!)} ₽
+        </CartTotalPrice>
         <CartDiscount>
-          <DiscountTitle>Скидка</DiscountTitle>
+          <DiscountTitle>
+            {user?.role === Role.SuperUser ? '' : `Скидка`}
+          </DiscountTitle>
           <DiscountPrice>
             {/* {getTotalDiscount(cart?.orderProducts!)} ₽ */}
-            {`- ${getDiscount(cart)}`} ₽
+            {user?.role === Role.SuperUser ? '' : `- ${getDiscount(cart)} ₽`}
           </DiscountPrice>
         </CartDiscount>
       </CartCol>

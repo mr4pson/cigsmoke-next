@@ -36,19 +36,34 @@ const Section = () => {
         setProducts(products.rows);
       }
       if (history) {
-        const deStringified = JSON.parse(history);
-        randomPruduct = await ProductService.findProductById({
-          productId: `${
-            deStringified[Math.floor(Math.random() * deStringified.length)]
-          }`,
-        });
-        products = (await ProductService.getProducts({
-          limit: 12,
-          categories: [randomPruduct?.category.url],
-        })) as unknown as { rows: Product[]; length: number };
-        setUrl(`/catalog?categories=${products.rows[0].category?.parent.url}`);
-        setLoading(false);
-        setProducts(products.rows);
+        try {
+          const deStringified = JSON.parse(history);
+          randomPruduct = await ProductService.findProductById({
+            productId: `${
+              deStringified[Math.floor(Math.random() * deStringified.length)]
+            }`,
+          });
+          products = (await ProductService.getProducts({
+            limit: 12,
+            categories: [randomPruduct?.category.url],
+          })) as unknown as { rows: Product[]; length: number };
+          setUrl(
+            `/catalog?categories=${products.rows[0].category?.parent.url}`,
+          );
+          setLoading(false);
+          setProducts(products.rows);
+        } catch (error) {
+          localStorage.removeItem('history');
+          const brands = await BrandService.getBrands();
+
+          const products = (await ProductService.getProducts({
+            limit: 12,
+            brands: brands.rows?.map((brand: any) => brand.url).reverse(),
+          })) as unknown as { rows: Product[]; length: number };
+          setUrl(`/catalog?categories=${products.rows[0]?.category?.url}`);
+          setLoading(false);
+          setProducts(products.rows);
+        }
       }
     })();
   }, []);

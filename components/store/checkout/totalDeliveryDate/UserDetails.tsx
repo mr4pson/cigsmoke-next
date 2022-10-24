@@ -135,10 +135,6 @@ const UserDetails = (props: any) => {
                   доставки. Включите «Позвонить перед доставкой», чтобы курьер
                   предупредил о прибытии.
                 </span>
-                <h3>Условия доставки</h3>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span>Cумма заказа - не более 50 000 ₽.</span>
-                </div>
               </React.Fragment>
             }
           >

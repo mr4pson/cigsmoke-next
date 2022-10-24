@@ -58,7 +58,6 @@ const getOldPrice = (cart: Basket | null): number => {
 
 const getDiscount = (cart: Basket | null) => {
   const oldPrice = getOldPrice(cart);
-
   const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
     return accum + Number(item.qty) * Number(item.productPrice!);
   }, 0)!;
@@ -91,6 +90,24 @@ const getTotalPrice = (
   }
 };
 
+const getTotalPriceSuperUser = (
+  cart: Basket | null,
+  withDliver: boolean | any,
+) => {
+  const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
+    return (
+      accum + Number(item.qty) * Number(item.productVariant![0].wholeSalePrice)
+    );
+  }, 0)!;
+
+  if (!withDliver) {
+    return totalAmount;
+  }
+  if (withDliver) {
+    return totalAmount + 500;
+  }
+};
+
 const findTotalWheight = (cart: any) => {
   let totalWeight = 0;
   cart?.orderProducts?.map((product: any) =>
@@ -115,4 +132,5 @@ export {
   getDiscount,
   getTotalPrice,
   findTotalWheight,
+  getTotalPriceSuperUser,
 };

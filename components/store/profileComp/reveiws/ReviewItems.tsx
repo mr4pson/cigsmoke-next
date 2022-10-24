@@ -19,7 +19,7 @@ const ReviewsItems: React.FC<Props> = ({ review }) => {
   return (
     <ReviewsItem>
       <div className="review-info-wrapper">
-        <Link href="/product/id">
+        <Link href={`/product/${review.product?.url}`}>
           <a className="product-title">{review.product?.name}</a>
         </Link>
         <span>
