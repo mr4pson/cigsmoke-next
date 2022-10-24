@@ -4,6 +4,7 @@ export interface PayloadProduct {
   name: string;
   price: number;
   oldPrice: number;
+  wholeSalePrice: number;
   available: boolean;
   colors: string[] | [];
   category: string;

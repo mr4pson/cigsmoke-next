@@ -49,13 +49,13 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
       leaveNearDoor,
     };
 
-    const response = await axiosInstance.post('/payments', {
-      value: `${Math.floor(
-        Number(getTotalPrice(cart, withDelivery, discount)),
-      )}.0`,
-    });
-
-    if (response.data.id && deliveryInfo && payload && cart) {
+    // const response = await axiosInstance.post('/payments', {
+    //   value: `${Math.floor(
+    //     Number(getTotalPrice(cart, withDelivery, discount)),
+    //   )}.0`,
+    // });
+    // response.data.id &&
+    if (deliveryInfo && payload && cart) {
       try {
         const responseAdress = await AddressService.createAddress({
           body: {
@@ -72,7 +72,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
 
         await CheckoutService.createCheckout({
           body: {
-            paymentId: response.data.id as string,
+            // paymentId: response.data.id as string,
             address: responseAdress.id,
             basket: cart?.id,
             totalAmount: getTotalPrice(cart, withDelivery, discount),

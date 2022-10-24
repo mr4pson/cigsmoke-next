@@ -5802,6 +5802,9 @@
         "oldPrice": {
           "type": "integer"
         },
+        "wholeSalePrice": {
+          "type": "integer"
+        },
         "available": {
           "type": "boolean"
         },

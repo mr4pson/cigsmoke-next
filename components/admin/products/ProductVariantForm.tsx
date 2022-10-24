@@ -60,6 +60,13 @@ const ProductVariant: React.FC<Props> = ({
           placeholder="Введите устаревшую стоимость продукта"
         />
       </Form.Item>
+      {/* ----------------------wholeSalePrice---------------------- */}
+      <Form.Item
+        name={`${ManageProductFields.wholeSalePrice}[${index}]`}
+        required
+      >
+        <Input type={'number'} placeholder="введите оптовую цену" />
+      </Form.Item>
       {/* ----------------------AVAILABLE---------------------- */}
       <Form.Item
         label="Доступность"

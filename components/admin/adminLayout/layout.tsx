@@ -1,9 +1,10 @@
 import { Breadcrumb, Button, Layout, Menu } from 'antd';
+import { Role } from 'common/enums/roles.enum';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from 'redux/hooks';
-import { User } from 'swagger/services';
+import { User, UserService } from 'swagger/services';
 import { items } from './constants';
 import {
   currentPath,
@@ -32,7 +33,20 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
   }, [router]);
 
   const backRef: string = handleGetSecondHref(router);
-
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await UserService.findUserById({ userId: user?.id! });
+        if (response.role !== Role.Admin) {
+          router.push('/');
+        }
+      } catch (error) {
+        if (error) {
+          router.push('/admin/login');
+        }
+      }
+    })();
+  });
   return (
     <>
       <Layout style={{ minHeight: '100vh' }}>
