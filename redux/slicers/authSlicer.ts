@@ -2,8 +2,9 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { HttpStatus } from 'common/enums/httpStatus.enum';
 import { Role } from 'common/enums/roles.enum';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+import { openErrorNotification } from 'common/helpers';
 import { TAuthState } from 'redux/types';
-import { AuthService, User } from 'swagger/services';
+import { AuthService, User, UserService } from 'swagger/services';
 import {
   getErrorMassage,
   handlePending,
@@ -42,9 +43,9 @@ export const userSignin = createAsyncThunk<
         body: payload,
       });
 
-      if (response.user.role !== Role.User) {
-        return rejectWithValue(getErrorMassage(HttpStatus.FORBIDDEN));
-      }
+      // if (response.user.role !== Role.User || response.user.role !== Role.SuperUser) {
+      //   return rejectWithValue(getErrorMassage(HttpStatus.FORBIDDEN));
+      // }
 
       return response;
     } catch (error: any) {
@@ -111,6 +112,29 @@ export const resetPswByToken = createAsyncThunk<
       });
 
       return repsonse;
+    } catch (error: any) {
+      return rejectWithValue(error.response.status);
+    }
+  },
+);
+
+export const fetchUserById = createAsyncThunk<
+  { user: User },
+  {
+    token: string;
+    userId: string;
+  },
+  { rejectValue: string }
+>(
+  'auth/fetchUserById',
+  async function (payload, { rejectWithValue }): Promise<any> {
+    try {
+      await AuthService.session({ body: payload });
+
+      const response = await UserService.findUserById({
+        userId: payload.userId,
+      });
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.response.status);
     }
@@ -228,6 +252,26 @@ const authSlicer = createSlice({
         (state, action: PayloadAction<any, any, any, any>) => {
           state.loading = false;
           state.serverErr = action.payload;
+          console.log('rejected');
+        },
+      )
+      //check for token session
+      .addCase(fetchUserById.pending, handlePending)
+      .addCase(fetchUserById.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.loading = false;
+        state.serverErr = undefined;
+        console.log('fulfilled');
+      })
+      .addCase(
+        fetchUserById.rejected,
+        (state, action: PayloadAction<any, any, any, any>) => {
+          openErrorNotification(getErrorMassage(action.payload));
+          if (action.payload >= 400) {
+            state.serverErr = action.payload;
+            state.user = null;
+          }
+          state.loading = false;
           console.log('rejected');
         },
       );

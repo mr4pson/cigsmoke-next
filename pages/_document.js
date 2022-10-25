@@ -28,7 +28,7 @@ class MyDocument extends Document {
           {/* <script src="https://static.yoomoney.ru/checkout-js/v1/checkout.js"></script> */}
         </Head>
         <body>
-          <div
+          {/* <div
             dangerouslySetInnerHTML={{
               __html: GoogleAnalytics(),
             }}
@@ -37,7 +37,7 @@ class MyDocument extends Document {
             dangerouslySetInnerHTML={{
               __html: YandexMetrics(),
             }}
-          />
+          /> */}
           <Main />
           <NextScript />
         </body>

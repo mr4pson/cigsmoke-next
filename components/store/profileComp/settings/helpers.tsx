@@ -2,6 +2,8 @@ import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import color from 'components/store/lib/ui.colors';
 import { UserService } from 'swagger/services';
+import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
+import { openErrorNotification } from 'common/helpers';
 const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -27,8 +29,28 @@ const handleEmailChange = async ({ user, email, setServerResponse }) => {
   try {
     await UserService.updateUser({ userId: user.id, body: { email } });
     setServerResponse(200);
+    openSuccessNotification('Успешно изменено 🙌');
   } catch (error: any) {
     setServerResponse(error.response.status);
+    switch (error.response.status) {
+      case 409:
+        openErrorNotification('Ничего не изменилось');
+        break;
+      case 401:
+        openErrorNotification('Несанкционированный доступ');
+        break;
+      case 403:
+        openErrorNotification('Срок действия ключа истек');
+        break;
+      case 404:
+        openErrorNotification('Данные не найдены');
+        break;
+      default:
+        openErrorNotification(
+          'Нам очень жаль 😔, что-то пошло не так с нашими серверами',
+        );
+        break;
+    }
     setTimeout(() => {
       setServerResponse(undefined);
     }, 1000);
@@ -39,8 +61,28 @@ const handleDataChange = async ({ user, payload, setServerResponse }) => {
   try {
     await UserService.updateUser({ userId: user.id, body: payload });
     setServerResponse(200);
+    openSuccessNotification('Успешно изменено 🙌');
   } catch (error: any) {
     setServerResponse(error.response.status);
+    switch (error.response.status) {
+      case 409:
+        openErrorNotification('Ничего не изменилось');
+        break;
+      case 401:
+        openErrorNotification('Несанкционированный доступ');
+        break;
+      case 403:
+        openErrorNotification('Срок действия ключа истек');
+        break;
+      case 404:
+        openErrorNotification('Данные не найдены');
+        break;
+      default:
+        openErrorNotification(
+          'Нам очень жаль 😔, что-то пошло не так с нашими серверами',
+        );
+        break;
+    }
     setTimeout(() => {
       setServerResponse(undefined);
     }, 1000);
