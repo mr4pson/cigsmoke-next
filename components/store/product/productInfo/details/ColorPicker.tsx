@@ -8,6 +8,9 @@ import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { Color, ProductVariant } from 'swagger/services';
 import { useAppDispatch } from 'redux/hooks';
 import { setVariant } from 'redux/slicers/store/cartSlicer';
+import { useAppSelector } from 'redux/hooks';
+import { TAuthState } from 'redux/types';
+import { Role } from 'common/enums/roles.enum';
 
 type StyleProps = {
   backgroundColor: string;
@@ -58,6 +61,8 @@ const ColorPicker: React.FC<Props> = ({
       );
     }
   }, []);
+
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   useEffect(() => {
     if (variantColor?.url === '_' || variantColor?.name === '_') {
@@ -125,7 +130,11 @@ const ColorPicker: React.FC<Props> = ({
                   <ColorPickerSpan>{'Нет в наличии'}</ColorPickerSpan>
                 ) : (
                   <ColorPickerPriceWrapper>
-                    <ColorPickerSpan>{`${variant.price}₽`}</ColorPickerSpan>
+                    <ColorPickerSpan>{`${
+                      user?.role === Role.SuperUser
+                        ? variant.wholeSalePrice
+                        : variant.price
+                    }₽`}</ColorPickerSpan>
                     {!variant.oldPrice ? (
                       ''
                     ) : (

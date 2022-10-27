@@ -12,14 +12,14 @@ import variants from '../lib/variants';
 import Authorization from '../storeLayout/utils/HeaderAuth/authorize';
 import { UsePagination } from '../storeLayout/utils/HeaderAuth/authorize/helpers';
 import { devices } from '../lib/Devices';
-
+import Loading from 'ui-kit/Loading';
 const CheckoutContent = () => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [hasAddress, setHasAddress] = useState(false);
   const [backToFinal, setBacktoFinal] = useState(false);
   const [direction, authType, paginate] = UsePagination();
   const [step, setStep] = useState(0);
-
+  const [isLoading, setLoading] = useState(false);
   useEffect(() => {
     if (user) {
       setStep(1);
@@ -27,7 +27,14 @@ const CheckoutContent = () => {
   }, [user]);
 
   return (
-    <>
+    <Content>
+      {isLoading ? (
+        <Loader>
+          <Loading />
+        </Loader>
+      ) : (
+        ''
+      )}
       <Header step={step} setStep={setStep} />
       {step == 0 && !user ? (
         <Contianer>
@@ -52,14 +59,20 @@ const CheckoutContent = () => {
           setHasAddress={setHasAddress}
           setStep={setStep}
           setBacktoFinal={setBacktoFinal}
+          setLoading={setLoading}
         />
       )}
-    </>
+    </Content>
   );
 };
 
+const Content = styled.div`
+  width: 100%;
+  position: relative;
+`;
+
 const Contianer = styled(motion.div)`
-  width: 100vw;
+  width: 100%;
   height: 70vh;
   display: flex;
   flex-direction: row;
@@ -99,6 +112,20 @@ const AuthContent = styled(motion.div)`
   span {
     color: ${color.hover};
   }
+`;
+
+const Loader = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff36;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default CheckoutContent;

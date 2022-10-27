@@ -16,6 +16,7 @@ import { devices } from '../lib/Devices';
 import color from '../lib/ui.colors';
 import variants from '../lib/variants';
 import { getFormatedDate, timeCheck } from './helpers';
+import { CheckoutService } from 'swagger/services';
 import ProductItem from './ProductItem';
 import { useRouter } from 'next/router';
 type Props = {
@@ -36,9 +37,15 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
     setIsModalVisible(true);
   };
 
-  const handleRemove = (paymentId: string) => () => {
+  const handleRemove = (checkoutId: string) => async () => {
     setIsModalVisible(false);
-    dispatch(cancelCheckout(paymentId));
+    // dispatch(cancelCheckout(paymentId));
+    await CheckoutService.updateCheckout({
+      checkoutId,
+      body: {
+        status: CheckoutStatus.Canceled,
+      },
+    });
     router.push('/');
   };
 
@@ -69,7 +76,9 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               style={{
                 backgroundColor:
                   checkout.status !== CheckoutStatus.Completed
-                    ? color.yellow
+                    ? checkout.status === CheckoutStatus.Canceled
+                      ? color.hover
+                      : color.yellow
                     : color.ok,
               }}
             ></span>
@@ -79,12 +88,17 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               {checkout.status === CheckoutStatus.New && 'Новый заказ'}
               {checkout.status === CheckoutStatus.InDelivery && 'В пути'}
               {checkout.status === CheckoutStatus.Completed && 'Завершен'}
+              {checkout.status === CheckoutStatus.Canceled && 'Отменено'}
             </h2>
           </div>
           {checkout.status !== CheckoutStatus.Completed ? (
-            <span>Заказ будет у вас до {getFormatedDate(orderDate)}</span>
+            checkout.status === CheckoutStatus.Canceled ? (
+              <></>
+            ) : (
+              <span>Заказ будет у вас до {getFormatedDate(orderDate)}</span>
+            )
           ) : (
-            ''
+            <></>
           )}
         </div>
         <div className="order-details-wrapper">
@@ -150,12 +164,16 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
               </span>
             </div>
             {checkout.status !== CheckoutStatus.Completed ? (
-              <div className="order-key-value">
-                <span className="key">Дата доставки:</span>
-                <span className="value">До {getFormatedDate(orderDate)}</span>
-              </div>
+              checkout.status === CheckoutStatus.Canceled ? (
+                <></>
+              ) : (
+                <div className="order-key-value">
+                  <span className="key">Дата доставки:</span>
+                  <span className="value">До {getFormatedDate(orderDate)}</span>
+                </div>
+              )
             ) : (
-              ''
+              <></>
             )}
 
             {/* <div className="order-key-value">
@@ -172,15 +190,19 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
             <div className="order-action-btns">
               {!timeCheck(checkout.createdAt) ? (
                 checkout.status !== CheckoutStatus.Completed ? (
-                  <motion.button
-                    whileHover="hover"
-                    whileTap="tap"
-                    variants={variants.boxShadow}
-                    className="danger"
-                    onClick={onRemoveClick()}
-                  >
-                    Отменить заказ {saveLoading && <Loading />}
-                  </motion.button>
+                  checkout.status === CheckoutStatus.Canceled ? (
+                    <></>
+                  ) : (
+                    <motion.button
+                      whileHover="hover"
+                      whileTap="tap"
+                      variants={variants.boxShadow}
+                      className="danger"
+                      onClick={onRemoveClick()}
+                    >
+                      Отменить заказ {saveLoading && <Loading />}
+                    </motion.button>
+                  )
                 ) : (
                   <></>
                 )
@@ -194,7 +216,7 @@ const Orders: React.FC<Props> = ({ checkout, index }) => {
       <Modal
         title={'Вы уверены, что хотите отменить этот заказ?'}
         visible={isModalVisible}
-        onOk={handleRemove(checkout.paymentId!)}
+        onOk={handleRemove(checkout.id!)}
         onCancel={handleCancel}
       ></Modal>
     </React.Fragment>
@@ -280,7 +302,13 @@ const Items = styled(motion.li)`
         justify-content: flex-start;
         alig-items: center;
         gap: 10px;
-
+        .color-wrapper {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          gap: 10px;
+        }
         @media ${devices.mobileL} {
           flex-direction: column;
 

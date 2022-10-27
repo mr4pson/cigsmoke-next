@@ -8,6 +8,7 @@ import ShareToSocial from './ShareToSocial';
 import DropDowns from './DropDowns';
 import ActionBtns from './ActionBtns';
 import ColorPicker from './ColorPicker';
+import { TAuthState } from 'redux/types';
 import { UserSelectWrapper } from './common';
 import Quastions from '../../../../../assets/quastions.svg';
 import { Basket, Product, ProductVariant, Wishlist } from 'swagger/services';
@@ -31,6 +32,7 @@ import { TCartState } from 'redux/types';
 import { TProductInfoState } from 'redux/types';
 import SizePicker from './SizePicker';
 import Arrow from '../../../../../assets/arrow.svg';
+import { Role } from 'common/enums/roles.enum';
 type Props = {
   images: string[];
   product?: Product;
@@ -105,7 +107,7 @@ const Details: React.FC<Props> = ({
       localStorage.removeItem('selectedSize');
     }
   }, []);
-
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   return (
     <DetailsContainer>
       <ShareToSocial
@@ -175,7 +177,12 @@ const Details: React.FC<Props> = ({
           exit={{ y: -20, opacity: 0, transition: { delay: 0.1 } }}
           variants={variants.fadInSlideUp}
         >
-          <PriceItem>{curVariant?.price}₽</PriceItem>
+          <PriceItem>
+            {user?.role === Role.SuperUser
+              ? curVariant?.wholeSalePrice
+              : curVariant?.price}
+            ₽
+          </PriceItem>
           {!!curVariant?.oldPrice && (
             <PriceItem>{curVariant?.oldPrice}₽</PriceItem>
           )}

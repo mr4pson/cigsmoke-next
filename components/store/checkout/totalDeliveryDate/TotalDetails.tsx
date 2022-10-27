@@ -16,6 +16,7 @@ import {
   getOldPrice,
   getTotalPrice,
   findTotalWheight,
+  getTotalPriceSuperUser,
 } from './helpers';
 import { formatNumber } from 'common/helpers/number.helper';
 import { NextRouter, useRouter } from 'next/router';
@@ -26,7 +27,10 @@ import { AddressService, CheckoutService, CheckoutDTO } from 'swagger/services';
 import { createCart, fetchCart } from 'redux/slicers/store/cartSlicer';
 import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.helper';
 import { openErrorNotification } from 'common/helpers';
-const TotalDetails = ({ comment, leaveNearDoor }) => {
+import { TAuthState } from 'redux/types';
+import { Role } from 'common/enums/roles.enum';
+import { Basket } from 'swagger/services';
+const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
   const dispatch = useAppDispatch();
   const [discount, setDiscount] = useState('');
   const router = useRouter();
@@ -37,25 +41,27 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
   const { deliveryInfo } = useAppSelector<TStoreCheckoutState>(
     (state) => state.storeCheckout,
   );
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [withDelivery, setWithDelivery] = useState(true);
-
   const [totalUI, setTotalUI] = useState(
-    getTotalPrice(cart, withDelivery, discount),
+    user?.role === Role.SuperUser
+      ? getTotalPriceSuperUser(cart, withDelivery)
+      : getTotalPrice(cart, withDelivery, discount),
   );
-
   const handlePayClick = (router: NextRouter) => async () => {
+    setLoading(true);
     const payload = {
       comment,
       leaveNearDoor,
     };
 
-    const response = await axiosInstance.post('/payments', {
-      value: `${Math.floor(
-        Number(getTotalPrice(cart, withDelivery, discount)),
-      )}.0`,
-    });
-
-    if (response.data.id && deliveryInfo && payload && cart) {
+    // const response = await axiosInstance.post('/payments', {
+    //   value: `${Math.floor(
+    //     Number(getTotalPrice(cart, withDelivery, discount)),
+    //   )}.0`,
+    // });
+    // response.data.id &&
+    if (deliveryInfo && payload && cart) {
       try {
         const responseAdress = await AddressService.createAddress({
           body: {
@@ -72,10 +78,13 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
 
         await CheckoutService.createCheckout({
           body: {
-            paymentId: response.data.id as string,
+            // paymentId: response.data.id as string,
             address: responseAdress.id,
             basket: cart?.id,
-            totalAmount: getTotalPrice(cart, withDelivery, discount),
+            totalAmount:
+              user?.role === Role.SuperUser
+                ? getTotalPriceSuperUser(cart, withDelivery)
+                : getTotalPrice(cart, withDelivery, discount),
             comment: payload.comment,
             leaveNearDoor: payload.leaveNearDoor,
           } as CheckoutDTO,
@@ -90,7 +99,9 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
         openSuccessNotification('Ваш Заказ успешно');
 
         router.push('/orders');
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         openErrorNotification('Ваш Заказ не прошел');
       }
 
@@ -99,7 +110,11 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
   };
 
   useEffect(() => {
-    setTotalUI(getTotalPrice(cart, withDelivery, discount));
+    setTotalUI(
+      user?.role === Role.SuperUser
+        ? getTotalPriceSuperUser(cart, withDelivery)
+        : getTotalPrice(cart, withDelivery, discount),
+    );
   });
   return (
     <Container>
@@ -140,28 +155,40 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
             {cart?.orderProducts?.map((product: any) => {
               return (
                 <ItemRow>
-                  <span>{product.product?.name?.slice(0, 15)}..</span>
+                  <span>{product.product?.name?.slice(0, 20)}..</span>
                   <b>
-                    <span>{product.qty} шт</span> *{'  '}
-                    <span>{product.productPrice} ₽</span>
+                    <span>{product!.qty} шт</span> *{'  '}
+                    <span>
+                      {user?.role === Role.SuperUser
+                        ? product.productVariant?.wholeSalePrice
+                        : product.productVariant?.price}{' '}
+                      ₽
+                    </span>
                     {'  '}
                     <span>=</span>
                     {'  '}
                     <span style={{ whiteSpace: 'nowrap' }}>
-                      {product.productPrice * product.qty} ₽
+                      {user?.role === Role.SuperUser
+                        ? product.productVariant?.wholeSalePrice * product.qty
+                        : product.productVariant?.price * product.qty}{' '}
+                      ₽
                     </span>
                   </b>
                 </ItemRow>
               );
             })}
-            <ItemRow>
-              <span>Скидка</span>
-              <b>
-                <span style={{ color: color.ok }}>
-                  {`- ${formatNumber(getDiscount(cart))}`} ₽
-                </span>
-              </b>
-            </ItemRow>
+            {user?.role === Role.SuperUser ? (
+              ''
+            ) : (
+              <ItemRow>
+                <span>Скидка</span>
+                <b>
+                  <span style={{ color: color.ok }}>
+                    {`- ${formatNumber(getDiscount(cart))}`} ₽
+                  </span>
+                </b>
+              </ItemRow>
+            )}
             <ItemRow>
               <label className="self-pick-up" htmlFor="self-pick-up">
                 <input
@@ -179,7 +206,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
               <ItemRow>
                 <span>Стоимость доставки</span>
                 <b>
-                  <span>{`150`} ₽</span>
+                  <span>{user?.role === Role.SuperUser ? '500' : '150'} ₽</span>
                 </b>
               </ItemRow>
             ) : (
@@ -192,55 +219,59 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
           </ItemRow>
         </Content>
       </Wrapper>
-      <Wrapper>
-        <ItemRow>
-          <span className="disount-svg">
-            <DiscountSVG />
-          </span>
-          <TextField
-            fullWidth
-            label="Промокод"
-            multiline
-            rows={1}
-            value={promoInput}
-            defaultValue=""
-            onChange={(e) => setPormoInput(e.target.value.toLowerCase())}
-          />
-          <motion.button
-            whileHover="hover"
-            whileTap="tap"
-            variants={variants.boxShadow}
-            disabled={isEmpty(promoInput) ? true : false}
+      {user?.role === Role.SuperUser ? (
+        ''
+      ) : (
+        <Wrapper>
+          <ItemRow>
+            <span className="disount-svg">
+              <DiscountSVG />
+            </span>
+            <TextField
+              fullWidth
+              label="Промокод"
+              multiline
+              rows={1}
+              value={promoInput}
+              defaultValue=""
+              onChange={(e) => setPormoInput(e.target.value.toLowerCase())}
+            />
+            <motion.button
+              whileHover="hover"
+              whileTap="tap"
+              variants={variants.boxShadow}
+              disabled={isEmpty(promoInput) ? true : false}
+              style={{
+                backgroundColor: isEmpty(promoInput)
+                  ? color.textSecondary
+                  : color.btnPrimary,
+              }}
+              onClick={() => {
+                setDiscount(promoInput);
+                setSuccess(promoInput === 'wuluxeosen2022' ? true : false);
+                setPromoMessage(
+                  promoInput === 'wuluxeosen2022' ? 'Успешно' : 'Не успешно',
+                );
+                setTimeout(() => {
+                  setSuccess(false);
+                  setPromoMessage('');
+                }, 1000);
+              }}
+              className="promo-btn"
+            >
+              <ArrowRight />
+            </motion.button>
+          </ItemRow>
+          <span
+            className="promo-message"
             style={{
-              backgroundColor: isEmpty(promoInput)
-                ? color.textSecondary
-                : color.btnPrimary,
+              color: success ? color.ok : color.hover,
             }}
-            onClick={() => {
-              setDiscount(promoInput);
-              setSuccess(promoInput === 'wuluxeosen2022' ? true : false);
-              setPromoMessage(
-                promoInput === 'wuluxeosen2022' ? 'Успешно' : 'Не успешно',
-              );
-              setTimeout(() => {
-                setSuccess(false);
-                setPromoMessage('');
-              }, 1000);
-            }}
-            className="promo-btn"
           >
-            <ArrowRight />
-          </motion.button>
-        </ItemRow>
-        <span
-          className="promo-message"
-          style={{
-            color: success ? color.ok : color.hover,
-          }}
-        >
-          {promoMessage}
-        </span>
-      </Wrapper>
+            {promoMessage}
+          </span>
+        </Wrapper>
+      )}
     </Container>
   );
 };

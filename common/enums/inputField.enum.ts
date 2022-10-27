@@ -2,6 +2,7 @@ export enum InputField {
   Name = 'Имя',
   Price = 'Стоимость',
   OldPrice = 'Устаревшая стоимость',
+  wholeSalePrice = 'оптовая цена',
   Url = 'URL',
   Desc = 'Описание',
   Description = 'Описание',

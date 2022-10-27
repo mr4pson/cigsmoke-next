@@ -33,22 +33,15 @@ const UserDetails = (props: any) => {
     setBacktoFinal(true);
   };
 
-  const userChoice: any = localStorage.getItem('userChoice');
   const selectedSize: any = localStorage.getItem('selectedSize');
   useEffect(() => {
-    if (userChoice || (selectedSize && isOpen === false))
-      setComment(
-        `${comment} ${isOpen ? '' : JSON.parse(userChoice)} ${JSON.parse(
-          selectedSize,
-        )}`,
-      );
+    if (selectedSize && isOpen === false)
+      setComment(`${comment}  ${isOpen ? '' : JSON.parse(selectedSize)}`);
   }, [isOpen]);
   useEffect(() => {
-    if (userChoice || selectedSize)
+    if (selectedSize)
       setComment(
-        `${comment} цвет:${JSON.parse(userChoice)} Размер:${JSON.parse(
-          selectedSize,
-        )}`,
+        `${comment} ${isOpen ? '' : 'Размер:' + JSON.parse(selectedSize)}`,
       );
   }, []);
 
@@ -135,10 +128,6 @@ const UserDetails = (props: any) => {
                   доставки. Включите «Позвонить перед доставкой», чтобы курьер
                   предупредил о прибытии.
                 </span>
-                <h3>Условия доставки</h3>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span>Cумма заказа - не более 50 000 ₽.</span>
-                </div>
               </React.Fragment>
             }
           >

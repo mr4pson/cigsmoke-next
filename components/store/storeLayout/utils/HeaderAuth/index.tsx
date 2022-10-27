@@ -3,16 +3,17 @@ import variants from 'components/store/lib/variants';
 import { motion } from 'framer-motion';
 import { useState, useCallback, useEffect } from 'react';
 import { outsideClickListner } from 'components/store/storeLayout/helpers';
-import { useAppSelector } from 'redux/hooks';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { TAuthState } from 'redux/types';
 import styled from 'styled-components';
 import { PopupDisplay } from '../../constants';
 import AuthBtn from './AuthBtn';
 import Authorization from './authorize';
 import { UsePagination } from './authorize/helpers';
-import { handleAfterAuthorized, handleSession } from './helpers';
+import { handleAfterAuthorized } from './helpers';
 import { Profile } from './Profile';
-import { useAppDispatch } from 'redux/hooks';
+import { fetchUserById } from 'redux/slicers/authSlicer';
+import { getAccessToken } from 'common/helpers/jwtToken.helpers';
 
 const Authorize = () => {
   const [direction, authType, paginate] = UsePagination();
@@ -21,7 +22,6 @@ const Authorize = () => {
   const [menuRef, setMenuRef] = useState(null);
   const [btnRef, setBtnRef] = useState(null);
   const [listening, setListening] = useState(false);
-  const dispatch = useAppDispatch();
   const menuNode = useCallback((node: any) => {
     setMenuRef(node);
   }, []);
@@ -39,11 +39,14 @@ const Authorize = () => {
       setDisplay,
     ),
   );
-
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
+
   useEffect(() => {
-    handleSession(dispatch);
-  });
+    const accessToken = getAccessToken();
+    if (accessToken && user?.id) dispatch(fetchUserById({ userId: user?.id! }));
+  }, [isOpened]);
+
   return (
     <>
       <AuthBtn

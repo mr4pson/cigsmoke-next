@@ -130,6 +130,51 @@
         }
       }
     },
+    "/auth/session": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Check for token session",
+        "description": "",
+        "operationId": "Session",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["token"],
+              "properties": {
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid User request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/auth/reset": {
       "post": {
         "tags": ["auth"],
@@ -5800,6 +5845,9 @@
           "minimum": 1
         },
         "oldPrice": {
+          "type": "integer"
+        },
+        "wholeSalePrice": {
           "type": "integer"
         },
         "available": {

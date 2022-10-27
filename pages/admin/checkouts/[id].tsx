@@ -114,6 +114,16 @@ const CheckoutsPage = () => {
                             >
                               Изменить на (Завершен)
                             </li>
+                            <li
+                              onClick={() =>
+                                handleOrderStaus(
+                                  checkout.id,
+                                  CheckoutStatus.Canceled,
+                                )
+                              }
+                            >
+                              Изменить на (Отменено)
+                            </li>
                           </StatusOptionsWappper>
                         ) : (
                           ''
@@ -125,7 +135,9 @@ const CheckoutsPage = () => {
                         style={{
                           backgroundColor:
                             checkout.status !== CheckoutStatus.Completed
-                              ? color.yellow
+                              ? checkout.status === CheckoutStatus.Canceled
+                                ? color.hover
+                                : color.yellow
                               : color.ok,
                         }}
                       ></span>
@@ -136,6 +148,8 @@ const CheckoutsPage = () => {
                           'В пути'}
                         {checkout.status === CheckoutStatus.Completed &&
                           'Завершен'}
+                        {checkout.status === CheckoutStatus.Canceled &&
+                          'Отменено'}
                       </h2>
                     </div>
                     {checkout.status !== CheckoutStatus.Completed ? (
@@ -388,7 +402,13 @@ const Items = styled(motion.li)`
         justify-content: flex-start;
         alig-items: center;
         gap: 10px;
-
+        .color-wrapper {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          gap: 10px;
+        }
         @media ${devices.mobileL} {
           flex-direction: column;
 

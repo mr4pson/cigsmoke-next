@@ -5,6 +5,7 @@ import color from 'components/store/lib/ui.colors';
 import DeliveryDetails from './DeliveryDetails';
 import TotalDetails from './TotalDetails';
 import { devices } from 'components/store/lib/Devices';
+
 const TotalDeliveryDate = (props: any) => {
   const [comment, setComment] = useState('');
   const [leaveNearDoor, setLeaveNearDoor] = useState(false);
@@ -25,7 +26,11 @@ const TotalDeliveryDate = (props: any) => {
           setLeaveNearDoor={setLeaveNearDoor}
           {...props}
         />
-        <TotalDetails comment={comment} leaveNearDoor={leaveNearDoor} />
+        <TotalDetails
+          comment={comment}
+          leaveNearDoor={leaveNearDoor}
+          {...props}
+        />
       </Wrapper>
     </Container>
   );

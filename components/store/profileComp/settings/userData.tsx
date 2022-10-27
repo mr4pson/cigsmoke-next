@@ -240,6 +240,7 @@ const UserData = (props: any) => {
           onClick={(e) => {
             e.preventDefault();
             handleDataChange({ user, payload, setServerResponse });
+            setOpen(false);
             setSuccess(serverResponse == 200 ? true : false);
             setTimeout(() => {
               setSuccess(false);

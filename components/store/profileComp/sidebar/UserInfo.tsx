@@ -5,6 +5,7 @@ import variants from 'components/store/lib/variants';
 import { handleConfirmationEmail, handleSignout } from './helpers';
 import { useState, useEffect } from 'react';
 import { useAppDispatch } from 'redux/hooks';
+import { Role } from 'common/enums/roles.enum';
 
 const UserInfo = (props: any) => {
   const { isVerified, setAuthorized, setStep, user } = props;
@@ -31,7 +32,12 @@ const UserInfo = (props: any) => {
         src={`https://avatars.dicebear.com/api/micah/${user?.id}.svg?facialHairProbability=0&mouth[]=smile&scale=70&hair[]=fonze,full,pixie`}
         alt="profile"
       />
-      <h1>{`${user.firstName} ${user.lastName}`}</h1>
+      <h1>
+        {`${user.firstName} ${user.lastName}`}{' '}
+        <span style={{ color: color.ok, fontSize: '0.7rem' }}>
+          {user.role === Role.SuperUser ? 'премия' : ''}
+        </span>
+      </h1>
       <span style={{ color: isVerified ? color.textSecondary : color.hover }}>
         {user.email}
       </span>

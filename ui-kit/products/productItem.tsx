@@ -10,7 +10,9 @@ import { Product } from 'swagger/services';
 import AddToCart from '../../components/home-page/bestsellers/cartBtn';
 import Slider from './slider';
 import { handleHistory } from './helpers';
-
+import { useAppSelector } from 'redux/hooks';
+import { TAuthState } from 'redux/types';
+import { Role } from 'common/enums/roles.enum';
 type Props = {
   product: Product;
   custom: number;
@@ -29,10 +31,10 @@ const ProductItem: React.FC<Props> = ({
   onWishBtnClick,
 }) => {
   const images = getProductVariantsImages(product.productVariants);
-  const { price, oldPrice } = product.productVariants![0]
+  const { price, oldPrice, wholeSalePrice } = product.productVariants![0]
     ? product.productVariants![0]
     : ({} as any);
-
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   return (
     <ItemContainer
       custom={custom}
@@ -59,7 +61,10 @@ const ProductItem: React.FC<Props> = ({
                   fontWeight: '800',
                 }}
               >
-                {formatNumber(price)}₽
+                {user?.role === Role.SuperUser
+                  ? formatNumber(wholeSalePrice)
+                  : formatNumber(price)}
+                ₽
               </span>
               {oldPrice ? (
                 <span

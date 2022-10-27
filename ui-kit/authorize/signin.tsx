@@ -99,8 +99,8 @@ const SignIn = (props: any) => {
             <span style={{ color: color.hover }}>
               {serverErr == 400 ? 'Неверный эл. адрес' : ''}
             </span>
-            <span style={{ color: color.hover }}>
-              {serverErr == 403 ? 'не подтверждено' : ''}
+            <span style={{ color: color.hover, fontSize: '0.4rem' }}>
+              {serverErr == 403 ? 'Срок действия ключа истек' : ''}
             </span>
           </label>
           <AuthInput

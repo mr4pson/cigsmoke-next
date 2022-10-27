@@ -39,6 +39,7 @@ const handleCartBtnClick =
     const curOrderProduct = cart?.orderProducts?.find(
       (orderProduct) => orderProduct.product?.id == product?.id,
     );
+    localStorage.setItem('userChoice', JSON.stringify(variant.color?.name));
     if (curOrderProduct) {
       dispatch(
         updateCart({

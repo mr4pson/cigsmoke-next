@@ -1,7 +1,6 @@
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import color from 'components/store/lib/ui.colors';
-import axios from 'axios';
 import { ChangeUserPswService } from 'swagger/services';
 
 const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -25,39 +24,23 @@ const InputsTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const handleChangePsw = async ({ user, psw, setServerResponse }) => {
+const handleChangePsw = async ({
+  user,
+  psw,
+  oldPassword,
+  setServerResponse,
+}) => {
   try {
     await ChangeUserPswService.changePassword({
       userId: user.id,
-      body: { password: psw },
+      body: { password: psw, oldPassword },
     });
+    setServerResponse(200);
+    setTimeout(() => setServerResponse(undefined), 2000);
   } catch (error: any) {
     setServerResponse(error.response.status);
+    setTimeout(() => setServerResponse(undefined), 2000);
   }
-
-  // const token = localStorage.getItem('accessToken');
-  // const userId = localStorage.getItem('userId');
-  // const options = {
-  //   url: `http://localhost:4001/users/changepsw/${userId}`,
-  //   method: 'PUT',
-  //   headers: {
-  //     Accept: 'application/json',
-  //     'Content-Type': 'application/json;charset=UTF-8',
-  //     Authorization: `bearer ${token}`,
-  //   },
-  //   data: {
-  //     oldPassword: payload.oldPsw,
-  //     password: payload.psw,
-  //   },
-  // };
-
-  // await axios(options)
-  //   .then((response) => {
-  //     payload.setServerResponse(response.status);
-  //   })
-  //   .catch((error) => {
-  //     payload.setServerResponse(error.response.status);
-  //   });
 };
 
 export { InputsTooltip, handleChangePsw };

@@ -8,7 +8,9 @@ import {
   increaseCounter,
 } from '../../components/store/storeLayout/utils/HeaderCart/helpers';
 import { Product } from 'swagger/services';
-
+import { useAppSelector } from 'redux/hooks';
+import { TAuthState } from 'redux/types';
+import { Role } from 'common/enums/roles.enum';
 type Props = {
   qty: number;
   product: Product;
@@ -21,7 +23,10 @@ const ItemCounter: React.FC<Props> = ({
   inputStyle,
   onCountChange,
 }) => {
-  const [itemCounter, setItemCounter] = useState(qty);
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
+  const [itemCounter, setItemCounter] = useState(
+    qty < 10 && user?.role === Role.SuperUser ? 10 : qty,
+  );
 
   return (
     <ItemCounterWrapper onClick={(e) => e.preventDefault()}>
@@ -29,7 +34,7 @@ const ItemCounter: React.FC<Props> = ({
         whileHover="hover"
         whileTap="tap"
         variants={variants.boxShadow}
-        onClick={decreaseCounter(product, setItemCounter, onCountChange)}
+        onClick={decreaseCounter(product, setItemCounter, onCountChange, user!)}
       >
         -
       </motion.button>
@@ -38,7 +43,7 @@ const ItemCounter: React.FC<Props> = ({
         readOnly
         value={itemCounter}
         type="number"
-        min={1}
+        min={user?.role === Role.SuperUser ? 10 : 1}
       />
       <motion.button
         whileHover="hover"

@@ -8,6 +8,7 @@ import { devices } from 'components/store/lib/Devices';
 import { useState } from 'react';
 import MailSVg from '../../../../assets/mail.svg';
 import { handleEmailChange } from './helpers';
+
 const Notifactions = ({ user }) => {
   const [editNotify, setEditNotify] = useState(false);
   const [email, setEmail] = useState(user.email);
@@ -23,7 +24,7 @@ const Notifactions = ({ user }) => {
           Изменив почта, вам также нужно будет подтвердить свой адрес
           электронной почты.
         </span>
-        <span>{serverResponse !== 200 ? 'Ошибка сервера' : 'Успех'}</span>
+        {/* <span>{serverResponse !== 200 ? 'Ошибка сервера' : 'Успех'}</span> */}
         <div className="input-wrapper">
           <span style={{ color: color.textSecondary }}>Получать на адрес</span>
           {editNotify ? (

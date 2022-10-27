@@ -248,6 +248,7 @@ const CategoryTitleMobile = styled(motion.h1)`
 `;
 
 const Products = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px 68px;
