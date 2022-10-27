@@ -8,10 +8,11 @@ import { getFormatedDate, findTotalWheight } from './helpers';
 import { TCartState } from 'redux/types';
 import { useAppSelector } from 'redux/hooks';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
-
+import { TAuthState } from 'redux/types';
+import { Role } from 'common/enums/roles.enum';
 const ProductDetails = () => {
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
-
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const currentYear = new Date().getFullYear();
   return (
     <Wrapper style={{ gap: '20px' }}>
@@ -38,7 +39,7 @@ const ProductDetails = () => {
         variants={variants.fadInSlideUp}
       >
         {cart?.orderProducts?.map((orderProduct) => {
-          const { price } = orderProduct?.productVariant ?? {};
+          const { price, wholeSalePrice } = orderProduct?.productVariant ?? {};
 
           const images = getProductVariantsImages(
             orderProduct.product?.productVariants,
@@ -54,9 +55,11 @@ const ProductDetails = () => {
                   }}
                 />
               </ProductImageWrapper>
-              <div>
-                {orderProduct.product?.name}{' '}
-                <b style={{ whiteSpace: 'nowrap' }}>— {price} ₽</b>
+              <div className="product-name-wrapper">
+                <span>{orderProduct.product?.name}</span>
+                <b style={{ whiteSpace: 'nowrap' }}>
+                  {user?.role === Role.SuperUser ? wholeSalePrice : price} ₽
+                </b>
               </div>
             </Product>
           );
@@ -87,13 +90,13 @@ const ProductWrapper = styled(motion.div)`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 30px;
   flex-wrap: wrap;
   @media ${devices.laptopS} {
     grid-template-columns: repeat(2, 1fr);
   }
   @media ${devices.mobileL} {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
 `;
 
@@ -104,11 +107,18 @@ const Product = styled.div`
   align-items: center;
   gap: 10px;
   padding: 10px;
-  width: 150px;
-
-  div {
-    text-align: start;
-    user-select: none;
+  border-radius: 10px;
+  box-shadow: 0px 0px 6px 1px ${color.boxShadowBtn};
+  transition: 300ms;
+  &:hover {
+    box-shadow: 1px 1px 6px 1px ${color.boxShadowBtn};
+  }
+  .product-name-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
   }
 `;
 

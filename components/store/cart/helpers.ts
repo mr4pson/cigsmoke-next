@@ -7,16 +7,23 @@ const getTotalQuantity = (orderProducts: OrderProduct[]) => {
 };
 
 const getTotalPrice = (orderProducts: OrderProduct[], user: User) => {
-  if (user.role === Role.SuperUser) {
+  if (user && user.role === Role.SuperUser) {
     return orderProducts?.reduce((accum, orderProduct) => {
       return (
         accum +
         Number(orderProduct.qty) *
-          Number(orderProduct.productVariant![0].wholeSalePrice)
+          Number(orderProduct.productVariant!.wholeSalePrice)
       );
     }, 0);
   }
-  if (user.role !== Role.SuperUser) {
+  if (user && user.role !== Role.User) {
+    return orderProducts?.reduce((accum, orderProduct) => {
+      return (
+        accum + Number(orderProduct.qty) * Number(orderProduct.productPrice)
+      );
+    }, 0);
+  }
+  if (!user) {
     return orderProducts?.reduce((accum, orderProduct) => {
       return (
         accum + Number(orderProduct.qty) * Number(orderProduct.productPrice)

@@ -39,6 +39,22 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
         </b>
         <span>{orderProduct.qty} шт</span>
       </div>
+      {orderProduct.productVariant?.color?.name !== '_' ? (
+        <div className="color-wrapper">
+          <span>Цвет: {orderProduct.productVariant?.color?.name}</span>
+          <span
+            style={{
+              backgroundColor: `${orderProduct.productVariant?.color?.code}`,
+              borderRadius: '50%',
+              padding: '5px',
+              width: '15px',
+              height: '15px',
+            }}
+          ></span>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

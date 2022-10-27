@@ -7,7 +7,9 @@ import { OrderProduct, Product } from 'swagger/services';
 import CloseSVG from '../../../../../assets/close_black.svg';
 import ItemCounter from '../../../../../ui-kit/ItemCounter';
 import { handleRemoveClick } from './helpers';
-
+import { TAuthState } from 'redux/types';
+import { Role } from 'common/enums/roles.enum';
+import { useAppSelector } from 'redux/hooks';
 type Props = {
   item: OrderProduct;
   onRemove: (product: Product) => void;
@@ -16,7 +18,7 @@ type Props = {
 
 const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
   const { name } = item.product!;
-
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const curVariant = item.productVariant
     ? item.productVariant
     : item.product?.productVariants![0]
@@ -43,7 +45,12 @@ const CartItem: React.FC<Props> = ({ item, onRemove, onCountChange }) => {
           <ItemDetails>
             <h4>{name}</h4>
             <ItemDetialDivider>
-              <h3>{curVariant.price}₽</h3>
+              <h3>
+                {user?.role === Role.SuperUser
+                  ? curVariant.wholeSalePrice
+                  : curVariant.price}
+                ₽
+              </h3>
               <ItemCounter
                 qty={item.qty!}
                 product={item.product!}

@@ -29,7 +29,8 @@ import { openSuccessNotification } from 'common/helpers/openSuccessNotidication.
 import { openErrorNotification } from 'common/helpers';
 import { TAuthState } from 'redux/types';
 import { Role } from 'common/enums/roles.enum';
-const TotalDetails = ({ comment, leaveNearDoor }) => {
+import { Basket } from 'swagger/services';
+const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
   const dispatch = useAppDispatch();
   const [discount, setDiscount] = useState('');
   const router = useRouter();
@@ -42,14 +43,13 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
   );
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
   const [withDelivery, setWithDelivery] = useState(true);
-
   const [totalUI, setTotalUI] = useState(
     user?.role === Role.SuperUser
       ? getTotalPriceSuperUser(cart, withDelivery)
       : getTotalPrice(cart, withDelivery, discount),
   );
-
   const handlePayClick = (router: NextRouter) => async () => {
+    setLoading(true);
     const payload = {
       comment,
       leaveNearDoor,
@@ -99,7 +99,9 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
         openSuccessNotification('Ваш Заказ успешно');
 
         router.push('/orders');
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         openErrorNotification('Ваш Заказ не прошел');
       }
 
@@ -153,28 +155,40 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
             {cart?.orderProducts?.map((product: any) => {
               return (
                 <ItemRow>
-                  <span>{product.product?.name?.slice(0, 15)}..</span>
+                  <span>{product.product?.name?.slice(0, 20)}..</span>
                   <b>
-                    <span>{product.qty} шт</span> *{'  '}
-                    <span>{product.productPrice} ₽</span>
+                    <span>{product!.qty} шт</span> *{'  '}
+                    <span>
+                      {user?.role === Role.SuperUser
+                        ? product.productVariant?.wholeSalePrice
+                        : product.productVariant?.price}{' '}
+                      ₽
+                    </span>
                     {'  '}
                     <span>=</span>
                     {'  '}
                     <span style={{ whiteSpace: 'nowrap' }}>
-                      {product.productPrice * product.qty} ₽
+                      {user?.role === Role.SuperUser
+                        ? product.productVariant?.wholeSalePrice * product.qty
+                        : product.productVariant?.price * product.qty}{' '}
+                      ₽
                     </span>
                   </b>
                 </ItemRow>
               );
             })}
-            <ItemRow>
-              <span>Скидка</span>
-              <b>
-                <span style={{ color: color.ok }}>
-                  {`- ${formatNumber(getDiscount(cart))}`} ₽
-                </span>
-              </b>
-            </ItemRow>
+            {user?.role === Role.SuperUser ? (
+              ''
+            ) : (
+              <ItemRow>
+                <span>Скидка</span>
+                <b>
+                  <span style={{ color: color.ok }}>
+                    {`- ${formatNumber(getDiscount(cart))}`} ₽
+                  </span>
+                </b>
+              </ItemRow>
+            )}
             <ItemRow>
               <label className="self-pick-up" htmlFor="self-pick-up">
                 <input
@@ -192,7 +206,7 @@ const TotalDetails = ({ comment, leaveNearDoor }) => {
               <ItemRow>
                 <span>Стоимость доставки</span>
                 <b>
-                  <span>{`150`} ₽</span>
+                  <span>{user?.role === Role.SuperUser ? '500' : '150'} ₽</span>
                 </b>
               </ItemRow>
             ) : (

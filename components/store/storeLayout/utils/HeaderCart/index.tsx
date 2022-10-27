@@ -14,6 +14,8 @@ import { handleMenuState } from '../../helpers';
 import { handleItemCountChange, handleItemRemove } from './helpers';
 import { PopupDisplay } from '../../constants';
 import { TCartState } from 'redux/types';
+import { getTotalPrice } from 'components/store/cart/helpers';
+import { TAuthState } from 'redux/types';
 
 const HeaderCart = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +42,7 @@ const HeaderCart = () => {
     ),
   );
   const { cart } = useAppSelector<TCartState>((state) => state.cart);
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   return (
     <>
@@ -67,7 +70,7 @@ const HeaderCart = () => {
         ) : (
           <PopupDivider>
             <PopupContent>
-              {cart?.orderProducts?.map((item: any, index: any) => {
+              {cart?.orderProducts?.map((item, index: any) => {
                 return (
                   <CartItem
                     key={`cart-item-${index}`}
@@ -78,6 +81,10 @@ const HeaderCart = () => {
                 );
               })}
             </PopupContent>
+            <TotalPriceWrapper>
+              <span>Общая сумма</span>
+              <span>{getTotalPrice(cart.orderProducts, user!)}₽</span>
+            </TotalPriceWrapper>
             <PopupBtnsDivider>
               <Link href="/cart">
                 <ActionBtns
@@ -165,6 +172,21 @@ const PopupBtnsDivider = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+  }
+`;
+
+const TotalPriceWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  gap: 10px;
+  padding-right: 10px;
+  span {
+    font-family: 'intro';
+    font-size: 1rem;
   }
 `;
 
