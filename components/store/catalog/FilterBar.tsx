@@ -24,8 +24,9 @@ import {
 import { FilterOption } from 'ui-kit/FilterCheckbox/types';
 import { convertQueryParams, getFiltersConfig } from './helpers';
 import { devices } from '../lib/Devices';
+import color from '../lib/ui.colors';
 import ArrowRightSVG from '../../../assets/arrowGray.svg';
-import CloseSVG from '../../../assets/close_black.svg';
+import CloseSVG from '../../../assets/close.svg';
 
 type Props = {
   categories: Category[];
@@ -172,8 +173,17 @@ const FilterBar: React.FC<Props> = ({
           <ArrowRightSVG />
         </ShowBtn>
       )} */}
-      <CloseBtn onClick={handleExpantionChange}>
-        <CloseSVG />
+      <CloseBtn
+        whileInView="hover"
+        whileTap="tap"
+        variants={variants.boxShadow}
+        onClick={handleExpantionChange}
+        title="Закрыть фильтры"
+      >
+        <span>Закрыть фильтры</span>
+        <span>
+          <CloseSVG />
+        </span>
       </CloseBtn>
     </FilterBarContent>
   );
@@ -251,19 +261,28 @@ const ShowBtn = styled.button`
   }
 `;
 
-const CloseBtn = styled.button`
+const CloseBtn = styled(motion.button)`
   display: none;
   position: absolute;
   right: 20px;
   top: 20px;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 10px;
+  background-color: ${color.btnPrimary};
+  padding: 10px;
+  border-radius: 15px;
+  span {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: ${color.textPrimary};
+  }
   @media ${devices.mobileL} {
-    display: block;
+    display: flex;
   }
 `;
 

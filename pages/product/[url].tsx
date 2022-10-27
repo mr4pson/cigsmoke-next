@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import SEO from 'components/store/SEO';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import ProductInfo from 'components/store/product/productInfo';
-import Recomendation from 'components/store/product/recomendation';
-import ReveiwsAndQuastions from 'components/store/product/reviewsAndQuastions';
+// import Recomendation from 'components/store/product/recomendation';
+// import ReveiwsAndQuastions from 'components/store/product/reviewsAndQuastions';
 import { useEffect, useRef } from 'react';
 import { fetchProduct } from 'redux/slicers/store/productInfoSlicer';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -12,6 +12,7 @@ import { Basket, Wishlist } from 'swagger/services';
 import Loading from 'ui-kit/Loading';
 import styled from 'styled-components';
 import { getProductVariantsImages } from 'common/helpers/getProductVariantsImages.helper';
+import React, { Suspense } from 'react';
 
 const ProductInfoPage = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,12 @@ const ProductInfoPage = () => {
   }, [dispatch, router.query]);
 
   const images = getProductVariantsImages(product?.productVariants);
-
+  const Recomendation = React.lazy(
+    () => import('components/store/product/recomendation'),
+  );
+  const ReveiwsAndQuastions = React.lazy(
+    () => import('components/store/product/reviewsAndQuastions'),
+  );
   return !loading && product ? (
     <>
       <SEO images={images} product={product} />
@@ -45,12 +51,14 @@ const ProductInfoPage = () => {
         cart={cart}
         wishlist={wishlist}
       />
-      <Recomendation product={product} />
-      <ReveiwsAndQuastions
-        product={product}
-        reviewRef={reviewBtnRef}
-        questionRef={questionBtnRef}
-      />
+      <Suspense fallback={<Loading />}>
+        <Recomendation product={product} />
+        <ReveiwsAndQuastions
+          product={product}
+          reviewRef={reviewBtnRef}
+          questionRef={questionBtnRef}
+        />
+      </Suspense>
     </>
   ) : (
     <LoadingWrapper>

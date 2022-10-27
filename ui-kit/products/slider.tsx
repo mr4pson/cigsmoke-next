@@ -60,13 +60,13 @@ const Slider: React.FC<Props> = ({
                   },
                   opacity: { duration: 0.4 },
                 }}
-                drag="y"
+                // drag="y"
                 dragConstraints={{ top: 0, bottom: 0 }}
                 dragElastic={1}
-                onDragEnd={handleDragEnd(
-                  paginateImage,
-                  SWIPE_CONFIDENCE_THRESHOLD,
-                )}
+                // onDragEnd={handleDragEnd(
+                //   paginateImage,
+                //   SWIPE_CONFIDENCE_THRESHOLD,
+                // )}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 1 }}
                 alt={product.name}
