@@ -402,7 +402,13 @@ const Items = styled(motion.li)`
         justify-content: flex-start;
         alig-items: center;
         gap: 10px;
-
+        .color-wrapper {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          gap: 10px;
+        }
         @media ${devices.mobileL} {
           flex-direction: column;
 

@@ -121,7 +121,6 @@ export const resetPswByToken = createAsyncThunk<
 export const fetchUserById = createAsyncThunk<
   { user: User },
   {
-    token: string;
     userId: string;
   },
   { rejectValue: string }
@@ -129,8 +128,6 @@ export const fetchUserById = createAsyncThunk<
   'auth/fetchUserById',
   async function (payload, { rejectWithValue }): Promise<any> {
     try {
-      await AuthService.session({ body: payload });
-
       const response = await UserService.findUserById({
         userId: payload.userId,
       });
@@ -267,10 +264,8 @@ const authSlicer = createSlice({
         fetchUserById.rejected,
         (state, action: PayloadAction<any, any, any, any>) => {
           openErrorNotification(getErrorMassage(action.payload));
-          if (action.payload >= 400) {
-            state.serverErr = action.payload;
-            state.user = null;
-          }
+          state.serverErr = action.payload;
+          state.user = null;
           state.loading = false;
           console.log('rejected');
         },

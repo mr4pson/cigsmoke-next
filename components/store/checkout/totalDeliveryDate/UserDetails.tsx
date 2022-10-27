@@ -33,22 +33,15 @@ const UserDetails = (props: any) => {
     setBacktoFinal(true);
   };
 
-  const userChoice: any = localStorage.getItem('userChoice');
   const selectedSize: any = localStorage.getItem('selectedSize');
   useEffect(() => {
-    if (userChoice || (selectedSize && isOpen === false))
-      setComment(
-        `${comment} ${isOpen ? '' : JSON.parse(userChoice)} ${JSON.parse(
-          selectedSize,
-        )}`,
-      );
+    if (selectedSize && isOpen === false)
+      setComment(`${comment}  ${isOpen ? '' : JSON.parse(selectedSize)}`);
   }, [isOpen]);
   useEffect(() => {
-    if (userChoice || selectedSize)
+    if (selectedSize)
       setComment(
-        `${comment} цвет:${JSON.parse(userChoice)} Размер:${JSON.parse(
-          selectedSize,
-        )}`,
+        `${comment} ${isOpen ? '' : 'Размер:' + JSON.parse(selectedSize)}`,
       );
   }, []);
 

@@ -36,9 +36,12 @@ const AdminLayout: React.FC<Props> = ({ user, children }) => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await UserService.findUserById({ userId: user?.id! });
-        if (response.role !== Role.Admin) {
+        const response: any = await UserService.findUserById({
+          userId: user?.id!,
+        });
+        if (response.user.role !== Role.Admin) {
           router.push('/');
+          console.log('UnAuthorized');
         }
       } catch (error) {
         if (error) {

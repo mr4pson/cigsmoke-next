@@ -42,11 +42,10 @@ const Authorize = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
-  // useEffect(() => {
-  //   const accessToken = getAccessToken();
-  //   if (accessToken && user?.id)
-  //     dispatch(fetchUserById({ token: accessToken, userId: user?.id! }));
-  // }, [isOpened]);
+  useEffect(() => {
+    const accessToken = getAccessToken();
+    if (accessToken && user?.id) dispatch(fetchUserById({ userId: user?.id! }));
+  }, [isOpened]);
 
   return (
     <>

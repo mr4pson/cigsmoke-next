@@ -2,7 +2,9 @@ import { getProductVariantsImages } from 'common/helpers/getProductVariantsImage
 import { formatNumber } from 'common/helpers/number.helper';
 import Link from 'next/link';
 import { OrderProduct } from 'swagger/services';
-
+import { TAuthState } from 'redux/types';
+import { useAppSelector } from 'redux/hooks';
+import { Role } from 'common/enums/roles.enum';
 type Props = {
   orderProduct: OrderProduct;
 };
@@ -16,7 +18,7 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
   const images = getProductVariantsImages(
     orderProduct.product?.productVariants,
   );
-
+  const { user } = useAppSelector<TAuthState>((state) => state.auth);
   return (
     <div className="product">
       <div className="image-wrapper">
@@ -28,15 +30,36 @@ const ProductItem: React.FC<Props> = ({ orderProduct }) => {
         </Link>
         <b>
           <span>
-            {formatNumber(curVariant.price)} ₽ - {orderProduct.qty}шт
+            {user?.role === Role.SuperUser
+              ? curVariant.wholeSalePrice
+              : formatNumber(curVariant.price)}{' '}
+            ₽ - {orderProduct.qty}шт
           </span>
-          {curVariant.oldPrice && (
+          {curVariant.oldPrice && user?.role !== Role.SuperUser ? (
             <span className="discount">
               {formatNumber(curVariant.oldPrice)} ₽
             </span>
+          ) : (
+            ''
           )}
         </b>
       </div>
+      {orderProduct.productVariant?.color?.name !== '_' ? (
+        <div className="color-wrapper">
+          <span>Цвет: {orderProduct.productVariant?.color?.name}</span>
+          <span
+            style={{
+              backgroundColor: `${orderProduct.productVariant?.color?.code}`,
+              borderRadius: '50%',
+              padding: '5px',
+              width: '15px',
+              height: '15px',
+            }}
+          ></span>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

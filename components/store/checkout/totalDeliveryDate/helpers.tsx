@@ -51,7 +51,7 @@ const getOldPrice = (cart: Basket | null): number => {
   return cart?.orderProducts?.reduce((accum, item) => {
     accum +=
       Number(item.qty) *
-      Number(item.productVariant?.oldPrice ?? item.productPrice!);
+      Number(item.productVariant?.oldPrice ?? item.productVariant?.oldPrice);
     return accum;
   }, 0)!;
 };
@@ -59,7 +59,7 @@ const getOldPrice = (cart: Basket | null): number => {
 const getDiscount = (cart: Basket | null) => {
   const oldPrice = getOldPrice(cart);
   const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
-    return accum + Number(item.qty) * Number(item.productPrice!);
+    return accum + Number(item.qty) * Number(item.productVariant?.price);
   }, 0)!;
 
   return oldPrice - totalAmount;
@@ -71,7 +71,7 @@ const getTotalPrice = (
   promoCode: any,
 ) => {
   const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
-    return accum + Number(item.qty) * Number(item.productPrice!);
+    return accum + Number(item.qty) * Number(item.productVariant?.price);
   }, 0)!;
 
   if (promoCode === 'wuluxeosen2022' && !withDliver) {
@@ -96,7 +96,7 @@ const getTotalPriceSuperUser = (
 ) => {
   const totalAmount = cart?.orderProducts?.reduce((accum, item) => {
     return (
-      accum + Number(item.qty) * Number(item.productVariant![0].wholeSalePrice)
+      accum + Number(item.qty) * Number(item.productVariant!.wholeSalePrice)
     );
   }, 0)!;
 
