@@ -184,7 +184,7 @@ const TotalDetails = ({ comment, leaveNearDoor, setLoading }) => {
                 <span>Скидка</span>
                 <b>
                   <span style={{ color: color.ok }}>
-                    {`- ${formatNumber(getDiscount(cart))}`} ₽
+                    {`${formatNumber(getDiscount(cart))}`} ₽
                   </span>
                 </b>
               </ItemRow>

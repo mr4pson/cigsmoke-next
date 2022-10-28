@@ -51,7 +51,7 @@ const getOldPrice = (cart: Basket | null): number => {
   return cart?.orderProducts?.reduce((accum, item) => {
     accum +=
       Number(item.qty) *
-      Number(item.productVariant?.oldPrice ?? item.productVariant?.oldPrice);
+      Number(item.productVariant?.oldPrice ?? item.productVariant?.price);
     return accum;
   }, 0)!;
 };

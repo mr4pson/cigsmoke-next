@@ -42,7 +42,7 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
       <CartCol>
         <CartTitle>Общая сумма</CartTitle>
         <CartTotalPrice>
-          {getTotalPrice(cart?.orderProducts!, user!)} ₽
+          {getTotalPrice(cart?.orderProducts!, user)} ₽
         </CartTotalPrice>
         <CartDiscount>
           <DiscountTitle>
@@ -50,7 +50,7 @@ const CartFooter: React.FC<Props> = ({ cart }) => {
           </DiscountTitle>
           <DiscountPrice>
             {/* {getTotalDiscount(cart?.orderProducts!)} ₽ */}
-            {user?.role === Role.SuperUser ? '' : `- ${getDiscount(cart)} ₽`}
+            {user?.role === Role.SuperUser ? '' : `${getDiscount(cart)} ₽`}
           </DiscountPrice>
         </CartDiscount>
       </CartCol>
