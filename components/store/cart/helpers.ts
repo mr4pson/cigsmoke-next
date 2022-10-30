@@ -6,8 +6,15 @@ const getTotalQuantity = (orderProducts: OrderProduct[]) => {
   }, 0);
 };
 
-const getTotalPrice = (orderProducts: OrderProduct[], user: User) => {
-  if (user && user.role === Role.SuperUser) {
+const getTotalPrice = (orderProducts: OrderProduct[], user: any) => {
+  if (!user) {
+    return orderProducts?.reduce((accum, orderProduct) => {
+      return (
+        accum + Number(orderProduct.qty) * Number(orderProduct.productPrice)
+      );
+    }, 0);
+  }
+  if (user.role === Role.SuperUser) {
     return orderProducts?.reduce((accum, orderProduct) => {
       return (
         accum +
@@ -16,14 +23,7 @@ const getTotalPrice = (orderProducts: OrderProduct[], user: User) => {
       );
     }, 0);
   }
-  if (user && user.role !== Role.User) {
-    return orderProducts?.reduce((accum, orderProduct) => {
-      return (
-        accum + Number(orderProduct.qty) * Number(orderProduct.productPrice)
-      );
-    }, 0);
-  }
-  if (!user) {
+  if (user.role === Role.User || user.role === Role.Admin) {
     return orderProducts?.reduce((accum, orderProduct) => {
       return (
         accum + Number(orderProduct.qty) * Number(orderProduct.productPrice)
